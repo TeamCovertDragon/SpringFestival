@@ -25,11 +25,10 @@ public final class SpringFestival {
     }
 
     @SidedProxy(
-            serverSide = "team.covertdragon.springfestival.SpringFestivalProxy",
-            clientSide = "team.covertdragon.springfestival.SpringFestivalProxy"
+            serverSide = "team.covertdragon.springfestival.internal.server.SpringFestivalProxyServer",
+            clientSide = "team.covertdragon.springfestival.internal.client.SpringFestivalProxyClient"
     )
     public static SpringFestivalProxy proxy;
-
 
     private SpringFestival() {}
 
