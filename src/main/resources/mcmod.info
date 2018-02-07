@@ -1,0 +1,15 @@
+[
+  {
+    "modid": "springfestival",
+    "name": "SpringFestival",
+    "description": "A mod about Chinese Lunar New Year ~",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url" : "",
+    "updateUrl": "",
+    "authorList": ["CovertDragon Team"],
+    "credits": "You",
+    "logoFile": "logo.png",
+    "screenshots": []
+  }
+]
