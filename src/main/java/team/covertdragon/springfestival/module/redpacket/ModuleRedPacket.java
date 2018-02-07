@@ -6,11 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package team.covertdragon.springfestival.internal;
+package team.covertdragon.springfestival.module.redpacket;
 
-public final class SpringFestivalUtil {
+import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 
-    private SpringFestivalUtil() {}
+public class ModuleRedPacket extends AbstractSpringFestivalModule {
 
-    // TODO Throw all frequently-used code here
+    // TODO We (most likely) need a gui
+
 }

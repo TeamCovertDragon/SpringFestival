@@ -6,11 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package team.covertdragon.springfestival.internal;
+package team.covertdragon.springfestival.module.music;
 
-public final class SpringFestivalUtil {
+import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 
-    private SpringFestivalUtil() {}
-
-    // TODO Throw all frequently-used code here
+public class ModuleMusic extends AbstractSpringFestivalModule {
 }

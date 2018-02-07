@@ -6,11 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package team.covertdragon.springfestival.internal;
+package team.covertdragon.springfestival.module.firecracker;
 
-public final class SpringFestivalUtil {
+import net.minecraft.item.Item;
 
-    private SpringFestivalUtil() {}
+public abstract class AbstractFirecrackers extends Item {
 
-    // TODO Throw all frequently-used code here
+    // TODO What do we want this do? 'cause if there are special needs, we gonna convert this to interface
+
 }

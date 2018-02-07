@@ -10,6 +10,9 @@ package team.covertdragon.springfestival;
 
 import net.minecraftforge.fml.common.Mod;
 
+/**
+ * @deprecated Break down to each modules, (hopefully) no need to do a master registry
+ */
+@Deprecated
 @Mod.EventBusSubscriber(modid = "springfestival")
-public final class SpringFestivalRegistries {
-}
+public final class SpringFestivalRegistries {}

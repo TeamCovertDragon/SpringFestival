@@ -6,11 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package team.covertdragon.springfestival.internal;
+package team.covertdragon.springfestival.module;
 
-public final class SpringFestivalUtil {
+public abstract class AbstractSpringFestivalModule {
 
-    private SpringFestivalUtil() {}
-
-    // TODO Throw all frequently-used code here
+    // TODO what should we do here? An onInit(FMLInitializationEvent) method?
 }
