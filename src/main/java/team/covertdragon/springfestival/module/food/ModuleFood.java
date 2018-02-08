@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod.EventBusSubscriber(modid = "springfestival")
-public class SpringFestivalFood {
+public class ModuleFood {
 
     @SubscribeEvent
     public static void onItemRegister(RegistryEvent.Register<Item> event) {
