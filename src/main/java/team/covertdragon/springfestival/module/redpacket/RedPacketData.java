@@ -25,7 +25,7 @@ public class RedPacketData implements INBTSerializable<NBTTagCompound> {
 
     private UUID owner;
 
-    private List<ItemStack> contents; // TODO Non-null type parameter, because you don't want a red packet containing null
+    List<ItemStack> contents; // TODO Non-null type parameter, because you don't want a red packet containing null
 
     @Override
     public NBTTagCompound serializeNBT() {
