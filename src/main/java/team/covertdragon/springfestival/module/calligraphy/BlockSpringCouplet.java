@@ -28,8 +28,6 @@ import java.util.Locale;
 @SuppressWarnings("deprecation")
 public class BlockSpringCouplet extends Block {
 
-    // TODO MAKE A DECISION ON "SHOULD WE RENDER THE CHARACTER OUT"
-
     public enum CoupletPart implements IStringSerializable {
         UPPER, MIDDLE, LOWER;
 
@@ -44,6 +42,8 @@ public class BlockSpringCouplet extends Block {
     public BlockSpringCouplet() {
         super(Material.CARPET);
     }
+
+    // TODO Drop "broken red paper" when broken. No exception. No silk touch. Why the hell you can silk-touch such a piece of thin paper?
 
     @Override
     public int damageDropped(IBlockState state) {

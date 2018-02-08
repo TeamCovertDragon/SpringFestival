@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 
 @Mod(modid = "springfestival", name = "SpringFestival", version = "@VERSION_INJECT@", useMetadata = true)
 public final class SpringFestival {
@@ -45,5 +46,12 @@ public final class SpringFestival {
     @Mod.EventHandler
     public void onPostInit(FMLPostInitializationEvent event) {
         proxy.onPostInit(event);
+    }
+
+    // TODO onServerStarting?
+
+    @Mod.EventHandler
+    public void onServerStopping(FMLServerStoppingEvent event) {
+        proxy.onServerStopping(event);
     }
 }

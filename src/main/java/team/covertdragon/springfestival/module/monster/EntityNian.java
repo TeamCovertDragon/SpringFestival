@@ -13,6 +13,7 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.world.World;
 
 public class EntityNian extends EntityMob implements IMob {
+
     public EntityNian(World worldIn) {
         super(worldIn);
     }

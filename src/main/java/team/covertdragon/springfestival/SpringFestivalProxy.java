@@ -8,10 +8,16 @@
 
 package team.covertdragon.springfestival;
 
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import team.covertdragon.springfestival.internal.time.ISpringFestivalTimeProvider;
+import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderImpossible;
+import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderLocal;
+import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderQuerying;
+import team.covertdragon.springfestival.module.redpacket.RedPacketDispatchingController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +25,16 @@ import java.util.List;
 public abstract class SpringFestivalProxy {
 
     private static final List<ISpringFestivalTimeProvider> DATE_CHECKERS = new ArrayList<>();
+
+    static {
+        FluidRegistry.enableUniversalBucket();
+        DATE_CHECKERS.add(SpringFestivalTimeProviderQuerying.INSTANCE);
+        DATE_CHECKERS.add(SpringFestivalTimeProviderLocal.INSTANCE);
+        DATE_CHECKERS.add(SpringFestivalTimeProviderImpossible.INSTANCE);
+    }
+
+    private RedPacketDispatchingController redPacketController = new RedPacketDispatchingController();
+    private Thread redPacketThread = new Thread(redPacketController, "SpringFestival-RedPacket");
 
     /**
      * Determine whether the current time is falling into the Spring Festival season, based on
@@ -39,4 +55,7 @@ public abstract class SpringFestivalProxy {
 
     public abstract void onPostInit(FMLPostInitializationEvent event);
 
+    public void onServerStopping(FMLServerStoppingEvent event) {
+        redPacketController.setKeepAlive(false);
+    }
 }

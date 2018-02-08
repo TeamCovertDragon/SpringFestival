@@ -6,12 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package team.covertdragon.springfestival.module.music;
+package team.covertdragon.springfestival.module.calligraphy;
 
-import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
+import net.minecraft.tileentity.TileEntity;
 
-public class ModuleMusic extends AbstractSpringFestivalModule {
-
-    // TODO sound.json, actual music & their discs
-
+public class TileEntityRedPaperWorkbench extends TileEntity {
 }
