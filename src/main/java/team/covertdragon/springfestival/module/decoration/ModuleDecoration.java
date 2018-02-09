@@ -8,9 +8,7 @@
 
 package team.covertdragon.springfestival.module.decoration;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.renderer.tileentity.TileEntityChestRenderer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDoor;
@@ -20,6 +18,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import team.covertdragon.springfestival.SpringFestival;
+import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 
 import java.lang.reflect.Field;
@@ -35,7 +34,8 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
                 EnumHelper.setFailsafeFieldValue(textureChestSingle, null, new ResourceLocation("springfestival", "texture/tile/chest_single.png"));
                 EnumHelper.setFailsafeFieldValue(textureChestDouble, null, new ResourceLocation("springfestival", "texture/tile/chest_double.png"));
             } catch (Exception e) {
-                // TODO Where is my logger?!
+                                                            //TODO Remove ↓ (
+                SpringFestivalConstants.logger.catching(e);//Huh, here is your logger
                 // TODO Should we catch the exception for both fields separately?
             }
         }

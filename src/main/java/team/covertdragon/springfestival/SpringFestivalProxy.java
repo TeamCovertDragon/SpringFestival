@@ -49,7 +49,9 @@ public abstract class SpringFestivalProxy {
         return queryResult;
     }
 
-    public abstract void onPreInit(FMLPreInitializationEvent event);
+    public void onPreInit(FMLPreInitializationEvent event) {
+        SpringFestivalConstants.logger = event.getModLog();
+    };
 
     public abstract void onInit(FMLInitializationEvent event);
 

@@ -16,7 +16,7 @@ import team.covertdragon.springfestival.SpringFestivalProxy;
 public final class SpringFestivalProxyServer extends SpringFestivalProxy {
     @Override
     public void onPreInit(FMLPreInitializationEvent event) {
-
+        super.onPreInit(event);
     }
 
     @Override

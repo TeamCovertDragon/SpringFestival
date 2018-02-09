@@ -51,7 +51,7 @@ public class ItemStackInventoryProvider
     }
 
     @Nonnull
-    @Override // TODO Check if this implmenetation is correct
+    @Override // TODO Check if this implementation is correct
     public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
         if (slot < this.maxSize) {
             if (simulate) {
