@@ -8,13 +8,23 @@
 
 package team.covertdragon.springfestival.module.material;
 
+import net.minecraft.item.Item;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 
 public class ModuleMaterial extends AbstractSpringFestivalModule {
 
     // A module that contains some common materials, for other modules to use
 
-    // TODO Red paper, for couplet, red packet, firecrackers, and other sorts
+    public static Item glutinousRiceCrop;
+
+    public static Item redPaper;
+
+    public static Item redPaperBroken;
+
+    public static Item glutinousRice;
+
+    public static Item glutinousRiceSeed;
+
 
     // TODO Just add more common stuff below, for tracking
 

@@ -12,7 +12,10 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import team.covertdragon.springfestival.internal.SpringFestivalGuiHandler;
 import team.covertdragon.springfestival.internal.time.ISpringFestivalTimeProvider;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderImpossible;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderLocal;
@@ -53,11 +56,20 @@ public abstract class SpringFestivalProxy {
         SpringFestivalConstants.logger = event.getModLog();
     };
 
-    public abstract void onInit(FMLInitializationEvent event);
+    public void onInit(FMLInitializationEvent event) {
+        NetworkRegistry.INSTANCE.registerGuiHandler(SpringFestival.getInstance(), new SpringFestivalGuiHandler());
+    }
 
     public abstract void onPostInit(FMLPostInitializationEvent event);
 
+    public void onServerStarting(FMLServerStartingEvent event) {
+        redPacketThread.setDaemon(true);
+        redPacketThread.start();
+    }
+
     public void onServerStopping(FMLServerStoppingEvent event) {
         redPacketController.setKeepAlive(false);
+        // TODO Does this can solve the issue of "server closed but there are red packets not being processed?
+        //redPacketThread.join();
     }
 }

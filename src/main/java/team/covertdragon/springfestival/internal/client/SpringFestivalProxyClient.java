@@ -21,7 +21,7 @@ public final class SpringFestivalProxyClient extends SpringFestivalProxy {
 
     @Override
     public void onInit(FMLInitializationEvent event) {
-
+        super.onInit(event);
     }
 
     @Override

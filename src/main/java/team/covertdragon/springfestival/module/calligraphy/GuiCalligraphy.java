@@ -8,18 +8,13 @@
 
 package team.covertdragon.springfestival.module.calligraphy;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.items.ItemStackHandler;
+import net.minecraft.client.gui.GuiScreen;
 
-public class TileEntityCalligraphyDesk extends TileEntity {
+import java.io.IOException;
 
-    // And no, this block does not require tick at any time
+public class GuiCalligraphy extends GuiScreen {
 
-    // Where is my C/C++ style macro
-    private static final int SLOT_INK = 0, SLOT_PEN = 1, SLOT_PAPER = 2;
-
-    private final ItemStackHandler inv = new ItemStackHandler(3);
+    private transient int strokeBeginX, strokeBeginY, strokeRadius;
 
     /**
      * The default 256 by 256 pixels canvas, mimicking the red paper for writing words.
@@ -29,20 +24,25 @@ public class TileEntityCalligraphyDesk extends TileEntity {
      * with ink and pen, we only need to consider about 2 colors.
      * </p>
      *
-     * @see GuiCalligraphy#canvas
      */
+    // This field is here for fast response on client side. We have to manually sync it to server...
     private boolean canvas[][] = new boolean[256][256];
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
-        inv.deserializeNBT(tag.getCompoundTag("inventory"));
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+        this.strokeBeginX = mouseX;
+        this.strokeBeginY = mouseY;
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        tag.setTag("inventory", inv.serializeNBT());
-        return super.writeToNBT(tag);
+    protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
+
     }
 
+    @Override
+    protected void mouseReleased(int mouseX, int mouseY, int state) {
+        this.strokeBeginX = -1;
+        this.strokeBeginY = -1;
+        this.strokeRadius = 0;
+    }
 }

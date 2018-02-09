@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 
-@Mod(modid = "springfestival", name = "SpringFestival", version = "@VERSION_INJECT@", useMetadata = true)
+@Mod(modid = SpringFestivalConstants.MOD_ID, name = SpringFestivalConstants.NAME, version = "@VERSION_INJECT@", useMetadata = true)
 public final class SpringFestival {
 
     private static final SpringFestival INSTANCE = new SpringFestival();

@@ -20,6 +20,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
+import team.covertdragon.springfestival.internal.SpringFestivalUtil;
 
 import javax.annotation.Nullable;
 
@@ -51,25 +52,14 @@ public class BlockHangingFirecracker extends Block {
     @Override
     public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn) {
         if (!worldIn.isRemote) {
-            // TODO Duplicated code, separate out into a single method
-            Explosion explosion = new Explosion(worldIn, explosionIn.getExplosivePlacedBy(), pos.getX(), pos.getY(), pos.getZ(), 3.0F, true, false);
-            // TODO Where is my sound effect
-            if (ForgeEventFactory.onExplosionStart(worldIn, explosion)) {
-                explosion.doExplosionA();
-                explosion.doExplosionB(true);
-            }
+            SpringFestivalUtil.createNonDestructiveExplosion(worldIn, pos, 3.0F);
         }
     }
 
     @Override
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
         if (!worldIn.isRemote && entityIn.isBurning()) {
-            Explosion explosion = new Explosion(worldIn, entityIn, pos.getX(), pos.getY(), pos.getZ(), 3.0F, true, false);
-            // TODO Where is my sound effect
-            if (ForgeEventFactory.onExplosionStart(worldIn, explosion)) {
-                explosion.doExplosionA();
-                explosion.doExplosionB(true);
-            }
+            SpringFestivalUtil.createNonDestructiveExplosion(worldIn, pos, 3.0F, entityIn);
         }
     }
 }
