@@ -14,6 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
+import team.covertdragon.springfestival.SpringFestivalConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class BlockFuDoor extends BlockDoor {
         super(Material.WOOD);
         setHarvestLevel("axe", 0);
         setHardness(1.5F);
+        setUnlocalizedName(SpringFestivalConstants.MOD_ID + "_block_fu_door");
     }
 
     @Override
@@ -58,7 +60,10 @@ public class BlockFuDoor extends BlockDoor {
             List<ItemStack> drops = new ArrayList<>();
             //Add drops here
             drops.add(((TileFuDoor) te).getOriginalDoor());
-            //TODO add Fu here
+            drops.add(new ItemStack(DecorationConstants.itemFu, 1));
+
+            System.out.println(drops);
+
             for (ItemStack drop : drops) {
                 spawnAsEntity(world, pos, drop);
             }

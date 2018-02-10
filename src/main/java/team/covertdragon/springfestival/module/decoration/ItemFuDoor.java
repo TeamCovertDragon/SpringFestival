@@ -14,6 +14,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import team.covertdragon.springfestival.SpringFestivalConstants;
 
 public class ItemFuDoor extends ItemDoor {
     //TODO remove this
@@ -22,6 +23,7 @@ public class ItemFuDoor extends ItemDoor {
     public ItemFuDoor(BlockFuDoor blockFuDoor) {
         super(blockFuDoor);
         setCreativeTab(DecorationConstants.tabSFDecoration);
+        setUnlocalizedName(SpringFestivalConstants.MOD_ID + "_item_fu_door");
     }
 
     @Override
