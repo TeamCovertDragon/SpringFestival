@@ -26,17 +26,17 @@ import java.lang.reflect.Field;
 @Mod.EventBusSubscriber(modid = "springfestival")
 public class ModuleDecoration extends AbstractSpringFestivalModule {
 
+    // TODO We need a way to call this guy
     public void onInit() {
         if (SpringFestival.proxy.isDuringSpringFestivalSeason()) {
             try {
                 Field textureChestSingle = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_NORMAL");
                 Field textureChestDouble = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_NORMAL_DOUBLE");
+                // TODO This is it, now we only need texture.
                 EnumHelper.setFailsafeFieldValue(textureChestSingle, null, new ResourceLocation("springfestival", "texture/tile/chest_single.png"));
                 EnumHelper.setFailsafeFieldValue(textureChestDouble, null, new ResourceLocation("springfestival", "texture/tile/chest_double.png"));
             } catch (Exception e) {
-                                                            //TODO Remove ↓ (
-                SpringFestivalConstants.logger.catching(e);//Huh, here is your logger
-                // TODO Should we catch the exception for both fields separately?
+                SpringFestivalConstants.logger.catching(e); // TODO Thanks for logger, remove this after read
             }
         }
     }
