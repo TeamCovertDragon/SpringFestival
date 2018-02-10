@@ -23,6 +23,11 @@ import javax.annotation.Nullable;
 
 public class ItemRedPacket extends Item {
 
+    public ItemRedPacket() {
+        this.setMaxStackSize(1);
+        this.setMaxDamage(0);
+    }
+
     @Nullable
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable NBTTagCompound nbt) {

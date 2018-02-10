@@ -8,6 +8,7 @@
 
 package team.covertdragon.springfestival;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -63,13 +64,18 @@ public abstract class SpringFestivalProxy {
     public abstract void onPostInit(FMLPostInitializationEvent event);
 
     public void onServerStarting(FMLServerStartingEvent event) {
+        MinecraftForge.EVENT_BUS.register(redPacketController);
         redPacketThread.setDaemon(true);
         redPacketThread.start();
     }
 
     public void onServerStopping(FMLServerStoppingEvent event) {
-        redPacketController.setKeepAlive(false);
-        // TODO Does this can solve the issue of "server closed but there are red packets not being processed?
-        //redPacketThread.join();
+        redPacketController.setAlive(false);
+        MinecraftForge.EVENT_BUS.unregister(redPacketController);
+        try {
+            redPacketThread.join();
+        } catch (InterruptedException e) {
+            SpringFestivalConstants.logger.error("Fail to shutdown RedPacket controller thread", e);
+        }
     }
 }
