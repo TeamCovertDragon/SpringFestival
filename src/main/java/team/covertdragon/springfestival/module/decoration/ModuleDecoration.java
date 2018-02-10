@@ -9,9 +9,7 @@
 package team.covertdragon.springfestival.module.decoration;
 
 import net.minecraft.client.renderer.tileentity.TileEntityChestRenderer;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemDoor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
@@ -43,9 +41,6 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
 
     @SubscribeEvent
     public static void onItemRegister(RegistryEvent.Register<Item> event) {
-        event.getRegistry().registerAll(
-                // TODO: Remove the Test Item.
-                new ItemFuDoor(new BlockFuDoor((ItemDoor)Items.IRON_DOOR)).setUnlocalizedName("springfestival.doors.iron").setRegistryName("springfestival:fuDoorIron")
-        );
+        //TODO RegisterItems
     }
 }
