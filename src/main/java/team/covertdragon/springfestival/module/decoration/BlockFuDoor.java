@@ -4,6 +4,7 @@ import net.minecraft.block.BlockDoor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
@@ -65,7 +66,9 @@ public class BlockFuDoor extends BlockDoor {
             System.out.println(drops);
 
             for (ItemStack drop : drops) {
-                spawnAsEntity(world, pos, drop);
+                EntityItem entity = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), drop);
+                entity.setDefaultPickupDelay();
+                world.spawnEntity(entity);
             }
 
             harvesters.set(null);

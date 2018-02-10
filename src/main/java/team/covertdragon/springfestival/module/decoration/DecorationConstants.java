@@ -1,12 +1,11 @@
 package team.covertdragon.springfestival.module.decoration;
 
-import com.sun.org.apache.xml.internal.security.utils.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
 public class DecorationConstants {
-    public static final CreativeTabs tabSFDecoration = new CreativeTabs(I18n.translate("springfestival.tabs.decoration")) {
+    public static final CreativeTabs tabSFDecoration = new CreativeTabs("springfestival.decoration") {
         @Override
         public ItemStack getTabIconItem() {
             return new ItemStack(itemFu);
