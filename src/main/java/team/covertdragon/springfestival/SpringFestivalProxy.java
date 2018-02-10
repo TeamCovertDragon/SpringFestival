@@ -63,6 +63,7 @@ public abstract class SpringFestivalProxy {
 
     public abstract void onPostInit(FMLPostInitializationEvent event);
 
+    // TODO Move all RedPacket stuff to ModuleRedPacket, requiring internal refactor
     public void onServerStarting(FMLServerStartingEvent event) {
         MinecraftForge.EVENT_BUS.register(redPacketController);
         redPacketThread.setDaemon(true);
@@ -77,5 +78,9 @@ public abstract class SpringFestivalProxy {
         } catch (InterruptedException e) {
             SpringFestivalConstants.logger.error("Fail to shutdown RedPacket controller thread", e);
         }
+    }
+
+    public RedPacketDispatchingController getRedPacketController() {
+        return redPacketController;
     }
 }

@@ -8,6 +8,7 @@
 
 package team.covertdragon.springfestival.module.redpacket;
 
+import javax.annotation.Nullable;
 import java.util.UUID;
 
 public abstract class RedPacketOperation {
@@ -24,12 +25,10 @@ public abstract class RedPacketOperation {
     }
 
     public static class Get extends RedPacketOperation {
-        private final UUID packetOwner;
-        private final long packetTimestamp;
-        public Get(UUID fromPlayer, UUID redPacketOwner, long timestamp) {
+        private final String passcode;
+        public Get(UUID fromPlayer, @Nullable final String passcode) {
             super(fromPlayer);
-            this.packetOwner = redPacketOwner;
-            this.packetTimestamp = timestamp;
+            this.passcode = passcode;
         }
     }
 

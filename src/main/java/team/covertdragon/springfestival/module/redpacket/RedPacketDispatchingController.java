@@ -34,13 +34,13 @@ public final class RedPacketDispatchingController implements Runnable {
             // TODO Thread safety. Requiring IThreadListener::addScheduledTask
         }
         if (!waitingQueue.isEmpty()) {
-            synchronized (waitingQueue) {
+            synchronized (waitingQueue) { // TODO Why the hell you are using critical block?
                 // TODO Serialize all pending request for next time use
             }
         }
     }
 
-    public boolean enqueueGetOperation(RedPacketOperation operation) {
+    public boolean enqueueOperation(RedPacketOperation operation) {
         return keepAlive && waitingQueue.offer(operation); // Do not accept operation when service shutting down
     }
 
