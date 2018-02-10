@@ -17,10 +17,11 @@ import net.minecraft.world.World;
 
 public class ItemFuDoor extends ItemDoor {
     //TODO remove this
-    private final BlockDoor block = new BlockFuDoor();
+    private final BlockDoor block = DecorationConstants.blockFuDoor;
 
     public ItemFuDoor(BlockFuDoor blockFuDoor) {
         super(blockFuDoor);
+        setCreativeTab(DecorationConstants.tabSFDecoration);
     }
 
     @Override
