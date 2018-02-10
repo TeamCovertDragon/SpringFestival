@@ -5,8 +5,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import team.covertdragon.springfestival.SpringFestivalConstants;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID)
 public class EventHandler {
     @SubscribeEvent
     public void onPlayerInteract(PlayerInteractEvent event) {

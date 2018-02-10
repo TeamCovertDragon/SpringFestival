@@ -8,6 +8,7 @@
 
 package team.covertdragon.springfestival.module.decoration;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.tileentity.TileEntityChestRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -21,7 +22,7 @@ import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 
 import java.lang.reflect.Field;
 
-@Mod.EventBusSubscriber(modid = "springfestival")
+@Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID)
 public class ModuleDecoration extends AbstractSpringFestivalModule {
 
     // TODO We need a way to call this guy
@@ -41,6 +42,16 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
 
     @SubscribeEvent
     public static void onItemRegister(RegistryEvent.Register<Item> event) {
-        //TODO RegisterItems
+        event.getRegistry().registerAll(
+                DecorationConstants.itemFuDoor,
+                DecorationConstants.itemFu
+        );
+    }
+
+    @SubscribeEvent
+    public static void onBlockRegister(RegistryEvent.Register<Block> event) {
+        event.getRegistry().registerAll(
+                DecorationConstants.blockFuDoor
+        );
     }
 }
