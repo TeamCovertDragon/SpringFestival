@@ -21,9 +21,15 @@ import java.util.UUID;
 // TODO Should we have support for this one?
 public class RedPacketData implements INBTSerializable<NBTTagCompound> {
 
+    public enum Type {
+        RECEIVED, POSTED
+    }
+
     private long timestamp;
 
     private UUID owner;
+
+    private Type type;
 
     List<ItemStack> contents; // TODO Non-null type parameter, because you don't want a red packet containing null
 

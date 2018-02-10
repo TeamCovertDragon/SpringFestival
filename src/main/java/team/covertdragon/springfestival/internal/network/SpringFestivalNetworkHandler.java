@@ -45,6 +45,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLEventChannel;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
@@ -77,11 +78,13 @@ public final class SpringFestivalNetworkHandler {
     private void decodeData(ByteBuf buffer, EntityPlayer player) {
         final int index = buffer.readInt();
         AbstractSpringFestivalPacket packet = SpringFestivalPacketFactory.getByIndex(index);
-        try {
-            packet.readDataFrom(buffer);
-        } catch (IOException e) {
-            e.printStackTrace(System.err); // TODO Use logger plz
-        }
+        FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() -> {
+            try {
+                packet.readDataFrom(buffer);
+            } catch (IOException e) {
+                SpringFestivalConstants.logger.catching(e);
+            }
+        });
     }
 
     private static ByteBuf fromPacket(AbstractSpringFestivalPacket packet) {

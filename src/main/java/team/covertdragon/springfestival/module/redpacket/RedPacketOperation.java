@@ -8,24 +8,36 @@
 
 package team.covertdragon.springfestival.module.redpacket;
 
-// TODO Re-evaluate this class, maybe it's a bad design
+import java.util.UUID;
+
 public abstract class RedPacketOperation {
 
-    private final String redPacketID;
+    private final long timestamp = System.currentTimeMillis();
 
-    public RedPacketOperation(final String redPacketID) {
-        this.redPacketID = redPacketID;
+    private final UUID origin;
+
+    /**
+     * @param fromPlayer The UUID of that guy (i.e. EntityPlayer) who creates this operation
+     */
+    public RedPacketOperation(UUID fromPlayer) {
+        this.origin = fromPlayer;
     }
 
     public static class Get extends RedPacketOperation {
-        public Get(String redPacketID) {
-            super(redPacketID);
+        private final UUID packetOwner;
+        private final long packetTimestamp;
+        public Get(UUID fromPlayer, UUID redPacketOwner, long timestamp) {
+            super(fromPlayer);
+            this.packetOwner = redPacketOwner;
+            this.packetTimestamp = timestamp;
         }
     }
 
     public static class Post extends RedPacketOperation {
-        public Post(String redPacketID) {
-            super(redPacketID);
+        private final RedPacketData redPacket;
+        public Post(UUID fromPlayer, RedPacketData packet) {
+            super(fromPlayer);
+            this.redPacket = packet;
         }
     }
 

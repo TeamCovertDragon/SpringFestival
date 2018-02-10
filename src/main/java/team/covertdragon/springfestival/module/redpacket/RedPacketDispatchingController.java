@@ -10,6 +10,8 @@ package team.covertdragon.springfestival.module.redpacket;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -18,12 +20,11 @@ public final class RedPacketDispatchingController implements Runnable {
 
     private volatile boolean keepAlive = true;
 
-    private String currentRedPacketID = "";
-    // TODO change signature to <RedPacketOperation> so that it can also handles
-    private final Queue<RedPacketOperation.Get> waitingQueue = new ConcurrentLinkedQueue<>();
+    private final Queue<RedPacketOperation> waitingQueue = new ConcurrentLinkedQueue<>();
 
     @Override
     public void run() {
+        // TODO Read pending request from last server shutdown
         while (keepAlive) {
             // TODO Control all incoming red packet distribution without blocking game running
             RedPacketOperation operation = waitingQueue.poll();
@@ -32,20 +33,29 @@ public final class RedPacketDispatchingController implements Runnable {
             }
             // TODO Thread safety. Requiring IThreadListener::addScheduledTask
         }
-        // TODO What if the game exit without finishing processing all requests?
+        if (!waitingQueue.isEmpty()) {
+            synchronized (waitingQueue) {
+                // TODO Serialize all pending request for next time use
+            }
+        }
     }
 
-    public boolean enqueueGetOperation(RedPacketOperation.Get operation) {
-        return waitingQueue.offer(operation);
+    public boolean enqueueGetOperation(RedPacketOperation operation) {
+        return keepAlive && waitingQueue.offer(operation); // Do not accept operation when service shutting down
     }
 
-    public boolean isKeepAlive() {
+    public boolean isAlive() {
         return keepAlive;
     }
 
-    public void setKeepAlive(boolean keepAlive) {
+    public void setAlive(boolean keepAlive) {
         // TODO Log output, for tracing & debugging
         this.keepAlive = keepAlive;
+    }
+
+    @SubscribeEvent
+    public void onServerReceivedChat(ServerChatEvent event) {
+
     }
 
     private static final class RedPacketDistributionTask implements Runnable {
