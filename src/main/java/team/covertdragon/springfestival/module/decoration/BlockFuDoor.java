@@ -138,6 +138,6 @@ public class BlockFuDoor extends BlockDoor {
     
     @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-		return new ItemStack(ModuleDecoration.itemFuDoor);
+        return new ItemStack(ModuleDecoration.itemFuDoor);
     }
 }
