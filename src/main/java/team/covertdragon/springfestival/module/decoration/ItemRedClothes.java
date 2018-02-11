@@ -12,40 +12,38 @@ public class ItemRedClothes extends ItemArmor{
 
     public ItemRedClothes(EntityEquipmentSlot equipmentSlotIn) {
         super(RED_CLOTHES, 0, equipmentSlotIn);
-
-        // TODO: Move this(↓) to the mod's CreativeTab
-        this.setCreativeTab(CreativeTabs.INVENTORY);
+        this.setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
     }
 
     public static class RedHat extends ItemRedClothes{
         public RedHat() {
             super(EntityEquipmentSlot.HEAD);
-            this.setUnlocalizedName("red_hat");
-            this.setRegistryName("red_hat");
+            this.setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".red_hat");
+            this.setRegistryName(SpringFestivalConstants.MOD_ID, "red_hat");
         }
     }
 
     public static class RedGown extends ItemRedClothes{
         public RedGown() {
             super(EntityEquipmentSlot.CHEST);
-            this.setUnlocalizedName("red_gown");
-            this.setRegistryName("red_gown");
+            this.setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".red_gown");
+            this.setRegistryName(SpringFestivalConstants.MOD_ID, "red_gown");
         }
     }
 
     public static class RedTrousers extends ItemRedClothes{
         public RedTrousers() {
             super(EntityEquipmentSlot.LEGS);
-            this.setUnlocalizedName("red_trousers");
-            this.setRegistryName("red_trousers");
+            this.setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".red_trousers");
+            this.setRegistryName(SpringFestivalConstants.MOD_ID, "red_trousers");
         }
     }
 
     public static class RedShoes extends ItemRedClothes{
         public RedShoes() {
             super(EntityEquipmentSlot.FEET);
-            this.setUnlocalizedName("red_shoes");
-            this.setRegistryName("red_shoes");
+            this.setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".red_shoes");
+            this.setRegistryName(SpringFestivalConstants.MOD_ID, "red_shoes");
         }
     }
 }
