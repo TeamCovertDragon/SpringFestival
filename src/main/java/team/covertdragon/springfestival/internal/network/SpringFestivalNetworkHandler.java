@@ -80,7 +80,7 @@ public final class SpringFestivalNetworkHandler {
         AbstractSpringFestivalPacket packet = SpringFestivalPacketFactory.getByIndex(index);
         FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() -> {
             try {
-                packet.readDataFrom(buffer);
+                packet.readDataFrom(buffer, player);
             } catch (IOException e) {
                 SpringFestivalConstants.logger.catching(e);
             }
