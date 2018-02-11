@@ -2,6 +2,10 @@ package team.covertdragon.springfestival.module.decoration;
 
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
+/**
+ * TODO: Use Annotation to replace it.
+ */
+@Deprecated
 public class DecorationConstants {
     public static final BlockFuDoor blockFuDoor = (BlockFuDoor) new BlockFuDoor().setRegistryName(SpringFestivalConstants.MOD_ID, "block_fu_door");
 

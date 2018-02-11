@@ -43,7 +43,11 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
     @SubscribeEvent
     public static void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                DecorationConstants.itemFuDoor
+                DecorationConstants.itemFuDoor,
+                new ItemRedClothes.RedHat(),
+                new ItemRedClothes.RedGown(),
+                new ItemRedClothes.RedTrousers(),
+                new ItemRedClothes.RedShoes()
         );
     }
 
