@@ -17,3 +17,5 @@ gradle.properties
 .project
 /.settings
 *.launch
+src/main/resources/assets/springfestival/textures/entity/christmas.png
+src/main/resources/assets/springfestival/textures/entity/christmas_double.png
