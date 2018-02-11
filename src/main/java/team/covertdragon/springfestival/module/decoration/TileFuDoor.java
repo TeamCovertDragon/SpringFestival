@@ -4,19 +4,12 @@ import jline.internal.Nullable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 
 import java.util.Random;
 
 public class TileFuDoor extends TileEntity {
     private IBlockState originalBlockStateUpper;
     private IBlockState originalBlockStateLower;
-
-    public TileFuDoor(World world, IBlockState upper, IBlockState lower) {
-        this.world = world;
-        this.originalBlockStateUpper = upper;
-        this.originalBlockStateLower = lower;
-    }
 
     public ItemStack getOriginalDoor() {
         return new ItemStack(originalBlockStateLower.getBlock().getItemDropped(originalBlockStateUpper, new Random(), 0));

@@ -18,11 +18,11 @@ import team.covertdragon.springfestival.SpringFestivalConstants;
 
 public class ItemFuDoor extends ItemDoor {
     //TODO remove this
-    private final BlockDoor block = DecorationConstants.blockFuDoor;
+    private final BlockDoor block = ModuleDecoration.blockFuDoor;
 
     public ItemFuDoor(BlockFuDoor blockFuDoor) {
         super(blockFuDoor);
-        setUnlocalizedName(SpringFestivalConstants.MOD_ID + "_item_fu_door");
+        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".fu_door");
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
     }
 
@@ -81,6 +81,10 @@ public class ItemFuDoor extends ItemDoor {
         world.notifyNeighborsOfStateChange(blockpos2, door, false);
 
         TileEntity te = world.getTileEntity(pos);
+        if (te == null) {
+            te = world.getTileEntity(pos.add(0, 1, 0));
+        }
+
         if (stack.hasTagCompound() & te != null && te instanceof TileFuDoor) {
             te.deserializeNBT(stack.getTagCompound());
         }
