@@ -6,30 +6,37 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class TileFuDoor extends TileEntity {
-    private ItemStack originalDoor;
-    private IBlockState originalBlockState;
+import java.util.Random;
 
-    public TileFuDoor(World world, ItemStack originalDoor, IBlockState state) {
+public class TileFuDoor extends TileEntity {
+    private IBlockState originalBlockStateUpper;
+    private IBlockState originalBlockStateLower;
+
+    public TileFuDoor(World world, IBlockState upper, IBlockState lower) {
         this.world = world;
-        this.originalDoor = originalDoor;
-        this.originalBlockState = state;
+        this.originalBlockStateUpper = upper;
+        this.originalBlockStateLower = lower;
     }
 
     public ItemStack getOriginalDoor() {
-        return originalDoor.copy();
+        return new ItemStack(originalBlockStateLower.getBlock().getItemDropped(originalBlockStateUpper, new Random(), 0));
     }
 
     @Nullable
-    public IBlockState getOriginalBlockState() {
-        return originalBlockState;
+    public IBlockState getOriginalBlockStateUpper() {
+        return originalBlockStateUpper;
     }
 
-    public void setOriginalDoor(ItemStack door) {
-        originalDoor = door;
+    @Nullable
+    public IBlockState getOriginalBlockStateLower() {
+        return originalBlockStateLower;
     }
 
-    public void setOriginalBlockState(IBlockState state) {
-        originalBlockState = state;
+    public void setOriginalBlockStateUpper(IBlockState state) {
+        this.originalBlockStateUpper = state;
+    }
+
+    public void setOriginalBlockStateLower(IBlockState state) {
+        this.originalBlockStateLower = state;
     }
 }

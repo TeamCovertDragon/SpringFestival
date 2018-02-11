@@ -22,8 +22,8 @@ public class ItemFuDoor extends ItemDoor {
 
     public ItemFuDoor(BlockFuDoor blockFuDoor) {
         super(blockFuDoor);
-        setCreativeTab(DecorationConstants.tabSFDecoration);
         setUnlocalizedName(SpringFestivalConstants.MOD_ID + "_item_fu_door");
+        setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
     }
 
     @Override
@@ -80,12 +80,9 @@ public class ItemFuDoor extends ItemDoor {
         world.notifyNeighborsOfStateChange(pos, door, false);
         world.notifyNeighborsOfStateChange(blockpos2, door, false);
 
-        //Set original door
-        ItemStack originalDoor = ItemStack.EMPTY;
-        if (stack.hasTagCompound())
-            originalDoor.deserializeNBT(stack.getTagCompound());
         TileEntity te = world.getTileEntity(pos);
-        if (te != null)
-            ((TileFuDoor) te).setOriginalDoor(originalDoor);
+        if (stack.hasTagCompound() & te != null && te instanceof TileFuDoor) {
+            te.deserializeNBT(stack.getTagCompound());
+        }
     }
 }
