@@ -16,14 +16,17 @@ import team.covertdragon.springfestival.internal.time.ISpringFestivalTimeProvide
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderImpossible;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderLocal;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderQuerying;
+import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
+import team.covertdragon.springfestival.module.ModuleLoader;
+import team.covertdragon.springfestival.module.SpringFestivalModule;
 import team.covertdragon.springfestival.module.redpacket.RedPacketDispatchingController;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public abstract class SpringFestivalProxy {
 
     private static final List<ISpringFestivalTimeProvider> DATE_CHECKERS = new ArrayList<>();
+    public static List<AbstractSpringFestivalModule> modules = new LinkedList<>();
 
     static {
         FluidRegistry.enableUniversalBucket();
@@ -50,6 +53,9 @@ public abstract class SpringFestivalProxy {
 
     public void onPreInit(FMLPreInitializationEvent event) {
         SpringFestivalConstants.logger = event.getModLog();
+
+        // TODO: Ignore disabled modules in configuration file.
+        this.modules = ModuleLoader.readASMDataTable(event.getAsmData());
     };
 
     public void onInit(FMLInitializationEvent event) {

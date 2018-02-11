@@ -29,4 +29,13 @@ public class ModuleRedPacket extends AbstractSpringFestivalModule {
         );
     }
 
+    @Override
+    public void onInit() {
+
+    }
+
+    @Override
+    public void registryModels() {
+
+    }
 }

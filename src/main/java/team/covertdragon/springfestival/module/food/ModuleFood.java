@@ -12,9 +12,10 @@ import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 
 @Mod.EventBusSubscriber(modid = "springfestival")
-public class ModuleFood {
+public class ModuleFood extends AbstractSpringFestivalModule{
 
     @SubscribeEvent
     public static void onItemRegister(RegistryEvent.Register<Item> event) {
@@ -23,4 +24,5 @@ public class ModuleFood {
                 new ItemSpringFestivalFood(2, 1.0F).setUnlocalizedName("springfestival.niangao").setRegistryName("niangao")
         );
     }
+
 }

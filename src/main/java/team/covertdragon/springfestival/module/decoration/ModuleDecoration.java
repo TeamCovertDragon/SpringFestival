@@ -19,6 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.SpringFestivalUtils;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 
@@ -44,6 +45,13 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
                 SpringFestivalConstants.logger.catching(e);
             }
         }
+    }
+
+    public void registryModels() {
+        SpringFestivalUtils.registryModel(DecorationRegistry.red_hat);
+        SpringFestivalUtils.registryModel(DecorationRegistry.red_gown);
+        SpringFestivalUtils.registryModel(DecorationRegistry.red_trousers);
+        SpringFestivalUtils.registryModel(DecorationRegistry.red_shoes);
     }
 
     @SubscribeEvent

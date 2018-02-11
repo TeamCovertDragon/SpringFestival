@@ -11,4 +11,5 @@ package team.covertdragon.springfestival.module.firecracker;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 
 public class ModuleFirecracker extends AbstractSpringFestivalModule {
+
 }

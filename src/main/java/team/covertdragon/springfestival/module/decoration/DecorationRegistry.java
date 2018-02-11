@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
 @GameRegistry.ObjectHolder(SpringFestivalConstants.MOD_ID)
-public class DecorationAnnotation {
+public class DecorationRegistry {
     @GameRegistry.ObjectHolder("red_hat")
     public static final ItemArmor red_hat = null;
 
