@@ -26,12 +26,69 @@ public class RedPacketData implements INBTSerializable<NBTTagCompound> {
     }
 
     private long timestamp;
-
     private UUID owner;
-
     private Type type;
+    private boolean hasPasscode;
+    private String name;
+    private List<ItemStack> contents;
 
-    List<ItemStack> contents; // TODO Non-null type parameter, because you don't want a red packet containing null
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public UUID getOwner() {
+        return owner;
+    }
+
+    public void setOwner(UUID owner) {
+        this.owner = owner;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public boolean isHasPasscode() {
+        return hasPasscode;
+    }
+
+    public void setHasPasscode(boolean hasPasscode) {
+        this.hasPasscode = hasPasscode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<ItemStack> getContents() {
+        return contents;
+    }
+
+    public void setContents(List<ItemStack> contents) {
+        this.contents = contents;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof RedPacketData && ((RedPacketData) o).name.equals(this.name) && ((RedPacketData) o).owner.equals(this.owner);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.owner.hashCode() * 31 + this.name.hashCode();
+    }
 
     @Override
     public NBTTagCompound serializeNBT() {
@@ -43,6 +100,9 @@ public class RedPacketData implements INBTSerializable<NBTTagCompound> {
             list.appendTag(stack.serializeNBT());
         }
         tag.setTag("contents", list);
+        tag.setString("name", this.name);
+        tag.setBoolean("passcode", this.hasPasscode);
+        tag.setInteger("type", this.type.ordinal());
         return tag;
     }
 
@@ -56,5 +116,8 @@ public class RedPacketData implements INBTSerializable<NBTTagCompound> {
             contents.add(new ItemStack(list.getCompoundTagAt(i)));
         }
         this.contents = contents;
+        this.name = nbt.getString("name");
+        this.hasPasscode = nbt.getBoolean("passcode");
+        this.type = Type.values()[nbt.getInteger("type")];
     }
 }

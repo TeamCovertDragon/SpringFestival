@@ -12,6 +12,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.util.FakePlayer;
 import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.SpringFestivalConstants;
@@ -45,7 +46,11 @@ public class CommandRedPacket extends CommandBase {
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
         if (sender instanceof EntityPlayer && !(sender instanceof FakePlayer)) {
             final String passcode = args.length > 0 ? args[1] : null;
-            SpringFestival.proxy.getRedPacketController().enqueueOperation(new RedPacketOperation.Get(((EntityPlayer) sender).getUniqueID(), passcode));
+            if (SpringFestival.proxy.getRedPacketController().enqueueOperation(new RedPacketOperation.Get(((EntityPlayer) sender).getUniqueID(), passcode))) {
+                sender.sendMessage(new TextComponentString("Successfully got this red packet!")); // TODO Internationalization
+            } else {
+                sender.sendMessage(new TextComponentString("Failed on getting this red packet!")); // TODO Internationalization
+            }
         } else {
             SpringFestivalConstants.logger.warn("There is an non-human candidate attempting to grab red packet! Offender: {}", sender);
         }

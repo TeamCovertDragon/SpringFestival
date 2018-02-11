@@ -8,10 +8,9 @@
 
 package team.covertdragon.springfestival.module.redpacket;
 
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -53,11 +52,6 @@ public final class RedPacketDispatchingController implements Runnable {
         this.keepAlive = keepAlive;
     }
 
-    @SubscribeEvent
-    public void onServerReceivedChat(ServerChatEvent event) {
-
-    }
-
     private static final class RedPacketDistributionTask implements Runnable {
 
         private EntityPlayer player;
@@ -65,10 +59,10 @@ public final class RedPacketDispatchingController implements Runnable {
 
         @Override
         public void run() {
-            for (ItemStack stack : packet.contents) {
-                // TODO Why you wrote this evil???
-                player.inventory.mainInventory.add(stack);
-            }
+            // TODO Use the actual item
+            final EntityItem entityItem = new EntityItem(player.world, player.posX, player.posY, player.posZ, ItemStack.EMPTY);
+            entityItem.setNoPickupDelay();
+            player.world.spawnEntity(entityItem);
         }
     }
 }
