@@ -18,14 +18,17 @@ import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 @Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID)
 public class ModuleRedPacket extends AbstractSpringFestivalModule {
 
+    public static final Item redpacket = new ItemRedPacket()
+            .setCreativeTab(SpringFestivalConstants.CREATIVE_TAB)
+            .setUnlocalizedName("springfestival.redpacket")
+            .setRegistryName("springfestival:redpacket");
+
     public static final int GUI_RED_PACKET = 0;
 
     @SubscribeEvent
     public static void onItemRegister(RegistryEvent.Register<Item> event) {
-        event.getRegistry().register(new ItemRedPacket()
-                .setCreativeTab(SpringFestivalConstants.CREATIVE_TAB)
-                .setUnlocalizedName("springfestival.redpacket")
-                .setRegistryName("springfestival:redpacket")
+        event.getRegistry().register(
+                redpacket
         );
     }
 
