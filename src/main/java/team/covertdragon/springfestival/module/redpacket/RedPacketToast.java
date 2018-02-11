@@ -12,7 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.toasts.GuiToast;
 import net.minecraft.client.gui.toasts.IToast;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestivalConstants;
@@ -34,7 +33,7 @@ public class RedPacketToast implements IToast {
         return NO_TOKEN;
     }
 
-    @SubscribeEvent
+    //@SubscribeEvent
     public static void onRedPacketDispatched() {
         // TODO Stub!
         Minecraft.getMinecraft().getToastGui().add(new RedPacketToast());
