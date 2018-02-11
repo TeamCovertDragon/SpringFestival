@@ -9,14 +9,13 @@
 package team.covertdragon.springfestival.module;
 
 public class AbstractSpringFestivalModule implements ISpringFestivalModule{
-    // TODO what should we do here? An onInit(FMLInitializationEvent) method?
 
     @Override
     public void onInit() {
 
     }
 
-    @Override
+    @Override // TODO Deprecate this guy, model registry should go into ModelRegistryEvent
     public void registryModels() {
 
     }
