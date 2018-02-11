@@ -18,7 +18,7 @@ import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 @Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID)
 public class ModuleRedPacket extends AbstractSpringFestivalModule {
 
-    // TODO We (most likely) need a gui
+    public static final int GUI_RED_PACKET = 0;
 
     @SubscribeEvent
     public static void onItemRegister(RegistryEvent.Register<Item> event) {

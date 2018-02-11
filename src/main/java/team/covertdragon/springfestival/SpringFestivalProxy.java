@@ -65,14 +65,12 @@ public abstract class SpringFestivalProxy {
 
     // TODO Move all RedPacket stuff to ModuleRedPacket, requiring internal refactor
     public void onServerStarting(FMLServerStartingEvent event) {
-        MinecraftForge.EVENT_BUS.register(redPacketController);
         redPacketThread.setDaemon(true);
         redPacketThread.start();
     }
 
     public void onServerStopping(FMLServerStoppingEvent event) {
         redPacketController.setAlive(false);
-        MinecraftForge.EVENT_BUS.unregister(redPacketController);
         try {
             redPacketThread.join();
         } catch (InterruptedException e) {

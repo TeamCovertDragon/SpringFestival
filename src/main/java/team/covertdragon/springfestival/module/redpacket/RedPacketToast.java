@@ -8,24 +8,40 @@
 
 package team.covertdragon.springfestival.module.redpacket;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.toasts.GuiToast;
 import net.minecraft.client.gui.toasts.IToast;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
-@Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID, value = Side.CLIENT)
 public class RedPacketToast implements IToast {
+
+    private static final ResourceLocation TEXTURE_RED_PACKET_TOAST = new ResourceLocation(SpringFestivalConstants.MOD_ID, "textures/gui/toast/red_packet.png");
+
+    private String playerName;
+    private String packetTitle;
+
     @Override
     public Visibility draw(GuiToast toastGui, long delta) {
-        // TODO Draw the toast
-        return Visibility.HIDE;
+        if (delta < 2000) {
+            toastGui.getMinecraft().getTextureManager().bindTexture(TEXTURE_RED_PACKET_TOAST);
+            GlStateManager.color(1.0F, 1.0F, 1.0F);
+            final List<String> messages = toastGui.getMinecraft().fontRenderer.listFormattedStringToWidth(this.packetTitle, 125);
+            if (messages.size() == 1) {
+                // TODO Draw words
+            } else {
+                // TODO Draw scrolling words (wtf?)
+            }
+            return Visibility.SHOW;
+        } else {
+            return Visibility.HIDE;
+        }
     }
 
     @Nonnull
@@ -34,9 +50,4 @@ public class RedPacketToast implements IToast {
         return NO_TOKEN;
     }
 
-    @SubscribeEvent
-    public static void onRedPacketDispatched() {
-        // TODO Stub!
-        Minecraft.getMinecraft().getToastGui().add(new RedPacketToast());
-    }
 }

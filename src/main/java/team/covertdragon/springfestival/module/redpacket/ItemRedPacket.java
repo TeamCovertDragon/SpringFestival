@@ -17,6 +17,8 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import team.covertdragon.springfestival.SpringFestival;
+import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.capabilities.ItemStackInventoryProvider;
 
 import javax.annotation.Nullable;
@@ -38,7 +40,9 @@ public class ItemRedPacket extends Item {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-        // TODO Open the Red Packet GUI
-        return ActionResult.newResult(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
+        if (!worldIn.isRemote) {
+            playerIn.openGui(SpringFestival.getInstance(), 0, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
+        }
+        return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
     }
 }
