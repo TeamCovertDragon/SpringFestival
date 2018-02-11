@@ -12,3 +12,8 @@ gradle.properties
 *.ipr
 *.iws
 *.iml
+/bin
+.classpath
+.project
+/.settings
+*.launch
