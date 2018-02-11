@@ -8,7 +8,6 @@
 
 package team.covertdragon.springfestival;
 
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -38,7 +37,7 @@ public abstract class SpringFestivalProxy {
     }
 
     private RedPacketDispatchingController redPacketController = new RedPacketDispatchingController();
-    private Thread redPacketThread = new Thread(redPacketController, "SpringFestival-RedPacket");
+    private Thread redPacketThread;
 
     /**
      * Determine whether the current time is falling into the Spring Festival season, based on
@@ -65,11 +64,15 @@ public abstract class SpringFestivalProxy {
 
     // TODO Move all RedPacket stuff to ModuleRedPacket, requiring internal refactor
     public void onServerStarting(FMLServerStartingEvent event) {
+        redPacketThread = new Thread(redPacketController, "SpringFestival-RedPacket");
         redPacketThread.setDaemon(true);
         redPacketThread.start();
     }
 
     public void onServerStopping(FMLServerStoppingEvent event) {
+        if (redPacketThread == null) { // But when this will happen?
+            return;
+        }
         redPacketController.setAlive(false);
         try {
             redPacketThread.join();
