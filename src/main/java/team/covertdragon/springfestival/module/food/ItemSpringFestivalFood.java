@@ -9,9 +9,11 @@
 package team.covertdragon.springfestival.module.food;
 
 import net.minecraft.item.ItemFood;
+import team.covertdragon.springfestival.SpringFestivalConstants;
 
 public class ItemSpringFestivalFood extends ItemFood {
     public ItemSpringFestivalFood(int amount, float saturation) {
         super(amount, saturation, false);
+        setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
     }
 }

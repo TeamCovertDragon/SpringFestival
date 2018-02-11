@@ -1,7 +1,6 @@
 package team.covertdragon.springfestival.module;
 
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
-import team.covertdragon.springfestival.SpringFestivalConstants;
 
 import java.util.HashMap;
 import java.util.List;

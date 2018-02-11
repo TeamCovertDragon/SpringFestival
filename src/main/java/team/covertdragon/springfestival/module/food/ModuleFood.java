@@ -15,12 +15,20 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod.EventBusSubscriber(modid = "springfestival")
 public class ModuleFood {
+    public static final Item dumpling = new ItemSpringFestivalFood(2, 1.0F)
+            .setUnlocalizedName("springfestival.dumpling")
+            .setRegistryName("springfestival:dumpling");
+
+    public static final Item niangao = new ItemSpringFestivalFood(2, 1.0F)
+            .setUnlocalizedName("springfestival.niangao")
+            .setRegistryName("springffestival:niangao");
+
 
     @SubscribeEvent
     public static void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                new ItemSpringFestivalFood(2, 1.0F).setUnlocalizedName("springfestival.dumpling").setRegistryName("springfestival:dumpling"),
-                new ItemSpringFestivalFood(2, 1.0F).setUnlocalizedName("springfestival.niangao").setRegistryName("niangao")
+                dumpling,
+                niangao
         );
     }
 }
