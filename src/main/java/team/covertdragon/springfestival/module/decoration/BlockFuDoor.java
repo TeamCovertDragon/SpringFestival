@@ -30,7 +30,7 @@ public class BlockFuDoor extends BlockDoor {
         super(Material.WOOD);
         setHarvestLevel("axe", 0);
         setHardness(1.5F);
-        setUnlocalizedName(SpringFestivalConstants.MOD_ID + "_block_fu_door");
+        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".block_fu_door");
     }
 
     @Override

@@ -22,7 +22,7 @@ public class ItemFuDoor extends ItemDoor {
 
     public ItemFuDoor(BlockFuDoor blockFuDoor) {
         super(blockFuDoor);
-        setUnlocalizedName(SpringFestivalConstants.MOD_ID + "_item_fu_door");
+        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".fu_door");
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
     }
 

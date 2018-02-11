@@ -17,7 +17,7 @@ import team.covertdragon.springfestival.module.decoration.TileFuDoor;
 
 public class ItemRedPaper extends Item {
     public ItemRedPaper() {
-        setUnlocalizedName(SpringFestivalConstants.MOD_ID + "_item_red_paper");
+        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".red_paper");
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
     }
 
