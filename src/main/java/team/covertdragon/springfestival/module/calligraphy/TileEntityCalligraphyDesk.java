@@ -8,11 +8,14 @@
 
 package team.covertdragon.springfestival.module.calligraphy;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.items.ItemStackHandler;
+import team.covertdragon.springfestival.internal.IGuiAccessible;
 
-public class TileEntityCalligraphyDesk extends TileEntity {
+public class TileEntityCalligraphyDesk extends TileEntity implements IGuiAccessible {
 
     // And no, this block does not require tick at any time
 
@@ -45,4 +48,13 @@ public class TileEntityCalligraphyDesk extends TileEntity {
         return super.writeToNBT(tag);
     }
 
+    @Override
+    public Object getServerGuiObject(World world, EntityPlayer player) {
+        return new ContainerCalligraphy();
+    }
+
+    @Override
+    public Object getClientGuiObject(World world, EntityPlayer player) {
+        return new GuiCalligraphy();
+    }
 }

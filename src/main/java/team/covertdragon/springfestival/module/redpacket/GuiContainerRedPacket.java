@@ -8,8 +8,11 @@
 
 package team.covertdragon.springfestival.module.redpacket;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiButtonImage;
 import net.minecraft.client.gui.GuiButtonToggle;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -17,6 +20,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.internal.network.SpringFestivalNetworkHandler;
 
 import java.io.IOException;
 
@@ -26,7 +30,9 @@ public class GuiContainerRedPacket extends GuiContainer {
 
     private GuiButtonToggle passcodeModeToggle;
     private GuiButton sendRedPacket;
+    private GuiTextField receiver;
     private GuiTextField message;
+    private boolean passcodeMode;
 
     public GuiContainerRedPacket(InventoryPlayer player, IItemHandlerModifiable inv) {
         super(new ContainerRedPacket(player, inv));
@@ -37,15 +43,29 @@ public class GuiContainerRedPacket extends GuiContainer {
     @Override
     public void initGui() {
         super.initGui();
-        this.passcodeModeToggle = new GuiButtonToggle(0, 0, 0, 24, 16, false);
-        // TODO Passcode mode toggle: u = 195, v = 17
+        this.sendRedPacket = new GuiButtonImage(0, this.guiLeft + 17, this.guiTop + 13, 25, 15, 195, 0, 0, TEXTURE_BG);
+        buttonList.add(sendRedPacket);
+        this.passcodeModeToggle = new GuiButtonToggle(1, this.guiLeft + 15, this.guiTop + 49, 14, 14, false) {
+            @Override
+            public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+                if (passcodeMode) {
+                    super.drawButton(mc, mouseX, mouseY, partialTicks);
+                }
+            }
+        };
         passcodeModeToggle.initTextureValues(195, 17, 0, 0, TEXTURE_BG);
         buttonList.add(passcodeModeToggle);
-        // TODO Envelop button: u = 195, v = 0
-        this.sendRedPacket = new GuiButton(0, 0, 0, 24, 16, "");
-        buttonList.add(sendRedPacket);
-        // TODO Correct the coordinate
-        this.message = new GuiTextField(2, this.fontRenderer, 0, 0, 60, 16);
+
+        this.receiver = new GuiTextField(2, this.fontRenderer, this.guiLeft + 46, this.guiTop + 13, 133, 15);
+        this.receiver.setTextColor(-1);
+        this.receiver.setDisabledTextColour(-1);
+        this.receiver.setEnableBackgroundDrawing(false);
+        this.receiver.setCanLoseFocus(true);
+        this.receiver.setEnabled(true);
+        this.message = new GuiTextField(3, this.fontRenderer, this.guiLeft + 17, this.guiTop + 31, 162, 15);
+        this.message.setTextColor(-1);
+        this.message.setCanLoseFocus(true);
+        this.message.setEnabled(true);
     }
 
     @Override
@@ -56,8 +76,16 @@ public class GuiContainerRedPacket extends GuiContainer {
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-        super.actionPerformed(button);
-        // TODO Trigger red packet sending and close GUI
+        if (button.enabled) { // Dirty implementation. No time to waste, just make it works first!
+            if (button.id == 0) {
+                // TODO Save all data and send a packet to server, to tell server that this red packet is ready to be enqueued
+                this.mc.displayGuiScreen(null);
+            } else if (button.id == 1) {
+                passcodeMode = !passcodeMode;
+                // TODO How server knows which player is doing stuff???
+                SpringFestivalNetworkHandler.INSTANCE.sendToServer(new ClientPacketTogglePasscodeMode(this.passcodeMode));
+            }
+        }
     }
 
     @Override

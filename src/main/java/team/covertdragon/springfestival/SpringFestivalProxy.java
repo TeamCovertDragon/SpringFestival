@@ -56,7 +56,7 @@ public abstract class SpringFestivalProxy {
 
         // TODO: Ignore disabled modules in configuration file.
         this.modules = ModuleLoader.readASMDataTable(event.getAsmData());
-    };
+    }
 
     public void onInit(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(SpringFestival.getInstance(), new SpringFestivalGuiHandler());

@@ -8,8 +8,8 @@ import net.minecraft.tileentity.TileEntity;
 import java.util.Random;
 
 public class TileFuDoor extends TileEntity {
-    private IBlockState originalBlockStateUpper;
-    private IBlockState originalBlockStateLower;
+    IBlockState originalBlockStateUpper;
+    IBlockState originalBlockStateLower;
 
     public ItemStack getOriginalDoor() {
         return new ItemStack(originalBlockStateLower.getBlock().getItemDropped(originalBlockStateUpper, new Random(), 0));

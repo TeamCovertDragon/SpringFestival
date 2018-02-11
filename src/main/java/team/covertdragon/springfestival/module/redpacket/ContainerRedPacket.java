@@ -11,6 +11,7 @@ package team.covertdragon.springfestival.module.redpacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
@@ -29,6 +30,6 @@ public class ContainerRedPacket extends Container {
 
     @Override
     public boolean canInteractWith(EntityPlayer playerIn) {
-        return true;
+        return playerIn.getHeldItemMainhand().getItem() == ModuleRedPacket.RED_PACKET || playerIn.getHeldItemOffhand().getItem() == ModuleRedPacket.RED_PACKET;
     }
 }

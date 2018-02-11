@@ -10,17 +10,18 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
+@Deprecated // Merge into Module class
 @SideOnly(Side.CLIENT)
-@Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID, value = Side.CLIENT)
+//@Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID, value = Side.CLIENT)
 public class ModelRegistriesFood {
     public static void registerItem(Item item) {
         ModelLoader.setCustomModelResourceLocation(item, 0,
                 new ModelResourceLocation(item.getRegistryName().toString(), "inventory"));
     }
-
+/*
     @SubscribeEvent
     public static void onModelRegistries(ModelRegistryEvent event) {
         registerItem(ModuleFood.dumpling);
         registerItem(ModuleFood.niangao);
-    }
+    }*/
 }

@@ -17,9 +17,4 @@ public class ModelRegistriesRedPacket {
         ModelLoader.setCustomModelResourceLocation(item, 0,
                 new ModelResourceLocation(item.getRegistryName().toString(), "inventory"));
     }
-
-    @SubscribeEvent
-    public static void onModelRegistries(ModelRegistryEvent event) {
-        registerItem(ModuleRedPacket.redpacket);
-    }
 }

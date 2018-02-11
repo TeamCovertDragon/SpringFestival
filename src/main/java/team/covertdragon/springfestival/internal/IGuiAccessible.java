@@ -6,16 +6,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package team.covertdragon.springfestival.internal.network;
+package team.covertdragon.springfestival.internal;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 
-import java.io.IOException;
+public interface IGuiAccessible {
+    Object getServerGuiObject(World world, EntityPlayer player);
 
-public interface AbstractSpringFestivalPacket {
-
-    void writeDataTo(ByteBuf buffer) throws IOException;
-
-    void readDataFrom(ByteBuf buffer, EntityPlayer player) throws IOException;
+    Object getClientGuiObject(World world, EntityPlayer player);
 }

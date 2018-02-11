@@ -18,6 +18,7 @@ public class ItemRedPaper extends Item {
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
     }
 
+    // TODO Can we move these stuff to ItemFu? Red paper doesn't have word on it
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         IBlockState state = world.getBlockState(pos);
