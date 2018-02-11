@@ -19,6 +19,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import team.covertdragon.springfestival.SpringFestival;
+import team.covertdragon.springfestival.internal.SpringFestivalGuiHandler;
 
 import javax.annotation.Nullable;
 
@@ -42,9 +43,7 @@ public class BlockCalligraphyDesk extends Block {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
-            // TODO Gui Handler, see SpringFestivalGuiHandler for details
-            // TODO Universal GUI supplier (aka factory method), like this one: https://github.com/FrogCraft-Rebirth/FrogCraft-Rebirth/blob/1.12/src/main/java/frogcraftrebirth/common/FrogGuiHandler.java
-            playerIn.openGui(SpringFestival.getInstance(), 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            playerIn.openGui(SpringFestival.getInstance(), SpringFestivalGuiHandler.TILE_ENTITY_GUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
         }
         return true;
     }
