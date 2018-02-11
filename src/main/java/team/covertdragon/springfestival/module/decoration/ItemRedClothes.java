@@ -21,6 +21,7 @@ public class ItemRedClothes extends ItemArmor{
         public RedHat() {
             super(EntityEquipmentSlot.HEAD);
             this.setUnlocalizedName("red_hat");
+            this.setRegistryName("red_hat");
         }
     }
 
@@ -28,6 +29,7 @@ public class ItemRedClothes extends ItemArmor{
         public RedGown() {
             super(EntityEquipmentSlot.CHEST);
             this.setUnlocalizedName("red_gown");
+            this.setRegistryName("red_gown");
         }
     }
 
@@ -35,6 +37,7 @@ public class ItemRedClothes extends ItemArmor{
         public RedTrousers() {
             super(EntityEquipmentSlot.LEGS);
             this.setUnlocalizedName("red_trousers");
+            this.setRegistryName("red_trousers");
         }
     }
 
@@ -42,6 +45,7 @@ public class ItemRedClothes extends ItemArmor{
         public RedShoes() {
             super(EntityEquipmentSlot.FEET);
             this.setUnlocalizedName("red_shoes");
+            this.setRegistryName("red_shoes");
         }
     }
 }
