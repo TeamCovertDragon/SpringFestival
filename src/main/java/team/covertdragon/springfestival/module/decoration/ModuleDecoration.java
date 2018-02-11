@@ -19,10 +19,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
+import team.covertdragon.springfestival.module.SpringFestivalModule;
 
 import java.lang.reflect.Field;
 
 @Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID)
+@SpringFestivalModule(name = "Decoration")
 public class ModuleDecoration extends AbstractSpringFestivalModule {
 
     // TODO We need a way to call this guy
