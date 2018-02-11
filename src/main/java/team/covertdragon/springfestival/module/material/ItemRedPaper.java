@@ -10,10 +10,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.module.decoration.BlockFuDoor;
-import team.covertdragon.springfestival.module.decoration.DecorationConstants;
-import team.covertdragon.springfestival.module.decoration.ItemFuDoor;
-import team.covertdragon.springfestival.module.decoration.TileFuDoor;
+import team.covertdragon.springfestival.module.decoration.*;
 
 public class ItemRedPaper extends Item {
     public ItemRedPaper() {
@@ -40,7 +37,7 @@ public class ItemRedPaper extends Item {
             world.setBlockToAir(pos);
             world.setBlockToAir(pos.add(0, -1, 0));
             //Set Tile Entity
-            ItemFuDoor.placeDoor(world, pos.add(0, -1, 0), state.getValue(BlockDoor.FACING), DecorationConstants.blockFuDoor, state.getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT);
+            ItemFuDoor.placeDoor(world, pos.add(0, -1, 0), state.getValue(BlockDoor.FACING), ModuleDecoration.blockFuDoor, state.getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT);
             TileFuDoor te = (TileFuDoor) world.getTileEntity(pos);
             if (te != null) {
                 te.setOriginalBlockStateLower(originalLower);

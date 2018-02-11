@@ -3,12 +3,15 @@ package team.covertdragon.springfestival.module.decoration;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDoor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -20,6 +23,9 @@ import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.material.ModuleMaterial;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class BlockFuDoor extends BlockDoor {
@@ -41,17 +47,7 @@ public class BlockFuDoor extends BlockDoor {
 
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        drops.add(new ItemStack(ModuleMaterial.redPaperBroken));
-        TileEntity te = world.getTileEntity(pos);
-        if (te == null) {
-            te = world.getTileEntity(pos.add(0, 1, 0));
-        }
-        if (te != null) {
-            drops.add(((TileFuDoor) te).getOriginalDoor());
-        } else {
-            throw new NullPointerException();
-        }
-
+        drops.clear();
     }
 
     @Override
@@ -66,7 +62,9 @@ public class BlockFuDoor extends BlockDoor {
 
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return state.getValue(HALF) == EnumDoorHalf.UPPER ? new TileFuDoor(world, null, null) : null;
+        TileFuDoor te = new TileFuDoor();
+        te.setWorld(world);
+        return state.getValue(HALF) == EnumDoorHalf.UPPER ? te : null;
     }
 
     @Override
@@ -92,6 +90,48 @@ public class BlockFuDoor extends BlockDoor {
             }
         }
         return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
+    }
 
+    @Override
+    public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) {
+        player.addStat(StatList.getBlockStats(this));
+        player.addExhaustion(0.005F);
+
+        if (te == null) {
+            te = world.getTileEntity(pos.add(0, 1, 0));
+        }
+
+        if (te == null) {
+            throw new NullPointerException();
+        }
+
+        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) > 0) {
+            List<ItemStack> items = new ArrayList<ItemStack>();
+            ItemStack itemstack = new ItemStack(ModuleDecoration.itemFuDoor);
+            itemstack.setTagCompound(te.serializeNBT());
+
+            if (!itemstack.isEmpty()) {
+                items.add(itemstack);
+            }
+
+            //ForgeEventFactory.fireBlockHarvesting(items, world, pos, state, 0, 1.0f, true, player);
+            for (ItemStack item : items) {
+                spawnAsEntity(world, pos, item);
+            }
+        } else {
+            harvesters.set(player);
+
+            List<ItemStack> drops = new ArrayList<ItemStack>();
+            drops.add(((TileFuDoor) te).getOriginalDoor());
+            drops.add(new ItemStack(ModuleMaterial.redPaper, 1));
+
+            for (ItemStack drop : drops) {
+                EntityItem entity = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), drop);
+                entity.setDefaultPickupDelay();
+                world.spawnEntity(entity);
+            }
+
+            harvesters.set(null);
+        }
     }
 }
