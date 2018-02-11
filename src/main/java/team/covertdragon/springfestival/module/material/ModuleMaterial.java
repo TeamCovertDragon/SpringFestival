@@ -22,7 +22,7 @@ public class ModuleMaterial extends AbstractSpringFestivalModule {
 
     public static Item glutinousRiceCrop;
 
-    public static final ItemRedPaper redPaper = (ItemRedPaper) new ItemRedPaper().setRegistryName(SpringFestivalConstants.MOD_ID, "item_rend_paper");
+    public static final ItemRedPaper redPaper = (ItemRedPaper) new ItemRedPaper().setRegistryName(SpringFestivalConstants.MOD_ID, "item_red_paper");
 
     public static Item redPaperBroken;
 

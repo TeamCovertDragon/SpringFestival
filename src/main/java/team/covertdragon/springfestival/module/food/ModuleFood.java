@@ -22,7 +22,7 @@ public class ModuleFood extends AbstractSpringFestivalModule{
 
     public static final Item niangao = new ItemSpringFestivalFood(2, 1.0F)
             .setUnlocalizedName("springfestival.niangao")
-            .setRegistryName("springffestival:niangao");
+            .setRegistryName("springfestival:niangao");
 
 
     @SubscribeEvent
