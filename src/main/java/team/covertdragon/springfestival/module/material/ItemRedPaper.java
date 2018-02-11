@@ -24,7 +24,7 @@ public class ItemRedPaper extends Item {
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         IBlockState state = world.getBlockState(pos);
-        if (state.getBlock() instanceof BlockDoor && !(state.getBlock() instanceof BlockFuDoor)) {
+        if (!world.isRemote && state.getBlock() instanceof BlockDoor && player.isSneaking() && !(state.getBlock() instanceof BlockFuDoor)) {
             IBlockState originalUpper;
             IBlockState originalLower;
             if (state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.UPPER) {
@@ -50,6 +50,8 @@ public class ItemRedPaper extends Item {
             }
 
             player.getHeldItem(hand).shrink(1);
+
+            return EnumActionResult.SUCCESS;
         }
         return EnumActionResult.PASS;
     }
