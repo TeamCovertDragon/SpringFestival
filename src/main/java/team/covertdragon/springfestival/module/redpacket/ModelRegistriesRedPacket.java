@@ -9,9 +9,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.module.decoration.ModuleDecoration;
-import team.covertdragon.springfestival.module.food.ModuleFood;
-import team.covertdragon.springfestival.module.material.ModuleMaterial;
 
 @SideOnly(Side.CLIENT)
 @Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID, value = Side.CLIENT)
@@ -23,10 +20,6 @@ public class ModelRegistriesRedPacket {
 
     @SubscribeEvent
     public static void onModelRegistries(ModelRegistryEvent event) {
-        registerItem(ModuleDecoration.itemFuDoor);
-        registerItem(ModuleFood.dumpling);
-        registerItem(ModuleFood.niangao);
-        registerItem(ModuleMaterial.redPaper);
         registerItem(ModuleRedPacket.redpacket);
     }
 }
