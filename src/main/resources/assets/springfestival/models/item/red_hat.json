@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "springfestival:items/red_hat"
+        "layer0": "springfestival:item/red_hat"
     },
     "display": {
         "thirdperson": {
