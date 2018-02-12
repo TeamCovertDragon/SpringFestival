@@ -24,6 +24,9 @@ public class TileFuDoor extends TileEntity {
     IBlockState originalBlockStateLower;
 
     public ItemStack getOriginalDoor() {
+        if (originalBlockStateLower == null || originalBlockStateUpper == null)
+            return ItemStack.EMPTY;
+
         ItemStack stack = new ItemStack(originalBlockStateLower.getBlock().getItemDropped(originalBlockStateLower, new Random(), 0));
         if (stack.isEmpty())
             return new ItemStack(originalBlockStateUpper.getBlock().getItemDropped(originalBlockStateUpper, new Random(), 0));

@@ -43,10 +43,10 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
                 Field textureChestDouble = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_NORMAL_DOUBLE");
                 Field textureTrappedSingle = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_TRAPPED");
                 Field textureTrappedDouble = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_TRAPPED_DOUBLE");
-                EnumHelper.setFailsafeFieldValue(textureChestSingle, null, new ResourceLocation("springfestival", "textures/entity/chest.png"));
-                EnumHelper.setFailsafeFieldValue(textureChestDouble, null, new ResourceLocation("springfestival", "textures/entity/chest_double.png"));
-                EnumHelper.setFailsafeFieldValue(textureTrappedSingle, null, new ResourceLocation("springfestival", "textures/entity/chest.png"));
-                EnumHelper.setFailsafeFieldValue(textureTrappedDouble, null, new ResourceLocation("springfestival", "textures/entity/chest_double.png"));
+                EnumHelper.setFailsafeFieldValue(textureChestSingle, null, new ResourceLocation(SpringFestivalConstants.MOD_ID, "textures/entity/chest.png"));
+                EnumHelper.setFailsafeFieldValue(textureChestDouble, null, new ResourceLocation(SpringFestivalConstants.MOD_ID, "textures/entity/chest_double.png"));
+                EnumHelper.setFailsafeFieldValue(textureTrappedSingle, null, new ResourceLocation(SpringFestivalConstants.MOD_ID, "textures/entity/chest.png"));
+                EnumHelper.setFailsafeFieldValue(textureTrappedDouble, null, new ResourceLocation(SpringFestivalConstants.MOD_ID, "textures/entity/chest_double.png"));
             } catch (Exception e) {
                 SpringFestivalConstants.logger.catching(e);
             }

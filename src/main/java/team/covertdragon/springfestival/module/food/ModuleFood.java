@@ -13,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
@@ -20,12 +21,12 @@ import team.covertdragon.springfestival.module.SpringFestivalModule;
 @SpringFestivalModule(name = "food", dependencies = {"material"})
 public class ModuleFood extends AbstractSpringFestivalModule{
     private static final Item DUMPLING = new ItemSpringFestivalFood(2, 1.0F)
-            .setUnlocalizedName("springfestival.dumpling")
-            .setRegistryName("springfestival:dumpling");
+            .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".dumpling")
+            .setRegistryName(SpringFestivalConstants.MOD_ID, "dumpling");
 
     private static final Item NIANGAO = new ItemSpringFestivalFood(2, 1.0F)
-            .setUnlocalizedName("springfestival.niangao")
-            .setRegistryName("springfestival:niangao");
+            .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".niangao")
+            .setRegistryName(SpringFestivalConstants.MOD_ID, "niangao");
 
     // TODO What else do we eat during spring festival???
 

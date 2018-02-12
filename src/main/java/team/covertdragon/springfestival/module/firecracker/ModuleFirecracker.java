@@ -23,8 +23,8 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
 
     private static final Block HANGING_FIRECRACKER = new BlockHangingFirecracker()
             .setCreativeTab(SpringFestivalConstants.CREATIVE_TAB)
-            .setUnlocalizedName("springfestival.hanging_firecracker")
-            .setRegistryName("springfestival:hanging_firecracker");
+            .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".hanging_firecracker")
+            .setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker");
 
     @SubscribeEvent
     public void onBlockRegister(RegistryEvent.Register<Block> event) {
@@ -33,6 +33,6 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
 
     @SubscribeEvent
     public void onItemRegister(RegistryEvent.Register<Item> event) {
-        event.getRegistry().register(new ItemBlock(HANGING_FIRECRACKER).setRegistryName("springfestival:hanging_firecracker"));
+        event.getRegistry().register(new ItemBlock(HANGING_FIRECRACKER).setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker"));
     }
 }
