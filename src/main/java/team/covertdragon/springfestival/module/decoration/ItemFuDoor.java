@@ -18,12 +18,13 @@ import team.covertdragon.springfestival.SpringFestivalConstants;
 
 public class ItemFuDoor extends ItemDoor {
     //TODO remove this
-    private final BlockDoor block = ModuleDecoration.blockFuDoor;
+    private final BlockDoor block = DecorationRegistry.blockFuDoor;
 
     public ItemFuDoor(BlockFuDoor blockFuDoor) {
         super(blockFuDoor);
         setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".fu_door");
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
+        setRegistryName(SpringFestivalConstants.MOD_ID, "item_fu_door");
     }
 
     @Override

@@ -38,7 +38,7 @@ public class ItemRedPaper extends Item {
             world.setBlockToAir(pos);
             world.setBlockToAir(pos.add(0, -1, 0));
             //Set Tile Entity
-            ItemFuDoor.placeDoor(world, pos.add(0, -1, 0), state.getValue(BlockDoor.FACING), ModuleDecoration.blockFuDoor, state.getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT);
+            ItemFuDoor.placeDoor(world, pos.add(0, -1, 0), state.getValue(BlockDoor.FACING), DecorationRegistry.blockFuDoor, state.getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT);
             TileFuDoor te = (TileFuDoor) world.getTileEntity(pos);
             if (te != null) {
                 te.setOriginalBlockStateLower(originalLower);

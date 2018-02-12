@@ -33,9 +33,6 @@ import java.lang.reflect.Field;
 @SpringFestivalModule(name = "decoration", dependencies = {"material"})
 public class ModuleDecoration extends AbstractSpringFestivalModule {
 
-    public static final BlockFuDoor blockFuDoor = (BlockFuDoor) new BlockFuDoor().setRegistryName(SpringFestivalConstants.MOD_ID, "block_fu_door");
-    public static final ItemFuDoor itemFuDoor = (ItemFuDoor) new ItemFuDoor(blockFuDoor).setRegistryName(SpringFestivalConstants.MOD_ID, "item_fu_door");
-
     // TODO We need a way to call this guy
     public void onInit() {
         if (SpringFestival.proxy instanceof SpringFestivalProxyClient && SpringFestival.proxy.isDuringSpringFestivalSeason()) {
@@ -63,7 +60,7 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
     @SubscribeEvent
     public void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                itemFuDoor,
+                new ItemFuDoor(DecorationRegistry.blockFuDoor),
                 new ItemRedClothes.RedHat(),
                 new ItemRedClothes.RedGown(),
                 new ItemRedClothes.RedTrousers(),
@@ -75,7 +72,7 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
     public void onBlockRegister(RegistryEvent.Register<Block> event) {
         GameRegistry.registerTileEntity(TileFuDoor.class, "tile_fu_door");
         event.getRegistry().registerAll(
-                blockFuDoor
+                new BlockFuDoor()
         );
     }
 
@@ -84,7 +81,7 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
         if (!event.getWorld().isRemote) {
             if (event.getState().getBlock() instanceof BlockFuDoor && event.getState().getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER) {
                 event.setCanceled(true);
-                blockFuDoor.harvestBlock(event.getWorld(), event.getPlayer(), event.getPos().add(0, 1, 0), event.getState(), event.getWorld().getTileEntity(event.getPos().add(0, 1, 0)), event.getPlayer().getHeldItem(event.getPlayer().getActiveHand()));
+                DecorationRegistry.blockFuDoor.harvestBlock(event.getWorld(), event.getPlayer(), event.getPos().add(0, 1, 0), event.getState(), event.getWorld().getTileEntity(event.getPos().add(0, 1, 0)), event.getPlayer().getHeldItem(event.getPlayer().getActiveHand()));
                 event.getWorld().setBlockToAir(event.getPos());
             }
         }

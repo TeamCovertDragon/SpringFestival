@@ -23,7 +23,7 @@ public class ModelRegistriesDecoration {
 
     @SubscribeEvent
     public static void onModelRegistries(ModelRegistryEvent event) {
-        ModelLoader.setCustomStateMapper(ModuleDecoration.blockFuDoor, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
-        registerItem(ModuleDecoration.itemFuDoor);
+        ModelLoader.setCustomStateMapper(DecorationRegistry.blockFuDoor, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
+        registerItem(DecorationRegistry.itemFuDoor);
     }
 }
