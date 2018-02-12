@@ -27,9 +27,9 @@ public class DecorationRegistry {
     @GameRegistry.ObjectHolder("red_shoes")
     public static final ItemArmor red_shoes = null;
 
-    @GameRegistry.ObjectHolder("block_fu_door")
+    @GameRegistry.ObjectHolder("fu_door")
     public static final BlockFuDoor blockFuDoor = null;
 
-    @GameRegistry.ObjectHolder("item_fu_door")
+    @GameRegistry.ObjectHolder("fu_door")
     public static final ItemFuDoor itemFuDoor = null;
 }
