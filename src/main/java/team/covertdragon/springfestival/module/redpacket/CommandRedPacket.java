@@ -15,7 +15,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.util.FakePlayer;
-import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
 import java.util.Arrays;

@@ -20,7 +20,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.event.ForgeEventFactory;
 import team.covertdragon.springfestival.internal.SpringFestivalUtil;
 
 import javax.annotation.Nullable;

@@ -117,7 +117,7 @@ public class BlockFuDoor extends BlockDoor {
         }
 
         if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) > 0) {
-            List<ItemStack> items = new ArrayList<ItemStack>();
+            List<ItemStack> items = new ArrayList<>();
             ItemStack itemstack = new ItemStack(DecorationRegistry.itemFuDoor);
             itemstack.setTagCompound(te.serializeNBT());
 
@@ -132,7 +132,7 @@ public class BlockFuDoor extends BlockDoor {
         } else {
             harvesters.set(player);
 
-            List<ItemStack> drops = new ArrayList<ItemStack>();
+            List<ItemStack> drops = new ArrayList<>();
             drops.add(((TileFuDoor) te).getOriginalDoor());
             drops.add(new ItemStack(ModuleMaterial.RED_PAPER, 1));
 

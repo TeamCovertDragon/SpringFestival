@@ -19,7 +19,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import team.covertdragon.springfestival.SpringFestival;
-import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.capabilities.ItemStackInventoryProvider;
 
 import javax.annotation.Nullable;

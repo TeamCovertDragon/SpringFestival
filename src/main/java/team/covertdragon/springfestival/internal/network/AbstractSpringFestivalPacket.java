@@ -12,11 +12,9 @@ package team.covertdragon.springfestival.internal.network;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 
-import java.io.IOException;
-
 public interface AbstractSpringFestivalPacket {
 
-    void writeDataTo(ByteBuf buffer) throws IOException;
+    void writeDataTo(ByteBuf buffer);
 
-    void readDataFrom(ByteBuf buffer, EntityPlayer player) throws IOException;
+    void readDataFrom(ByteBuf buffer, EntityPlayer player);
 }
