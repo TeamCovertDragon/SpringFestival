@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_top_rh",
+    "textures": {
+        "bottom": "springfestival:blocks/fu_door_lower",
+        "top": "springfestival:blocks/fu_door_upper"
+    }
+}
