@@ -47,7 +47,7 @@ public class BlockFuDoor extends BlockDoor {
         setHarvestLevel("axe", 0);
         setHardness(1.5F);
         setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".block_fu_door");
-        setRegistryName(SpringFestivalConstants.MOD_ID, "block_fu_door");
+        setRegistryName(SpringFestivalConstants.MOD_ID, "fu_door");
     }
 
     @Override

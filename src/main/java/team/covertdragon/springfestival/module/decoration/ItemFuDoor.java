@@ -33,7 +33,7 @@ public class ItemFuDoor extends ItemDoor {
         super(blockFuDoor);
         setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".fu_door");
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
-        setRegistryName(SpringFestivalConstants.MOD_ID, "item_fu_door");
+        setRegistryName(SpringFestivalConstants.MOD_ID, "fu_door");
     }
 
     @Override
