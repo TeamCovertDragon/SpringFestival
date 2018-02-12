@@ -14,12 +14,25 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraftforge.common.util.INBTSerializable;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-// TODO Should we have support for this one?
+/**
+ * A POJO that represents a red packet object.
+ * <p>
+ *     It may be serialized as a NBTTagCompound.
+ * </p>
+ */
 public class RedPacketData implements INBTSerializable<NBTTagCompound> {
+
+    // A simple factory method
+    static RedPacketData fromItemStack(@Nonnull final ItemStack stack) {
+        return new RedPacketData();
+    }
 
     public enum Type {
         RECEIVED, POSTED
@@ -27,10 +40,12 @@ public class RedPacketData implements INBTSerializable<NBTTagCompound> {
 
     private long timestamp;
     private UUID owner;
+    private UUID receiver;
     private Type type;
     private boolean hasPasscode;
     private String name;
-    private List<ItemStack> contents;
+    private String message;
+    private List<ItemStack> contents = Collections.emptyList();
 
     public long getTimestamp() {
         return timestamp;
@@ -40,6 +55,7 @@ public class RedPacketData implements INBTSerializable<NBTTagCompound> {
         this.timestamp = timestamp;
     }
 
+    @Nonnull
     public UUID getOwner() {
         return owner;
     }
@@ -48,6 +64,16 @@ public class RedPacketData implements INBTSerializable<NBTTagCompound> {
         this.owner = owner;
     }
 
+    @Nullable
+    public UUID getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(UUID receiver) {
+        this.receiver = receiver;
+    }
+
+    @Nonnull
     public Type getType() {
         return type;
     }
@@ -64,6 +90,7 @@ public class RedPacketData implements INBTSerializable<NBTTagCompound> {
         this.hasPasscode = hasPasscode;
     }
 
+    @Nonnull
     public String getName() {
         return name;
     }
@@ -72,11 +99,21 @@ public class RedPacketData implements INBTSerializable<NBTTagCompound> {
         this.name = name;
     }
 
+    @Nonnull
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(@Nonnull String message) {
+        this.message = message;
+    }
+
+    @Nonnull
     public List<ItemStack> getContents() {
         return contents;
     }
 
-    public void setContents(List<ItemStack> contents) {
+    public void setContents(@Nonnull List<ItemStack> contents) {
         this.contents = contents;
     }
 

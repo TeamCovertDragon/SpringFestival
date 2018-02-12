@@ -61,8 +61,14 @@ public final class SpringFestivalNetworkHandler {
 
     private final FMLEventChannel springFestivalChannel;
 
+    private final SpringFestivalPacketFactory packetFactory = new SpringFestivalPacketFactory();
+
     private SpringFestivalNetworkHandler() {
         (springFestivalChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(SpringFestivalConstants.MOD_ID)).register(this);
+    }
+
+    public void registerPacket(Class<? extends AbstractSpringFestivalPacket> klass) {
+        packetFactory.mapPacketToNextAvailableIndex(klass);
     }
 
     @SubscribeEvent
@@ -77,7 +83,7 @@ public final class SpringFestivalNetworkHandler {
 
     private void decodeData(ByteBuf buffer, EntityPlayer player) {
         final int index = buffer.readInt();
-        AbstractSpringFestivalPacket packet = SpringFestivalPacketFactory.getByIndex(index);
+        AbstractSpringFestivalPacket packet = packetFactory.getByIndex(index);
         FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() -> {
             try {
                 packet.readDataFrom(buffer, player);
