@@ -9,6 +9,8 @@
 
 package team.covertdragon.springfestival.module.decoration;
 
+import java.lang.reflect.Field;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.client.renderer.block.statemap.StateMap;
@@ -31,8 +33,6 @@ import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 
-import java.lang.reflect.Field;
-
 @SpringFestivalModule(name = "decoration", dependencies = {"material"})
 public class ModuleDecoration extends AbstractSpringFestivalModule {
 
@@ -41,9 +41,12 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
             try {
                 Field textureChestSingle = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_NORMAL");
                 Field textureChestDouble = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_NORMAL_DOUBLE");
-                // TODO This is it, now we only need texture.
-                EnumHelper.setFailsafeFieldValue(textureChestSingle, null, new ResourceLocation("springfestival", "texture/tile/chest_single.png"));
-                EnumHelper.setFailsafeFieldValue(textureChestDouble, null, new ResourceLocation("springfestival", "texture/tile/chest_double.png"));
+                Field textureTrappedSingle = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_TRAPPED");
+                Field textureTrappedDouble = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_TRAPPED_DOUBLE");
+                EnumHelper.setFailsafeFieldValue(textureChestSingle, null, new ResourceLocation("springfestival", "textures/entity/chest.png"));
+                EnumHelper.setFailsafeFieldValue(textureChestDouble, null, new ResourceLocation("springfestival", "textures/entity/chest_double.png"));
+                EnumHelper.setFailsafeFieldValue(textureTrappedSingle, null, new ResourceLocation("springfestival", "textures/entity/chest.png"));
+                EnumHelper.setFailsafeFieldValue(textureTrappedDouble, null, new ResourceLocation("springfestival", "textures/entity/chest_double.png"));
             } catch (Exception e) {
                 SpringFestivalConstants.logger.catching(e);
             }
