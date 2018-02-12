@@ -8,14 +8,15 @@
 
 package team.covertdragon.springfestival.module.redpacket;
 
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.internal.model.ModelUtil;
+import team.covertdragon.springfestival.internal.network.SpringFestivalNetworkHandler;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 
@@ -34,19 +35,19 @@ public class ModuleRedPacket extends AbstractSpringFestivalModule {
 
     @SubscribeEvent
     public void onItemRegister(RegistryEvent.Register<Item> event) {
-        event.getRegistry().register(
-                RED_PACKET
-        );
+        event.getRegistry().register(RED_PACKET);
     }
 
+    @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onModelRegister(ModelRegistryEvent event) {
-        ModelLoader.setCustomModelResourceLocation(RED_PACKET, 0, new ModelResourceLocation(RED_PACKET.getRegistryName().toString(), "inventory"));
+        ModelUtil.mapItemModel(RED_PACKET);
     }
 
     @Override
     public void onInit() {
-
+        SpringFestivalNetworkHandler.INSTANCE.registerPacket(ClientPacketConfirmRedPacketSending.class);
+        SpringFestivalNetworkHandler.INSTANCE.registerPacket(ClientPacketTogglePasscodeMode.class);
     }
 
     @Override

@@ -10,7 +10,10 @@ package team.covertdragon.springfestival.module.redpacket;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import team.covertdragon.springfestival.internal.network.AbstractSpringFestivalPacket;
+import team.covertdragon.springfestival.internal.network.SpringFestivalNetworkHandler;
 
 import java.io.IOException;
 
@@ -23,6 +26,12 @@ public class ClientPacketConfirmRedPacketSending implements AbstractSpringFestiv
 
     @Override
     public void readDataFrom(ByteBuf buffer, EntityPlayer player) throws IOException {
-
+        final RedPacketData data = RedPacketData.fromItemStack(player.getHeldItemMainhand());
+        if (data.getReceiver() == null) {
+            SpringFestivalNetworkHandler.INSTANCE.sendToAll(new ServerPacketPublishingRedPacket(data));
+        } else {
+            final EntityPlayerMP targetPlayer = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(data.getReceiver());
+            SpringFestivalNetworkHandler.INSTANCE.sendToPlayer(new ServerPacketSendingRedPacketToPlayer(), targetPlayer);
+        }
     }
 }
