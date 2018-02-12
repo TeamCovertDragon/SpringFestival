@@ -14,8 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import team.covertdragon.springfestival.internal.network.AbstractSpringFestivalPacket;
 
-import java.io.IOException;
-
 public class ClientPacketTogglePasscodeMode implements AbstractSpringFestivalPacket {
 
     private boolean newMode;
@@ -25,7 +23,7 @@ public class ClientPacketTogglePasscodeMode implements AbstractSpringFestivalPac
     }
 
     @Override
-    public void writeDataTo(ByteBuf buffer) throws IOException {
+    public void writeDataTo(ByteBuf buffer) {
         buffer.writeBoolean(newMode);
     }
 

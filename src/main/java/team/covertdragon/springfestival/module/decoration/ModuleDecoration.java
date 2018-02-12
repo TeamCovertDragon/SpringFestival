@@ -10,10 +10,12 @@ package team.covertdragon.springfestival.module.decoration;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.tileentity.TileEntityChestRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -36,7 +38,6 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
     public static final BlockFuDoor blockFuDoor = (BlockFuDoor) new BlockFuDoor().setRegistryName(SpringFestivalConstants.MOD_ID, "block_fu_door");
     public static final ItemFuDoor itemFuDoor = (ItemFuDoor) new ItemFuDoor(blockFuDoor).setRegistryName(SpringFestivalConstants.MOD_ID, "item_fu_door");
 
-    // TODO We need a way to call this guy
     public void onInit() {
         if (SpringFestival.proxy instanceof SpringFestivalProxyClient && SpringFestival.proxy.isDuringSpringFestivalSeason()) {
             try {
@@ -54,6 +55,8 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onModelRegister(ModelRegistryEvent event) {
+        ModelLoader.setCustomStateMapper(ModuleDecoration.blockFuDoor, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
+        ModelUtil.mapItemModel(itemFuDoor);
         ModelUtil.mapItemModel(DecorationRegistry.red_hat);
         ModelUtil.mapItemModel(DecorationRegistry.red_gown);
         ModelUtil.mapItemModel(DecorationRegistry.red_trousers);

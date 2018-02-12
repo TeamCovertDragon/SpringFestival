@@ -15,17 +15,15 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import team.covertdragon.springfestival.internal.network.AbstractSpringFestivalPacket;
 import team.covertdragon.springfestival.internal.network.SpringFestivalNetworkHandler;
 
-import java.io.IOException;
-
 public class ClientPacketConfirmRedPacketSending implements AbstractSpringFestivalPacket {
 
     @Override
-    public void writeDataTo(ByteBuf buffer) throws IOException {
+    public void writeDataTo(ByteBuf buffer) {
 
     }
 
     @Override
-    public void readDataFrom(ByteBuf buffer, EntityPlayer player) throws IOException {
+    public void readDataFrom(ByteBuf buffer, EntityPlayer player) {
         final RedPacketData data = RedPacketData.fromItemStack(player.getHeldItemMainhand());
         if (data.getReceiver() == null) {
             SpringFestivalNetworkHandler.INSTANCE.sendToAll(new ServerPacketPublishingRedPacket(data));
