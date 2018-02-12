@@ -52,8 +52,8 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onModelRegister(ModelRegistryEvent event) {
-        ModelLoader.setCustomStateMapper(ModuleDecoration.blockFuDoor, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
-        ModelUtil.mapItemModel(itemFuDoor);
+        ModelLoader.setCustomStateMapper(DecorationRegistry.blockFuDoor, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
+        ModelUtil.mapItemModel(DecorationRegistry.itemFuDoor);
         ModelUtil.mapItemModel(DecorationRegistry.red_hat);
         ModelUtil.mapItemModel(DecorationRegistry.red_gown);
         ModelUtil.mapItemModel(DecorationRegistry.red_trousers);
