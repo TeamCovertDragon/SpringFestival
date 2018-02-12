@@ -19,6 +19,8 @@ public class ServerPacketPublishingRedPacket implements AbstractSpringFestivalPa
 
     RedPacketData data;
 
+    public ServerPacketPublishingRedPacket() {}
+
     ServerPacketPublishingRedPacket(RedPacketData data) {
         this.data = data;
     }

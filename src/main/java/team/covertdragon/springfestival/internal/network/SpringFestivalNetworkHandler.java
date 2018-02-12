@@ -95,6 +95,7 @@ public final class SpringFestivalNetworkHandler {
 
     private static ByteBuf fromPacket(AbstractSpringFestivalPacket packet) {
         ByteBuf buffer = Unpooled.buffer();
+        buffer.writeInt(INSTANCE.packetFactory.getPacketIndex(packet.getClass()));
         try {
             packet.writeDataTo(buffer);
         } catch (Exception e) {

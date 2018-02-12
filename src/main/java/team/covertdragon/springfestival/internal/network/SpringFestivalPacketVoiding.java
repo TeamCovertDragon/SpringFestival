@@ -25,5 +25,7 @@ final class SpringFestivalPacketVoiding implements AbstractSpringFestivalPacket 
     public void writeDataTo(ByteBuf buffer) {}
 
     @Override
-    public void readDataFrom(ByteBuf buffer, EntityPlayer player) {}
+    public void readDataFrom(ByteBuf buffer, EntityPlayer player) {
+        // TODO Warning output
+    }
 }

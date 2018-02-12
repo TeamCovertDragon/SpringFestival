@@ -41,7 +41,7 @@ public final class RedPacketDispatchingController implements Runnable {
     }
 
     public boolean enqueueOperation(RedPacketOperation operation) {
-        return keepAlive && waitingQueue.offer(operation); // Do not accept operation when service shutting down
+        return isAlive() && waitingQueue.offer(operation); // Do not accept operation when service shutting down
     }
 
     public boolean isAlive() {

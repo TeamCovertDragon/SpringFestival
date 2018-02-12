@@ -19,6 +19,8 @@ public class ClientPacketTogglePasscodeMode implements AbstractSpringFestivalPac
 
     private boolean newMode;
 
+    public ClientPacketTogglePasscodeMode() {}
+
     ClientPacketTogglePasscodeMode(boolean newMode) {
         this.newMode = newMode;
     }
