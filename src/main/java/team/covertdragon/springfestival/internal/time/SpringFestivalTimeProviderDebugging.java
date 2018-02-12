@@ -9,14 +9,17 @@
 
 package team.covertdragon.springfestival.internal.time;
 
-public final class SpringFestivalTimeProviderImpossible implements ISpringFestivalTimeProvider {
+/**
+ * An implementation of ISpringFestivalTimeProvider that always returns true, useful for debugging purpose.
+ */
+public class SpringFestivalTimeProviderDebugging implements ISpringFestivalTimeProvider {
 
-    public static final SpringFestivalTimeProviderImpossible INSTANCE = new SpringFestivalTimeProviderImpossible();
+    public static final SpringFestivalTimeProviderDebugging INSTANCE = new SpringFestivalTimeProviderDebugging();
 
-    private SpringFestivalTimeProviderImpossible() {}
+    private SpringFestivalTimeProviderDebugging() {}
 
     @Override
     public boolean isDuringSpringFestival() {
-        return false;
+        return true;
     }
 }

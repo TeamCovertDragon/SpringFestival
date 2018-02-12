@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2018 CovertDragon Team.
+ * Copyright (c) 2018 Contributors of SpringFestival.
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,15 +25,23 @@ public class RedPacketToast implements IToast {
 
     private static final ResourceLocation TEXTURE_RED_PACKET_TOAST = new ResourceLocation(SpringFestivalConstants.MOD_ID, "textures/gui/toast/red_packet.png");
 
-    private String playerName;
-    private String packetTitle;
+    private String packetName;
+    private String packetMessage;
+    private final boolean passcodeMode;
+
+    RedPacketToast(final String name, final String message, final boolean hasPasscode) {
+        this.packetName = name;
+        this.packetMessage = message;
+        this.passcodeMode = hasPasscode;
+    }
 
     @Override
     public Visibility draw(GuiToast toastGui, long delta) {
         if (delta < 2000) {
             toastGui.getMinecraft().getTextureManager().bindTexture(TEXTURE_RED_PACKET_TOAST);
             GlStateManager.color(1.0F, 1.0F, 1.0F);
-            final List<String> messages = toastGui.getMinecraft().fontRenderer.listFormattedStringToWidth(this.packetTitle, 125);
+            // TODO Put a length restriction, otherwise player will complain
+            final List<String> messages = toastGui.getMinecraft().fontRenderer.listFormattedStringToWidth(this.packetMessage, 125);
             if (messages.size() == 1) {
                 // TODO Draw words
             } else {

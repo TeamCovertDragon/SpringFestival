@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2018 CovertDragon Team.
+ * Copyright (c) 2018 Contributors of SpringFestival.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
 package team.covertdragon.springfestival.module.decoration;
 
 import net.minecraft.block.BlockDoor;
@@ -38,6 +47,7 @@ public class BlockFuDoor extends BlockDoor {
         setHarvestLevel("axe", 0);
         setHardness(1.5F);
         setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".block_fu_door");
+        setRegistryName(SpringFestivalConstants.MOD_ID, "block_fu_door");
     }
 
     @Override
@@ -107,8 +117,8 @@ public class BlockFuDoor extends BlockDoor {
         }
 
         if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) > 0) {
-            List<ItemStack> items = new ArrayList<ItemStack>();
-            ItemStack itemstack = new ItemStack(ModuleDecoration.itemFuDoor);
+            List<ItemStack> items = new ArrayList<>();
+            ItemStack itemstack = new ItemStack(DecorationRegistry.itemFuDoor);
             itemstack.setTagCompound(te.serializeNBT());
 
             if (!itemstack.isEmpty()) {
@@ -122,7 +132,7 @@ public class BlockFuDoor extends BlockDoor {
         } else {
             harvesters.set(player);
 
-            List<ItemStack> drops = new ArrayList<ItemStack>();
+            List<ItemStack> drops = new ArrayList<>();
             drops.add(((TileFuDoor) te).getOriginalDoor());
             drops.add(new ItemStack(ModuleMaterial.RED_PAPER, 1));
 
@@ -135,9 +145,9 @@ public class BlockFuDoor extends BlockDoor {
             harvesters.set(null);
         }
     }
-    
+
     @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-        return new ItemStack(ModuleDecoration.itemFuDoor);
+        return new ItemStack(DecorationRegistry.itemFuDoor);
     }
 }

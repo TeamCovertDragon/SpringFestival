@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2018 CovertDragon Team.
+ * Copyright (c) 2018 Contributors of SpringFestival.
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +19,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import team.covertdragon.springfestival.SpringFestival;
-import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.capabilities.ItemStackInventoryProvider;
 
 import javax.annotation.Nullable;

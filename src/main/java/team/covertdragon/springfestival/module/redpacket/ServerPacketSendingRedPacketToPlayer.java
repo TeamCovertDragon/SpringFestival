@@ -7,25 +7,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package team.covertdragon.springfestival.internal.network;
+package team.covertdragon.springfestival.module.redpacket;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import team.covertdragon.springfestival.internal.network.AbstractSpringFestivalPacket;
 
-/**
- * A packet that does nothing and thus voiding all data. Used to replace usage of null.
- */
-final class SpringFestivalPacketVoiding implements AbstractSpringFestivalPacket {
-
-    static final SpringFestivalPacketVoiding INSTANCE = new SpringFestivalPacketVoiding();
-
-    private SpringFestivalPacketVoiding() {}
-
+public class ServerPacketSendingRedPacketToPlayer implements AbstractSpringFestivalPacket {
     @Override
-    public void writeDataTo(ByteBuf buffer) {}
+    public void writeDataTo(ByteBuf buffer) {
+
+    }
 
     @Override
     public void readDataFrom(ByteBuf buffer, EntityPlayer player) {
-        // TODO Warning output
+        // TODO Actually implements this packet
+        Minecraft.getMinecraft().getToastGui().add(new RedPacketToast("", "", false));
     }
 }

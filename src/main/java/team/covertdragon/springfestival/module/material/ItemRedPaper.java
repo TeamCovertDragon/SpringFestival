@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2018 CovertDragon Team.
+ * Copyright (c) 2018 Contributors of SpringFestival.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
 package team.covertdragon.springfestival.module.material;
 
 import net.minecraft.block.BlockDoor;
@@ -38,7 +47,7 @@ public class ItemRedPaper extends Item {
             world.setBlockToAir(pos);
             world.setBlockToAir(pos.add(0, -1, 0));
             //Set Tile Entity
-            ItemFuDoor.placeDoor(world, pos.add(0, -1, 0), state.getValue(BlockDoor.FACING), ModuleDecoration.blockFuDoor, state.getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT);
+            ItemFuDoor.placeDoor(world, pos.add(0, -1, 0), state.getValue(BlockDoor.FACING), DecorationRegistry.blockFuDoor, state.getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT);
             TileFuDoor te = (TileFuDoor) world.getTileEntity(pos);
             if (te != null) {
                 te.setOriginalBlockStateLower(originalLower);

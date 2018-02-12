@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2018 CovertDragon Team.
+ * Copyright (c) 2018 Contributors of SpringFestival.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
 package team.covertdragon.springfestival.module.decoration;
 
 import net.minecraft.block.Block;
@@ -18,12 +27,13 @@ import team.covertdragon.springfestival.SpringFestivalConstants;
 
 public class ItemFuDoor extends ItemDoor {
     //TODO remove this
-    private final BlockDoor block = ModuleDecoration.blockFuDoor;
+    private final BlockDoor block = DecorationRegistry.blockFuDoor;
 
     public ItemFuDoor(BlockFuDoor blockFuDoor) {
         super(blockFuDoor);
         setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".fu_door");
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
+        setRegistryName(SpringFestivalConstants.MOD_ID, "item_fu_door");
     }
 
     @Override
@@ -74,7 +84,7 @@ public class ItemFuDoor extends ItemDoor {
 
         BlockPos blockpos2 = pos.up();
         boolean flag2 = world.isBlockPowered(pos) || world.isBlockPowered(blockpos2);
-        IBlockState iblockstate = door.getDefaultState().withProperty(BlockDoor.FACING, facing).withProperty(BlockDoor.HINGE, isRightHinge ? BlockDoor.EnumHingePosition.RIGHT : BlockDoor.EnumHingePosition.LEFT).withProperty(BlockDoor.POWERED, Boolean.valueOf(flag2)).withProperty(BlockDoor.OPEN, Boolean.valueOf(flag2));
+        IBlockState iblockstate = door.getDefaultState().withProperty(BlockDoor.FACING, facing).withProperty(BlockDoor.HINGE, isRightHinge ? BlockDoor.EnumHingePosition.RIGHT : BlockDoor.EnumHingePosition.LEFT).withProperty(BlockDoor.POWERED, flag2).withProperty(BlockDoor.OPEN, flag2);
         world.setBlockState(pos, iblockstate.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.LOWER), 2);
         world.setBlockState(blockpos2, iblockstate.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.UPPER), 2);
         world.notifyNeighborsOfStateChange(pos, door, false);

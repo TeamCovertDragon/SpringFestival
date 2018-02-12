@@ -1,10 +1,12 @@
 /*
  * Copyright (c) 2018 CovertDragon Team.
+ * Copyright (c) 2018 Contributors of SpringFestival.
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 /*
  * This file is adapted from FrogCraft: Rebirth, revision e0e04b12d2f8ded8eb54314b5a9d8582cfdfa89b
  *
@@ -13,8 +15,8 @@
  *
  * FrogCraft: Rebirth is licensed under MIT. The original license header
  * are provided below.
- */
-/*
+ *
+ *
  * Copyright (c) 2015 - 2018 3TUSK, et al.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -53,16 +55,20 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
-import java.io.IOException;
-
 public final class SpringFestivalNetworkHandler {
 
     public static final SpringFestivalNetworkHandler INSTANCE = new SpringFestivalNetworkHandler();
 
     private final FMLEventChannel springFestivalChannel;
 
+    private final SpringFestivalPacketFactory packetFactory = new SpringFestivalPacketFactory();
+
     private SpringFestivalNetworkHandler() {
         (springFestivalChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(SpringFestivalConstants.MOD_ID)).register(this);
+    }
+
+    public void registerPacket(Class<? extends AbstractSpringFestivalPacket> klass) {
+        packetFactory.mapPacketToNextAvailableIndex(klass);
     }
 
     @SubscribeEvent
@@ -77,11 +83,11 @@ public final class SpringFestivalNetworkHandler {
 
     private void decodeData(ByteBuf buffer, EntityPlayer player) {
         final int index = buffer.readInt();
-        AbstractSpringFestivalPacket packet = SpringFestivalPacketFactory.getByIndex(index);
+        AbstractSpringFestivalPacket packet = packetFactory.getByIndex(index);
         FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() -> {
             try {
                 packet.readDataFrom(buffer, player);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 SpringFestivalConstants.logger.catching(e);
             }
         });
@@ -89,9 +95,10 @@ public final class SpringFestivalNetworkHandler {
 
     private static ByteBuf fromPacket(AbstractSpringFestivalPacket packet) {
         ByteBuf buffer = Unpooled.buffer();
+        buffer.writeInt(INSTANCE.packetFactory.getPacketIndex(packet.getClass()));
         try {
             packet.writeDataTo(buffer);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace(System.err);
         }
         return buffer;

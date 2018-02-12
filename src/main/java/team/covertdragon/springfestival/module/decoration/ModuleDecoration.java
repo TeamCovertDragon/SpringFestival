@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2018 CovertDragon Team.
+ * Copyright (c) 2018 Contributors of SpringFestival.
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,12 +12,16 @@ package team.covertdragon.springfestival.module.decoration;
 import java.lang.reflect.Field;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoor;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.tileentity.TileEntityChestRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -30,9 +35,6 @@ import team.covertdragon.springfestival.module.SpringFestivalModule;
 
 @SpringFestivalModule(name = "decoration", dependencies = {"material"})
 public class ModuleDecoration extends AbstractSpringFestivalModule {
-
-    public static final BlockFuDoor blockFuDoor = (BlockFuDoor) new BlockFuDoor().setRegistryName(SpringFestivalConstants.MOD_ID, "block_fu_door");
-    public static final ItemFuDoor itemFuDoor = (ItemFuDoor) new ItemFuDoor(blockFuDoor).setRegistryName(SpringFestivalConstants.MOD_ID, "item_fu_door");
 
     public void onInit() {
         if (SpringFestival.proxy instanceof SpringFestivalProxyClient && SpringFestival.proxy.isDuringSpringFestivalSeason()) {
@@ -54,6 +56,8 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onModelRegister(ModelRegistryEvent event) {
+        ModelLoader.setCustomStateMapper(DecorationRegistry.blockFuDoor, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
+        ModelUtil.mapItemModel(DecorationRegistry.itemFuDoor);
         ModelUtil.mapItemModel(DecorationRegistry.red_hat);
         ModelUtil.mapItemModel(DecorationRegistry.red_gown);
         ModelUtil.mapItemModel(DecorationRegistry.red_trousers);
@@ -63,7 +67,7 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
     @SubscribeEvent
     public void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                itemFuDoor,
+                new ItemFuDoor(DecorationRegistry.blockFuDoor),
                 new ItemRedClothes.RedHat(),
                 new ItemRedClothes.RedGown(),
                 new ItemRedClothes.RedTrousers(),
@@ -75,7 +79,18 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
     public void onBlockRegister(RegistryEvent.Register<Block> event) {
         GameRegistry.registerTileEntity(TileFuDoor.class, "tile_fu_door");
         event.getRegistry().registerAll(
-                blockFuDoor
+                new BlockFuDoor()
         );
+    }
+
+    @SubscribeEvent
+    public void onBlockBreak(BlockEvent.BreakEvent event) {
+        if (!event.getWorld().isRemote) {
+            if (event.getState().getBlock() instanceof BlockFuDoor && event.getState().getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER) {
+                event.setCanceled(true);
+                DecorationRegistry.blockFuDoor.harvestBlock(event.getWorld(), event.getPlayer(), event.getPos().add(0, 1, 0), event.getState(), event.getWorld().getTileEntity(event.getPos().add(0, 1, 0)), event.getPlayer().getHeldItem(event.getPlayer().getActiveHand()));
+                event.getWorld().setBlockToAir(event.getPos());
+            }
+        }
     }
 }
