@@ -1,9 +1,10 @@
 package team.covertdragon.springfestival.module.decoration;
 
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.EnumHelper;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
@@ -13,6 +14,10 @@ public class ItemRedClothes extends ItemArmor{
     public ItemRedClothes(EntityEquipmentSlot equipmentSlotIn) {
         super(RED_CLOTHES, 0, equipmentSlotIn);
         this.setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
+    }
+
+    public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
+        return "springfestival:textures/armor/red_armor_1.png";
     }
 
     public static class RedHat extends ItemRedClothes{
@@ -36,6 +41,10 @@ public class ItemRedClothes extends ItemArmor{
             super(EntityEquipmentSlot.LEGS);
             this.setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".red_trousers");
             this.setRegistryName(SpringFestivalConstants.MOD_ID, "red_trousers");
+        }
+
+        public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
+            return "springfestival:textures/armor/red_armor_2.png";
         }
     }
 

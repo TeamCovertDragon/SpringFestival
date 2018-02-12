@@ -17,11 +17,8 @@ import team.covertdragon.springfestival.internal.time.ISpringFestivalTimeProvide
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderImpossible;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderLocal;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderQuerying;
-import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.ISpringFestivalModule;
 import team.covertdragon.springfestival.module.ModuleLoader;
-import team.covertdragon.springfestival.module.SpringFestivalModule;
-import team.covertdragon.springfestival.module.redpacket.RedPacketDispatchingController;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.*;
@@ -69,6 +66,7 @@ public abstract class SpringFestivalProxy {
     @OverridingMethodsMustInvokeSuper
     public void onInit(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(SpringFestival.getInstance(), new SpringFestivalGuiHandler());
+        modules.forEach(ISpringFestivalModule::onInit);
     }
 
     public abstract void onPostInit(FMLPostInitializationEvent event);
