@@ -1,7 +1,9 @@
 package team.covertdragon.springfestival.module.decoration;
 
 
+import net.minecraft.block.BlockDoor;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -21,6 +23,7 @@ public class ModelRegistriesDecoration {
 
     @SubscribeEvent
     public static void onModelRegistries(ModelRegistryEvent event) {
+        ModelLoader.setCustomStateMapper(ModuleDecoration.blockFuDoor, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
         registerItem(ModuleDecoration.itemFuDoor);
     }
 }
