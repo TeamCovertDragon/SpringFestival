@@ -12,8 +12,11 @@ package team.covertdragon.springfestival.module.redpacket;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import team.covertdragon.springfestival.internal.network.AbstractSpringFestivalPacket;
+
+import java.util.UUID;
 
 public class ServerPacketPublishingRedPacket implements AbstractSpringFestivalPacket {
 
@@ -27,16 +30,17 @@ public class ServerPacketPublishingRedPacket implements AbstractSpringFestivalPa
 
     @Override
     public void writeDataTo(ByteBuf buffer) {
-        ByteBufUtils.writeUTF8String(buffer, data.getName());
+        final String publisherName = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(data.getOwner()).getDisplayNameString();
+        ByteBufUtils.writeUTF8String(buffer, publisherName);
         ByteBufUtils.writeUTF8String(buffer, data.getMessage());
         buffer.writeBoolean(data.isHasPasscode());
     }
 
     @Override
     public void readDataFrom(ByteBuf buffer, EntityPlayer player) {
-        final String name = ByteBufUtils.readUTF8String(buffer);
+        final String publisher = ByteBufUtils.readUTF8String(buffer);
         final String message = ByteBufUtils.readUTF8String(buffer);
         final boolean hasPasscode = data.isHasPasscode();
-        Minecraft.getMinecraft().getToastGui().add(new RedPacketToast(name, message, hasPasscode));
+        Minecraft.getMinecraft().getToastGui().add(new RedPacketToast(publisher, message, hasPasscode));
     }
 }

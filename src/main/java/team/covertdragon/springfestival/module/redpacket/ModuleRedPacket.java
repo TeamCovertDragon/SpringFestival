@@ -9,9 +9,11 @@
 
 package team.covertdragon.springfestival.module.redpacket;
 
+import net.minecraft.command.CommandHandler;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -53,6 +55,7 @@ public class ModuleRedPacket extends AbstractSpringFestivalModule {
 
     @Override
     public void onServerStarting() {
+        ((CommandHandler)FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager()).registerCommand(new CommandRedPacket());
         redPacketThread = new Thread(RED_PACKET_CONTROLLER, "SpringFestival-RedPacket");
         redPacketThread.setDaemon(true);
         redPacketThread.start();
