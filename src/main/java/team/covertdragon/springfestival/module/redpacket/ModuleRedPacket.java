@@ -51,6 +51,8 @@ public class ModuleRedPacket extends AbstractSpringFestivalModule {
     public void onInit() {
         SpringFestivalNetworkHandler.INSTANCE.registerPacket(ClientPacketConfirmRedPacketSending.class);
         SpringFestivalNetworkHandler.INSTANCE.registerPacket(ClientPacketTogglePasscodeMode.class);
+        SpringFestivalNetworkHandler.INSTANCE.registerPacket(ClientPacketUpdateRedPacketReceiver.class);
+        SpringFestivalNetworkHandler.INSTANCE.registerPacket(ClientPacketUpdateRedPacketMessage.class);
     }
 
     @Override

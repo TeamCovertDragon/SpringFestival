@@ -134,7 +134,8 @@ public class RedPacketData implements INBTSerializable<NBTTagCompound> {
     public NBTTagCompound serializeNBT() {
         NBTTagCompound tag = new NBTTagCompound();
         tag.setLong("timestamp", this.timestamp);
-        tag.setTag("uuid", NBTUtil.createUUIDTag(this.owner));
+        tag.setTag("owner", NBTUtil.createUUIDTag(this.owner));
+        tag.setTag("receiver", NBTUtil.createUUIDTag(this.receiver));
         NBTTagList list = new NBTTagList();
         for (ItemStack stack : contents) {
             list.appendTag(stack.serializeNBT());
@@ -149,14 +150,15 @@ public class RedPacketData implements INBTSerializable<NBTTagCompound> {
     @Override
     public void deserializeNBT(NBTTagCompound nbt) {
         this.timestamp = nbt.getLong("timestamp");
-        this.owner = NBTUtil.getUUIDFromTag(nbt.getCompoundTag("uuid"));
+        this.owner = NBTUtil.getUUIDFromTag(nbt.getCompoundTag("owner"));
+        this.receiver = NBTUtil.getUUIDFromTag(nbt.getCompoundTag("receiver"));
         NBTTagList list = nbt.getTagList("contents", nbt.getId());
         ArrayList<ItemStack> contents = new ArrayList<>();
         for (int i = 0; i < contents.size(); i++) {
             contents.add(new ItemStack(list.getCompoundTagAt(i)));
         }
         this.contents = contents;
-        this.message = nbt.getString("name");
+        this.message = nbt.getString("message");
         this.hasPasscode = nbt.getBoolean("passcode");
         this.type = Type.values()[nbt.getInteger("type")];
     }
