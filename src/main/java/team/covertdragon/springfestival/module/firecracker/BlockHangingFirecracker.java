@@ -28,7 +28,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.SpringFestivalUtil;
 
 @SuppressWarnings("deprecation")
@@ -58,6 +57,7 @@ public class BlockHangingFirecracker extends Block {
         return false;
     }
     
+    @Override
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
         return super.canPlaceBlockAt(worldIn, pos) ? this.canBlockStay(worldIn, pos) : false;
@@ -105,4 +105,5 @@ public class BlockHangingFirecracker extends Block {
             worldIn.destroyBlock(pos, true);
         }
     }
+
 }
