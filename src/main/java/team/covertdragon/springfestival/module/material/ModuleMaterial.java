@@ -10,9 +10,13 @@
 package team.covertdragon.springfestival.module.material;
 
 import net.minecraft.item.Item;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 
@@ -23,7 +27,7 @@ public class ModuleMaterial extends AbstractSpringFestivalModule {
 
     public static Item glutinousRiceCrop;
 
-    public static final ItemRedPaper RED_PAPER = (ItemRedPaper) new ItemRedPaper().setRegistryName(SpringFestivalConstants.MOD_ID, "item_red_paper");
+    public static final ItemRedPaper RED_PAPER = (ItemRedPaper) new ItemRedPaper().setRegistryName(SpringFestivalConstants.MOD_ID, "red_paper");
 
     public static Item redPaperBroken;
 
@@ -31,6 +35,11 @@ public class ModuleMaterial extends AbstractSpringFestivalModule {
 
     public static Item glutinousRiceSeed;
 
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void onModelRegister(ModelRegistryEvent event) {
+        ModelUtil.mapItemModel(RED_PAPER);
+    }
 
     // TODO Just add more common stuff below, for tracking
     @SubscribeEvent
