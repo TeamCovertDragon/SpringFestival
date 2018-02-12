@@ -15,8 +15,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
+import team.covertdragon.springfestival.module.SpringFestivalModule;
 
-@Mod.EventBusSubscriber(modid = "springfestival")
+@SpringFestivalModule(name = "food", dependencies = {"material"})
 public class ModuleFood extends AbstractSpringFestivalModule{
     public static final Item DUMPLING = new ItemSpringFestivalFood(2, 1.0F)
             .setUnlocalizedName("springfestival.dumpling")
@@ -29,7 +30,7 @@ public class ModuleFood extends AbstractSpringFestivalModule{
     // TODO What else do we eat during spring festival???
 
     @SubscribeEvent
-    public static void onItemRegister(RegistryEvent.Register<Item> event) {
+    public void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
                 DUMPLING,
                 NIANGAO
@@ -37,7 +38,7 @@ public class ModuleFood extends AbstractSpringFestivalModule{
     }
 
     @SubscribeEvent
-    public static void onModelRegister(ModelRegistryEvent event) {
+    public void onModelRegister(ModelRegistryEvent event) {
         ModelUtil.mapItemModel(DUMPLING);
         ModelUtil.mapItemModel(NIANGAO);
     }

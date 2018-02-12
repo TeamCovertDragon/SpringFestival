@@ -15,9 +15,4 @@ public class AbstractSpringFestivalModule implements ISpringFestivalModule{
 
     }
 
-    @Override // TODO Deprecate this guy, model registry should go into ModelRegistryEvent
-    public void registryModels() {
-
-    }
-
 }

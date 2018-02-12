@@ -20,6 +20,6 @@ public class ModelRegistriesMaterial {
 
     @SubscribeEvent
     public static void onModelRegistries(ModelRegistryEvent event) {
-        registerItem(ModuleMaterial.redPaper);
+        registerItem(ModuleMaterial.RED_PAPER);
     }
 }

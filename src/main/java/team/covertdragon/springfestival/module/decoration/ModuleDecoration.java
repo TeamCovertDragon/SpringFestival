@@ -12,21 +12,25 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.tileentity.TileEntityChestRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.SpringFestivalUtils;
+import team.covertdragon.springfestival.internal.client.SpringFestivalProxyClient;
+import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 
 import java.lang.reflect.Field;
 
-@Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID)
-@SpringFestivalModule(name = "Decoration")
+@SpringFestivalModule(name = "decoration", dependencies = {"material"})
 public class ModuleDecoration extends AbstractSpringFestivalModule {
 
     public static final BlockFuDoor blockFuDoor = (BlockFuDoor) new BlockFuDoor().setRegistryName(SpringFestivalConstants.MOD_ID, "block_fu_door");
@@ -34,7 +38,7 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
 
     // TODO We need a way to call this guy
     public void onInit() {
-        if (SpringFestival.proxy.isDuringSpringFestivalSeason()) {
+        if (SpringFestival.proxy instanceof SpringFestivalProxyClient && SpringFestival.proxy.isDuringSpringFestivalSeason()) {
             try {
                 Field textureChestSingle = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_NORMAL");
                 Field textureChestDouble = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_NORMAL_DOUBLE");
@@ -47,15 +51,17 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
         }
     }
 
-    public void registryModels() {
-        SpringFestivalUtils.registryModel(DecorationRegistry.red_hat);
-        SpringFestivalUtils.registryModel(DecorationRegistry.red_gown);
-        SpringFestivalUtils.registryModel(DecorationRegistry.red_trousers);
-        SpringFestivalUtils.registryModel(DecorationRegistry.red_shoes);
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void onModelRegister(ModelRegistryEvent event) {
+        ModelUtil.mapItemModel(DecorationRegistry.red_hat);
+        ModelUtil.mapItemModel(DecorationRegistry.red_gown);
+        ModelUtil.mapItemModel(DecorationRegistry.red_trousers);
+        ModelUtil.mapItemModel(DecorationRegistry.red_shoes);
     }
 
     @SubscribeEvent
-    public static void onItemRegister(RegistryEvent.Register<Item> event) {
+    public void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
                 itemFuDoor,
                 new ItemRedClothes.RedHat(),
@@ -66,7 +72,7 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
     }
 
     @SubscribeEvent
-    public static void onBlockRegister(RegistryEvent.Register<Block> event) {
+    public void onBlockRegister(RegistryEvent.Register<Block> event) {
         GameRegistry.registerTileEntity(TileFuDoor.class, "tile_fu_door");
         event.getRegistry().registerAll(
                 blockFuDoor

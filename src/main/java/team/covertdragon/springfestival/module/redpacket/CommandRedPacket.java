@@ -46,7 +46,7 @@ public class CommandRedPacket extends CommandBase {
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
         if (sender instanceof EntityPlayer && !(sender instanceof FakePlayer)) {
             final String passcode = args.length > 0 ? args[1] : null;
-            if (SpringFestival.proxy.getRedPacketController().enqueueOperation(new RedPacketOperation.Get(((EntityPlayer) sender).getUniqueID(), passcode))) {
+            if (ModuleRedPacket.RED_PACKET_CONTROLLER.enqueueOperation(new RedPacketOperation.Get(((EntityPlayer) sender).getUniqueID(), passcode))) {
                 sender.sendMessage(new TextComponentString("Successfully got this red packet!")); // TODO Internationalization
             } else {
                 sender.sendMessage(new TextComponentString("Failed on getting this red packet!")); // TODO Internationalization

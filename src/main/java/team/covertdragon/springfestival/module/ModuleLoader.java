@@ -1,27 +1,37 @@
 package team.covertdragon.springfestival.module;
 
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
+import team.covertdragon.springfestival.SpringFestivalConfig;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
 import java.util.*;
 
-public class ModuleLoader {
+public final class ModuleLoader {
 
     public static List<AbstractSpringFestivalModule> readASMDataTable(ASMDataTable table){
         return getInstances(table, SpringFestivalModule.class, AbstractSpringFestivalModule.class);
     }
 
+    @SuppressWarnings("unchecked")
     private static <T> List<T> getInstances(ASMDataTable asmDataTable, Class annotationClass, Class<T> instanceClass) {
         String annotationClassName = annotationClass.getCanonicalName();
-        Set<ASMDataTable.ASMData> asmDatas = asmDataTable.getAll(annotationClassName);
+        Set<ASMDataTable.ASMData> asmDataSet = asmDataTable.getAll(annotationClassName);
+        final List<String> expectedModules = Arrays.asList(SpringFestivalConfig.modules);
         List<T> instances = new ArrayList<>();
-        for (ASMDataTable.ASMData asmData : asmDatas) {
+        for (ASMDataTable.ASMData asmData : asmDataSet) {
             try {
+                if (!expectedModules.contains(asmData.getAnnotationInfo().get("name").toString())) {
+                    continue;
+                }
+                if (!expectedModules.containsAll((List<String>)asmData.getAnnotationInfo().get("dependencies"))) {
+                    continue;
+                }
                 Class<?> asmClass = Class.forName(asmData.getClassName());
                 Class<? extends T> asmInstanceClass = asmClass.asSubclass(instanceClass);
                 T instance = asmInstanceClass.newInstance();
                 instances.add(instance);
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+                // TODO Consider just throwing a RuntimeException
                 SpringFestivalConstants.logger.error("Failed to load: {}", asmData.getClassName(), e);
             }
         }

@@ -8,6 +8,7 @@
 
 package team.covertdragon.springfestival;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -17,16 +18,18 @@ import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProvider
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderLocal;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderQuerying;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
+import team.covertdragon.springfestival.module.ISpringFestivalModule;
 import team.covertdragon.springfestival.module.ModuleLoader;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 import team.covertdragon.springfestival.module.redpacket.RedPacketDispatchingController;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.*;
 
 public abstract class SpringFestivalProxy {
 
     private static final List<ISpringFestivalTimeProvider> DATE_CHECKERS = new ArrayList<>();
-    public static List<AbstractSpringFestivalModule> modules = new LinkedList<>();
+    private List<? extends ISpringFestivalModule> modules = Collections.emptyList();
 
     static {
         FluidRegistry.enableUniversalBucket();
@@ -35,8 +38,7 @@ public abstract class SpringFestivalProxy {
         DATE_CHECKERS.add(SpringFestivalTimeProviderImpossible.INSTANCE);
     }
 
-    private RedPacketDispatchingController redPacketController = new RedPacketDispatchingController();
-    private Thread redPacketThread;
+    private boolean isDuringSpringFestival = false, hasQueriedTime = false;
 
     /**
      * Determine whether the current time is falling into the Spring Festival season, based on
@@ -44,46 +46,39 @@ public abstract class SpringFestivalProxy {
      * @return true if it is during Spring Festival; false for otherwise.
      */
     public boolean isDuringSpringFestivalSeason() {
-        boolean queryResult = false;
-        for (ISpringFestivalTimeProvider checker : DATE_CHECKERS) {
-            queryResult |= checker.isDuringSpringFestival();
+        if (hasQueriedTime) {
+            return isDuringSpringFestival;
         }
-        return queryResult;
+        for (ISpringFestivalTimeProvider checker : DATE_CHECKERS) {
+            this.isDuringSpringFestival |= checker.isDuringSpringFestival();
+        }
+        this.hasQueriedTime = true;
+        return isDuringSpringFestival;
     }
 
+    public void onConstruct(FMLConstructionEvent event) {
+        modules = ModuleLoader.readASMDataTable(event.getASMHarvestedData());
+        modules.forEach(MinecraftForge.EVENT_BUS::register);
+    }
+
+    @OverridingMethodsMustInvokeSuper
     public void onPreInit(FMLPreInitializationEvent event) {
         SpringFestivalConstants.logger = event.getModLog();
-
-        // TODO: Ignore disabled modules in configuration file.
-        this.modules = ModuleLoader.readASMDataTable(event.getAsmData());
     }
 
+    @OverridingMethodsMustInvokeSuper
     public void onInit(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(SpringFestival.getInstance(), new SpringFestivalGuiHandler());
     }
 
     public abstract void onPostInit(FMLPostInitializationEvent event);
 
-    // TODO Move all RedPacket stuff to ModuleRedPacket, requiring internal refactor
     public void onServerStarting(FMLServerStartingEvent event) {
-        redPacketThread = new Thread(redPacketController, "SpringFestival-RedPacket");
-        redPacketThread.setDaemon(true);
-        redPacketThread.start();
+        modules.forEach(ISpringFestivalModule::onServerStarting);
     }
 
     public void onServerStopping(FMLServerStoppingEvent event) {
-        if (redPacketThread == null) { // But when this will happen?
-            return;
-        }
-        redPacketController.setAlive(false);
-        try {
-            redPacketThread.join();
-        } catch (InterruptedException e) {
-            SpringFestivalConstants.logger.error("Fail to shutdown RedPacket controller thread", e);
-        }
+        modules.forEach(ISpringFestivalModule::onServerStopping);
     }
 
-    public RedPacketDispatchingController getRedPacketController() {
-        return redPacketController;
-    }
 }

@@ -17,8 +17,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
+import team.covertdragon.springfestival.module.SpringFestivalModule;
 
-@Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID)
+@SpringFestivalModule(name = "redpacket", dependencies = {"material"})
 public class ModuleRedPacket extends AbstractSpringFestivalModule {
 
     public static final Item RED_PACKET = new ItemRedPacket()
@@ -28,15 +29,18 @@ public class ModuleRedPacket extends AbstractSpringFestivalModule {
 
     public static final int GUI_RED_PACKET = 0;
 
+    static final RedPacketDispatchingController RED_PACKET_CONTROLLER = new RedPacketDispatchingController();
+    private Thread redPacketThread;
+
     @SubscribeEvent
-    public static void onItemRegister(RegistryEvent.Register<Item> event) {
+    public void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().register(
                 RED_PACKET
         );
     }
 
     @SubscribeEvent
-    public static void onModelRegister(ModelRegistryEvent event) {
+    public void onModelRegister(ModelRegistryEvent event) {
         ModelLoader.setCustomModelResourceLocation(RED_PACKET, 0, new ModelResourceLocation(RED_PACKET.getRegistryName().toString(), "inventory"));
     }
 
@@ -46,7 +50,22 @@ public class ModuleRedPacket extends AbstractSpringFestivalModule {
     }
 
     @Override
-    public void registryModels() {
+    public void onServerStarting() {
+        redPacketThread = new Thread(RED_PACKET_CONTROLLER, "SpringFestival-RedPacket");
+        redPacketThread.setDaemon(true);
+        redPacketThread.start();
+    }
 
+    @Override
+    public void onServerStopping() {
+        if (redPacketThread == null) { // But when this will happen?
+            return;
+        }
+        RED_PACKET_CONTROLLER.setAlive(false);
+        try {
+            redPacketThread.join();
+        } catch (InterruptedException e) {
+            SpringFestivalConstants.logger.error("Fail to shutdown RedPacket controller thread", e);
+        }
     }
 }

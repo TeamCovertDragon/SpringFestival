@@ -10,6 +10,7 @@ package team.covertdragon.springfestival;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -33,6 +34,11 @@ public final class SpringFestival {
     public static SpringFestivalProxy proxy;
 
     private SpringFestival() {}
+
+    @Mod.EventHandler
+    public void onConstruct(FMLConstructionEvent event) {
+        proxy.onConstruct(event);
+    }
 
     @Mod.EventHandler
     public void onPreInit(FMLPreInitializationEvent event) {

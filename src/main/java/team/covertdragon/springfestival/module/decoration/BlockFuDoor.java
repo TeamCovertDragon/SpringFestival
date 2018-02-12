@@ -43,7 +43,7 @@ public class BlockFuDoor extends BlockDoor {
     @Override
     @Nonnull
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER ? ModuleMaterial.redPaper : Items.AIR;
+        return state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER ? ModuleMaterial.RED_PAPER : Items.AIR;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class BlockFuDoor extends BlockDoor {
                 ItemDoor.placeDoor(world, position.add(0, -1, 0), te.getOriginalBlockStateUpper().getValue(BlockDoor.FACING), te.getOriginalBlockStateUpper().getBlock(), te.getOriginalBlockStateUpper().getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT);
 
                 //Drop Fu
-                EntityItem entityItem = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(ModuleMaterial.redPaper, 1));
+                EntityItem entityItem = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(ModuleMaterial.RED_PAPER, 1));
                 entityItem.setDefaultPickupDelay();
                 world.spawnEntity(entityItem);
                 return true;
@@ -124,7 +124,7 @@ public class BlockFuDoor extends BlockDoor {
 
             List<ItemStack> drops = new ArrayList<ItemStack>();
             drops.add(((TileFuDoor) te).getOriginalDoor());
-            drops.add(new ItemStack(ModuleMaterial.redPaper, 1));
+            drops.add(new ItemStack(ModuleMaterial.RED_PAPER, 1));
 
             for (ItemStack drop : drops) {
                 EntityItem entity = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), drop);

@@ -14,15 +14,16 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
+import team.covertdragon.springfestival.module.SpringFestivalModule;
 
-@Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID)
+@SpringFestivalModule(name = "material", dependencies = {})
 public class ModuleMaterial extends AbstractSpringFestivalModule {
 
     // A module that contains some common materials, for other modules to use
 
     public static Item glutinousRiceCrop;
 
-    public static final ItemRedPaper redPaper = (ItemRedPaper) new ItemRedPaper().setRegistryName(SpringFestivalConstants.MOD_ID, "item_red_paper");
+    public static final ItemRedPaper RED_PAPER = (ItemRedPaper) new ItemRedPaper().setRegistryName(SpringFestivalConstants.MOD_ID, "item_red_paper");
 
     public static Item redPaperBroken;
 
@@ -33,9 +34,9 @@ public class ModuleMaterial extends AbstractSpringFestivalModule {
 
     // TODO Just add more common stuff below, for tracking
     @SubscribeEvent
-    public static void onItemRegister(RegistryEvent.Register<Item> event) {
+    public void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                redPaper
+                RED_PAPER
         );
     }
 }
