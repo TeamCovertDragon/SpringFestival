@@ -99,7 +99,7 @@ public final class SpringFestivalNetworkHandler {
         try {
             packet.writeDataTo(buffer);
         } catch (Exception e) {
-            e.printStackTrace(System.err);
+            SpringFestivalConstants.logger.catching(e);
         }
         return buffer;
     }

@@ -25,7 +25,7 @@ public class ItemStackInventoryProvider
         implements IItemHandler, IItemHandlerModifiable, ICapabilityProvider {
 
     private final int maxSize;
-    private final ItemStack inv[]; // TODO Save this poor coder from C/C++ syntax
+    private final ItemStack[] inv;
 
     public ItemStackInventoryProvider(final int size) {
         this.maxSize = size;

@@ -11,6 +11,7 @@ package team.covertdragon.springfestival.internal.network;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import team.covertdragon.springfestival.SpringFestivalConstants;
 
 /**
  * A packet that does nothing and thus voiding all data. Used to replace usage of null.
@@ -26,6 +27,6 @@ final class SpringFestivalPacketVoiding implements AbstractSpringFestivalPacket 
 
     @Override
     public void readDataFrom(ByteBuf buffer, EntityPlayer player) {
-        // TODO Warning output
+        SpringFestivalConstants.logger.warn("One of packet being ignored! This could lead to bug! Report immediately!");
     }
 }

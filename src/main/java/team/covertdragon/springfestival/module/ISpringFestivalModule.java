@@ -23,9 +23,4 @@ public interface ISpringFestivalModule {
 
     default void onServerStopping() {}
 
-    /**
-     * @deprecated Directly use ModelRegistryEvent instead, ModuleLoader will handle
-     */
-    @Deprecated
-    default void registryModels() {}
 }
