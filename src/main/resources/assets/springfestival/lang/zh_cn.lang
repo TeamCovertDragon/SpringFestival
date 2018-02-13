@@ -12,6 +12,7 @@ item.springfestival.niangao.name=年糕
 
 tile.springfestival.fu_door.name=福字门
 tile.springfestival.hanging_firecracker.name=挂着的爆竹
+tile.springfestival.firework_box.name=礼炮
 
 redpacket.owner=红包主人：%s
 redpacket.receiver=%s将会收到这个红包
@@ -20,6 +21,8 @@ redpacket.message=贺词：%s
 redpacket.message.empty=【暂无】
 redpacket.mode.passcode=口令红包
 redpacket.mode.regular=手气红包
+
+firework.tooltip.count=烟花数量: %d
 
 toast.redpacket.publish.passcode=%s刚发了一个口令红包！
 toast.redpacket.publish.regular=%s刚发了一个手气红包！

@@ -13,17 +13,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.module.firecracker.FirecrackerRegistry;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemFireworkBox extends ItemBlock {
-    public ItemFireworkBox() {
-        super(FirecrackerRegistry.blockFirework);
-        setRegistryName(SpringFestivalConstants.MOD_ID, "firework_box");
-        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".firework_box");
+    public ItemFireworkBox(BlockFireworkBox blockFireworkBox) {
+        super(blockFireworkBox);
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
+        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".firework_box");
+        setRegistryName(SpringFestivalConstants.MOD_ID, "firework_box");
     }
 
     @Override

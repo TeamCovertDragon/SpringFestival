@@ -5,7 +5,6 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -23,7 +22,8 @@ public class BlockFireworkBox extends Block {
         setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".firework_box");
         setRegistryName(SpringFestivalConstants.MOD_ID, "firework_box");
         setHarvestLevel("axe", 0);
-        setHardness(3.0f);
+        setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
+        setHardness(0.5F);
     }
 
     @Override
@@ -62,12 +62,5 @@ public class BlockFireworkBox extends Block {
     @Override
     public int quantityDropped(Random random) {
         return 0;
-    }
-
-    public void launchFireWork(World world, BlockPos pos, double count) {
-        //Dirty implementation
-        EntityFireworkRocket firework = new EntityFireworkRocket(world);
-        firework.setPosition(pos.getX() + 0.111111 * (count % 8 + 1), pos.getY(), pos.getZ() + 0.111111 * (new Double(count / 8).intValue() + 1));
-        world.spawnEntity(firework);
     }
 }
