@@ -1,4 +1,4 @@
-package team.covertdragon.springfestival.module.decoration;
+package team.covertdragon.springfestival.module.firecracker;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
