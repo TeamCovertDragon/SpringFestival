@@ -9,10 +9,13 @@ item.springfestival.red_trousers.name=Red trousers
 item.springfestival.red_shoes.name=Red shoes
 item.springfestival.dumpling.name=Dumpling
 item.springfestival.niangao.name=Rice cake
+item.springfestival.firecracker_egg.name=Firecracker
 
 tile.springfestival.fu_door.name=Fortune door
 tile.springfestival.hanging_firecracker.name=Hanging firecracker
 tile.springfestival.firework_box.name=Firework box
+
+entity.springfestival.firecracker.name=Firecracker
 
 redpacket.owner=Owned by %s
 redpacket.receiver=Will be sent to %s

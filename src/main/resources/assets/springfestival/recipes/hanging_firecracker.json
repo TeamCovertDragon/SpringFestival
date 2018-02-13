@@ -1,0 +1,21 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "springfestival:hanging_firecracker",
+    "count": 1
+  },
+  "pattern": [
+    "fsf",
+    "fsf",
+    "fsf"
+  ],
+  "key": {
+    "s": {
+      "ore" : "string",
+      "type": "forge:ore_dict"
+    },
+    "f": {
+      "item": "springfestival:firecracker_egg"
+    }
+  }
+}

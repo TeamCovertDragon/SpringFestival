@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "springfestival:red_paper",
+    "count": 1
+  },
+  "pattern": [
+    "pp",
+    "pp"
+  ],
+  "key": {
+    "p": {
+      "item": "springfestival:red_paper_broken"
+    }
+  }
+}

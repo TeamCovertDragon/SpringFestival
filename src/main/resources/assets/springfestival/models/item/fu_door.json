@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "springfestival:item/item_fu_door"
+    "layer0": "springfestival:item/fu_door"
   }
 }
