@@ -36,7 +36,6 @@ public class EntityFirecracker extends EntityThrowable {
         this.fuse = 40;
         this.preventEntitySpawning = true;
         this.isImmuneToFire = true;
-        this.setSize(0.32F, 0.32F);
     }
     
     public EntityFirecracker(World worldIn, double x, double y, double z, EntityLivingBase igniter)
