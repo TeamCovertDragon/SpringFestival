@@ -7,7 +7,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package team.covertdragon.springfestival.module.decoration;
+package team.covertdragon.springfestival.module.decoration.fudoor;
 
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.material.Material;
@@ -30,6 +30,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.module.decoration.DecorationRegistry;
 import team.covertdragon.springfestival.module.material.ModuleMaterial;
 
 import javax.annotation.Nonnull;

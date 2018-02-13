@@ -7,7 +7,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package team.covertdragon.springfestival.module.decoration;
+package team.covertdragon.springfestival.module.decoration.clothes;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.init.SoundEvents;

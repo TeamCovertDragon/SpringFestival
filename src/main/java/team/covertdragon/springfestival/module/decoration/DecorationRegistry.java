@@ -12,6 +12,8 @@ package team.covertdragon.springfestival.module.decoration;
 import net.minecraft.item.ItemArmor;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.module.decoration.fudoor.BlockFuDoor;
+import team.covertdragon.springfestival.module.decoration.fudoor.ItemFuDoor;
 
 @GameRegistry.ObjectHolder(SpringFestivalConstants.MOD_ID)
 public class DecorationRegistry {
