@@ -17,7 +17,7 @@ import java.util.*;
 
 public final class ModuleLoader {
 
-    public static List<AbstractSpringFestivalModule> readASMDataTable(ASMDataTable table){
+    public static List<AbstractSpringFestivalModule> readASMDataTable(ASMDataTable table) {
         return getInstances(table, SpringFestivalModule.class, AbstractSpringFestivalModule.class);
     }
 
@@ -26,13 +26,13 @@ public final class ModuleLoader {
         String annotationClassName = annotationClass.getCanonicalName();
         Set<ASMDataTable.ASMData> asmDataSet = asmDataTable.getAll(annotationClassName);
         final List<String> expectedModules = Arrays.asList(SpringFestivalConfig.modules);
-        List<T> instances = new ArrayList<>();
+        List<T> instances = new LinkedList<>();
         for (ASMDataTable.ASMData asmData : asmDataSet) {
             try {
                 if (!expectedModules.contains(asmData.getAnnotationInfo().get("name").toString())) {
                     continue;
                 }
-                if (!expectedModules.containsAll((List<String>)asmData.getAnnotationInfo().get("dependencies"))) {
+                if (!expectedModules.containsAll((List<String>) asmData.getAnnotationInfo().get("dependencies"))) {
                     continue;
                 }
                 Class<?> asmClass = Class.forName(asmData.getClassName());
@@ -44,6 +44,32 @@ public final class ModuleLoader {
                 SpringFestivalConstants.logger.error("Failed to load: {}", asmData.getClassName(), e);
             }
         }
-        return instances;
+        return (List<T>) topoSort((List<ISpringFestivalModule>) instances);
+    }
+
+    private static List<ISpringFestivalModule> topoSort(List<ISpringFestivalModule> instances) {
+        List<ISpringFestivalModule> sorted = new LinkedList<>();
+        List<String> existDependencies = new LinkedList<>();
+
+        while (instances.size() > 0) {
+            for (int i = 0; i < instances.size(); i++) {
+                ISpringFestivalModule instance = instances.get(i);
+                if (existDependencies.containsAll(getDependenciesByInstance(instance))) {
+                    sorted.add(instance);
+                    existDependencies.add(getNameByInstance(instance));
+                    instances.remove(i);
+                    i--;
+                }
+            }
+        }
+        return sorted;
+    }
+
+    private static Collection<?> getDependenciesByInstance(ISpringFestivalModule instance) {
+        return Arrays.asList(instance.getClass().getAnnotation(SpringFestivalModule.class).dependencies());
+    }
+
+    private static String getNameByInstance(ISpringFestivalModule instance) {
+        return instance.getClass().getAnnotation(SpringFestivalModule.class).name();
     }
 }
