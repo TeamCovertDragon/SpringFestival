@@ -13,7 +13,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.util.NonNullList;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -30,19 +34,30 @@ import java.util.UUID;
  */
 public class RedPacketData implements INBTSerializable<NBTTagCompound> {
 
-    // A simple factory method
+    // A crude factory method
     static RedPacketData fromItemStack(@Nonnull final ItemStack stack) {
-        return new RedPacketData();
-    }
-
-    public enum Type {
-        RECEIVED, POSTED
+        final RedPacketData data = new RedPacketData();
+        NBTTagCompound rawData = stack.getTagCompound();
+        data.deserializeNBT(rawData);
+        if (data.contents.isEmpty()) {
+            IItemHandler itemHandler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+            if (itemHandler != null) {
+                final List<ItemStack> contents = new ArrayList<>();
+                for (int i = 0; i < itemHandler.getSlots(); i++) {
+                    ItemStack s = itemHandler.getStackInSlot(i);
+                    if (!stack.isEmpty()) {
+                        contents.add(s);
+                    }
+                }
+                data.contents = contents;
+            }
+        }
+        return data;
     }
 
     private long timestamp;
     private UUID owner;
     private UUID receiver;
-    private Type type;
     private boolean hasPasscode;
     private String message;
     private List<ItemStack> contents = Collections.emptyList();
@@ -71,15 +86,6 @@ public class RedPacketData implements INBTSerializable<NBTTagCompound> {
 
     public void setReceiver(UUID receiver) {
         this.receiver = receiver;
-    }
-
-    @Nonnull
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
     }
 
     public boolean isHasPasscode() {
@@ -143,23 +149,29 @@ public class RedPacketData implements INBTSerializable<NBTTagCompound> {
         tag.setTag("contents", list);
         tag.setString("message", this.message);
         tag.setBoolean("passcode", this.hasPasscode);
-        tag.setInteger("type", this.type.ordinal());
         return tag;
     }
 
     @Override
     public void deserializeNBT(NBTTagCompound nbt) {
-        this.timestamp = nbt.getLong("timestamp");
-        this.owner = NBTUtil.getUUIDFromTag(nbt.getCompoundTag("owner"));
-        this.receiver = NBTUtil.getUUIDFromTag(nbt.getCompoundTag("receiver"));
-        NBTTagList list = nbt.getTagList("contents", nbt.getId());
-        ArrayList<ItemStack> contents = new ArrayList<>();
-        for (int i = 0; i < contents.size(); i++) {
-            contents.add(new ItemStack(list.getCompoundTagAt(i)));
+        if (nbt.hasKey("timestamp", Constants.NBT.TAG_LONG)) {
+            this.timestamp = nbt.getLong("timestamp");
+        } else {
+            this.timestamp = System.currentTimeMillis();
         }
-        this.contents = contents;
+        this.owner = NBTUtil.getUUIDFromTag(nbt.getCompoundTag("owner"));
+        if (nbt.hasKey("receiver", Constants.NBT.TAG_COMPOUND)) {
+            this.receiver = NBTUtil.getUUIDFromTag(nbt.getCompoundTag("receiver"));
+        }
+        if (nbt.hasKey("contents", Constants.NBT.TAG_LIST)) {
+            NBTTagList list = nbt.getTagList("contents", nbt.getId());
+            ArrayList<ItemStack> contents = new ArrayList<>();
+            for (int i = 0; i < contents.size(); i++) {
+                contents.add(new ItemStack(list.getCompoundTagAt(i)));
+            }
+            this.contents = contents;
+        }
         this.message = nbt.getString("message");
         this.hasPasscode = nbt.getBoolean("passcode");
-        this.type = Type.values()[nbt.getInteger("type")];
     }
 }

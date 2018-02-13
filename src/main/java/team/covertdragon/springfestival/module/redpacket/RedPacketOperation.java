@@ -35,9 +35,14 @@ public abstract class RedPacketOperation {
 
     public static class Post extends RedPacketOperation {
         private final RedPacketData redPacket;
+
         public Post(UUID fromPlayer, RedPacketData packet) {
             super(fromPlayer);
             this.redPacket = packet;
+        }
+
+        public RedPacketData getRedPacket() {
+            return redPacket;
         }
     }
 

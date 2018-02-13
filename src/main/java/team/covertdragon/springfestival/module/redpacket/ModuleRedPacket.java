@@ -53,11 +53,14 @@ public class ModuleRedPacket extends AbstractSpringFestivalModule {
         SpringFestivalNetworkHandler.INSTANCE.registerPacket(ClientPacketTogglePasscodeMode.class);
         SpringFestivalNetworkHandler.INSTANCE.registerPacket(ClientPacketUpdateRedPacketReceiver.class);
         SpringFestivalNetworkHandler.INSTANCE.registerPacket(ClientPacketUpdateRedPacketMessage.class);
+        SpringFestivalNetworkHandler.INSTANCE.registerPacket(ServerPacketPublishingRedPacket.class);
+        SpringFestivalNetworkHandler.INSTANCE.registerPacket(ServerPacketSendingRedPacketToPlayer.class);
     }
 
     @Override
     public void onServerStarting() {
         ((CommandHandler)FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager()).registerCommand(new CommandRedPacket());
+        RED_PACKET_CONTROLLER.setAlive(true);
         redPacketThread = new Thread(RED_PACKET_CONTROLLER, "SpringFestival-RedPacket");
         redPacketThread.setDaemon(true);
         redPacketThread.start();

@@ -14,7 +14,12 @@ tile.springfestival.fu_door.name=福字门
 tile.springfestival.hanging_firecracker.name=挂着的爆竹
 
 redpacket.owner=红包主人：%s
-redpacket.receiver=%s
+redpacket.receiver=%s将会收到这个红包
+redpacket.receiver.any=所有人都
 redpacket.message=贺词：%s
+redpacket.message.empty=【暂无】
 redpacket.mode.passcode=口令红包
 redpacket.mode.regular=手气模式
+
+toast.redpacket.publish.passcode=%s刚刚发了一个口令红包！
+toast.redpacket.publish.regular=%s刚刚发了一个手气红包！

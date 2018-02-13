@@ -43,14 +43,14 @@ public class RedPacketToast implements IToast {
 
     @Override
     public Visibility draw(GuiToast toastGui, long delta) {
-        if (delta < 2000) {
+        if (delta < 10000) {
             Minecraft mc = toastGui.getMinecraft();
             mc.getTextureManager().bindTexture(TEXTURE_RED_PACKET_TOAST);
             GlStateManager.color(1.0F, 1.0F, 1.0F);
             mc.getRenderItem().renderItemIntoGUI(ICON, 8, 8);
             FontRenderer fontRenderer = mc.fontRenderer;
             final String title = I18n.format(passcodeMode ? "toast.redpacket.publish.passcode" : "toast.redpacket.publish.regular", publisherName);
-            fontRenderer.drawString(title, 30, 7, 0xCCCCCC); // wtf it is color?
+            fontRenderer.drawString(title, 30, 7, 0xE2BC36); // wtf it is color?
             fontRenderer.drawString(packetMessage, 30, 18, 0xFF0000); // Pure red
             if (!hasPlayedSound) {
                 hasPlayedSound = true;

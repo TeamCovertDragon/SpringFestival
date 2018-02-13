@@ -40,7 +40,7 @@ public class ServerPacketPublishingRedPacket implements AbstractSpringFestivalPa
     public void readDataFrom(ByteBuf buffer, EntityPlayer player) {
         final String publisher = ByteBufUtils.readUTF8String(buffer);
         final String message = ByteBufUtils.readUTF8String(buffer);
-        final boolean hasPasscode = data.isHasPasscode();
+        final boolean hasPasscode = buffer.readBoolean();
         Minecraft.getMinecraft().getToastGui().add(new RedPacketToast(publisher, message, hasPasscode));
     }
 }

@@ -88,7 +88,8 @@ public class GuiContainerRedPacket extends GuiContainer {
         if (button.enabled) { // Dirty implementation. No time to waste, just make it works first!
             if (button.id == 0) {
                 // TODO Save all data and send a packet to server, to tell server that this red packet is ready to be enqueued
-                this.mc.displayGuiScreen(null);
+                SpringFestivalNetworkHandler.INSTANCE.sendToServer(new ClientPacketConfirmRedPacketSending());
+                this.mc.player.closeScreen();
             } else if (button.id == 1) {
                 passcodeMode = !passcodeMode;
                 SpringFestivalNetworkHandler.INSTANCE.sendToServer(new ClientPacketTogglePasscodeMode(this.passcodeMode));

@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.StringUtils;
 import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.internal.capabilities.ItemStackInventoryProvider;
 
@@ -31,7 +32,7 @@ import java.util.List;
 
 public class ItemRedPacket extends Item {
 
-    public ItemRedPacket() {
+    ItemRedPacket() {
         this.setMaxStackSize(1);
         this.setMaxDamage(0);
     }
@@ -42,8 +43,8 @@ public class ItemRedPacket extends Item {
         NBTTagCompound data = stack.getTagCompound();
         if (data != null) {
             tooltip.add(I18n.format("redpacket.owner", data.getString("owner_name")));
-            tooltip.add(I18n.format("redpacket.receiver", data.getString("receiver_name")));
-            tooltip.add(I18n.format("redpacket.message", data.getString("message")));
+            tooltip.add(I18n.format("redpacket.receiver", StringUtils.defaultIfEmpty(data.getString("receiver_name"), I18n.format("redpacket.receiver.any"))));
+            tooltip.add(I18n.format("redpacket.message", StringUtils.defaultIfEmpty(data.getString("message"), I18n.format("redpacket.message.empty"))));
             tooltip.add(I18n.format(data.getBoolean("passcode") ? "redpacket.mode.passcode" : "redpacket.mode.regular"));
         }
     }
