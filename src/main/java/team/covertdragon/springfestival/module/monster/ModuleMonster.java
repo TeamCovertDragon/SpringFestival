@@ -10,9 +10,14 @@
 package team.covertdragon.springfestival.module.monster;
 
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import team.covertdragon.springfestival.SpringFestival;
+import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 
@@ -25,4 +30,16 @@ public class ModuleMonster extends AbstractSpringFestivalModule {
             event.setCanceled(true);
         }
     }
+
+    /*
+    @SubscribeEvent
+    public void onEntityRegister(RegistryEvent.Register<EntityEntry> event) {
+        event.getRegistry().register(EntityEntryBuilder.<EntityNian>create()
+                .entity(EntityNian.class)
+                .id(new ResourceLocation(SpringFestivalConstants.MOD_ID, "nian"),0)
+                .name("nian")
+                .egg(0xCC1122, 0xCC66666)
+                .build()
+        );
+    }*/
 }

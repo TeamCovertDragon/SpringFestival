@@ -4,7 +4,7 @@ item.springfestival.fu_door.name=福字门
 item.springfestival.redpacket.name=红包
 item.springfestival.red_paper.name=红纸
 item.springfestival.red_hat.name=红帽
-item.springfestival.red_gown.name=红棉衣
+item.springfestival.red_gown.name=红袍
 item.springfestival.red_trousers.name=红棉裤
 item.springfestival.red_shoes.name=红鞋子
 item.springfestival.dumpling.name=饺子
@@ -21,5 +21,5 @@ redpacket.message.empty=【暂无】
 redpacket.mode.passcode=口令红包
 redpacket.mode.regular=手气红包
 
-toast.redpacket.publish.passcode=%s刚刚发了一个口令红包！
-toast.redpacket.publish.regular=%s刚刚发了一个手气红包！
+toast.redpacket.publish.passcode=%s刚发了一个口令红包！
+toast.redpacket.publish.regular=%s刚发了一个手气红包！
