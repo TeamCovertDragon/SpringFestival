@@ -9,9 +9,11 @@
 
 package team.covertdragon.springfestival.module.redpacket;
 
+import net.minecraft.command.CommandHandler;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -49,10 +51,16 @@ public class ModuleRedPacket extends AbstractSpringFestivalModule {
     public void onInit() {
         SpringFestivalNetworkHandler.INSTANCE.registerPacket(ClientPacketConfirmRedPacketSending.class);
         SpringFestivalNetworkHandler.INSTANCE.registerPacket(ClientPacketTogglePasscodeMode.class);
+        SpringFestivalNetworkHandler.INSTANCE.registerPacket(ClientPacketUpdateRedPacketReceiver.class);
+        SpringFestivalNetworkHandler.INSTANCE.registerPacket(ClientPacketUpdateRedPacketMessage.class);
+        SpringFestivalNetworkHandler.INSTANCE.registerPacket(ServerPacketPublishingRedPacket.class);
+        SpringFestivalNetworkHandler.INSTANCE.registerPacket(ServerPacketSendingRedPacketToPlayer.class);
     }
 
     @Override
     public void onServerStarting() {
+        ((CommandHandler)FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager()).registerCommand(new CommandRedPacket());
+        RED_PACKET_CONTROLLER.setAlive(true);
         redPacketThread = new Thread(RED_PACKET_CONTROLLER, "SpringFestival-RedPacket");
         redPacketThread.setDaemon(true);
         redPacketThread.start();

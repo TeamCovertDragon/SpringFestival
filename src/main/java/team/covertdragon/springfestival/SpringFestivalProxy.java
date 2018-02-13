@@ -11,7 +11,12 @@ package team.covertdragon.springfestival;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.event.FMLConstructionEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import team.covertdragon.springfestival.internal.SpringFestivalGuiHandler;
 import team.covertdragon.springfestival.internal.time.ISpringFestivalTimeProvider;
@@ -56,6 +61,7 @@ public abstract class SpringFestivalProxy {
         return isDuringSpringFestival;
     }
 
+    @OverridingMethodsMustInvokeSuper
     public void onConstruct(FMLConstructionEvent event) {
         modules = ModuleLoader.readASMDataTable(event.getASMHarvestedData());
         modules.forEach(MinecraftForge.EVENT_BUS::register);
@@ -74,10 +80,12 @@ public abstract class SpringFestivalProxy {
 
     public abstract void onPostInit(FMLPostInitializationEvent event);
 
+    @OverridingMethodsMustInvokeSuper
     public void onServerStarting(FMLServerStartingEvent event) {
         modules.forEach(ISpringFestivalModule::onServerStarting);
     }
 
+    @OverridingMethodsMustInvokeSuper
     public void onServerStopping(FMLServerStoppingEvent event) {
         modules.forEach(ISpringFestivalModule::onServerStopping);
     }

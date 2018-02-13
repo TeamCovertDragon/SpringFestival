@@ -9,10 +9,18 @@
 
 package team.covertdragon.springfestival.module.music;
 
+import net.minecraft.util.SoundEvent;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 
 public class ModuleMusic extends AbstractSpringFestivalModule {
 
     // TODO sound.json, actual music & their discs
 
+
+    @SubscribeEvent
+    public void onSoundEventRegistry(RegistryEvent.Register<SoundEvent> event) {
+
+    }
 }

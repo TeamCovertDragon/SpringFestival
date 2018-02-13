@@ -13,24 +13,34 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.network.AbstractSpringFestivalPacket;
 import team.covertdragon.springfestival.internal.network.SpringFestivalNetworkHandler;
 
 public class ClientPacketConfirmRedPacketSending implements AbstractSpringFestivalPacket {
 
     @Override
-    public void writeDataTo(ByteBuf buffer) {
-
-    }
+    public void writeDataTo(ByteBuf buffer) {}
 
     @Override
     public void readDataFrom(ByteBuf buffer, EntityPlayer player) {
         final RedPacketData data = RedPacketData.fromItemStack(player.getHeldItemMainhand());
         if (data.getReceiver() == null) {
-            SpringFestivalNetworkHandler.INSTANCE.sendToAll(new ServerPacketPublishingRedPacket(data));
+            RedPacketOperation.Post postOperation = new RedPacketOperation.Post(data.getOwner(), data);
+            if (ModuleRedPacket.RED_PACKET_CONTROLLER.enqueueOperation(postOperation)) {
+                player.getHeldItemMainhand().shrink(1);
+                SpringFestivalNetworkHandler.INSTANCE.sendToAll(new ServerPacketPublishingRedPacket(data));
+            } else {
+                SpringFestivalConstants.logger.error("Failed to enqueue red packet! Report immediately!");
+            }
         } else {
             final EntityPlayerMP targetPlayer = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(data.getReceiver());
-            SpringFestivalNetworkHandler.INSTANCE.sendToPlayer(new ServerPacketSendingRedPacketToPlayer(), targetPlayer);
+            if (targetPlayer != null) {
+                player.getHeldItemMainhand().shrink(1);
+                SpringFestivalNetworkHandler.INSTANCE.sendToPlayer(new ServerPacketSendingRedPacketToPlayer(), targetPlayer);
+            } else {
+                // TODO Enqueue to wait list
+            }
         }
     }
 }

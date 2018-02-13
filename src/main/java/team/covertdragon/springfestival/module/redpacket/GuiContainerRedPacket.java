@@ -17,6 +17,7 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import team.covertdragon.springfestival.SpringFestivalConstants;
@@ -28,8 +29,6 @@ public class GuiContainerRedPacket extends GuiContainer {
 
     private static final ResourceLocation TEXTURE_BG = new ResourceLocation(SpringFestivalConstants.MOD_ID, "textures/gui/red_packet.png");
 
-    private GuiButtonToggle passcodeModeToggle;
-    private GuiButton sendRedPacket;
     private GuiTextField receiver;
     private GuiTextField message;
     private boolean passcodeMode;
@@ -43,9 +42,9 @@ public class GuiContainerRedPacket extends GuiContainer {
     @Override
     public void initGui() {
         super.initGui();
-        this.sendRedPacket = new GuiButtonImage(0, this.guiLeft + 17, this.guiTop + 13, 25, 15, 195, 0, 0, TEXTURE_BG);
+        GuiButtonImage sendRedPacket = new GuiButtonImage(0, this.guiLeft + 17, this.guiTop + 13, 25, 15, 195, 0, 0, TEXTURE_BG);
         buttonList.add(sendRedPacket);
-        this.passcodeModeToggle = new GuiButtonToggle(1, this.guiLeft + 15, this.guiTop + 49, 14, 14, false) {
+        GuiButtonToggle passcodeModeToggle = new GuiButtonToggle(1, this.guiLeft + 15, this.guiTop + 49, 14, 14, false) {
             @Override
             public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
                 if (passcodeMode) {
@@ -56,21 +55,29 @@ public class GuiContainerRedPacket extends GuiContainer {
         passcodeModeToggle.initTextureValues(195, 17, 0, 0, TEXTURE_BG);
         buttonList.add(passcodeModeToggle);
 
-        this.receiver = new GuiTextField(2, this.fontRenderer, this.guiLeft + 46, this.guiTop + 13, 133, 15);
+        this.receiver = new GuiTextField(2, this.fontRenderer, this.guiLeft + 46 + 4, this.guiTop + 13 + 3, 133, 15);
         this.receiver.setTextColor(-1);
         this.receiver.setDisabledTextColour(-1);
         this.receiver.setEnableBackgroundDrawing(false);
         this.receiver.setCanLoseFocus(true);
         this.receiver.setEnabled(true);
-        this.message = new GuiTextField(3, this.fontRenderer, this.guiLeft + 17, this.guiTop + 31, 162, 15);
+        this.message = new GuiTextField(3, this.fontRenderer, this.guiLeft + 17 + 4, this.guiTop + 31 + 3, 162, 15);
         this.message.setTextColor(-1);
+        this.message.setEnableBackgroundDrawing(false);
         this.message.setCanLoseFocus(true);
         this.message.setEnabled(true);
+
+        NBTTagCompound data = Minecraft.getMinecraft().player.getHeldItemMainhand().getTagCompound();
+        if (data != null) {
+            this.receiver.setText(data.getString("receiver_name"));
+            this.message.setText(data.getString("message"));
+        }
     }
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
+        this.receiver.mouseClicked(mouseX, mouseY, mouseButton);
         this.message.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
@@ -78,11 +85,10 @@ public class GuiContainerRedPacket extends GuiContainer {
     protected void actionPerformed(GuiButton button) {
         if (button.enabled) { // Dirty implementation. No time to waste, just make it works first!
             if (button.id == 0) {
-                // TODO Save all data and send a packet to server, to tell server that this red packet is ready to be enqueued
-                this.mc.displayGuiScreen(null);
+                SpringFestivalNetworkHandler.INSTANCE.sendToServer(new ClientPacketConfirmRedPacketSending());
+                this.mc.player.closeScreen();
             } else if (button.id == 1) {
                 passcodeMode = !passcodeMode;
-                // TODO How server knows which player is doing stuff???
                 SpringFestivalNetworkHandler.INSTANCE.sendToServer(new ClientPacketTogglePasscodeMode(this.passcodeMode));
             }
         }
@@ -93,6 +99,10 @@ public class GuiContainerRedPacket extends GuiContainer {
         this.drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTick);
         this.renderHoveredToolTip(mouseX, mouseY);
+        GlStateManager.disableLighting();
+        GlStateManager.disableBlend();
+        this.receiver.drawTextBox();
+        this.message.drawTextBox();
     }
 
     @Override
@@ -110,5 +120,16 @@ public class GuiContainerRedPacket extends GuiContainer {
         this.mc.getTextureManager().bindTexture(TEXTURE_BG);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+    }
+
+    @Override
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        if (this.receiver.textboxKeyTyped(typedChar, keyCode)) {
+            SpringFestivalNetworkHandler.INSTANCE.sendToServer(new ClientPacketUpdateRedPacketReceiver(receiver.getText()));
+        } else if (this.message.textboxKeyTyped(typedChar, keyCode)) {
+            SpringFestivalNetworkHandler.INSTANCE.sendToServer(new ClientPacketUpdateRedPacketMessage(message.getText()));
+        } else {
+            super.keyTyped(typedChar, keyCode);
+        }
     }
 }

@@ -12,3 +12,14 @@ item.springfestival.niangao.name=Rice cake
 
 tile.springfestival.fu_door.name=Fortune door
 tile.springfestival.hanging_firecracker.name=Hanging firecracker
+
+redpacket.owner=Owned by %s
+redpacket.receiver=Will be sent to %s
+redpacket.receiver.any=everyone
+redpacket.message=Greeting Message: %s
+redpacket.message.empty=None
+redpacket.mode.passcode=Passcode Mode (Only people who respond with the same greeting message will share this packet)
+redpacket.mode.regular=Fortune Mode (Everyone can share it - so long as they are fast enough)
+
+toast.redpacket.publish.passcode=%s just sent a passcode packet!
+toast.redpacket.publish.regular=%s just sent a fortune packet!

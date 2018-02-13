@@ -10,9 +10,11 @@
 package team.covertdragon.springfestival.internal.capabilities;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -22,10 +24,10 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 
 public class ItemStackInventoryProvider
-        implements IItemHandler, IItemHandlerModifiable, ICapabilityProvider {
+        implements IItemHandler, IItemHandlerModifiable, ICapabilityProvider, ICapabilitySerializable<NBTBase> {
 
     private final int maxSize;
-    private final ItemStack inv[]; // TODO Save this poor coder from C/C++ syntax
+    private final ItemStack[] inv;
 
     public ItemStackInventoryProvider(final int size) {
         this.maxSize = size;
@@ -94,5 +96,15 @@ public class ItemStackInventoryProvider
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ?
                 CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(this) : null;
+    }
+
+    @Override
+    public NBTBase serializeNBT() {
+        return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(this, null);
+    }
+
+    @Override
+    public void deserializeNBT(NBTBase nbt) {
+        CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(this, null, nbt);
     }
 }
