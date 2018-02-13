@@ -9,22 +9,22 @@
 
 package team.covertdragon.springfestival.module.firecracker.entity;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import team.covertdragon.springfestival.internal.SpringFestivalUtil;
-import team.covertdragon.springfestival.module.material.ItemRedPaper;
 import team.covertdragon.springfestival.module.material.ModuleMaterial;
 
-public class EntityFirecracker extends Entity {
+public class EntityFirecracker extends EntityThrowable {
     private static final DataParameter<Integer> FUSE = EntityDataManager.<Integer>createKey(EntityFirecracker.class, DataSerializers.VARINT);
     /** How long the fuse is */
     private int fuse;
@@ -36,7 +36,7 @@ public class EntityFirecracker extends Entity {
         this.fuse = 40;
         this.preventEntitySpawning = true;
         this.isImmuneToFire = true;
-        this.setSize(0.98F, 0.98F);
+        this.setSize(0.32F, 0.32F);
     }
     
     public EntityFirecracker(World worldIn, double x, double y, double z, EntityLivingBase igniter)
@@ -56,7 +56,7 @@ public class EntityFirecracker extends Entity {
     @Override
     protected void entityInit()
     {
-        this.dataManager.register(FUSE, Integer.valueOf(80));
+        this.dataManager.register(FUSE, Integer.valueOf(40));
     }
     
     @Override
@@ -104,19 +104,19 @@ public class EntityFirecracker extends Entity {
     private void explode()
     {
         SpringFestivalUtil.createNonDestructiveExplosion(this.world, this.getPosition(), 3.0F);
-        this.world.spawnEntity(new EntityItem(world, this.posX, this.posY, this.posZ, new ItemStack(ModuleMaterial.RED_PAPER, rand.nextInt(2))));
+        this.world.spawnEntity(new EntityItem(world, this.posX, this.posY, this.posZ, new ItemStack(ModuleMaterial.RED_PAPER, rand.nextInt(2) + 1)));
     }
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound compound) {
+    public void readEntityFromNBT(NBTTagCompound compound) {
         this.setFuse(compound.getShort("Fuse"));
     }
 
     @Override
-    protected void writeEntityToNBT(NBTTagCompound compound) {
+    public void writeEntityToNBT(NBTTagCompound compound) {
         compound.setShort("Fuse", (short)this.getFuse());
     }
-    
+
     @Override
     public float getEyeHeight()
     {
@@ -146,5 +146,11 @@ public class EntityFirecracker extends Entity {
     public int getFuse()
     {
         return this.fuse;
+    }
+
+    @Override
+    protected void onImpact(RayTraceResult result) {
+        // TODO Auto-generated method stub
+        
     }
 }

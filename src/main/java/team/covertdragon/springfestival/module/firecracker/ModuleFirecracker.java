@@ -26,6 +26,7 @@ import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 import team.covertdragon.springfestival.module.firecracker.entity.EntityFirecracker;
+import team.covertdragon.springfestival.module.firecracker.entity.ItemFirecrackerEgg;
 import team.covertdragon.springfestival.module.firecracker.firework.BlockFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.firework.ItemFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.firework.TileFireworkBox;
@@ -53,7 +54,8 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         event.getRegistry().registerAll(
                 new ItemBlock(FirecrackerRegistry.blockHangingFireCracker)
                     .setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker"),
-                new ItemFireworkBox()
+                new ItemFireworkBox(),
+                new ItemFirecrackerEgg()
         );
     }
 
@@ -62,6 +64,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     public void onModelRegister(ModelRegistryEvent event) {
         ModelUtil.mapItemModel(FirecrackerRegistry.itemFireWorkBox);
         ModelUtil.mapItemModel(FirecrackerRegistry.itemHangingFirecracker);
+        ModelUtil.mapItemModel(FirecrackerRegistry.itemFirecrackerEgg);
 //      RenderingRegistry.loadEntityRenderers(manager, renderMap);
     }
 }

@@ -12,6 +12,7 @@ package team.covertdragon.springfestival.module.firecracker;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.module.firecracker.entity.ItemFirecrackerEgg;
 import team.covertdragon.springfestival.module.firecracker.firework.BlockFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.firework.ItemFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.hanging.BlockHangingFirecracker;
@@ -24,6 +25,7 @@ public class FirecrackerRegistry {
         blockHangingFireCracker = null;
         itemFireWorkBox = null;
         itemHangingFirecracker = null;
+        itemFirecrackerEgg = null;
     }
 
     @GameRegistry.ObjectHolder("firework_box")
@@ -37,4 +39,7 @@ public class FirecrackerRegistry {
 
     @GameRegistry.ObjectHolder("hanging_firecracker")
     public static final ItemBlock itemHangingFirecracker;
+    
+    @GameRegistry.ObjectHolder("firecracker_egg")
+    public static final ItemFirecrackerEgg itemFirecrackerEgg;
 }
