@@ -1,8 +1,19 @@
+/*
+ * Copyright (c) 2018 CovertDragon Team.
+ * Copyright (c) 2018 Contributors of SpringFestival.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
 package team.covertdragon.springfestival.module.firecracker;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MoverType;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -10,6 +21,8 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import team.covertdragon.springfestival.internal.SpringFestivalUtil;
+import team.covertdragon.springfestival.module.material.ItemRedPaper;
+import team.covertdragon.springfestival.module.material.ModuleMaterial;
 
 public class EntityFirecracker extends Entity {
     private static final DataParameter<Integer> FUSE = EntityDataManager.<Integer>createKey(EntityFirecracker.class, DataSerializers.VARINT);
@@ -91,6 +104,7 @@ public class EntityFirecracker extends Entity {
     private void explode()
     {
         SpringFestivalUtil.createNonDestructiveExplosion(this.world, this.getPosition(), 3.0F);
+        this.world.spawnEntity(new EntityItem(world, this.posX, this.posY, this.posZ, new ItemStack(ModuleMaterial.RED_PAPER, rand.nextInt(2))));
     }
 
     @Override
