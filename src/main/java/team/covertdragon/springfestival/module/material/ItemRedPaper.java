@@ -20,6 +20,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.decoration.*;
+import team.covertdragon.springfestival.module.decoration.fudoor.BlockFuDoor;
+import team.covertdragon.springfestival.module.decoration.fudoor.ItemFuDoor;
+import team.covertdragon.springfestival.module.decoration.fudoor.TileFuDoor;
 
 public class ItemRedPaper extends Item {
     public ItemRedPaper() {

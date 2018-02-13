@@ -7,7 +7,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package team.covertdragon.springfestival.module.decoration;
+package team.covertdragon.springfestival.module.decoration.fudoor;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
@@ -24,6 +24,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.module.decoration.DecorationRegistry;
 
 public class ItemFuDoor extends ItemDoor {
     //TODO remove this

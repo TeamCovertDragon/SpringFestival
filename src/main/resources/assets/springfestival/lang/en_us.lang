@@ -21,5 +21,7 @@ redpacket.message.empty=None
 redpacket.mode.passcode=Passcode Mode (Only people who respond with the same greeting message will share this packet)
 redpacket.mode.regular=Fortune Mode (Everyone can share it - so long as they are fast enough)
 
+firework.tooltip.count=Count : %d
+
 toast.redpacket.publish.passcode=%s just sent a passcode packet!
 toast.redpacket.publish.regular=%s just sent a fortune packet!

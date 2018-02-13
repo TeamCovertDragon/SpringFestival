@@ -9,13 +9,26 @@
 
 package team.covertdragon.springfestival.internal.server;
 
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import team.covertdragon.springfestival.SpringFestivalProxy;
+
+import javax.annotation.Nullable;
+import java.util.UUID;
 
 public final class SpringFestivalProxyServer extends SpringFestivalProxy {
 
-    @Override
-    public void onPostInit(FMLPostInitializationEvent event) {
+    private final MinecraftServer serverInstance = FMLCommonHandler.instance().getMinecraftServerInstance();
 
+    @Nullable
+    @Override
+    public EntityPlayerMP getPlayerByUUID(UUID uuid) {
+        return serverInstance.getPlayerList().getPlayerByUUID(uuid);
+    }
+
+    @Override
+    public void scheduleTask(Runnable task) {
+        serverInstance.addScheduledTask(task);
     }
 }

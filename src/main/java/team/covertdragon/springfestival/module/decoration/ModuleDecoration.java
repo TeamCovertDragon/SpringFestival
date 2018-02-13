@@ -9,8 +9,6 @@
 
 package team.covertdragon.springfestival.module.decoration;
 
-import java.lang.reflect.Field;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.client.renderer.block.statemap.StateMap;
@@ -32,6 +30,12 @@ import team.covertdragon.springfestival.internal.client.SpringFestivalProxyClien
 import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
+import team.covertdragon.springfestival.module.decoration.clothes.ItemRedClothes;
+import team.covertdragon.springfestival.module.decoration.fudoor.BlockFuDoor;
+import team.covertdragon.springfestival.module.decoration.fudoor.ItemFuDoor;
+import team.covertdragon.springfestival.module.decoration.fudoor.TileFuDoor;
+
+import java.lang.reflect.Field;
 
 @SpringFestivalModule(name = "decoration", dependencies = {"material"})
 public class ModuleDecoration extends AbstractSpringFestivalModule {
