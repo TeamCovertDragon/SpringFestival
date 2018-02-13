@@ -61,6 +61,7 @@ public class ModuleRedPacket extends AbstractSpringFestivalModule {
     public void onServerStarting() {
         ((CommandHandler)FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager()).registerCommand(new CommandRedPacket());
         RED_PACKET_CONTROLLER.setAlive(true);
+        SpringFestivalConstants.logger.info("Starting red packet handler...");
         redPacketThread = new Thread(RED_PACKET_CONTROLLER, "SpringFestival-RedPacket");
         redPacketThread.setDaemon(true);
         redPacketThread.start();
@@ -72,6 +73,7 @@ public class ModuleRedPacket extends AbstractSpringFestivalModule {
             return;
         }
         RED_PACKET_CONTROLLER.setAlive(false);
+        SpringFestivalConstants.logger.info("Shutting down red packet handler...");
         try {
             redPacketThread.join();
         } catch (InterruptedException e) {

@@ -52,11 +52,6 @@ public final class SpringFestival {
     }
 
     @Mod.EventHandler
-    public void onPostInit(FMLPostInitializationEvent event) {
-        proxy.onPostInit(event);
-    }
-
-    @Mod.EventHandler
     public void onServerStarting(FMLServerStartingEvent event) {
         proxy.onServerStarting(event);
     }
