@@ -1,8 +1,12 @@
 package team.covertdragon.springfestival.module.firecracker.firework;
 
+import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import team.covertdragon.springfestival.module.firecracker.FirecrackerRegistry;
@@ -10,11 +14,14 @@ import team.covertdragon.springfestival.module.firecracker.FirecrackerRegistry;
 import javax.annotation.Nonnull;
 
 public class TileFireworkBox extends TileEntity implements ITickable {
-    private int count = 64;
-    private int tick = 30;
-    private boolean isActive = false;
+    private int count;
+    private int tick;
+    private boolean isActive;
 
     public TileFireworkBox() {
+        count = 64;
+        tick = 30;
+        isActive = false;
     }
 
     @Override
@@ -23,8 +30,11 @@ public class TileFireworkBox extends TileEntity implements ITickable {
             tick--;
             if (tick <= 0 && count > 0) {//But when will tick < 0?
                 count--;
-                FirecrackerRegistry.blockFirework.launchFireWork(this.getWorld(), this.getPos(),63-count);
+                launchFireWork(63 - count);
                 tick = 30;
+            }
+            if (count == 0) {
+                setActive(false);
             }
         }
     }
@@ -32,13 +42,15 @@ public class TileFireworkBox extends TileEntity implements ITickable {
     @Override
     @Nonnull
     public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound tag) {
+        super.writeToNBT(tag);
         tag.setInteger("count", count);
         tag.setBoolean("active", isActive);
         return tag;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(@Nonnull NBTTagCompound tag) {
+        super.readFromNBT(tag);
         this.count = tag.getInteger("count");
         this.isActive = tag.getBoolean("active");
     }
@@ -68,5 +80,47 @@ public class TileFireworkBox extends TileEntity implements ITickable {
         EntityItem entity = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
         entity.setDefaultPickupDelay();
         world.spawnEntity(entity);
+    }
+
+    private void launchFireWork(double count) {
+        if (world.isRemote)
+            return;
+        EntityFireworkRocket firework = new EntityFireworkRocket(world,
+                pos.getX() + 0.111111 * (count % 8 + 1),
+                pos.getY(),
+                pos.getZ() + 0.111111 * (new Double(count / 8).intValue() + 1),
+                makeFirework());
+        world.spawnEntity(firework);
+    }
+
+    private ItemStack makeFirework() {
+        NBTTagCompound tag = new NBTTagCompound();
+        ItemStack stack = new ItemStack(Items.FIREWORKS);
+        NBTTagList list = new NBTTagList();
+
+        for (int i = 0; i < 5; i++) {
+            list.appendTag(makeFireworkCharge());
+        }
+
+        NBTTagCompound fireworks = new NBTTagCompound();
+        fireworks.setByte("Flight", (byte) ((world.rand.nextInt(2)) + 3));
+        fireworks.setTag("Explosions", list);
+        tag.setTag("Fireworks", fireworks);
+        stack.setTagCompound(tag);
+
+        return stack;
+    }
+
+    private NBTTagCompound makeFireworkCharge() {
+        NBTTagCompound compound = new NBTTagCompound();
+        int[] colors = new int[7];
+        for (int i = 0; i < colors.length; i++) {
+            colors[i] = ItemDye.DYE_COLORS[this.world.rand.nextInt(ItemDye.DYE_COLORS.length)];
+        }
+
+        compound.setIntArray("Colors", colors);
+        compound.setByte("Type", (byte) world.rand.nextInt());
+
+        return compound;
     }
 }
