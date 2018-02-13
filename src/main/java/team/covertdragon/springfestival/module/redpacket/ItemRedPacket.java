@@ -9,6 +9,7 @@
 
 package team.covertdragon.springfestival.module.redpacket;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -40,10 +41,10 @@ public class ItemRedPacket extends Item {
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         NBTTagCompound data = stack.getTagCompound();
         if (data != null) {
-            tooltip.add("Owned by " + data.getString("owner_name"));
-            tooltip.add("Receiver: " + data.getString("receiver_name"));
-            tooltip.add(data.getString("message"));
-            tooltip.add(data.getBoolean("passcode") ? "口令红包" : "手气红包");
+            tooltip.add(I18n.format("redpacket.owner", data.getString("owner_name")));
+            tooltip.add(I18n.format("redpacket.receiver", data.getString("receiver_name")));
+            tooltip.add(I18n.format("redpacket.message", data.getString("message")));
+            tooltip.add(I18n.format(data.getBoolean("passcode") ? "redpacket.mode.passcode" : "redpacket.mode.regular"));
         }
     }
 
