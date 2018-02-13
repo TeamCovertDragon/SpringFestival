@@ -1,0 +1,20 @@
+{
+  "type": "forge:ore_shapeless",
+  "result": {
+    "item": "springfestival:firecracker_egg",
+    "count": 1
+  },
+  "ingredients": [
+    {
+      "ore" : "gunpowder",
+      "type": "forge:ore_dict"
+    },
+    {
+      "item": "springfestival:red_paper"
+    },
+    {
+      "ore" : "string",
+      "type": "forge:ore_dict"
+    }
+  ]
+}

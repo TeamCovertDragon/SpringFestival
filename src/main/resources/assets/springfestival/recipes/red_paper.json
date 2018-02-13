@@ -1,0 +1,21 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "springfestival:red_paper",
+    "count": 8
+  },
+  "pattern": [
+    "ppp",
+    "pdp",
+    "ppp"
+  ],
+  "key": {
+    "d": {
+      "ore" : "dyeRed",
+      "type": "forge:ore_dict"
+    },
+    "p": {
+      "item": "minecraft:paper"
+    }
+  }
+}
