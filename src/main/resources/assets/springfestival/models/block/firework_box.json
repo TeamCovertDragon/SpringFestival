@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "springfestival:blocks/firework_box_bottom",
+    "up": "springfestival:blocks/firework_box_top",
+    "north": "springfestival:blocks/firework_box_side",
+    "east": "springfestival:blocks/firework_box_side",
+    "south": "springfestival:blocks/firework_box_side",
+    "west": "springfestival:blocks/firework_box_side"
+  }
+}
