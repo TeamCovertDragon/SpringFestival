@@ -29,8 +29,6 @@ public class GuiContainerRedPacket extends GuiContainer {
 
     private static final ResourceLocation TEXTURE_BG = new ResourceLocation(SpringFestivalConstants.MOD_ID, "textures/gui/red_packet.png");
 
-    private GuiButtonToggle passcodeModeToggle;
-    private GuiButton sendRedPacket;
     private GuiTextField receiver;
     private GuiTextField message;
     private boolean passcodeMode;
@@ -44,9 +42,9 @@ public class GuiContainerRedPacket extends GuiContainer {
     @Override
     public void initGui() {
         super.initGui();
-        this.sendRedPacket = new GuiButtonImage(0, this.guiLeft + 17, this.guiTop + 13, 25, 15, 195, 0, 0, TEXTURE_BG);
+        GuiButtonImage sendRedPacket = new GuiButtonImage(0, this.guiLeft + 17, this.guiTop + 13, 25, 15, 195, 0, 0, TEXTURE_BG);
         buttonList.add(sendRedPacket);
-        this.passcodeModeToggle = new GuiButtonToggle(1, this.guiLeft + 15, this.guiTop + 49, 14, 14, false) {
+        GuiButtonToggle passcodeModeToggle = new GuiButtonToggle(1, this.guiLeft + 15, this.guiTop + 49, 14, 14, false) {
             @Override
             public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
                 if (passcodeMode) {
@@ -87,7 +85,6 @@ public class GuiContainerRedPacket extends GuiContainer {
     protected void actionPerformed(GuiButton button) {
         if (button.enabled) { // Dirty implementation. No time to waste, just make it works first!
             if (button.id == 0) {
-                // TODO Save all data and send a packet to server, to tell server that this red packet is ready to be enqueued
                 SpringFestivalNetworkHandler.INSTANCE.sendToServer(new ClientPacketConfirmRedPacketSending());
                 this.mc.player.closeScreen();
             } else if (button.id == 1) {

@@ -19,7 +19,7 @@ redpacket.receiver.any=所有人都
 redpacket.message=贺词：%s
 redpacket.message.empty=【暂无】
 redpacket.mode.passcode=口令红包
-redpacket.mode.regular=手气模式
+redpacket.mode.regular=手气红包
 
 toast.redpacket.publish.passcode=%s刚刚发了一个口令红包！
 toast.redpacket.publish.regular=%s刚刚发了一个手气红包！
