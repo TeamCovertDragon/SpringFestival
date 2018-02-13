@@ -9,14 +9,20 @@
 
 package team.covertdragon.springfestival.module.redpacket;
 
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import org.apache.commons.lang3.StringUtils;
+import team.covertdragon.springfestival.SpringFestival;
+import team.covertdragon.springfestival.SpringFestivalConstants;
+
 import javax.annotation.Nullable;
 import java.util.UUID;
 
 public abstract class RedPacketOperation {
 
-    private final long timestamp = System.currentTimeMillis();
-
-    private final UUID origin;
+    protected final UUID origin;
 
     /**
      * @param fromPlayer The UUID of that guy (i.e. EntityPlayer) who creates this operation
@@ -25,24 +31,67 @@ public abstract class RedPacketOperation {
         this.origin = fromPlayer;
     }
 
-    public static class Get extends RedPacketOperation {
+    public abstract void process();
+
+    static class Get extends RedPacketOperation {
         private final String passcode;
-        public Get(UUID fromPlayer, @Nullable final String passcode) {
+        Get(UUID fromPlayer, @Nullable final String passcode) {
             super(fromPlayer);
             this.passcode = passcode;
+        }
+
+        @Override
+        public void process() {
+            EntityPlayer player = SpringFestival.proxy.getPlayerByUUID(this.origin);
+            if (player != null) {
+                RedPacketData redPacket;
+                if (StringUtils.isEmpty(passcode)) {
+                    redPacket = ModuleRedPacket.RED_PACKET_CONTROLLER.nextAvailableRedPacket();
+                } else {
+                    redPacket = ModuleRedPacket.RED_PACKET_CONTROLLER.nextAvailableRedPacket(passcode);
+                }
+                if (redPacket != null) {
+                    FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(new RedPacketDistributionTask(player, redPacket.randomSplit()));
+                }
+            } else {
+                SpringFestivalConstants.logger.warn("Looks like the player {} has given up. Voiding this operation...", origin);
+            }
+        }
+
+        private static final class RedPacketDistributionTask implements Runnable {
+
+            private EntityPlayer player;
+            private RedPacketData packet;
+
+            RedPacketDistributionTask(final EntityPlayer player, final RedPacketData data) {
+                this.player = player;
+                this.packet = data;
+            }
+
+            @Override
+            public void run() {
+                final ItemStack item = new ItemStack(ModuleRedPacket.RED_PACKET);
+                item.setTagCompound(packet.serializeNBT());
+                final EntityItem entityItem = new EntityItem(player.world, player.posX, player.posY, player.posZ, item);
+                entityItem.setNoPickupDelay();
+                player.world.spawnEntity(entityItem);
+            }
         }
     }
 
     public static class Post extends RedPacketOperation {
         private final RedPacketData redPacket;
 
-        public Post(UUID fromPlayer, RedPacketData packet) {
+        Post(UUID fromPlayer, RedPacketData packet) {
             super(fromPlayer);
             this.redPacket = packet;
         }
 
-        public RedPacketData getRedPacket() {
-            return redPacket;
+        @Override
+        public void process() {
+            if (!ModuleRedPacket.RED_PACKET_CONTROLLER.enqueueNewRedPacket(this.redPacket)) {
+                SpringFestivalConstants.logger.error("Failed to push new red packet to available queue, report immediately");
+            }
         }
     }
 

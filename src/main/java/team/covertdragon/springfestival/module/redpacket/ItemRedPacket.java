@@ -52,8 +52,6 @@ public class ItemRedPacket extends Item {
     @Nullable
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable NBTTagCompound nbt) {
-        // Number "8" pronounces similarly with "发", implying "becoming rich" when the context is Spring Festival.
-        // TODO A smaller sized one, like 6?
         return new ItemStackInventoryProvider(8);
     }
 

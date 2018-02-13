@@ -9,10 +9,6 @@
 
 package team.covertdragon.springfestival.module.redpacket;
 
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-
 import javax.annotation.Nullable;
 import java.util.Deque;
 import java.util.Iterator;
@@ -32,12 +28,10 @@ public final class RedPacketDispatchingController implements Runnable {
     public void run() {
         // TODO Read pending request from last server shutdown
         while (keepAlive) {
-            // TODO Control all incoming red packet distribution without blocking game running
             RedPacketOperation operation = waitingQueue.poll();
             if (operation != null) {
-                // TODO Process it
+               operation.process();
             }
-            // TODO Thread safety. Requiring IThreadListener::addScheduledTask
         }
         if (!waitingQueue.isEmpty()) {
             synchronized (waitingQueue) { // TODO Why the hell you are using critical block?
@@ -48,6 +42,14 @@ public final class RedPacketDispatchingController implements Runnable {
 
     public boolean enqueueOperation(RedPacketOperation operation) {
         return isAlive() && waitingQueue.offer(operation); // Do not accept operation when service shutting down
+    }
+
+    boolean enqueueNewRedPacket(RedPacketData redPacket) {
+        if (redPacket.isHasPasscode()) {
+            return restrictedRedPacket.offerLast(redPacket);
+        } else {
+            return publicRedPacket.offer(redPacket);
+        }
     }
 
     /**
@@ -67,7 +69,9 @@ public final class RedPacketDispatchingController implements Runnable {
         } else {
             while (true) {
                 RedPacketData redPacket = publicRedPacket.peek();
-                if (redPacket.isEmpty()) {
+                if (redPacket == null) {
+                    return null;
+                } else if (redPacket.isEmpty()) {
                     publicRedPacket.poll();
                 } else {
                     return redPacket;
@@ -110,21 +114,7 @@ public final class RedPacketDispatchingController implements Runnable {
     }
 
     public void setAlive(boolean keepAlive) {
-        // TODO Log output, for tracing & debugging
         this.keepAlive = keepAlive;
     }
 
-    private static final class RedPacketDistributionTask implements Runnable {
-
-        private EntityPlayer player;
-        private RedPacketData packet;
-
-        @Override
-        public void run() {
-            // TODO Use the actual item
-            final EntityItem entityItem = new EntityItem(player.world, player.posX, player.posY, player.posZ, ItemStack.EMPTY);
-            entityItem.setNoPickupDelay();
-            player.world.spawnEntity(entityItem);
-        }
-    }
 }

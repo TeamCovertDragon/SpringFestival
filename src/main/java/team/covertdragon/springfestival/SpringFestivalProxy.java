@@ -9,6 +9,7 @@
 
 package team.covertdragon.springfestival;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
@@ -26,10 +27,12 @@ import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProvider
 import team.covertdragon.springfestival.module.ISpringFestivalModule;
 import team.covertdragon.springfestival.module.ModuleLoader;
 
+import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class SpringFestivalProxy {
 
@@ -61,8 +64,7 @@ public abstract class SpringFestivalProxy {
         return isDuringSpringFestival;
     }
 
-    @OverridingMethodsMustInvokeSuper
-    public void onConstruct(FMLConstructionEvent event) {
+    public final void onConstruct(FMLConstructionEvent event) {
         modules = ModuleLoader.readASMDataTable(event.getASMHarvestedData());
         modules.forEach(MinecraftForge.EVENT_BUS::register);
     }
@@ -78,7 +80,12 @@ public abstract class SpringFestivalProxy {
         modules.forEach(ISpringFestivalModule::onInit);
     }
 
-    public abstract void onPostInit(FMLPostInitializationEvent event);
+    /**
+     * @deprecated Never used
+     * @param event The event
+     */
+    @Deprecated
+    public void onPostInit(FMLPostInitializationEvent event) {}
 
     @OverridingMethodsMustInvokeSuper
     public void onServerStarting(FMLServerStartingEvent event) {
@@ -90,4 +97,8 @@ public abstract class SpringFestivalProxy {
         modules.forEach(ISpringFestivalModule::onServerStopping);
     }
 
+    @Nullable
+    public abstract EntityPlayer getPlayerByUUID(UUID uuid);
+
+    public abstract void scheduleTask(Runnable task);
 }
