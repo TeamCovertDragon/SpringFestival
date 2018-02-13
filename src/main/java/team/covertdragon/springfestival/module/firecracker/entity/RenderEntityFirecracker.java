@@ -7,7 +7,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package team.covertdragon.springfestival.module.firecracker;
+package team.covertdragon.springfestival.module.firecracker.entity;
 
 public class RenderEntityFirecracker {
 

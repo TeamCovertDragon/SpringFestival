@@ -25,20 +25,14 @@ import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
+import team.covertdragon.springfestival.module.firecracker.entity.EntityFirecracker;
 import team.covertdragon.springfestival.module.firecracker.firework.BlockFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.firework.ItemFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.firework.TileFireworkBox;
+import team.covertdragon.springfestival.module.firecracker.hanging.BlockHangingFirecracker;
 
 @SpringFestivalModule(name = "firecracker", dependencies = {"material"})
 public class ModuleFirecracker extends AbstractSpringFestivalModule {
-
-    private static final Block BLOCK_HANGING_FIRECRACKER = new BlockHangingFirecracker()
-            .setCreativeTab(SpringFestivalConstants.CREATIVE_TAB)
-            .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".hanging_firecracker")
-            .setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker");
-
-    private static final Item ITEM_HANGING_FIRECRACKER = new ItemBlock(BLOCK_HANGING_FIRECRACKER)
-            .setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker");
 
     public void onInit() {
         EntityRegistry.registerModEntity(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker"), EntityFirecracker.class, "Firecracker", 0, SpringFestival.getInstance(), 80, 3, true);
@@ -49,10 +43,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         GameRegistry.registerTileEntity(TileFireworkBox.class, "tile_firework_box");
 
         event.getRegistry().registerAll(
-                new BlockHangingFirecracker()
-                        .setCreativeTab(SpringFestivalConstants.CREATIVE_TAB)
-                        .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".hanging_firecracker")
-                        .setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker"),
+                new BlockHangingFirecracker(),
                 new BlockFireworkBox()
         );
     }
@@ -60,7 +51,8 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     @SubscribeEvent
     public void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                ITEM_HANGING_FIRECRACKER,
+                new ItemBlock(FirecrackerRegistry.blockHangingFireCracker)
+                    .setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker"),
                 new ItemFireworkBox()
         );
     }
@@ -70,7 +62,6 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     public void onModelRegister(ModelRegistryEvent event) {
         ModelUtil.mapItemModel(FirecrackerRegistry.itemFireWorkBox);
         ModelUtil.mapItemModel(FirecrackerRegistry.itemHangingFirecracker);
-        ModelUtil.mapItemModel(ITEM_HANGING_FIRECRACKER);
 //      RenderingRegistry.loadEntityRenderers(manager, renderMap);
     }
 }

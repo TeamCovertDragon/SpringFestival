@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.firecracker.firework.BlockFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.firework.ItemFireworkBox;
+import team.covertdragon.springfestival.module.firecracker.hanging.BlockHangingFirecracker;
 
 @GameRegistry.ObjectHolder(SpringFestivalConstants.MOD_ID)
 public class FirecrackerRegistry {

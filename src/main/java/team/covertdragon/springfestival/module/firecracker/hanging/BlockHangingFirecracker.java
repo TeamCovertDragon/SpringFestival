@@ -7,7 +7,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package team.covertdragon.springfestival.module.firecracker;
+package team.covertdragon.springfestival.module.firecracker.hanging;
 
 import javax.annotation.Nullable;
 
@@ -38,6 +38,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.SpringFestivalUtil;
 
 @SuppressWarnings("deprecation")
@@ -49,6 +50,9 @@ public class BlockHangingFirecracker extends Block {
 
     public BlockHangingFirecracker() {
         super(Material.TNT, MapColor.RED);
+        this.setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
+        this.setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".hanging_firecracker");
+        this.setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker");
     }
 
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
