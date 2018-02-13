@@ -120,10 +120,16 @@ public class RedPacketData implements INBTSerializable<NBTTagCompound> {
 
     /**
      * @return A new RedPacketData instance that contains a portion of contents of this RedPacketData instance.
-     * @throws UnsupportedOperationException Always, because it has not been implemented yet
      */
     public RedPacketData randomSplit() {
-        throw new UnsupportedOperationException("TODO");
+        final RedPacketData newData = new RedPacketData();
+        newData.timestamp = System.currentTimeMillis();
+        newData.owner = this.owner;
+        newData.hasPasscode = this.hasPasscode;
+        newData.message = this.message;
+        newData.contents = new ArrayList<>();
+        // TODO We need a splitter...
+        return newData;
     }
 
     @Override
