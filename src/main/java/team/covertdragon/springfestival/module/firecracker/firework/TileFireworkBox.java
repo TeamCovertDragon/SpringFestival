@@ -22,9 +22,9 @@ public class TileFireworkBox extends TileEntity implements ITickable {
         if (isActive) {
             tick--;
             if (tick <= 0 && count > 0) {//But when will tick < 0?
-                FirecrackerRegistry.blockFirework.launchFireWork(this.getWorld(), this.getPos());
-                tick = 30;
                 count--;
+                FirecrackerRegistry.blockFirework.launchFireWork(this.getWorld(), this.getPos(),63-count);
+                tick = 30;
             }
         }
     }

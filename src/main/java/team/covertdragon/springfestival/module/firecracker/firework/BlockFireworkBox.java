@@ -64,10 +64,10 @@ public class BlockFireworkBox extends Block {
         return 0;
     }
 
-    public void launchFireWork(World world, BlockPos pos) {
+    public void launchFireWork(World world, BlockPos pos, double count) {
         //Dirty implementation
         EntityFireworkRocket firework = new EntityFireworkRocket(world);
-        firework.setPosition(pos.getX(), pos.getY(), pos.getZ());
+        firework.setPosition(pos.getX() + 0.111111 * (count % 8 + 1), pos.getY(), pos.getZ() + 0.111111 * (new Double(count / 8).intValue() + 1));
         world.spawnEntity(firework);
     }
 }
