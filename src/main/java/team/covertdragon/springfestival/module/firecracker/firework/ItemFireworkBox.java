@@ -13,13 +13,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.module.firecracker.FirecrackerRegistry;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemFireworkBox extends ItemBlock {
-    public ItemFireworkBox(BlockFireworkBox blockFireworkBox) {
-        super(blockFireworkBox);
+    public ItemFireworkBox() {
+        super(FirecrackerRegistry.blockFirework);
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
         setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".firework_box");
         setRegistryName(SpringFestivalConstants.MOD_ID, "firework_box");
@@ -42,6 +43,8 @@ public class ItemFireworkBox extends ItemBlock {
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (stack.hasTagCompound()) {
             tooltip.add(I18n.format("firework.tooltip.count", stack.getTagCompound().getInteger("count")));
+        } else {
+            tooltip.add(I18n.format("firework.tooltip.count", 64));
         }
     }
 }
