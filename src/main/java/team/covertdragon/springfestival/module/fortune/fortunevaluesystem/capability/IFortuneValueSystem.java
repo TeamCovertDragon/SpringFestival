@@ -1,5 +1,6 @@
 package team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability;
 
+import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.AbstractTileFVMachine;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.IFVMachine;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public interface IFortuneValueSystem {
 
     public boolean shrinkIncreasingPoint(int quality);
 
-    public List<IFVMachine> getFVMachines();
+    public List<AbstractTileFVMachine> getFVMachines();
 
     public void setMachines(List<IFVMachine> machines);
 

@@ -2,11 +2,12 @@ package team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machi
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.INBTSerializable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-public abstract class AbstractTileFVMachine extends TileEntity implements IFVMachine {
+public abstract class AbstractTileFVMachine extends TileEntity implements IFVMachine, INBTSerializable<NBTTagCompound> {
     private int id;
 
     @Override
@@ -39,5 +40,18 @@ public abstract class AbstractTileFVMachine extends TileEntity implements IFVMac
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
         this.id = compound.getInteger("fvid");
+    }
+
+    @Override
+    public NBTTagCompound serializeNBT(){
+        NBTTagCompound tag = new NBTTagCompound();
+        tag.setInteger("fvid", getId());
+    }
+
+    @Override
+    public void deserializeNBT(NBTTagCompound nbt){
+        if(nbt.hasKey("fvid")){
+            this.setId(nbt.getInteger("fvid"));
+        }
     }
 }

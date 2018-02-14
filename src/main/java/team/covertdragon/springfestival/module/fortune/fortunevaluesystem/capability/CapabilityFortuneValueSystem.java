@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.AbstractTileFVMachine;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.IFVMachine;
 
 import javax.annotation.Nonnull;
@@ -36,10 +37,8 @@ public class CapabilityFortuneValueSystem {
         private NBTTagList writeMachinesToNBT(IFortuneValueSystem instance) {
             NBTTagList tagList = new NBTTagList();
 
-            for (IFVMachine machine : instance.getFVMachines()) {
-                NBTTagCompound compound = new NBTTagCompound();
-                //TODO serialize machines
-                tagList.appendTag(compound);
+            for (AbstractTileFVMachine machine : instance.getFVMachines()) {
+                tagList.appendTag(machine.serializeNBT());
             }
             return tagList;
         }
@@ -65,7 +64,7 @@ public class CapabilityFortuneValueSystem {
     public static class Implementation implements IFortuneValueSystem {
         private int fortuneValue = 0;
         private int increasingPoint = 1;//TODO increase more quickly in springfestival?
-        private List<IFVMachine> machines = new LinkedList<>();
+        private List<AbstractTileFVMachine> machines = new LinkedList<>();
         private int nextMachineId;
 
         @Override
@@ -117,7 +116,7 @@ public class CapabilityFortuneValueSystem {
         }
 
         @Override
-        public List<IFVMachine> getFVMachines() {
+        public List<AbstractTileFVMachine> getFVMachines() {
             return machines;
         }
 
