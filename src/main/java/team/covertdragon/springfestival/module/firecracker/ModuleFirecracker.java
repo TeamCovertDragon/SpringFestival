@@ -10,6 +10,7 @@
 package team.covertdragon.springfestival.module.firecracker;
 
 import java.lang.reflect.Field;
+import java.util.Iterator;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
@@ -20,6 +21,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -30,6 +33,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -75,6 +79,17 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
                 }
                     
             mob.tasks.addTask(3, new EntityAIAvoidEntity(mob, EntityFirecracker.class, 6.0F, 1.0D, 1.2D));
+        }
+    }
+    
+    @SubscribeEvent
+    public void onExplosionDetonate(ExplosionEvent.Detonate event)
+    {
+        Iterator<Entity> itr = event.getAffectedEntities().iterator();
+        while (itr.hasNext())
+        {
+            Entity e = itr.next();
+            if (e instanceof EntityXPOrb || e instanceof EntityItem) itr.remove();
         }
     }
     
