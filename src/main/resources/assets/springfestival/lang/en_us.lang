@@ -10,10 +10,12 @@ item.springfestival.red_shoes.name=Red shoes
 item.springfestival.dumpling.name=Dumpling
 item.springfestival.niangao.name=Rice cake
 item.springfestival.firecracker_egg.name=Firecracker
+item.springfestival.large_red_pillar.name=Large red pillar
 
 tile.springfestival.fu_door.name=Fortune door
 tile.springfestival.hanging_firecracker.name=Hanging firecracker
 tile.springfestival.firework_box.name=Firework box
+tile.springfestival.large_red_pillar.name=Large red pillar
 
 entity.springfestival.firecracker.name=Firecracker
 

@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:block/cube",
+    "textures": {
+      "layer0": "springfestival:blocks/large_red_pillar"
+    }
+}

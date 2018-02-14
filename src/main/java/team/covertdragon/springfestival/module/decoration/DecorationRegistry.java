@@ -10,10 +10,12 @@
 package team.covertdragon.springfestival.module.decoration;
 
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.decoration.fudoor.BlockFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.ItemFuDoor;
+import team.covertdragon.springfestival.module.decoration.redpillar.BlockLargeRedPillar;
 
 @GameRegistry.ObjectHolder(SpringFestivalConstants.MOD_ID)
 public class DecorationRegistry {
@@ -34,4 +36,10 @@ public class DecorationRegistry {
 
     @GameRegistry.ObjectHolder("fu_door")
     public static final ItemFuDoor itemFuDoor = null;
+
+    @GameRegistry.ObjectHolder("large_red_pillar")
+    public static final BlockLargeRedPillar blockLargeRedPillar = null;
+
+    @GameRegistry.ObjectHolder("large_red_pillar")
+    public static final ItemBlock itemLargeRedPillar = null;
 }

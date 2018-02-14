@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "springfestival:firework_box" }
+    "normal": {
+      "model": "springfestival:firework_box"
+    }
   }
 }
