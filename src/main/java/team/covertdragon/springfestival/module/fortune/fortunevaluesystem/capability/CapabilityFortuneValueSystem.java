@@ -5,8 +5,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.IFVMachine;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.List;
@@ -140,6 +142,30 @@ public class CapabilityFortuneValueSystem {
         @Override
         public void setNextMachineId(int id) {
             this.nextMachineId = id;
+        }
+    }
+
+    public static class PlayerProvider implements ICapabilitySerializable<NBTTagCompound> { //TODO
+
+        @Override
+        public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+            return false;
+        }
+
+        @Nullable
+        @Override
+        public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+            return null;
+        }
+
+        @Override
+        public NBTTagCompound serializeNBT() {
+            return null;
+        }
+
+        @Override
+        public void deserializeNBT(NBTTagCompound nbt) {
+
         }
     }
 }

@@ -3,6 +3,7 @@ package team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machi
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
+import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 public abstract class AbstractTileFVMachine extends TileEntity implements IFVMachine {
@@ -26,6 +27,7 @@ public abstract class AbstractTileFVMachine extends TileEntity implements IFVMac
 
     @Override
     @OverridingMethodsMustInvokeSuper
+    @Nonnull
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         compound.setInteger("fvid", id);
