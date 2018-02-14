@@ -9,13 +9,13 @@
 
 package team.covertdragon.springfestival.internal;
 
-import java.util.Collections;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
+
+import java.util.Collections;
 
 public final class SpringFestivalUtil {
 
