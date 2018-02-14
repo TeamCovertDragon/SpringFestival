@@ -11,8 +11,6 @@ package team.covertdragon.springfestival.module.calligraphy;
 
 import net.minecraft.client.gui.GuiScreen;
 
-import java.io.IOException;
-
 public class GuiCalligraphy extends GuiScreen {
 
     private transient int strokeBeginX, strokeBeginY, strokeRadius;
@@ -30,7 +28,7 @@ public class GuiCalligraphy extends GuiScreen {
     private boolean canvas[][] = new boolean[256][256];
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         this.strokeBeginX = mouseX;
         this.strokeBeginY = mouseY;
     }

@@ -9,7 +9,6 @@
 
 package team.covertdragon.springfestival.module.firecracker.entity;
 
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
@@ -41,16 +40,16 @@ public class ItemFirecrackerEgg extends Item {
             itemstack.shrink(1);
         }
 
-        worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
         if (!worldIn.isRemote)
         {
-            EntityFirecracker entityfirecracker = new EntityFirecracker(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, (EntityLivingBase)playerIn);
+            EntityFirecracker entityfirecracker = new EntityFirecracker(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, playerIn);
             entityfirecracker.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 0.943F, 0.233F);
             worldIn.spawnEntity(entityfirecracker);
         }
 
         playerIn.addStat(StatList.getObjectUseStats(this));
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
+        return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
     }
 }

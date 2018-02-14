@@ -65,7 +65,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
                     {
                         Field f = ((EntityAIAvoidEntity)task.action).getClass().getDeclaredField("classToAvoid");
                         f.setAccessible(true);
-                        if (f.get((EntityAIAvoidEntity)task.action).getClass() == EntityFirecracker.class)
+                        if (f.get(task.action).getClass() == EntityFirecracker.class)
                             return;
                     }
                 } catch (Exception e) {
@@ -110,7 +110,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         {
             World world = source.getWorld();
             IPosition iposition = BlockDispenser.getDispensePosition(source);
-            EnumFacing enumfacing = (EnumFacing)source.getBlockState().getValue(BlockDispenser.FACING);
+            EnumFacing enumfacing = source.getBlockState().getValue(BlockDispenser.FACING);
             IProjectile iprojectile = this.getProjectileEntity(world, iposition, stack);
             iprojectile.shoot((double)enumfacing.getFrontOffsetX(), (double)((float)enumfacing.getFrontOffsetY() + 0.1F), (double)enumfacing.getFrontOffsetZ(), enumfacing != EnumFacing.UP ? 0.943F : 1.2450F , 0.233F);
             world.spawnEntity((Entity)iprojectile);

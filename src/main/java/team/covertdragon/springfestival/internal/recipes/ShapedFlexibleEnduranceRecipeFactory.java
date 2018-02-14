@@ -37,7 +37,7 @@ public class ShapedFlexibleEnduranceRecipeFactory implements IRecipeFactory{
 
         @Override
         public ItemStack getRecipeOutput(){
-            this.output.setItemDamage(this.damage == 0 ? this.getDamage(this.output.getMaxDamage()) : this.damage);
+            this.output.setItemDamage(this.damage == 0 ? getDamage(this.output.getMaxDamage()) : this.damage);
             return this.output;
         }
 

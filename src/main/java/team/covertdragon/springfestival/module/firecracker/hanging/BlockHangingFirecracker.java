@@ -124,7 +124,7 @@ public class BlockHangingFirecracker extends Block {
     @Override
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
-        return super.canPlaceBlockAt(worldIn, pos) ? this.canBlockStay(worldIn, pos) : false;
+        return super.canPlaceBlockAt(worldIn, pos) && this.canBlockStay(worldIn, pos);
     }
     
     public boolean canBlockStay(World worldIn, BlockPos pos)
