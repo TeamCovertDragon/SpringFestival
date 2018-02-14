@@ -16,11 +16,16 @@ public interface ISpringFestivalModule {
      */
     void onInit();
 
+
+    /**
+     *  Called when FMLPreInitializationEvent is dispatched
+     */
+    default void onPreInit() {}
+
     /**
      * Called when FMLServerStartingEvent is dispatched.
      */
     default void onServerStarting() {}
 
     default void onServerStopping() {}
-
 }

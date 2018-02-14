@@ -63,6 +63,7 @@ public abstract class SpringFestivalProxy {
     @OverridingMethodsMustInvokeSuper
     public void onPreInit(FMLPreInitializationEvent event) {
         SpringFestivalConstants.logger = event.getModLog();
+        modules.forEach(ISpringFestivalModule::onPreInit);
         DATE_CHECKERS.add(SpringFestivalTimeProviderQuerying.INSTANCE);
         DATE_CHECKERS.add(SpringFestivalTimeProviderLocal.INSTANCE);
         DATE_CHECKERS.add(SpringFestivalTimeProviderImpossible.INSTANCE);
