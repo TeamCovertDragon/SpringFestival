@@ -26,6 +26,10 @@ public class TileFireworkBox extends TileEntity implements ITickable {
 
     @Override
     public void update() {
+        if (world.isBlockPowered(pos)) {
+            setActive(true);
+        }
+
         if (isActive) {
             tick--;
             if (tick <= 0 && count > 0) {//But when will tick < 0?
