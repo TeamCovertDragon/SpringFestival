@@ -9,6 +9,7 @@
 
 package team.covertdragon.springfestival.module.decoration.fudoor;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -24,8 +25,15 @@ public class TESRFuDoor extends FastTESR<TileFuDoor> {
     @Override
     public void renderTileEntityFast(@Nullable TileFuDoor te, double x, double y, double z, float partialTicks, int destroyStage, float partial, BufferBuilder buffer) {
         if (te == null) {
-            return; // wtf
+            return;
         }
+
+        IBlockState doorUpper = te.getOriginalBlockStateUpper();
+        if (doorUpper != null) {
+            // TODO I strongly believe this is incorrect, awaiting input, it is kept here as placeholder (thanks to that it doesn't crash game)
+            Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(doorUpper, te.getPos(), te.getWorld(), buffer);
+        }
+
         EnumFacing doorFacing = te.getWorld().getBlockState(te.getPos()).getValue(BlockFuDoor.FACING);
         TextureAtlasSprite sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(FU_TEXTURE_LOCATION);
         int light = te.getWorld().getCombinedLight(te.getPos(), 0);

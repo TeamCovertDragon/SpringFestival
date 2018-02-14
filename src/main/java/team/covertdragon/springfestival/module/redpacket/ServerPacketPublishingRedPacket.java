@@ -16,8 +16,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import team.covertdragon.springfestival.internal.network.AbstractSpringFestivalPacket;
 
-import java.util.UUID;
-
 public class ServerPacketPublishingRedPacket implements AbstractSpringFestivalPacket {
 
     RedPacketData data;

@@ -7,7 +7,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+@MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 package team.covertdragon.springfestival.module.calligraphy;
+
+import mcp.MethodsReturnNonnullByDefault;
 
 import javax.annotation.ParametersAreNonnullByDefault;

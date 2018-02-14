@@ -25,7 +25,7 @@ import team.covertdragon.springfestival.internal.SpringFestivalUtil;
 import team.covertdragon.springfestival.module.material.MaterialRegistry;
 
 public class EntityFirecracker extends EntityThrowable {
-    private static final DataParameter<Integer> FUSE = EntityDataManager.<Integer>createKey(EntityFirecracker.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> FUSE = EntityDataManager.createKey(EntityFirecracker.class, DataSerializers.VARINT);
     /** How long the fuse is */
     private int fuse;
     private EntityLivingBase placedBy;
@@ -55,7 +55,7 @@ public class EntityFirecracker extends EntityThrowable {
     @Override
     protected void entityInit()
     {
-        this.dataManager.register(FUSE, Integer.valueOf(40));
+        this.dataManager.register(FUSE, 40);
     }
     
     @Override
@@ -126,7 +126,7 @@ public class EntityFirecracker extends EntityThrowable {
 
     public void setFuse(int fuseIn)
     {
-        this.dataManager.set(FUSE, Integer.valueOf(fuseIn));
+        this.dataManager.set(FUSE, fuseIn);
         this.fuse = fuseIn;
     }
 
@@ -141,7 +141,7 @@ public class EntityFirecracker extends EntityThrowable {
 
     public int getFuseDataManager()
     {
-        return ((Integer)this.dataManager.get(FUSE)).intValue();
+        return this.dataManager.get(FUSE);
     }
 
     public int getFuse()

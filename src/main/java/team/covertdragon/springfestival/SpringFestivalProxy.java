@@ -11,10 +11,8 @@ package team.covertdragon.springfestival;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
@@ -38,13 +36,6 @@ public abstract class SpringFestivalProxy {
 
     private static final List<ISpringFestivalTimeProvider> DATE_CHECKERS = new ArrayList<>();
     private List<? extends ISpringFestivalModule> modules = Collections.emptyList();
-
-    static {
-        FluidRegistry.enableUniversalBucket();
-        DATE_CHECKERS.add(SpringFestivalTimeProviderQuerying.INSTANCE);
-        DATE_CHECKERS.add(SpringFestivalTimeProviderLocal.INSTANCE);
-        DATE_CHECKERS.add(SpringFestivalTimeProviderImpossible.INSTANCE);
-    }
 
     private boolean isDuringSpringFestival = false, hasQueriedTime = false;
 
@@ -72,6 +63,9 @@ public abstract class SpringFestivalProxy {
     @OverridingMethodsMustInvokeSuper
     public void onPreInit(FMLPreInitializationEvent event) {
         SpringFestivalConstants.logger = event.getModLog();
+        DATE_CHECKERS.add(SpringFestivalTimeProviderQuerying.INSTANCE);
+        DATE_CHECKERS.add(SpringFestivalTimeProviderLocal.INSTANCE);
+        DATE_CHECKERS.add(SpringFestivalTimeProviderImpossible.INSTANCE);
     }
 
     @OverridingMethodsMustInvokeSuper
@@ -79,13 +73,6 @@ public abstract class SpringFestivalProxy {
         NetworkRegistry.INSTANCE.registerGuiHandler(SpringFestival.getInstance(), new SpringFestivalGuiHandler());
         modules.forEach(ISpringFestivalModule::onInit);
     }
-
-    /**
-     * @deprecated Never used
-     * @param event The event
-     */
-    @Deprecated
-    public void onPostInit(FMLPostInitializationEvent event) {}
 
     @OverridingMethodsMustInvokeSuper
     public void onServerStarting(FMLServerStartingEvent event) {

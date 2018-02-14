@@ -10,14 +10,9 @@
 package team.covertdragon.springfestival.module.monster;
 
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import team.covertdragon.springfestival.SpringFestival;
-import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 

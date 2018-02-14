@@ -40,6 +40,7 @@ public class ClientPacketConfirmRedPacketSending implements AbstractSpringFestiv
                 SpringFestivalNetworkHandler.INSTANCE.sendToPlayer(new ServerPacketSendingRedPacketToPlayer(), targetPlayer);
             } else {
                 // TODO Enqueue to wait list
+                SpringFestivalConstants.logger.warn("Someone trying to send red packet to offline player!");
             }
         }
     }
