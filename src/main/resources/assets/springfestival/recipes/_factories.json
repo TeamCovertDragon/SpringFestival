@@ -1,0 +1,5 @@
+{
+    "recipes": {
+        "shaped_flexible_duration": "team.covertdragon.springfestival.internal.recipes.ShapedFlexibleEnduranceRecipeFactory"
+    }
+}
