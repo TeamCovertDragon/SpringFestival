@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:block/cross",
+    "textures": {
+        "cross": "springfestival:blocks/hanging_firecracker_0"
+    }
+}

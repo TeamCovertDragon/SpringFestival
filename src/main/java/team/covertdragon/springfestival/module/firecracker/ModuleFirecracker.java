@@ -25,6 +25,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -46,6 +47,7 @@ import team.covertdragon.springfestival.module.firecracker.firework.ItemFirework
 import team.covertdragon.springfestival.module.firecracker.firework.TileFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.hanging.BlockHangingFirecracker;
 import team.covertdragon.springfestival.module.firecracker.hanging.ItemHangingFirecracker;
+import team.covertdragon.springfestival.module.firecracker.hanging.TileHangingFirecracker;
 
 @SpringFestivalModule(name = "firecracker", dependencies = {"material"})
 public class ModuleFirecracker extends AbstractSpringFestivalModule {
@@ -79,6 +81,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     @SubscribeEvent
     public void onBlockRegister(RegistryEvent.Register<Block> event) {
         GameRegistry.registerTileEntity(TileFireworkBox.class, "tile_firework_box");
+        GameRegistry.registerTileEntity(TileHangingFirecracker.class, "tile_hanging_firecracker");
         event.getRegistry().registerAll(
                 new BlockHangingFirecracker(),
                 new BlockFireworkBox()
@@ -94,6 +97,12 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         );
     }
 
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void onSoundEventRegistry(RegistryEvent.Register<SoundEvent> event) {
+        event.getRegistry().register(FirecrackerRegistry.soundFirecrackerThrow);
+    }
+    
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onModelRegister(ModelRegistryEvent event) {

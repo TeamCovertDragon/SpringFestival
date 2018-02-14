@@ -1,7 +1,7 @@
 {
-  "variants": {
-    "normal": {
-      "model": "springfestival:large_red_pillar"
+    "variants": {
+        "axis=y":  { "model": "springfestival:large_red_pillar" },
+        "axis=z":   { "model": "springfestival:large_red_pillar", "x": 90 },
+        "axis=x":   { "model": "springfestival:large_red_pillar", "x": 90, "y": 90 }
     }
-  }
 }

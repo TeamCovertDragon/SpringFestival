@@ -1,5 +1,15 @@
 {
     "variants": {
-        "normal": { "model": "springfestival:hanging_firecracker" }
+        "count=0": { "model": "springfestival:hanging_firecracker_0" },
+        "count=1": { "model": "springfestival:hanging_firecracker_0" },
+        "count=2": { "model": "springfestival:hanging_firecracker_0" },
+        "count=3": { "model": "springfestival:hanging_firecracker_0" },
+        "count=4": { "model": "springfestival:hanging_firecracker_0" },
+        "count=5": { "model": "springfestival:hanging_firecracker_1" },
+        "count=6": { "model": "springfestival:hanging_firecracker_1" },
+        "count=7": { "model": "springfestival:hanging_firecracker_2" },
+        "count=8": { "model": "springfestival:hanging_firecracker_2" },
+        "count=9": { "model": "springfestival:hanging_firecracker_3" },
+        "count=10": { "model": "springfestival:hanging_firecracker_3" }
     }
 }

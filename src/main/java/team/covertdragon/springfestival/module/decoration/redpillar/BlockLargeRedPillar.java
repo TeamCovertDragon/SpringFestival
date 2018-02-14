@@ -1,12 +1,12 @@
 package team.covertdragon.springfestival.module.decoration.redpillar;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
-public class BlockLargeRedPillar extends Block {
+public class BlockLargeRedPillar extends BlockRotatedPillar {
     public BlockLargeRedPillar() {
         super(Material.ROCK, MapColor.RED);
         setSoundType(SoundType.STONE);
