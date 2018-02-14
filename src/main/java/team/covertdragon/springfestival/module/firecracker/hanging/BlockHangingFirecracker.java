@@ -49,7 +49,7 @@ public class BlockHangingFirecracker extends Block {
     // TODO Can redstone signal affect this firecracker?
 
     public BlockHangingFirecracker() {
-        super(Material.TNT, MapColor.RED);
+        super(Material.CACTUS, MapColor.RED);
         this.setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
         this.setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".hanging_firecracker");
         this.setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker");

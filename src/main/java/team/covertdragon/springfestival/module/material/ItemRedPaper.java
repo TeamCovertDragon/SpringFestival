@@ -19,13 +19,14 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.module.decoration.*;
+import team.covertdragon.springfestival.module.decoration.DecorationRegistry;
 import team.covertdragon.springfestival.module.decoration.fudoor.BlockFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.ItemFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.TileFuDoor;
 
 public class ItemRedPaper extends Item {
     public ItemRedPaper() {
+        setRegistryName(SpringFestivalConstants.MOD_ID, "red_paper");
         setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".red_paper");
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
     }

@@ -22,7 +22,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import team.covertdragon.springfestival.internal.SpringFestivalUtil;
-import team.covertdragon.springfestival.module.material.ModuleMaterial;
+import team.covertdragon.springfestival.module.material.MaterialRegistry;
 
 public class EntityFirecracker extends EntityThrowable {
     private static final DataParameter<Integer> FUSE = EntityDataManager.<Integer>createKey(EntityFirecracker.class, DataSerializers.VARINT);
@@ -103,7 +103,7 @@ public class EntityFirecracker extends EntityThrowable {
     private void explode()
     {
         SpringFestivalUtil.createNonDestructiveExplosion(this.world, this.getPosition(), 3.0F);
-        this.world.spawnEntity(new EntityItem(world, this.posX, this.posY, this.posZ, new ItemStack(ModuleMaterial.RED_PAPER, rand.nextInt(2) + 1)));
+        this.world.spawnEntity(new EntityItem(world, this.posX, this.posY, this.posZ, new ItemStack(MaterialRegistry.itemRedPaperBroken, 1)));
     }
 
     @Override
