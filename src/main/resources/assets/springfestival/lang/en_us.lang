@@ -22,6 +22,8 @@ tile.springfestival.large_red_pillar_alt.name=Large red pillar
 
 entity.springfestival.firecracker.name=Firecracker
 
+subtitle.springfestival.firecracker.throw=Firecracker flies
+
 redpacket.owner=Owned by %s
 redpacket.receiver=Will be sent to %s
 redpacket.receiver.any=everyone

@@ -9,6 +9,7 @@
 package team.covertdragon.springfestival.module.firecracker.hanging;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityFireworkRocket;
@@ -22,23 +23,10 @@ import net.minecraft.tileentity.TileEntity;
 import team.covertdragon.springfestival.module.firecracker.FirecrackerRegistry;
 
 public class TileHangingFirecracker extends TileEntity {
+    @Nullable
     private EntityLivingBase igniter;
 
     public TileHangingFirecracker() {
-    }
-
-    @Override
-    @Nonnull
-    public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound tag) {
-        super.writeToNBT(tag);
-        tag.setUniqueId("igniter", igniter.getUniqueID());
-        return tag;
-    }
-
-    @Override
-    public void readFromNBT(@Nonnull NBTTagCompound tag) {
-        super.readFromNBT(tag);
-        this.igniter.setUniqueId(tag.getUniqueId("igniter"));
     }
 
     public void setIgniter(EntityLivingBase igniter) {

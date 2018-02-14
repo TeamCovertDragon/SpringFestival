@@ -1,0 +1,9 @@
+{
+   "firecracker.throw":{
+      "category":"player",
+      "subtitle":"subtitle.springfestival.firecracker.throw",
+      "sounds":[
+         "minecraft:random/bow"
+      ]
+   }
+}

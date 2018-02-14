@@ -25,6 +25,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -96,6 +97,12 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         );
     }
 
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void onSoundEventRegistry(RegistryEvent.Register<SoundEvent> event) {
+        event.getRegistry().register(FirecrackerRegistry.soundFirecrackerThrow);
+    }
+    
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onModelRegister(ModelRegistryEvent event) {

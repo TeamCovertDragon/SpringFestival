@@ -9,7 +9,10 @@
 
 package team.covertdragon.springfestival.module.firecracker;
 
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.firecracker.entity.ItemFirecrackerEgg;
@@ -42,4 +45,7 @@ public class FirecrackerRegistry {
 
     @GameRegistry.ObjectHolder("hanging_firecracker")
     public static final ItemBlock itemHangingFirecracker;
+    
+    public static final SoundEvent soundFirecrackerThrow = new SoundEvent(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker.throw"))
+            .setRegistryName(SpringFestivalConstants.MOD_ID, "firecracker_throw");
 }

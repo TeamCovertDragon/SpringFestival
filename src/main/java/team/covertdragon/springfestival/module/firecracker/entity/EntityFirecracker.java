@@ -9,6 +9,8 @@
 
 package team.covertdragon.springfestival.module.firecracker.entity;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityItem;
@@ -28,7 +30,8 @@ public class EntityFirecracker extends EntityThrowable {
     private static final DataParameter<Integer> FUSE = EntityDataManager.createKey(EntityFirecracker.class, DataSerializers.VARINT);
     /** How long the fuse is */
     private int fuse;
-    private EntityLivingBase placedBy;
+    @Nullable
+    private EntityLivingBase igniter;
 
     public EntityFirecracker(World worldIn)
     {
@@ -49,7 +52,7 @@ public class EntityFirecracker extends EntityThrowable {
         this.prevPosX = x;
         this.prevPosY = y;
         this.prevPosZ = z;
-        this.placedBy = igniter;
+        this.igniter = igniter;
     }
 
     @Override
@@ -102,7 +105,7 @@ public class EntityFirecracker extends EntityThrowable {
     
     private void explode()
     {
-        SpringFestivalUtil.createNonDestructiveExplosion(this.world, this.getPosition(), 3.0F);
+        SpringFestivalUtil.createNonDestructiveExplosion(this.world, this.getPosition(), 3.0F, igniter);
         EntityItem e = new EntityItem(world, this.posX, this.posY, this.posZ, new ItemStack(MaterialRegistry.itemRedPaperBroken, 1));
         e.setDefaultPickupDelay();
         this.world.spawnEntity(e);
