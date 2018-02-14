@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:block/tinted_cross",
     "textures": {
-        "cross": "minecraft:blocks/hanging_firecracker"
+        "cross": "springfestival:blocks/hanging_firecracker_3"
     }
 }
