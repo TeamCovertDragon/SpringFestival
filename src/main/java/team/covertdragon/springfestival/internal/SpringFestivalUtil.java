@@ -33,4 +33,14 @@ public final class SpringFestivalUtil {
     public static void createNonDestructiveExplosion(World world, BlockPos pos, float power) {
         createNonDestructiveExplosion(world, pos, power, null);
     }
+
+    /**
+     * Calculates the damage should be taken.
+     * @param maxDamage The max damage of an item.
+     * @return The damage should be taken.
+     */
+    public static int getDamage(int maxDamage){
+        // TODO: return the damage should be taken as time goes on
+        return 0;
+    }
 }
