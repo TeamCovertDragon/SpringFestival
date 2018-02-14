@@ -46,6 +46,7 @@ import team.covertdragon.springfestival.module.firecracker.firework.ItemFirework
 import team.covertdragon.springfestival.module.firecracker.firework.TileFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.hanging.BlockHangingFirecracker;
 import team.covertdragon.springfestival.module.firecracker.hanging.ItemHangingFirecracker;
+import team.covertdragon.springfestival.module.firecracker.hanging.TileHangingFirecracker;
 
 @SpringFestivalModule(name = "firecracker", dependencies = {"material"})
 public class ModuleFirecracker extends AbstractSpringFestivalModule {
@@ -79,6 +80,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     @SubscribeEvent
     public void onBlockRegister(RegistryEvent.Register<Block> event) {
         GameRegistry.registerTileEntity(TileFireworkBox.class, "tile_firework_box");
+        GameRegistry.registerTileEntity(TileHangingFirecracker.class, "tile_hanging_firecracker");
         event.getRegistry().registerAll(
                 new BlockHangingFirecracker(),
                 new BlockFireworkBox()

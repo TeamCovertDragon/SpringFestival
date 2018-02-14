@@ -9,16 +9,22 @@
 
 package team.covertdragon.springfestival.module.firecracker.hanging;
 
+import java.util.Random;
+
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockGlass;
+import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -28,6 +34,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -40,19 +47,29 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.SpringFestivalUtil;
+import team.covertdragon.springfestival.module.firecracker.FirecrackerRegistry;
+import team.covertdragon.springfestival.module.material.MaterialRegistry;
 
 @SuppressWarnings("deprecation")
 public class BlockHangingFirecracker extends Block {
     
     protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.125D, 0.0D, 0.125D, 0.875D, 1.0D, 0.875D);
-
-    // TODO Can redstone signal affect this firecracker?
+    
+    /**
+     * 0 - unignited
+     * 1 ~ 4 - waiting
+     * 5 ~ 10 - ignited
+     */
+    public static final PropertyInteger COUNT = PropertyInteger.create("count", 0, 10);
+    
+    // TODO Can redstone signal affect this firecracker? No.
 
     public BlockHangingFirecracker() {
         super(Material.CACTUS, MapColor.RED);
         this.setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
         this.setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".hanging_firecracker");
         this.setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker");
+        this.setDefaultState(this.blockState.getBaseState().withProperty(COUNT, Integer.valueOf(0)));
     }
 
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
@@ -98,7 +115,7 @@ public class BlockHangingFirecracker extends Block {
                 )
             )
         {
-            this.explode(world, pos, player);
+            this.ignite(world, pos, player);
             
             if (itemstack.getItem() == Items.FLINT_AND_STEEL)
             {
@@ -112,7 +129,7 @@ public class BlockHangingFirecracker extends Block {
         }
     }
     
-    public void explode(World worldIn, BlockPos pos, EntityLivingBase igniter)
+    public void ignite(World worldIn, BlockPos pos, EntityLivingBase igniter)
     {
         if (!worldIn.isRemote)
         {
@@ -134,7 +151,7 @@ public class BlockHangingFirecracker extends Block {
         Block block = state.getBlock();
         if (state.isSideSolid(worldIn, pos, EnumFacing.DOWN) || state.getBlockFaceShape(worldIn, pos, EnumFacing.DOWN) == BlockFaceShape.SOLID)
         {
-            return block != Blocks.END_GATEWAY;
+            return block != Blocks.END_GATEWAY && !(block instanceof BlockPistonBase);
         }
         else
         {
@@ -146,11 +163,55 @@ public class BlockHangingFirecracker extends Block {
     public int tickRate(World world) {
         return 5;
     }
+    
+    @Override
+    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
+    {
+        int count = (Integer)state.getValue(COUNT).intValue();
+        if (count < 10)
+        {
+            state.withProperty(COUNT, count + 1);
+        }
+        else
+        {
+            // TODO
+        }
+    }
+    
+    @Override
+    public boolean hasTileEntity(IBlockState state) {
+        return state.getValue(COUNT).intValue() != 0;
+    }
 
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state) {
+        return new TileHangingFirecracker();
+    }
+
+    @Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune)
+    {
+        return state.getValue(COUNT).intValue() < 5 ? FirecrackerRegistry.itemHangingFirecracker : MaterialRegistry.itemRedPaperBroken;
+    }
+    
+    @Override
+    public int quantityDropped(IBlockState state, int fortune, Random random)
+    {
+        int count = state.getValue(COUNT).intValue();
+        if (count < 5)
+        {
+            return 1;
+        }
+        else
+        {
+            return 10 - count; 
+        }
+    }
+    
     @Override
     public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn) {
         if (!worldIn.isRemote) {
-            this.explode(worldIn, pos, explosionIn.getExplosivePlacedBy());
+            this.ignite(worldIn, pos, explosionIn.getExplosivePlacedBy());
         }
     }
 
@@ -162,11 +223,11 @@ public class BlockHangingFirecracker extends Block {
             if (entityIn instanceof EntityArrow)
             {
                 EntityArrow entityarrow = (EntityArrow)entityIn;
-                this.explode(worldIn, pos, entityarrow.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase)entityarrow.shootingEntity : null);
+                this.ignite(worldIn, pos, entityarrow.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase)entityarrow.shootingEntity : null);
             }
             else if (entityIn instanceof EntityLivingBase)
             {
-                this.explode(worldIn, pos, (EntityLivingBase)entityIn);
+                this.ignite(worldIn, pos, (EntityLivingBase)entityIn);
             }
         }
     }
@@ -189,5 +250,24 @@ public class BlockHangingFirecracker extends Block {
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
     {
         return BlockFaceShape.UNDEFINED;
+    }
+    
+    @Override
+    public IBlockState getStateFromMeta(int meta)
+    {
+        if (meta > 10) meta = 0;
+        return this.getDefaultState().withProperty(COUNT, Integer.valueOf(meta));
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state)
+    {
+        return state.getValue(COUNT).intValue();
+    }
+    
+    @Override
+    protected BlockStateContainer createBlockState()
+    {
+        return new BlockStateContainer(this, new IProperty[] {COUNT});
     }
 }
