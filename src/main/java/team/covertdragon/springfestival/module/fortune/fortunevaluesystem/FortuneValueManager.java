@@ -49,7 +49,6 @@ public class FortuneValueManager implements Runnable {
                     machine.onFVProvided();
                 }
             }
-
         } else {
             throw new RuntimeException("Unable to read fv system info for player " + player.getGameProfile().getName());
         }
