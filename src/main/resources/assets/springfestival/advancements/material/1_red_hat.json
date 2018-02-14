@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item": "springfestival:red_hat"
+    },
+    "title": {
+      "translate": "advancement.springfestival:getRedHat"
+    },
+    "description": {
+      "translate": "advancement.springfestival:getRedHat.desc"
+    }
+  },
+  "parent": "springfestival:material/0_red_paper",
+  "criteria": {
+    "use_lexicon": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item": {
+          "item": "springfestival:red_hat"
+        }
+      }
+    }
+  }
+}

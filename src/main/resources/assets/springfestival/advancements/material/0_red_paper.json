@@ -1,0 +1,28 @@
+{
+  "display": {
+    "icon": {
+      "item": "springfestival:red_paper"
+    },
+    "title": {
+      "translate": "itemGroup.springfestival"
+    },
+    "description": {
+      "translate": "springfestival.desc"
+    },
+    "background": "springfestival:textures/blocks/large_red_pillar_alt_end.png",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "material": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "springfestival:red_paper"
+          }
+        ]
+      }
+    }
+  }
+}
