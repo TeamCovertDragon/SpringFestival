@@ -19,9 +19,11 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.internal.network.SpringFestivalNetworkHandler;
 import team.covertdragon.springfestival.module.decoration.DecorationRegistry;
 import team.covertdragon.springfestival.module.decoration.fudoor.BlockFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.ItemFuDoor;
+import team.covertdragon.springfestival.module.decoration.fudoor.ServerPacketFuDoorCreation;
 import team.covertdragon.springfestival.module.decoration.fudoor.TileFuDoor;
 
 public class ItemRedPaper extends Item {
@@ -56,6 +58,7 @@ public class ItemRedPaper extends Item {
             if (te != null) {
                 te.setOriginalBlockStateLower(originalLower);
                 te.setOriginalBlockStateUpper(originalUpper);
+                SpringFestivalNetworkHandler.INSTANCE.sendToDimension(new ServerPacketFuDoorCreation(te), world.provider.getDimension());
             } else {
                 throw new NullPointerException();
             }
