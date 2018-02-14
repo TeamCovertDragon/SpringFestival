@@ -23,6 +23,7 @@ public final class SpringFestivalConfig {
             "material",
             "monster",
             "music",
-            "redpacket"
+            "redpacket",
+            "fortune"
     };
 }

@@ -30,4 +30,6 @@ public interface IFortuneValueSystem {
     public int getCurrentlyNextMachineId();
 
     public void setNextMachineId(int id);
+
+    public void deleteMachine(int id);
 }

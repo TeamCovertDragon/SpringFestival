@@ -4,9 +4,13 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.AbstractTileFVMachine;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.LinkedList;
@@ -30,22 +34,30 @@ public class CapabilityFortuneValueSystem {
         public void readNBT(Capability<IFortuneValueSystem> capability, IFortuneValueSystem instance, EnumFacing side, NBTBase nbt) {
             instance.setFortuneValue(((NBTTagCompound) nbt).getInteger("fv"));
             instance.setIncreasingPoint(((NBTTagCompound) nbt).getInteger("incp"));
+            instance.setMachines(readMachinesFromNBT((NBTTagCompound) nbt));
         }
 
         private NBTTagList writeMachinesToNBT(IFortuneValueSystem instance) {
             NBTTagList tagList = new NBTTagList();
 
             for (AbstractTileFVMachine machine : instance.getFVMachines()) {
-                tagList.appendTag(machine.serializeNBT());
+                if (machine != null) {
+                    NBTTagCompound tag = machine.serializeNBT();
+                    tag.setInteger("world", machine.getWorld().provider.getDimension());
+                    tagList.appendTag(tag);
+                }
             }
             return tagList;
         }
 
-        private List<AbstractTileFVMachine> readMachinesFromNBT(NBTTagList tagList) {
+        private List<AbstractTileFVMachine> readMachinesFromNBT(NBTTagCompound nbt) {
             List<AbstractTileFVMachine> list = new LinkedList<>();
+            NBTTagList tagList = (NBTTagList) nbt.getTag("machines");
             for (NBTBase base : tagList) {
                 NBTTagCompound tag = (NBTTagCompound) base;
-                //TODO deserialize machines
+                World world = SpringFestivalConstants.server.getWorld(tag.getInteger("world"));
+                BlockPos pos = new BlockPos(tag.getInteger("x"), tag.getInteger("y"), tag.getInteger("z"));
+                list.add((AbstractTileFVMachine) world.getTileEntity(pos));
             }
             return list;
         }
@@ -137,6 +149,16 @@ public class CapabilityFortuneValueSystem {
         @Override
         public void setNextMachineId(int id) {
             this.nextMachineId = id;
+        }
+
+        @Override
+        public void deleteMachine(int id) {
+            for (int i = 0; i < machines.size(); i++) {
+                if (machines.get(i).getId() == id) {
+                    machines.remove(i);
+                    return;
+                }
+            }
         }
     }
 

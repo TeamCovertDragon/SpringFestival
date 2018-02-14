@@ -27,7 +27,8 @@ public class FortuneValueManager implements Runnable {
         SpringFestivalConstants.logger.info("Starting fortune value handler....");
         while (alive) {
             for (EntityPlayerMP player : playerList) {
-                updatePlayerFortuneValue(player);
+                if (player != null)
+                    updatePlayerFortuneValue(player);
             }
             try {
                 Thread.sleep(1000);
@@ -45,8 +46,28 @@ public class FortuneValueManager implements Runnable {
 
             //Tick FV machines
             for (AbstractTileFVMachine machine : system.getFVMachines()) {
-                if (machine != null && system.shrinkFortune(machine.getRequiredFV())) {
+                if (machine != null && machine.getWorld().getTileEntity(machine.getPos()) != null && system.shrinkFortune(machine.getRequiredFV())) {
                     machine.onFVProvided();
+                }
+            }
+        } else {
+            throw new RuntimeException("Unable to read fv system info for player " + player.getGameProfile().getName());
+        }
+    }
+
+    private void cleanMachineList(EntityPlayerMP player) {
+        IFortuneValueSystem system = player.getCapability(CapabilityLoader.fortuneValue, null);
+        if (system != null) {
+            for (AbstractTileFVMachine machine : system.getFVMachines()) {
+                if (machine != null && machine.getWorld().getTileEntity(machine.getPos()) == null) {
+                    system.deleteMachine(machine.getId());
+                }
+            }
+
+            for (int i = 0; i < system.getFVMachines().size(); i++) {
+                if (system.getFVMachines().get(i) == null) {
+                    system.getFVMachines().remove(i);
+                    i--;
                 }
             }
         } else {
