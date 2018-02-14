@@ -45,11 +45,10 @@ public class FortuneValueManager implements Runnable {
 
             //Tick FV machines
             for (IFVMachine machine : system.getFVMachines()) {
-                if (system.shrinkFortune(machine.getRequiredFV())) {
+                if (machine != null && system.shrinkFortune(machine.getRequiredFV())) {
                     machine.onFVProvided();
                 }
             }
-
         } else {
             throw new RuntimeException("Unable to read fv system info for player " + player.getGameProfile().getName());
         }

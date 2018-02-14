@@ -132,16 +132,6 @@ public class CapabilityFortuneValueSystem {
         }
 
         @Override
-        public void deleteFVMachine(IFVMachine machine) {
-            for (int i = 0; i < machines.size(); i++) {
-                if (machines.get(i).getId() == machine.getId()) {
-                    machines.remove(i);
-                    return;
-                }
-            }
-        }
-
-        @Override
         public int getCurrentlyNextMachineId() {
             return this.nextMachineId;
         }
@@ -152,27 +142,35 @@ public class CapabilityFortuneValueSystem {
         }
     }
 
-    public static class PlayerProvider implements ICapabilitySerializable<NBTTagCompound> { //TODO
+    public static class PlayerProvider implements ICapabilitySerializable<NBTTagCompound> {
+        private IFortuneValueSystem instance = new Implementation();
+        private Capability.IStorage<IFortuneValueSystem> storage = new Storage();
 
         @Override
         public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-            return false;
+            return CapabilityLoader.fortuneValue.equals(capability);
         }
 
         @Nullable
         @Override
+        @SuppressWarnings("unchecked")
         public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+            if (hasCapability(capability, facing)) {
+                return (T) instance;
+            }
             return null;
         }
 
         @Override
         public NBTTagCompound serializeNBT() {
-            return null;
+            NBTTagCompound compound = new NBTTagCompound();
+            compound.setTag("fv_system", storage.writeNBT(CapabilityLoader.fortuneValue, instance, null));
+            return compound;
         }
 
         @Override
         public void deserializeNBT(NBTTagCompound nbt) {
-
+            storage.readNBT(CapabilityLoader.fortuneValue, instance, null, nbt.getTag("fv_system"));
         }
     }
 }
