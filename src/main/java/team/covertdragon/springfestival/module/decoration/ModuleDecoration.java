@@ -36,6 +36,7 @@ import team.covertdragon.springfestival.module.decoration.fudoor.BlockFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.ItemFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.TileFuDoor;
 import team.covertdragon.springfestival.module.decoration.redpillar.BlockLargeRedPillar;
+import team.covertdragon.springfestival.module.decoration.redpillar.BlockLargeRedPillarAlt;
 
 import java.lang.reflect.Field;
 
@@ -69,6 +70,7 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
         ModelUtil.mapItemModel(DecorationRegistry.red_trousers);
         ModelUtil.mapItemModel(DecorationRegistry.red_shoes);
         ModelUtil.mapItemModel(DecorationRegistry.itemLargeRedPillar);
+        ModelUtil.mapItemModel(DecorationRegistry.itemLargeRedPillarAlt);
     }
 
     @SubscribeEvent
@@ -81,7 +83,10 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
                 new ItemRedClothes.RedShoes(),
                 new ItemBlock(DecorationRegistry.blockLargeRedPillar)
                         .setRegistryName(SpringFestivalConstants.MOD_ID,"large_red_pillar")
-                        .setUnlocalizedName(SpringFestivalConstants.MOD_ID+".large_red_pillar")
+                        .setUnlocalizedName(SpringFestivalConstants.MOD_ID+".large_red_pillar"),
+                new ItemBlock(DecorationRegistry.blockLargeRedPillarAlt)
+                        .setRegistryName(SpringFestivalConstants.MOD_ID,"large_red_pillar_alt")
+                        .setUnlocalizedName(SpringFestivalConstants.MOD_ID+".large_red_pillar_alt")
         );
     }
 
@@ -90,7 +95,8 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
         GameRegistry.registerTileEntity(TileFuDoor.class, "tile_fu_door");
         event.getRegistry().registerAll(
                 new BlockFuDoor(),
-                new BlockLargeRedPillar()
+                new BlockLargeRedPillar(),
+                new BlockLargeRedPillarAlt()
         );
     }
 

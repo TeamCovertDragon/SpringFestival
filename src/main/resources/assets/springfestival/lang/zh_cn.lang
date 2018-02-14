@@ -11,11 +11,13 @@ item.springfestival.dumpling.name=饺子
 item.springfestival.niangao.name=年糕
 item.springfestival.firecracker_egg.name=爆竹
 item.springfestival.large_red_pillar.name=大红柱
+item.springfestival.large_red_pillar_alt.name=大红柱
 
 tile.springfestival.fu_door.name=福字门
 tile.springfestival.hanging_firecracker.name=挂着的爆竹
 tile.springfestival.firework_box.name=礼炮
 tile.springfestival.large_red_pillar.name=大红柱
+tile.springfestival.large_red_pillar_alt.name=大红柱
 
 redpacket.owner=红包主人：%s
 redpacket.receiver=%s将会收到这个红包
