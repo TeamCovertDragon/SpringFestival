@@ -24,7 +24,7 @@ public class FortuneValueManager implements Runnable {
 
     @Override
     public void run() {
-        SpringFestivalConstants.logger.info("Starting fortune value handler....");
+        SpringFestivalConstants.logger.info("Starting fortune value handler...");
         while (alive) {
             for (EntityPlayerMP player : playerList) {
                 if (player != null)
