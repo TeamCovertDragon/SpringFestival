@@ -9,6 +9,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import team.covertdragon.springfestival.module.fortune.ModuleFortune;
+import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.FortuneManagerActions;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityLoader;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
@@ -26,8 +28,8 @@ public class AbstractItemBlockFVMachine extends ItemBlock {
         if (super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState)) {
             TileEntity te = world.getTileEntity(pos);
             if (te != null && te instanceof AbstractTileFVMachine) {
-                try {                                                          //Excuse me???↓
-                    player.getCapability(CapabilityLoader.fortuneValue, null).registerFVMachine((AbstractTileFVMachine) te);
+                try {
+                    ModuleFortune.manager.addTask(new FortuneManagerActions.ActionRegisterMachine((AbstractTileFVMachine) te, player.getCapability(CapabilityLoader.fortuneValue, null)));
                 } catch (NullPointerException e) {
                     throw new RuntimeException("Unable to read fv info for player " + player.getGameProfile().getName());
                 }
