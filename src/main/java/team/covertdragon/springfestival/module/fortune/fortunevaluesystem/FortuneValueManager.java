@@ -5,7 +5,7 @@ import net.minecraft.server.MinecraftServer;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityLoader;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.IFortuneValueSystem;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.IFVMachine;
+import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.AbstractTileFVMachine;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class FortuneValueManager implements Runnable {
             system.addFortune(system.getIncreasingPoint());
 
             //Tick FV machines
-            for (IFVMachine machine : system.getFVMachines()) {
+            for (AbstractTileFVMachine machine : system.getFVMachines()) {
                 if (machine != null && system.shrinkFortune(machine.getRequiredFV())) {
                     machine.onFVProvided();
                 }

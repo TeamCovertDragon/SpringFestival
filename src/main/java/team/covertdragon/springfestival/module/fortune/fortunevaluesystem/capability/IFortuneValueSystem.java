@@ -1,7 +1,6 @@
 package team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability;
 
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.AbstractTileFVMachine;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.IFVMachine;
 
 import java.util.List;
 
@@ -24,9 +23,9 @@ public interface IFortuneValueSystem {
 
     public List<AbstractTileFVMachine> getFVMachines();
 
-    public void setMachines(List<IFVMachine> machines);
+    public void setMachines(List<AbstractTileFVMachine> machines);
 
-    public void registerFVMachine(IFVMachine machine);
+    public void registerFVMachine(AbstractTileFVMachine machine);
 
     public int getCurrentlyNextMachineId();
 

@@ -7,8 +7,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.AbstractTileFVMachine;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.IFVMachine;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.LinkedList;
@@ -43,8 +41,8 @@ public class CapabilityFortuneValueSystem {
             return tagList;
         }
 
-        private List<IFVMachine> readMachinesFromNBT(NBTTagList tagList) {
-            List<IFVMachine> list = new LinkedList<>();
+        private List<AbstractTileFVMachine> readMachinesFromNBT(NBTTagList tagList) {
+            List<AbstractTileFVMachine> list = new LinkedList<>();
             for (NBTBase base : tagList) {
                 NBTTagCompound tag = (NBTTagCompound) base;
                 //TODO deserialize machines
@@ -121,12 +119,12 @@ public class CapabilityFortuneValueSystem {
         }
 
         @Override
-        public void setMachines(List<IFVMachine> machines) {
+        public void setMachines(List<AbstractTileFVMachine> machines) {
             this.machines = machines;
         }
 
         @Override
-        public void registerFVMachine(IFVMachine machine) {
+        public void registerFVMachine(AbstractTileFVMachine machine) {
             machine.setId(nextMachineId++);
             machines.add(machine);
         }

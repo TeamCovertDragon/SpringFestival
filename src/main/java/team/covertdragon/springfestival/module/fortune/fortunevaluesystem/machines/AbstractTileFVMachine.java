@@ -2,26 +2,37 @@ package team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machi
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.INBTSerializable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-public abstract class AbstractTileFVMachine extends TileEntity implements IFVMachine, INBTSerializable<NBTTagCompound> {
+public abstract class AbstractTileFVMachine extends TileEntity implements INBTSerializable<NBTTagCompound> {
     private int id;
 
-    @Override
+    protected int requiredFV;
+    protected BlockPos position;
+    protected World world;
+
     public abstract int getRequiredFV();
 
-    @Override
     public abstract void onFVProvided();
 
-    @Override
+    public AbstractTileFVMachine(World world, BlockPos pos){
+        this(world, pos, 0);
+    }
+
+    public AbstractTileFVMachine(World world, BlockPos pos, int requiredFV){
+        this.world = world;
+        this.position = pos;
+        this.requiredFV = requiredFV;
+    }
+
     public int getId() {
         return id;
     }
-
-    @Override
     public void setId(int id) {
         this.id = id;
     }
