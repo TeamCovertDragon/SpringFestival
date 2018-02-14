@@ -27,8 +27,6 @@ public interface IFortuneValueSystem {
 
     public void registerFVMachine(IFVMachine machine);
 
-    public void deleteFVMachine(IFVMachine machine);
-
     public int getCurrentlyNextMachineId();
 
     public void setNextMachineId(int id);

@@ -133,16 +133,6 @@ public class CapabilityFortuneValueSystem {
         }
 
         @Override
-        public void deleteFVMachine(IFVMachine machine) {
-            for (int i = 0; i < machines.size(); i++) {
-                if (machines.get(i).getId() == machine.getId()) {
-                    machines.remove(i);
-                    return;
-                }
-            }
-        }
-
-        @Override
         public int getCurrentlyNextMachineId() {
             return this.nextMachineId;
         }
