@@ -20,8 +20,8 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class TileFuDoor extends TileEntity {
-    IBlockState originalBlockStateUpper;
-    IBlockState originalBlockStateLower;
+    private IBlockState originalBlockStateUpper;
+    private IBlockState originalBlockStateLower;
 
     public ItemStack getOriginalDoor() {
         if (originalBlockStateLower == null || originalBlockStateUpper == null)
@@ -54,14 +54,9 @@ public class TileFuDoor extends TileEntity {
     @Override
     @Nonnull
     public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound compound) {
-        super.writeToNBT(compound);
-        NBTTagCompound stateUpper = new NBTTagCompound();
-        NBTTagCompound stateLower = new NBTTagCompound();
-        NBTUtil.writeBlockState(stateUpper, originalBlockStateUpper);
-        NBTUtil.writeBlockState(stateLower, originalBlockStateLower);
-        compound.setTag("upper", stateUpper);
-        compound.setTag("lower", stateLower);
-        return compound;
+        compound.setTag("upper", NBTUtil.writeBlockState(new NBTTagCompound(), originalBlockStateUpper));
+        compound.setTag("lower", NBTUtil.writeBlockState(new NBTTagCompound(), originalBlockStateLower));
+        return super.writeToNBT(compound);
     }
 
     @Override
@@ -69,5 +64,10 @@ public class TileFuDoor extends TileEntity {
         super.readFromNBT(compound);
         this.originalBlockStateUpper = NBTUtil.readBlockState(compound.getCompoundTag("upper"));
         this.originalBlockStateLower = NBTUtil.readBlockState(compound.getCompoundTag("lower"));
+    }
+
+    @Override
+    public boolean hasFastRenderer() {
+        return true;
     }
 }

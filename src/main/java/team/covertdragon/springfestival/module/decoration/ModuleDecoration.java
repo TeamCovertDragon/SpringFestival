@@ -16,10 +16,12 @@ import net.minecraft.client.renderer.tileentity.TileEntityChestRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -33,6 +35,7 @@ import team.covertdragon.springfestival.module.SpringFestivalModule;
 import team.covertdragon.springfestival.module.decoration.clothes.ItemRedClothes;
 import team.covertdragon.springfestival.module.decoration.fudoor.BlockFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.ItemFuDoor;
+import team.covertdragon.springfestival.module.decoration.fudoor.TESRFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.TileFuDoor;
 
 import java.lang.reflect.Field;
@@ -66,6 +69,14 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
         ModelUtil.mapItemModel(DecorationRegistry.red_gown);
         ModelUtil.mapItemModel(DecorationRegistry.red_trousers);
         ModelUtil.mapItemModel(DecorationRegistry.red_shoes);
+
+        ClientRegistry.bindTileEntitySpecialRenderer(TileFuDoor.class, new TESRFuDoor());
+    }
+
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void onTextureStitch(TextureStitchEvent event) {
+        event.getMap().registerSprite(new ResourceLocation(TESRFuDoor.FU_TEXTURE_LOCATION));
     }
 
     @SubscribeEvent

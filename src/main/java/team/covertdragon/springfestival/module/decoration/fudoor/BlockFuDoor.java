@@ -74,9 +74,7 @@ public class BlockFuDoor extends BlockDoor {
 
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        TileFuDoor te = new TileFuDoor();
-        te.setWorld(world);
-        return state.getValue(HALF) == EnumDoorHalf.UPPER ? te : null;
+        return state.getValue(HALF) == EnumDoorHalf.UPPER ? new TileFuDoor() : null;
     }
 
     @Override
