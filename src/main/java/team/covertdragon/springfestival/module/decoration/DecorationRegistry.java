@@ -16,6 +16,7 @@ import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.decoration.fudoor.BlockFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.ItemFuDoor;
 import team.covertdragon.springfestival.module.decoration.redpillar.BlockLargeRedPillar;
+import team.covertdragon.springfestival.module.decoration.redpillar.BlockLargeRedPillarAlt;
 
 @GameRegistry.ObjectHolder(SpringFestivalConstants.MOD_ID)
 public class DecorationRegistry {
@@ -42,4 +43,10 @@ public class DecorationRegistry {
 
     @GameRegistry.ObjectHolder("large_red_pillar")
     public static final ItemBlock itemLargeRedPillar = null;
+
+    @GameRegistry.ObjectHolder("large_red_pillar_alt")
+    public static final BlockLargeRedPillarAlt blockLargeRedPillarAlt = null;
+
+    @GameRegistry.ObjectHolder("large_red_pillar_alt")
+    public static final ItemBlock itemLargeRedPillarAlt = null;
 }

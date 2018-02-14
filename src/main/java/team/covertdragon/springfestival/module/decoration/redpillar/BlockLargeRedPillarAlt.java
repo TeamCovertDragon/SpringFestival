@@ -6,12 +6,12 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
-public class BlockLargeRedPillar extends Block {
-    public BlockLargeRedPillar() {
+public class BlockLargeRedPillarAlt extends Block{
+    public BlockLargeRedPillarAlt() {
         super(Material.ROCK, MapColor.RED);
         setSoundType(SoundType.STONE);
-        setRegistryName(SpringFestivalConstants.MOD_ID, "large_red_pillar");
-        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".large_red_pillar");
+        setRegistryName(SpringFestivalConstants.MOD_ID, "large_red_pillar_alt");
+        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".large_red_pillar_alt");
         setHardness(2.5F);
         setHarvestLevel("pickaxe", 2);
         setResistance(10.0F);
