@@ -27,8 +27,6 @@ import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.decoration.DecorationRegistry;
 
 public class ItemFuDoor extends ItemDoor {
-    //TODO remove this
-    private final BlockDoor block = DecorationRegistry.blockFuDoor;
 
     public ItemFuDoor(BlockFuDoor blockFuDoor) {
         super(blockFuDoor);
@@ -51,12 +49,12 @@ public class ItemFuDoor extends ItemDoor {
 
             ItemStack itemstack = player.getHeldItem(hand);
 
-            if (player.canPlayerEdit(pos, facing, itemstack) && this.block.canPlaceBlockAt(worldIn, pos)) {
+            if (player.canPlayerEdit(pos, facing, itemstack) && DecorationRegistry.blockFuDoor.canPlaceBlockAt(worldIn, pos)) {
                 EnumFacing enumfacing = EnumFacing.fromAngle((double) player.rotationYaw);
                 int i = enumfacing.getFrontOffsetX();
                 int j = enumfacing.getFrontOffsetZ();
                 boolean flag = i < 0 && hitZ < 0.5F || i > 0 && hitZ > 0.5F || j < 0 && hitX > 0.5F || j > 0 && hitX < 0.5F;
-                placeDoor(worldIn, pos, enumfacing, this.block, flag, itemstack);
+                placeDoor(worldIn, pos, enumfacing, DecorationRegistry.blockFuDoor, flag, itemstack);
                 SoundType soundtype = worldIn.getBlockState(pos).getBlock().getSoundType(worldIn.getBlockState(pos), worldIn, pos, player);
                 worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
                 itemstack.shrink(1);
