@@ -2,7 +2,7 @@ package team.covertdragon.springfestival.module.fortune;
 
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
-import team.covertdragon.springfestival.module.fortune.fortunevalue.capability.CapabilityLoader;
+import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityLoader;
 
 @SpringFestivalModule(name = "fortune", dependencies = {"material"})
 public class ModuleFortune extends AbstractSpringFestivalModule {
