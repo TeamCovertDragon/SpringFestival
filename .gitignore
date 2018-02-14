@@ -17,3 +17,4 @@ gradle.properties
 .project
 /.settings
 *.launch
+src/main/java/team/covertdragon/springfestival/module/firecracker/entity/EntityAIAvoidPos.java

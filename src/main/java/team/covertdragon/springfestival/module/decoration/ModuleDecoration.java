@@ -14,6 +14,7 @@ import net.minecraft.block.BlockDoor;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.tileentity.TileEntityChestRenderer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -37,6 +38,8 @@ import team.covertdragon.springfestival.module.decoration.fudoor.BlockFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.ItemFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.TESRFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.TileFuDoor;
+import team.covertdragon.springfestival.module.decoration.redpillar.BlockLargeRedPillar;
+import team.covertdragon.springfestival.module.decoration.redpillar.BlockLargeRedPillarAlt;
 
 import java.lang.reflect.Field;
 
@@ -69,6 +72,10 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
         ModelUtil.mapItemModel(DecorationRegistry.red_gown);
         ModelUtil.mapItemModel(DecorationRegistry.red_trousers);
         ModelUtil.mapItemModel(DecorationRegistry.red_shoes);
+        ModelUtil.mapItemModel(DecorationRegistry.itemLargeRedPillar);
+        ModelUtil.mapItemModel(DecorationRegistry.itemLargeRedPillarAlt);
+        ModelUtil.mapItemModel(DecorationRegistry.itemLargeRedPillar);
+        ModelUtil.mapItemModel(DecorationRegistry.itemLargeRedPillarAlt);
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileFuDoor.class, new TESRFuDoor());
     }
@@ -86,7 +93,13 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
                 new ItemRedClothes.RedHat(),
                 new ItemRedClothes.RedGown(),
                 new ItemRedClothes.RedTrousers(),
-                new ItemRedClothes.RedShoes()
+                new ItemRedClothes.RedShoes(),
+                new ItemBlock(DecorationRegistry.blockLargeRedPillar)
+                        .setRegistryName(SpringFestivalConstants.MOD_ID,"large_red_pillar")
+                        .setUnlocalizedName(SpringFestivalConstants.MOD_ID+".large_red_pillar"),
+                new ItemBlock(DecorationRegistry.blockLargeRedPillarAlt)
+                        .setRegistryName(SpringFestivalConstants.MOD_ID,"large_red_pillar_alt")
+                        .setUnlocalizedName(SpringFestivalConstants.MOD_ID+".large_red_pillar_alt")
         );
     }
 
@@ -94,7 +107,9 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
     public void onBlockRegister(RegistryEvent.Register<Block> event) {
         GameRegistry.registerTileEntity(TileFuDoor.class, "tile_fu_door");
         event.getRegistry().registerAll(
-                new BlockFuDoor()
+                new BlockFuDoor(),
+                new BlockLargeRedPillar(),
+                new BlockLargeRedPillarAlt()
         );
     }
 

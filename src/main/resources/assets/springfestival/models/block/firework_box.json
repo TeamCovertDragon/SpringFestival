@@ -6,6 +6,7 @@
     "north": "springfestival:blocks/firework_box_side",
     "east": "springfestival:blocks/firework_box_side",
     "south": "springfestival:blocks/firework_box_side",
-    "west": "springfestival:blocks/firework_box_side"
+    "west": "springfestival:blocks/firework_box_side",
+    "particle":"springfestival:/blocks/firework_box_side"
   }
 }

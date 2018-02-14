@@ -11,7 +11,7 @@ package team.covertdragon.springfestival;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
-import team.covertdragon.springfestival.module.material.ModuleMaterial;
+import team.covertdragon.springfestival.module.material.MaterialRegistry;
 
 public class SpringFestivalConstants {
 
@@ -22,7 +22,7 @@ public class SpringFestivalConstants {
     public static final CreativeTabs CREATIVE_TAB = new CreativeTabs("spring_festival") {
         @Override
         public ItemStack getTabIconItem() {
-            return new ItemStack(ModuleMaterial.RED_PAPER); // Yeah... we have hard-dep on this one
+            return new ItemStack(MaterialRegistry.itemRedPaper); // Yeah... we have hard-dep on this one
         }
     };
 

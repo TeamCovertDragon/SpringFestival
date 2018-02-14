@@ -25,27 +25,22 @@ public class ModuleMaterial extends AbstractSpringFestivalModule {
 
     // A module that contains some common materials, for other modules to use
 
-    public static Item glutinousRiceCrop;
-
-    public static final ItemRedPaper RED_PAPER = (ItemRedPaper) new ItemRedPaper().setRegistryName(SpringFestivalConstants.MOD_ID, "red_paper");
-
-    public static Item redPaperBroken;
-
-    public static Item glutinousRice;
-
-    public static Item glutinousRiceSeed;
-
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onModelRegister(ModelRegistryEvent event) {
-        ModelUtil.mapItemModel(RED_PAPER);
+        ModelUtil.mapItemModel(MaterialRegistry.itemRedPaper);
+        ModelUtil.mapItemModel(MaterialRegistry.itemRedPaperBroken);
     }
 
     // TODO Just add more common stuff below, for tracking
     @SubscribeEvent
     public void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                RED_PAPER
+                new ItemRedPaper(),
+                new Item()
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "red_paper_broken")
+                        .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".red_paper_broken")
+                        .setCreativeTab(SpringFestivalConstants.CREATIVE_TAB)
         );
     }
 }

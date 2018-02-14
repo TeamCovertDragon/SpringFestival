@@ -3,6 +3,7 @@ itemGroup.spring_festival=新春工坊
 item.springfestival.fu_door.name=福字门
 item.springfestival.redpacket.name=红包
 item.springfestival.red_paper.name=红纸
+item.springfestival.red_paper_broken.name=破碎的红纸
 item.springfestival.red_hat.name=红帽
 item.springfestival.red_gown.name=红袍
 item.springfestival.red_trousers.name=红棉裤
@@ -10,10 +11,14 @@ item.springfestival.red_shoes.name=红鞋子
 item.springfestival.dumpling.name=饺子
 item.springfestival.niangao.name=年糕
 item.springfestival.firecracker_egg.name=爆竹
+item.springfestival.large_red_pillar.name=大红柱
+item.springfestival.large_red_pillar_alt.name=大红柱
 
 tile.springfestival.fu_door.name=福字门
 tile.springfestival.hanging_firecracker.name=挂着的爆竹
 tile.springfestival.firework_box.name=礼炮
+tile.springfestival.large_red_pillar.name=大红柱
+tile.springfestival.large_red_pillar_alt.name=大红柱
 
 redpacket.owner=红包主人：%s
 redpacket.receiver=%s将会收到这个红包

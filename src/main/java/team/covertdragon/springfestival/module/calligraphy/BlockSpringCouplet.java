@@ -9,6 +9,10 @@
 
 package team.covertdragon.springfestival.module.calligraphy;
 
+import java.util.Locale;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -21,10 +25,7 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import team.covertdragon.springfestival.module.material.ModuleMaterial;
-
-import javax.annotation.Nonnull;
-import java.util.Locale;
+import team.covertdragon.springfestival.module.material.MaterialRegistry;
 
 /**
  * The block that represents "Chunlian" (a.k.a. "spring couplet")
@@ -49,7 +50,7 @@ public class BlockSpringCouplet extends Block {
 
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        drops.add(new ItemStack(ModuleMaterial.redPaperBroken));
+        drops.add(new ItemStack(MaterialRegistry.itemRedPaperBroken));
     }
 
     @Override

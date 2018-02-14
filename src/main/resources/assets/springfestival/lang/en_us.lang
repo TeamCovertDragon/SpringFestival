@@ -3,6 +3,7 @@ itemGroup.spring_festival=Spring Festival
 item.springfestival.fu_door.name=Fortune door
 item.springfestival.redpacket.name=Red packet
 item.springfestival.red_paper.name=Red paper
+item.springfestival.red_paper_broken.name=Broken red paper
 item.springfestival.red_hat.name=Red hat
 item.springfestival.red_gown.name=Red gown
 item.springfestival.red_trousers.name=Red trousers
@@ -10,10 +11,14 @@ item.springfestival.red_shoes.name=Red shoes
 item.springfestival.dumpling.name=Dumpling
 item.springfestival.niangao.name=Rice cake
 item.springfestival.firecracker_egg.name=Firecracker
+item.springfestival.large_red_pillar.name=Large red pillar
+item.springfestival.large_red_pillar_alt.name=Large red pillar
 
 tile.springfestival.fu_door.name=Fortune door
 tile.springfestival.hanging_firecracker.name=Hanging firecracker
 tile.springfestival.firework_box.name=Firework box
+tile.springfestival.large_red_pillar.name=Large red pillar
+tile.springfestival.large_red_pillar_alt.name=Large red pillar
 
 entity.springfestival.firecracker.name=Firecracker
 

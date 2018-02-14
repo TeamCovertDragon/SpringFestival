@@ -1,0 +1,12 @@
+{
+    "parent": "minecraft:block/cube",
+    "textures": {
+      "down": "springfestival:blocks/large_red_pillar_alt_bottom",
+      "up": "springfestival:blocks/large_red_pillar_alt_top",
+      "north": "springfestival:blocks/large_red_pillar_alt_side",
+      "east": "springfestival:blocks/large_red_pillar_alt_side",
+      "south": "springfestival:blocks/large_red_pillar_alt_side",
+      "west": "springfestival:blocks/large_red_pillar_alt_side",
+      "particle": "springfestival:blocks/large_red_pillar_alt_side"
+    }
+}

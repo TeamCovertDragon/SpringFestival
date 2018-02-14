@@ -9,6 +9,8 @@
 
 package team.covertdragon.springfestival.module.firecracker;
 
+import java.lang.reflect.Field;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
@@ -16,6 +18,9 @@ import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IProjectile;
+import net.minecraft.entity.ai.EntityAIAvoidEntity;
+import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -23,6 +28,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -50,9 +56,29 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     }
     
     @SubscribeEvent
+    public void onEntityTick(LivingUpdateEvent event) {
+        if(event.getEntity() instanceof EntityMob) {
+            EntityMob mob = (EntityMob) event.getEntity();
+            for(EntityAITaskEntry task : mob.tasks.taskEntries)
+                try {
+                    if(task.action instanceof EntityAIAvoidEntity)
+                    {
+                        Field f = ((EntityAIAvoidEntity)task.action).getClass().getDeclaredField("classToAvoid");
+                        f.setAccessible(true);
+                        if (f.get((EntityAIAvoidEntity)task.action).getClass() == EntityFirecracker.class)
+                            return;
+                    }
+                } catch (Exception e) {
+                    SpringFestivalConstants.logger.catching(e);
+                }
+                    
+            mob.tasks.addTask(3, new EntityAIAvoidEntity(mob, EntityFirecracker.class, 6.0F, 1.0D, 1.2D));
+        }
+    }
+    
+    @SubscribeEvent
     public void onBlockRegister(RegistryEvent.Register<Block> event) {
         GameRegistry.registerTileEntity(TileFireworkBox.class, "tile_firework_box");
-
         event.getRegistry().registerAll(
                 new BlockHangingFirecracker(),
                 new BlockFireworkBox()
