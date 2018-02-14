@@ -15,11 +15,11 @@ public interface IFortuneValueSystem {
 
     public int getIncreasingPoint();
 
-    public void setIncreasingPoint(int quality);
+    public void setBufPoint(int quality);
 
-    public void addIncreasingPoint(int quality);
+    public void addBufPoint(int quality);
 
-    public boolean shrinkIncreasingPoint(int quality);
+    public boolean shrinkBuffPoint(int quality);
 
     public List<AbstractTileFVMachine> getFVMachines();
 

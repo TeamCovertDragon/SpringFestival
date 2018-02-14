@@ -43,6 +43,7 @@ public class FortuneValueManager implements Runnable {
         if (system != null) {
             //Update player fortune level
             system.addFortune(system.getIncreasingPoint());
+            system.setBufPoint(0);
 
             //Tick FV machines
             for (AbstractTileFVMachine machine : system.getFVMachines()) {

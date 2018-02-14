@@ -33,7 +33,7 @@ public class CapabilityFortuneValueSystem {
         @Override
         public void readNBT(Capability<IFortuneValueSystem> capability, IFortuneValueSystem instance, EnumFacing side, NBTBase nbt) {
             instance.setFortuneValue(((NBTTagCompound) nbt).getInteger("fv"));
-            instance.setIncreasingPoint(((NBTTagCompound) nbt).getInteger("incp"));
+            instance.setBufPoint(((NBTTagCompound) nbt).getInteger("incp"));
             instance.setMachines(readMachinesFromNBT((NBTTagCompound) nbt));
         }
 
@@ -74,6 +74,7 @@ public class CapabilityFortuneValueSystem {
     public static class Implementation implements IFortuneValueSystem {
         private int fortuneValue = 0;
         private int increasingPoint = 1;//TODO increase more quickly in springfestival?
+        private int increasingBuff = 0;
         private List<AbstractTileFVMachine> machines = new LinkedList<>();
         private int nextMachineId;
 
@@ -103,23 +104,23 @@ public class CapabilityFortuneValueSystem {
 
         @Override
         public int getIncreasingPoint() {
-            return increasingPoint;
+            return increasingPoint + increasingBuff;
         }
 
         @Override
-        public void setIncreasingPoint(int quality) {
-            this.increasingPoint = quality;
+        public void setBufPoint(int quality) {
+            this.increasingBuff = quality;
         }
 
         @Override
-        public void addIncreasingPoint(int quality) {
-            this.increasingPoint += quality;
+        public void addBufPoint(int quality) {
+            this.increasingBuff += quality;
         }
 
         @Override
-        public boolean shrinkIncreasingPoint(int quality) {
-            if (this.increasingPoint >= quality) {
-                this.increasingPoint -= quality;
+        public boolean shrinkBuffPoint(int quality) {
+            if (this.increasingBuff >= quality) {
+                this.increasingBuff -= quality;
                 return true;
             }
             return false;
