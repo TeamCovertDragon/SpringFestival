@@ -9,8 +9,6 @@
 
 package team.covertdragon.springfestival.internal;
 
-import java.util.Collections;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
@@ -18,6 +16,8 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.ForgeEventFactory;
+
+import java.util.Collections;
 
 public final class SpringFestivalUtil {
 
@@ -37,5 +37,15 @@ public final class SpringFestivalUtil {
 
     public static void createNonDestructiveExplosion(World world, BlockPos pos, float power) {
         createNonDestructiveExplosion(world, pos, power, null);
+    }
+
+    /**
+     * Calculates the damage should be taken.
+     * @param maxDamage The max damage of an item.
+     * @return The damage should be taken.
+     */
+    public static int getDamage(int maxDamage){
+        // TODO: return the damage should be taken as time goes on
+        return 0;
     }
 }

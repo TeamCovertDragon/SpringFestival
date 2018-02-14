@@ -10,8 +10,9 @@ import net.minecraftforge.common.crafting.IRecipeFactory;
 import net.minecraftforge.common.crafting.JsonContext;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.internal.SpringFestivalUtil;
 
-public class ShapedFlexibleEnduranceRecipeFactory implements IRecipeFactory{
+public class ShapedFlexibleDurationRecipeFactory implements IRecipeFactory{
     @Override
     public IRecipe parse(JsonContext context, JsonObject json) {
         ShapedOreRecipe recipe = ShapedOreRecipe.factory(context, json);
@@ -37,13 +38,8 @@ public class ShapedFlexibleEnduranceRecipeFactory implements IRecipeFactory{
 
         @Override
         public ItemStack getRecipeOutput(){
-            this.output.setItemDamage(this.damage == 0 ? getDamage(this.output.getMaxDamage()) : this.damage);
+            this.output.setItemDamage(this.damage == 0 ? SpringFestivalUtil.getDamage(this.output.getMaxDamage()) : this.damage);
             return this.output;
-        }
-
-        public static int getDamage(int maxDamage){
-            // TODO: Return a number which indicates how long Spring Festival has passed
-            return -10;
         }
     }
 }
