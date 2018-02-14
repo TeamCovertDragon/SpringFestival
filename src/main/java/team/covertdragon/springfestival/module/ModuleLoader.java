@@ -9,10 +9,18 @@
 
 package team.covertdragon.springfestival.module;
 
+import com.google.common.collect.Maps;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModAPIManager;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
+import net.minecraftforge.fml.common.toposort.TopologicalSort;
+import net.minecraftforge.fml.common.versioning.ArtifactVersion;
+import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.SpringFestivalConfig;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 public final class ModuleLoader {
@@ -40,13 +48,14 @@ public final class ModuleLoader {
                 T instance = asmInstanceClass.newInstance();
                 instances.add(instance);
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-                // TODO Consider just throwing a RuntimeException
-                SpringFestivalConstants.logger.error("Failed to load: {}", asmData.getClassName(), e);
+                throw(new RuntimeException("Failed to load: " + asmData.getClassName() + " " + e.toString()));
             }
         }
-        return (List<T>) topoSort((List<ISpringFestivalModule>) instances);
+        ModuleSorter sorter = new ModuleSorter((List<ISpringFestivalModule>)instances);
+        return (List<T>) sorter.sort();
     }
 
+    @Deprecated
     private static List<ISpringFestivalModule> topoSort(List<ISpringFestivalModule> instances) {
         List<ISpringFestivalModule> sorted = new LinkedList<>();
         List<String> existDependencies = new LinkedList<>();
@@ -71,5 +80,49 @@ public final class ModuleLoader {
 
     private static String getNameByInstance(ISpringFestivalModule instance) {
         return instance.getClass().getAnnotation(SpringFestivalModule.class).name();
+    }
+
+    @Nullable
+    private static ISpringFestivalModule getInstanceByName(List<ISpringFestivalModule> modules, String name) {
+        for(ISpringFestivalModule module : modules) {
+            if (getNameByInstance(module).equals(name))
+                return module;
+        }
+        return null;
+    }
+
+    private static class ModuleSorter {
+        private TopologicalSort.DirectedGraph<ISpringFestivalModule> moduleGraph;
+
+        public ModuleSorter(List<ISpringFestivalModule> modules)
+        {
+            buildGraph(modules);
+        }
+
+        private void buildGraph(List<ISpringFestivalModule> modules)
+        {
+            moduleGraph = new TopologicalSort.DirectedGraph<ISpringFestivalModule>();
+
+            for(ISpringFestivalModule module : modules) {
+                moduleGraph.addNode(module);
+            }
+
+            for (ISpringFestivalModule module : modules) {
+                Collection<?> dependencies = getDependenciesByInstance(module);
+
+                if(dependencies.size() == 0)
+                    continue;
+
+                dependencies.forEach((dep) -> {
+                    moduleGraph.addEdge(getInstanceByName(modules, (String)dep), module);
+                });
+            }
+        }
+
+        public List<ISpringFestivalModule> sort()
+        {
+            List<ISpringFestivalModule> sortedList = TopologicalSort.topologicalSort(moduleGraph);
+            return sortedList;
+        }
     }
 }
