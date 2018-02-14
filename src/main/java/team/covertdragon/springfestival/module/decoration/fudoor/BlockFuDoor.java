@@ -42,8 +42,6 @@ import team.covertdragon.springfestival.module.material.MaterialRegistry;
 
 public class BlockFuDoor extends BlockDoor {
 
-    // TODO: Maybe we should make it accessible by using NBT?
-
     public BlockFuDoor() {
         super(Material.WOOD);
         setHarvestLevel("axe", 0);
