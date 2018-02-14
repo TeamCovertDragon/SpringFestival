@@ -42,6 +42,7 @@ public abstract class SpringFestivalProxy {
     /**
      * Determine whether the current time is falling into the Spring Festival season, based on
      * current system time.
+     *
      * @return true if it is during Spring Festival; false for otherwise.
      */
     public boolean isDuringSpringFestivalSeason() {
@@ -77,6 +78,7 @@ public abstract class SpringFestivalProxy {
 
     @OverridingMethodsMustInvokeSuper
     public void onServerStarting(FMLServerStartingEvent event) {
+        SpringFestivalConstants.server = event.getServer();
         modules.forEach(ISpringFestivalModule::onServerStarting);
     }
 

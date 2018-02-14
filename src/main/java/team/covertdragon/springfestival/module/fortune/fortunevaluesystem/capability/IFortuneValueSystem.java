@@ -11,7 +11,7 @@ public interface IFortuneValueSystem {
 
     public void addFortune(int quality);
 
-    public void shrinkFortune(int quality);
+    public boolean shrinkFortune(int quality);
 
     public int getIncreasingPoint();
 
@@ -19,7 +19,7 @@ public interface IFortuneValueSystem {
 
     public void addIncreasingPoint(int quality);
 
-    public void shrinkIncreasingPoint(int quality);
+    public boolean shrinkIncreasingPoint(int quality);
 
     public List<IFVMachine> getFVMachines();
 

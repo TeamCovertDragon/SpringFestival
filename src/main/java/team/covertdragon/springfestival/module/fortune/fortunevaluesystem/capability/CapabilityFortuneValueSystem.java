@@ -46,8 +46,8 @@ public class CapabilityFortuneValueSystem {
 
         private List<IFVMachine> readMachinesFromNBT(NBTTagList tagList) {
             List<IFVMachine> list = new LinkedList<>();
-            for(NBTBase base : tagList) {
-                NBTTagCompound tag = (NBTTagCompound)base;
+            for (NBTBase base : tagList) {
+                NBTTagCompound tag = (NBTTagCompound) base;
                 //TODO deserialize machines
             }
             return list;
@@ -84,8 +84,12 @@ public class CapabilityFortuneValueSystem {
         }
 
         @Override
-        public void shrinkFortune(int quality) {
-            this.fortuneValue -= quality;
+        public boolean shrinkFortune(int quality) {
+            if (this.fortuneValue >= quality) {
+                this.fortuneValue -= quality;
+                return true;
+            }
+            return false;
         }
 
         @Override
@@ -104,8 +108,12 @@ public class CapabilityFortuneValueSystem {
         }
 
         @Override
-        public void shrinkIncreasingPoint(int quality) {
-            this.increasingPoint -= quality;
+        public boolean shrinkIncreasingPoint(int quality) {
+            if (this.increasingPoint >= quality) {
+                this.increasingPoint -= quality;
+                return true;
+            }
+            return false;
         }
 
         @Override
