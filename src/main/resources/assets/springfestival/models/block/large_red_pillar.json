@@ -6,6 +6,7 @@
       "north": "springfestival:blocks/large_red_pillar_side",
       "east": "springfestival:blocks/large_red_pillar_side",
       "south": "springfestival:blocks/large_red_pillar_side",
-      "west": "springfestival:blocks/large_red_pillar_side"
+      "west": "springfestival:blocks/large_red_pillar_side",
+      "particle": "springfestival:blocks/large_red_pillar_side"
     }
 }
