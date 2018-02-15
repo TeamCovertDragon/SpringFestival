@@ -48,4 +48,7 @@ public class FirecrackerRegistry {
     
     public static final SoundEvent soundFirecrackerThrow = new SoundEvent(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker.throw"))
             .setRegistryName(SpringFestivalConstants.MOD_ID, "firecracker_throw");
+    
+    public static final SoundEvent soundFirecrackerExplode = new SoundEvent(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker.explode"))
+            .setRegistryName(SpringFestivalConstants.MOD_ID, "firecracker_explode");
 }

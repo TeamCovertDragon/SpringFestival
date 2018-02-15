@@ -5,5 +5,18 @@
       "sounds":[
          "minecraft:random/bow"
       ]
+   },
+   "firecracker.explode":{
+      "category":"neutral",
+      "subtitle":"subtitle.springfestival.firecracker.explode",
+      "sounds":[
+         "springfestival:firecracker/explosion1",
+         "springfestival:firecracker/explosion2",
+         "springfestival:firecracker/explosion3",
+         "springfestival:firecracker/explosion4",
+         "springfestival:firecracker/explosion5"
+      ]
    }
 }
+
+

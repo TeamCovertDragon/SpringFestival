@@ -34,6 +34,7 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -46,6 +47,7 @@ import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 import team.covertdragon.springfestival.module.firecracker.entity.EntityFirecracker;
 import team.covertdragon.springfestival.module.firecracker.entity.ItemFirecrackerEgg;
+import team.covertdragon.springfestival.module.firecracker.entity.RenderEntityFirecracker;
 import team.covertdragon.springfestival.module.firecracker.firework.BlockFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.firework.ItemFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.firework.TileFireworkBox;
@@ -55,10 +57,12 @@ import team.covertdragon.springfestival.module.firecracker.hanging.TileHangingFi
 
 @SpringFestivalModule(name = "firecracker", dependencies = {"material"})
 public class ModuleFirecracker extends AbstractSpringFestivalModule {
+    public static Boolean useFancyLighting;
 
     public void onInit() {
         EntityRegistry.registerModEntity(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker"), EntityFirecracker.class, "Firecracker", 0, SpringFestival.getInstance(), 80, 3, true);
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(FirecrackerRegistry.itemFirecrackerEgg, new BehaviourFirecrackerDispense());
+//        useFancyLighting = Loader.isModLoaded("albedo");
     }
     
     @SubscribeEvent
@@ -116,6 +120,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     @SideOnly(Side.CLIENT)
     public void onSoundEventRegistry(RegistryEvent.Register<SoundEvent> event) {
         event.getRegistry().register(FirecrackerRegistry.soundFirecrackerThrow);
+        event.getRegistry().register(FirecrackerRegistry.soundFirecrackerExplode);
     }
     
     @SubscribeEvent
@@ -124,7 +129,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         ModelUtil.mapItemModel(FirecrackerRegistry.itemFireWorkBox);
         ModelUtil.mapItemModel(FirecrackerRegistry.itemFirecrackerEgg);
         ModelUtil.mapItemModel(FirecrackerRegistry.itemHangingFirecracker);
-//      RenderingRegistry.loadEntityRenderers(manager, renderMap);
+        RenderingRegistry.registerEntityRenderingHandler(EntityFirecracker.class, RenderEntityFirecracker.FACTORY);
     }
     
     public class BehaviourFirecrackerDispense extends BehaviorProjectileDispense {

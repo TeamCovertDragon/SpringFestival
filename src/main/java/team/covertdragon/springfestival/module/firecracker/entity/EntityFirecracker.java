@@ -11,6 +11,8 @@ package team.covertdragon.springfestival.module.firecracker.entity;
 
 import javax.annotation.Nullable;
 
+//import elucent.albedo.lighting.ILightProvider;
+//import elucent.albedo.lighting.Light;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityItem;
@@ -24,9 +26,10 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import team.covertdragon.springfestival.internal.SpringFestivalUtil;
+import team.covertdragon.springfestival.module.firecracker.ModuleFirecracker;
 import team.covertdragon.springfestival.module.material.MaterialRegistry;
 
-public class EntityFirecracker extends EntityThrowable {
+public class EntityFirecracker extends EntityThrowable /*implements ILightProvider*/ {
     private static final DataParameter<Integer> FUSE = EntityDataManager.createKey(EntityFirecracker.class, DataSerializers.VARINT);
     /** How long the fuse is */
     private int fuse;
@@ -45,9 +48,9 @@ public class EntityFirecracker extends EntityThrowable {
     {
         this(worldIn);
         this.setPosition(x, y, z);
-        float f = (float)(Math.random() * (Math.PI * 2D));
+        float f = (float)(rand.nextGaussian() * (Math.PI * 2D));
         this.motionX = (double)(-((float)Math.sin((double)f)) * 0.02F);
-        this.motionY = 0.20000000298023224D;
+        this.motionY = 0.1D;
         this.motionZ = (double)(-((float)Math.cos((double)f)) * 0.02F);
         this.prevPosX = x;
         this.prevPosY = y;
@@ -86,7 +89,12 @@ public class EntityFirecracker extends EntityThrowable {
         }
 
         --this.fuse;
-
+//        if (this.world.isRemote && this.fuse <= 4 && ModuleFirecracker.useFancyLighting)
+//        {
+//            Light l = new elucent.albedo.lighting.Light.Builder().color(1F, 0.7F, 1F).pos(this).radius(10F).build();
+//            elucent.albedo.lighting.LightManager.addLight(l);
+//            elucent.albedo.lighting.LightManager.update(world);
+//        }
         if (this.fuse <= 0)
         {
             this.setDead();
@@ -105,7 +113,7 @@ public class EntityFirecracker extends EntityThrowable {
     
     private void explode()
     {
-        SpringFestivalUtil.createNonDestructiveExplosion(this.world, this.getPosition(), 3.0F, igniter);
+        SpringFestivalUtil.createNonDestructiveExplosion(this.world, this.getPosition(), 2.0F, igniter);
         EntityItem e = new EntityItem(world, this.posX, this.posY, this.posZ, new ItemStack(MaterialRegistry.itemRedPaperBroken, 1));
         e.setDefaultPickupDelay();
         this.world.spawnEntity(e);
@@ -154,7 +162,18 @@ public class EntityFirecracker extends EntityThrowable {
 
     @Override
     protected void onImpact(RayTraceResult result) {
-        // TODO Auto-generated method stub
-        
+        if (result.entityHit != null && this.fuse > 2)
+        {
+            this.fuse = 2;
+        }
     }
+
+//    @Override
+//    public Light provideLight() {
+//        if (this.fuse <= 2 && ModuleFirecracker.useFancyLighting)
+//        {
+//            return new Light.Builder().color(1F, 0.7F, 1F).pos(this).radius(10F).build();
+//        }
+//        return null;
+//    }
 }
