@@ -43,7 +43,7 @@ public class ModuleMaterial extends AbstractSpringFestivalModule {
         event.getRegistry().registerAll(
                 new ItemSeeds(MaterialRegistry.GLUTINOUS_RICE_CROP, Blocks.DIRT)
                         .setCreativeTab(SpringFestivalConstants.CREATIVE_TAB)
-                        .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".glutinous_rice")
+                        .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".glutinous_rice_seed")
                         .setRegistryName(SpringFestivalConstants.MOD_ID, "glutinous_rice_seed"),
                 new Item()
                         .setCreativeTab(SpringFestivalConstants.CREATIVE_TAB)
@@ -59,6 +59,6 @@ public class ModuleMaterial extends AbstractSpringFestivalModule {
 
     @SubscribeEvent
     public void onBlockRegister(RegistryEvent.Register<Block> event) {
-        event.getRegistry().register(new BlockGlutinousRice().setRegistryName("springfestival:glutinous_rice_crop"));
+        event.getRegistry().register(new BlockGlutinousRice().setRegistryName(SpringFestivalConstants.MOD_ID, "glutinous_rice_crop"));
     }
 }
