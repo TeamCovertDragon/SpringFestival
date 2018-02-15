@@ -57,7 +57,7 @@ public abstract class SpringFestivalProxy {
     }
 
     public final boolean isModuleLoaded(final String module) {
-        return false; // TODO Stub!
+        return false; // TODO Stub! We might need a Map instead of List...
     }
 
     public final void onConstruct(FMLConstructionEvent event) {

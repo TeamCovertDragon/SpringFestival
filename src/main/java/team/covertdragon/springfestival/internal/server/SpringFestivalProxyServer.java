@@ -19,7 +19,7 @@ import java.util.UUID;
 
 public final class SpringFestivalProxyServer extends SpringFestivalProxy {
 
-    private final MinecraftServer serverInstance = FMLCommonHandler.instance().getMinecraftServerInstance();
+    private MinecraftServer serverInstance = FMLCommonHandler.instance().getMinecraftServerInstance();
 
     @Override
     public boolean isPhysicalServer() {

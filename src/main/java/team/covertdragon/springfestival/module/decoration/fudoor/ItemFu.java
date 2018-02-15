@@ -7,7 +7,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package team.covertdragon.springfestival.module.material;
+package team.covertdragon.springfestival.module.decoration.fudoor;
 
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.state.IBlockState;
@@ -21,19 +21,18 @@ import net.minecraft.world.World;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.network.SpringFestivalNetworkHandler;
 import team.covertdragon.springfestival.module.decoration.DecorationRegistry;
-import team.covertdragon.springfestival.module.decoration.fudoor.BlockFuDoor;
-import team.covertdragon.springfestival.module.decoration.fudoor.ItemFuDoor;
-import team.covertdragon.springfestival.module.decoration.fudoor.ServerPacketFuDoorCreation;
-import team.covertdragon.springfestival.module.decoration.fudoor.TileFuDoor;
 
-public class ItemRedPaper extends Item {
-    public ItemRedPaper() {
-        setRegistryName(SpringFestivalConstants.MOD_ID, "red_paper");
-        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".red_paper");
+/**
+ * The item instance that represents the Fu character post.
+ */
+public class ItemFu extends Item {
+
+    public ItemFu() {
+        setRegistryName(SpringFestivalConstants.MOD_ID, "fu");
+        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".fu");
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
     }
 
-    // TODO Can we move these stuff to ItemFu? Red paper doesn't have word on it
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         IBlockState state = world.getBlockState(pos);
@@ -53,7 +52,7 @@ public class ItemRedPaper extends Item {
             world.setBlockToAir(pos);
             world.setBlockToAir(pos.add(0, -1, 0));
             //Set Tile Entity
-            ItemFuDoor.placeDoor(world, pos.add(0, -1, 0), state.getValue(BlockDoor.FACING), DecorationRegistry.blockFuDoor, state.getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT);
+            ItemFuDoor.placeDoor(world, pos.add(0, -1, 0), state.getValue(BlockDoor.FACING), DecorationRegistry.FU_DOOR, state.getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT);
             TileFuDoor te = (TileFuDoor) world.getTileEntity(pos);
             if (te != null) {
                 te.setOriginalBlockStateLower(originalLower);
@@ -69,4 +68,5 @@ public class ItemRedPaper extends Item {
         }
         return EnumActionResult.PASS;
     }
+
 }

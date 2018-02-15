@@ -9,6 +9,7 @@
 
 package team.covertdragon.springfestival.module.decoration;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -20,23 +21,22 @@ import team.covertdragon.springfestival.module.decoration.redpillar.BlockLargeRe
 
 @GameRegistry.ObjectHolder(SpringFestivalConstants.MOD_ID)
 public class DecorationRegistry {
-    @GameRegistry.ObjectHolder("red_hat")
-    public static final ItemArmor red_hat = null;
 
-    @GameRegistry.ObjectHolder("red_gown")
-    public static final ItemArmor red_gown = null;
+    public static final Item FU = null;
 
-    @GameRegistry.ObjectHolder("red_trousers")
-    public static final ItemArmor red_trousers = null;
+    public static final ItemArmor RED_HAT = null;
 
-    @GameRegistry.ObjectHolder("red_shoes")
-    public static final ItemArmor red_shoes = null;
+    public static final ItemArmor RED_GOWN = null;
 
-    @GameRegistry.ObjectHolder("fu_door")
-    public static final BlockFuDoor blockFuDoor = null;
+    public static final ItemArmor RED_TROUSERS = null;
+
+    public static final ItemArmor RED_SHOES = null;
 
     @GameRegistry.ObjectHolder("fu_door")
-    public static final ItemFuDoor itemFuDoor = null;
+    public static final BlockFuDoor FU_DOOR = null;
+
+    @GameRegistry.ObjectHolder("fu_door")
+    public static final ItemFuDoor FU_DOOR_ITEM = null;
 
     @GameRegistry.ObjectHolder("large_red_pillar")
     public static final BlockLargeRedPillar blockLargeRedPillar = null;

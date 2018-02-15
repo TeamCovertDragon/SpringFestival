@@ -116,7 +116,7 @@ public class BlockFuDoor extends BlockDoor {
 
         if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) > 0) {
             List<ItemStack> items = new ArrayList<>();
-            ItemStack itemstack = new ItemStack(DecorationRegistry.itemFuDoor);
+            ItemStack itemstack = new ItemStack(DecorationRegistry.FU_DOOR_ITEM);
             itemstack.setTagCompound(te.serializeNBT());
 
             if (!itemstack.isEmpty()) {
@@ -146,6 +146,6 @@ public class BlockFuDoor extends BlockDoor {
 
     @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-        return new ItemStack(DecorationRegistry.itemFuDoor);
+        return new ItemStack(DecorationRegistry.FU_DOOR_ITEM);
     }
 }

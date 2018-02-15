@@ -44,7 +44,7 @@ public final class SpringFestivalTimeProviderQuerying implements ISpringFestival
 
     @Override
     public boolean isDuringSpringFestival() {
-        final LocalDate today = LocalDate.now(); // TODO Config option to enforce UTC+8, a.k.a. China Standard Time
-        return validDates.contains(today);
+        // TODO Config option to enforce UTC+8, a.k.a. China Standard Time
+        return validDates.contains(LocalDate.now());
     }
 }

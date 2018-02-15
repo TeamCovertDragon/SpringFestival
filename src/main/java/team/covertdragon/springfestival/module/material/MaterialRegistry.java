@@ -25,7 +25,7 @@ public class MaterialRegistry {
     }
 
     @GameRegistry.ObjectHolder("red_paper")
-    public static final ItemRedPaper itemRedPaper;
+    public static final Item itemRedPaper;
 
     @GameRegistry.ObjectHolder("red_paper_broken")
     public static final Item itemRedPaperBroken;

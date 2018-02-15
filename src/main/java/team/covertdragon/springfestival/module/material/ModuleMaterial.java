@@ -25,10 +25,11 @@ import team.covertdragon.springfestival.module.SpringFestivalModule;
 
 import java.rmi.registry.Registry;
 
+/**
+ * A module that holds shared materials, for other modules to use.
+ */
 @SpringFestivalModule(name = "material", dependencies = {})
 public class ModuleMaterial extends AbstractSpringFestivalModule {
-
-    // A module that contains some common materials, for other modules to use
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
@@ -49,7 +50,10 @@ public class ModuleMaterial extends AbstractSpringFestivalModule {
                         .setCreativeTab(SpringFestivalConstants.CREATIVE_TAB)
                         .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".glutinous_rice")
                         .setRegistryName(SpringFestivalConstants.MOD_ID, "glutinous_rice"),
-                new ItemRedPaper(),
+                new Item()
+                        .setCreativeTab(SpringFestivalConstants.CREATIVE_TAB)
+                        .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".red_paper")
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "red_paper"),
                 new Item()
                         .setCreativeTab(SpringFestivalConstants.CREATIVE_TAB)
                         .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".red_paper_broken")
