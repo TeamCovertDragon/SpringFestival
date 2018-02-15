@@ -18,4 +18,19 @@ public class FortuneManagerActions {
             system.registerFVMachine(machine);
         }
     }
+
+    public static class ActionDeleteMachine implements Runnable {
+        AbstractTileFVMachine machine;
+        IFortuneValueSystem system;
+
+        public ActionDeleteMachine(AbstractTileFVMachine machine, IFortuneValueSystem system) {
+            this.machine = machine;
+            this.system = system;
+        }
+
+        @Override
+        public void run() {
+            system.deleteMachine(machine.getId());
+        }
+    }
 }

@@ -35,12 +35,9 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
 
     @Override
     public void onServerStarting() {
-        if (manager == null) {
-            manager = new FortuneValueManager(SpringFestivalConstants.server);
-        }
-        if (FV_MANAGER_THREAD == null) {
-            FV_MANAGER_THREAD = new Thread(manager);
-        }
+        manager = new FortuneValueManager(SpringFestivalConstants.server);
+        FV_MANAGER_THREAD = new Thread(manager,"SpringFestival-FVManager");
+        FV_MANAGER_THREAD.setDaemon(true);
         manager.updatePlayerList();
         manager.alive = true;
         FV_MANAGER_THREAD.start();
@@ -48,6 +45,7 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
 
     @Override
     public void onServerStopping() {
+        SpringFestivalConstants.logger.info("Shutting down fv manager...");
         manager.alive = false;
         try {
             FV_MANAGER_THREAD.join();
