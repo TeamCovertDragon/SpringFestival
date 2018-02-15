@@ -10,7 +10,6 @@
 package team.covertdragon.springfestival.internal.time;
 
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -24,8 +23,8 @@ public final class SpringFestivalTimeProviderLocal implements ISpringFestivalTim
     private final Set<Date> validDates = new HashSet<>();
 
     private SpringFestivalTimeProviderLocal() {
-        /**
-         * TODO: Hardcode here. I think it's also a gentle way.
+        /*
+         * TODO: Hardcode here. I think it's also a gentle way. <- Wait, this is local time provider - means that we need to bundle a file into the source!
          * Information can be get here:
          * https://www.timeanddate.com/holidays/china/spring-festival-golden-week
          */

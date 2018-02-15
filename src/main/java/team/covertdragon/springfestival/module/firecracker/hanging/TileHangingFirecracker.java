@@ -8,19 +8,10 @@
  */
 package team.covertdragon.springfestival.module.firecracker.hanging;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityFireworkRocket;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemDye;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import team.covertdragon.springfestival.module.firecracker.FirecrackerRegistry;
 
 public class TileHangingFirecracker extends TileEntity {
     @Nullable

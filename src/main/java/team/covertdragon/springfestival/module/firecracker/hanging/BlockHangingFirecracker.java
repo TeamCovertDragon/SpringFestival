@@ -21,7 +21,6 @@ import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
@@ -69,7 +68,7 @@ public class BlockHangingFirecracker extends Block {
         this.setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
         this.setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".hanging_firecracker");
         this.setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker");
-        this.setDefaultState(this.blockState.getBaseState().withProperty(COUNT, Integer.valueOf(0)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(COUNT, 0));
     }
 
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
@@ -167,7 +166,7 @@ public class BlockHangingFirecracker extends Block {
     @Override
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        int count = (Integer)state.getValue(COUNT).intValue();
+        int count = state.getValue(COUNT);
         if (count < 10)
         {
             state.withProperty(COUNT, count + 1);
@@ -180,7 +179,7 @@ public class BlockHangingFirecracker extends Block {
     
     @Override
     public boolean hasTileEntity(IBlockState state) {
-        return state.getValue(COUNT).intValue() != 0;
+        return state.getValue(COUNT) != 0;
     }
 
     @Override
@@ -191,13 +190,13 @@ public class BlockHangingFirecracker extends Block {
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return state.getValue(COUNT).intValue() < 5 ? FirecrackerRegistry.itemHangingFirecracker : MaterialRegistry.itemRedPaperBroken;
+        return state.getValue(COUNT) < 5 ? FirecrackerRegistry.itemHangingFirecracker : MaterialRegistry.itemRedPaperBroken;
     }
     
     @Override
     public int quantityDropped(IBlockState state, int fortune, Random random)
     {
-        int count = state.getValue(COUNT).intValue();
+        int count = state.getValue(COUNT);
         if (count < 5)
         {
             return 1;
@@ -256,18 +255,18 @@ public class BlockHangingFirecracker extends Block {
     public IBlockState getStateFromMeta(int meta)
     {
         if (meta > 10) meta = 0;
-        return this.getDefaultState().withProperty(COUNT, Integer.valueOf(meta));
+        return this.getDefaultState().withProperty(COUNT, meta);
     }
 
     @Override
     public int getMetaFromState(IBlockState state)
     {
-        return state.getValue(COUNT).intValue();
+        return state.getValue(COUNT);
     }
     
     @Override
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, new IProperty[] {COUNT});
+        return new BlockStateContainer(this, COUNT);
     }
 }

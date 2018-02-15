@@ -14,6 +14,7 @@ import net.minecraft.client.gui.GuiScreen;
 public class GuiCalligraphy extends GuiScreen {
 
     private transient int strokeBeginX, strokeBeginY, strokeRadius;
+    private transient boolean hasBegun;
 
     /**
      * The default 256 by 256 pixels canvas, mimicking the red paper for writing words.
@@ -29,8 +30,13 @@ public class GuiCalligraphy extends GuiScreen {
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-        this.strokeBeginX = mouseX;
-        this.strokeBeginY = mouseY;
+        if (!hasBegun) {
+            this.strokeBeginX = mouseX;
+            this.strokeBeginY = mouseY;
+            this.hasBegun = true;
+        } else {
+            this.strokeRadius += 1;
+        }
     }
 
     @Override
@@ -43,5 +49,6 @@ public class GuiCalligraphy extends GuiScreen {
         this.strokeBeginX = -1;
         this.strokeBeginY = -1;
         this.strokeRadius = 0;
+        this.hasBegun = false;
     }
 }
