@@ -87,9 +87,7 @@ public final class ModuleLoader {
                     continue;
                 }
 
-                dependencies.forEach((dep) -> {
-                    moduleGraph.addEdge(getInstanceByName(modules, (String) dep), module);
-                });
+                dependencies.forEach(dep -> moduleGraph.addEdge(getInstanceByName(modules, (String) dep), module));
             }
         }
 

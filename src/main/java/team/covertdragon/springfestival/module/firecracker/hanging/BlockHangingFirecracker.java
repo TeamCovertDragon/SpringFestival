@@ -21,7 +21,6 @@ import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
@@ -266,6 +265,6 @@ public class BlockHangingFirecracker extends Block {
     @Override
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, new IProperty[] {COUNT});
+        return new BlockStateContainer(this, COUNT);
     }
 }

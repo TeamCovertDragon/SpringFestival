@@ -5,31 +5,31 @@ import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machin
 import java.util.List;
 
 public interface IFortuneValueSystem {
-    public int getFortuneValue();
+    int getFortuneValue();
 
-    public void setFortuneValue(int quality);
+    void setFortuneValue(int quality);
 
-    public void addFortune(int quality);
+    void addFortune(int quality);
 
-    public boolean shrinkFortune(int quality);
+    boolean shrinkFortune(int quality);
 
-    public int getIncreasingPoint();
+    int getIncreasingPoint();
 
-    public void setBufPoint(int quality);
+    void setBufPoint(int quality);
 
-    public void addBufPoint(int quality);
+    void addBufPoint(int quality);
 
-    public boolean shrinkBuffPoint(int quality);
+    boolean shrinkBuffPoint(int quality);
 
-    public List<AbstractTileFVMachine> getFVMachines();
+    List<AbstractTileFVMachine> getFVMachines();
 
-    public void setMachines(List<AbstractTileFVMachine> machines);
+    void setMachines(List<AbstractTileFVMachine> machines);
 
-    public void registerFVMachine(AbstractTileFVMachine machine);
+    void registerFVMachine(AbstractTileFVMachine machine);
 
-    public int getCurrentlyNextMachineId();
+    int getCurrentlyNextMachineId();
 
-    public void setNextMachineId(int id);
+    void setNextMachineId(int id);
 
-    public void deleteMachine(int id);
+    void deleteMachine(int id);
 }

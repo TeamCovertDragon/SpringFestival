@@ -82,7 +82,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
                     SpringFestivalConstants.logger.catching(e);
                 }
                     
-            mob.tasks.addTask(3, new EntityAIAvoidEntity(mob, EntityFirecracker.class, 6.0F, 1.0D, 1.2D));
+            mob.tasks.addTask(3, new EntityAIAvoidEntity<>(mob, EntityFirecracker.class, 6.0F, 1.0D, 1.2D));
         }
     }
     

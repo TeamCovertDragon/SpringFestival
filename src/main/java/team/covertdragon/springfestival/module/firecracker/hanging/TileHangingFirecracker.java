@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 import team.covertdragon.springfestival.module.firecracker.entity.EntityFirecracker;
 import team.covertdragon.springfestival.module.material.MaterialRegistry;
 
+
 public class TileHangingFirecracker extends TileEntity implements ITickable {
     @Nullable
     private EntityLivingBase igniter;

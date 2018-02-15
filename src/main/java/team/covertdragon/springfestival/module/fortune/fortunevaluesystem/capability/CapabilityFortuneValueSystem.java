@@ -13,6 +13,7 @@ import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machin
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.lang.ref.WeakReference;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -66,7 +67,7 @@ public class CapabilityFortuneValueSystem {
     public static class Factory implements Callable<IFortuneValueSystem> {
 
         @Override
-        public IFortuneValueSystem call() throws Exception {
+        public IFortuneValueSystem call() {
             return new Implementation();
         }
     }
@@ -75,7 +76,7 @@ public class CapabilityFortuneValueSystem {
         private int fortuneValue = 0;
         private int increasingPoint = 1;//TODO increase more quickly in springfestival?
         private int increasingBuff = 0;
-        private List<AbstractTileFVMachine> machines = new LinkedList<>();
+        private List<WeakReference<AbstractTileFVMachine>> machines = new LinkedList<>();
         private int nextMachineId;
 
         @Override
@@ -128,18 +129,26 @@ public class CapabilityFortuneValueSystem {
 
         @Override
         public List<AbstractTileFVMachine> getFVMachines() {
+            List<AbstractTileFVMachine> machines = new LinkedList<>();
+            for (WeakReference<AbstractTileFVMachine> reference : this.machines) {
+                if (reference.get() != null) {
+                    machines.add(reference.get());
+                }
+            }
             return machines;
         }
 
         @Override
         public void setMachines(List<AbstractTileFVMachine> machines) {
-            this.machines = machines;
+            for (AbstractTileFVMachine machine : machines) {
+                this.machines.add(new WeakReference<>(machine));
+            }
         }
 
         @Override
         public void registerFVMachine(AbstractTileFVMachine machine) {
             machine.setId(nextMachineId++);
-            machines.add(machine);
+            machines.add(new WeakReference<>(machine));
         }
 
         @Override
@@ -155,9 +164,12 @@ public class CapabilityFortuneValueSystem {
         @Override
         public void deleteMachine(int id) {
             for (int i = 0; i < machines.size(); i++) {
-                if (machines.get(i).getId() == id) {
-                    machines.remove(i);
-                    return;
+                AbstractTileFVMachine machine = machines.get(i).get();
+                if (machine != null) {
+                    if (machine.getId() == id) {
+                        machines.remove(i);
+                        return;
+                    }
                 }
             }
         }
