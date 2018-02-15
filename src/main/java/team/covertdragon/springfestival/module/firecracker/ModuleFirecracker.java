@@ -10,6 +10,7 @@
 package team.covertdragon.springfestival.module.firecracker;
 
 import java.lang.reflect.Field;
+import java.util.Iterator;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
@@ -20,6 +21,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -30,6 +33,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.world.ExplosionEvent;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -42,6 +47,7 @@ import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 import team.covertdragon.springfestival.module.firecracker.entity.EntityFirecracker;
 import team.covertdragon.springfestival.module.firecracker.entity.ItemFirecrackerEgg;
+import team.covertdragon.springfestival.module.firecracker.entity.RenderEntityFirecracker;
 import team.covertdragon.springfestival.module.firecracker.firework.BlockFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.firework.ItemFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.firework.TileFireworkBox;
@@ -51,10 +57,12 @@ import team.covertdragon.springfestival.module.firecracker.hanging.TileHangingFi
 
 @SpringFestivalModule(name = "firecracker", dependencies = {"material"})
 public class ModuleFirecracker extends AbstractSpringFestivalModule {
+    public static Boolean useFancyLighting;
 
     public void onInit() {
         EntityRegistry.registerModEntity(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker"), EntityFirecracker.class, "Firecracker", 0, SpringFestival.getInstance(), 80, 3, true);
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(FirecrackerRegistry.itemFirecrackerEgg, new BehaviourFirecrackerDispense());
+//        useFancyLighting = Loader.isModLoaded("albedo");
     }
     
     @SubscribeEvent
@@ -75,6 +83,17 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
                 }
                     
             mob.tasks.addTask(3, new EntityAIAvoidEntity<>(mob, EntityFirecracker.class, 6.0F, 1.0D, 1.2D));
+        }
+    }
+    
+    @SubscribeEvent
+    public void onExplosionDetonate(ExplosionEvent.Detonate event)
+    {
+        Iterator<Entity> itr = event.getAffectedEntities().iterator();
+        while (itr.hasNext())
+        {
+            Entity e = itr.next();
+            if (e instanceof EntityXPOrb || e instanceof EntityItem) itr.remove();
         }
     }
     
@@ -101,6 +120,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     @SideOnly(Side.CLIENT)
     public void onSoundEventRegistry(RegistryEvent.Register<SoundEvent> event) {
         event.getRegistry().register(FirecrackerRegistry.soundFirecrackerThrow);
+        event.getRegistry().register(FirecrackerRegistry.soundFirecrackerExplode);
     }
     
     @SubscribeEvent
@@ -109,7 +129,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         ModelUtil.mapItemModel(FirecrackerRegistry.itemFireWorkBox);
         ModelUtil.mapItemModel(FirecrackerRegistry.itemFirecrackerEgg);
         ModelUtil.mapItemModel(FirecrackerRegistry.itemHangingFirecracker);
-//      RenderingRegistry.loadEntityRenderers(manager, renderMap);
+        RenderingRegistry.registerEntityRenderingHandler(EntityFirecracker.class, RenderEntityFirecracker.FACTORY);
     }
     
     public class BehaviourFirecrackerDispense extends BehaviorProjectileDispense {

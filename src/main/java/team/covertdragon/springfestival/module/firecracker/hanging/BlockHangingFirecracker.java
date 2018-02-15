@@ -45,9 +45,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.internal.SpringFestivalUtil;
 import team.covertdragon.springfestival.module.firecracker.FirecrackerRegistry;
-import team.covertdragon.springfestival.module.material.MaterialRegistry;
 
 @SuppressWarnings("deprecation")
 public class BlockHangingFirecracker extends Block {
@@ -56,10 +54,10 @@ public class BlockHangingFirecracker extends Block {
     
     /**
      * 0 - unignited
-     * 1 ~ 4 - waiting
-     * 5 ~ 10 - ignited
+     * 1 - waiting
+     * 2 ~ 5 - ignited
      */
-    public static final PropertyInteger COUNT = PropertyInteger.create("count", 0, 10);
+    public static final PropertyInteger COUNT = PropertyInteger.create("count", 0, 5);
     
     // TODO Can redstone signal affect this firecracker? No.
 
@@ -103,6 +101,11 @@ public class BlockHangingFirecracker extends Block {
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
+        if (state.getValue(COUNT) > 0)
+        {
+            return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
+        }
+        
         ItemStack itemstack = player.getHeldItem(hand);
         
         if (!itemstack.isEmpty() && (
@@ -114,7 +117,7 @@ public class BlockHangingFirecracker extends Block {
                 )
             )
         {
-            this.ignite(world, pos, player);
+            this.ignite(world, pos, state, false, player);
             
             if (itemstack.getItem() == Items.FLINT_AND_STEEL)
             {
@@ -128,12 +131,19 @@ public class BlockHangingFirecracker extends Block {
         }
     }
     
-    public void ignite(World worldIn, BlockPos pos, EntityLivingBase igniter)
+    public void ignite(World worldIn, BlockPos pos, IBlockState state, Boolean instant, EntityLivingBase igniter)
     {
         if (!worldIn.isRemote)
         {
-            SpringFestivalUtil.createNonDestructiveExplosion(worldIn, pos, 3.0F, igniter);
-            worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 11);
+            worldIn.setBlockState(pos, state.withProperty(COUNT, 1), 3);
+            if (instant)
+            {
+                TileEntity tileentity = worldIn.getTileEntity(pos);
+                if (tileentity instanceof TileHangingFirecracker)
+                {
+                    ((TileHangingFirecracker)tileentity).tick = 61;
+                }
+            }
         }
     }
 
@@ -152,28 +162,13 @@ public class BlockHangingFirecracker extends Block {
         {
             return block != Blocks.END_GATEWAY && !(block instanceof BlockPistonBase);
         }
-        else
+        else if (block instanceof BlockHangingFirecracker)
         {
-            return block.isLeaves(state, worldIn, pos) || block instanceof BlockHangingFirecracker || block instanceof BlockFence || block instanceof BlockGlass || block instanceof BlockWall || block instanceof BlockStainedGlass;
-        }
-    }
-
-    @Override
-    public int tickRate(World world) {
-        return 5;
-    }
-    
-    @Override
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
-    {
-        int count = state.getValue(COUNT);
-        if (count < 10)
-        {
-            state.withProperty(COUNT, count + 1);
+            return state.getValue(COUNT) == 0;
         }
         else
         {
-            // TODO
+            return block.isLeaves(state, worldIn, pos) || block instanceof BlockFence || block instanceof BlockGlass || block instanceof BlockWall || block instanceof BlockStainedGlass;
         }
     }
     
@@ -190,27 +185,30 @@ public class BlockHangingFirecracker extends Block {
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return state.getValue(COUNT) < 5 ? FirecrackerRegistry.itemHangingFirecracker : MaterialRegistry.itemRedPaperBroken;
+        return FirecrackerRegistry.itemHangingFirecracker;
     }
     
     @Override
     public int quantityDropped(IBlockState state, int fortune, Random random)
     {
-        int count = state.getValue(COUNT);
-        if (count < 5)
+        return state.getValue(COUNT) == 0 ? 1 : 0;
+    }
+    
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+    {
+        TileEntity tileentity = worldIn.getTileEntity(pos);
+        if (tileentity instanceof TileHangingFirecracker)
         {
-            return 1;
+            ((TileHangingFirecracker)tileentity).dropItems();
         }
-        else
-        {
-            return 10 - count; 
-        }
+        super.breakBlock(worldIn, pos, state);
     }
     
     @Override
     public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn) {
         if (!worldIn.isRemote) {
-            this.ignite(worldIn, pos, explosionIn.getExplosivePlacedBy());
+            this.ignite(worldIn, pos, worldIn.getBlockState(pos), false, explosionIn.getExplosivePlacedBy());
         }
     }
 
@@ -222,11 +220,11 @@ public class BlockHangingFirecracker extends Block {
             if (entityIn instanceof EntityArrow)
             {
                 EntityArrow entityarrow = (EntityArrow)entityIn;
-                this.ignite(worldIn, pos, entityarrow.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase)entityarrow.shootingEntity : null);
+                this.ignite(worldIn, pos, state, false, entityarrow.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase)entityarrow.shootingEntity : null);
             }
             else if (entityIn instanceof EntityLivingBase)
             {
-                this.ignite(worldIn, pos, (EntityLivingBase)entityIn);
+                this.ignite(worldIn, pos, state, false, (EntityLivingBase)entityIn);
             }
         }
     }
@@ -254,7 +252,7 @@ public class BlockHangingFirecracker extends Block {
     @Override
     public IBlockState getStateFromMeta(int meta)
     {
-        if (meta > 10) meta = 0;
+        if (meta > 5) meta = 0;
         return this.getDefaultState().withProperty(COUNT, meta);
     }
 

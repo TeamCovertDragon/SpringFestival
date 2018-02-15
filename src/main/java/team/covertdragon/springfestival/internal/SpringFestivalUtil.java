@@ -10,24 +10,26 @@
 package team.covertdragon.springfestival.internal;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.ForgeEventFactory;
-
-import java.util.Collections;
+import team.covertdragon.springfestival.module.firecracker.FirecrackerRegistry;
 
 public final class SpringFestivalUtil {
 
     private SpringFestivalUtil() {}
 
     public static void createNonDestructiveExplosion(World world, BlockPos pos, float power, EntityLivingBase source) {
-        Explosion explosion = new Explosion(world, source, pos.getX(), pos.getY(), pos.getZ(), power, false, false, Collections.emptyList());
+        Explosion explosion = new Explosion(world, source, pos.getX(), pos.getY(), pos.getZ(), power, false, false);
         if (!ForgeEventFactory.onExplosionStart(world, explosion)) {
             explosion.doExplosionA();
-            explosion.doExplosionB(true);
+            world.playSound((EntityPlayer)null, pos.getX(), pos.getY(), pos.getZ(), FirecrackerRegistry.soundFirecrackerExplode, SoundCategory.NEUTRAL, 4.0F, (1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F) * 0.7F);
+            world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 0.0D, 0.0D);
         }
         if(world instanceof WorldServer) {
             ((WorldServer) world).spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, true, pos.getX(), pos.getY(), pos.getZ(), 2, 0, 0, 0, 0d);
