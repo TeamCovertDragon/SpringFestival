@@ -20,6 +20,11 @@ tile.springfestival.firework_box.name=礼炮
 tile.springfestival.large_red_pillar.name=大红柱
 tile.springfestival.large_red_pillar_alt.name=大红柱
 
+entity.springfestival.firecracker.name=爆竹
+
+subtitle.springfestival.firecracker.throw=爆竹：投掷
+subtitle.springfestival.firecracker.explode=爆竹：爆炸
+
 redpacket.owner=红包主人：%s
 redpacket.receiver=%s将会收到这个红包
 redpacket.receiver.any=所有人都
