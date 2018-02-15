@@ -10,7 +10,6 @@
 package team.covertdragon.springfestival.internal;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -28,7 +27,7 @@ public final class SpringFestivalUtil {
         Explosion explosion = new Explosion(world, source, pos.getX(), pos.getY(), pos.getZ(), power, false, false);
         if (!ForgeEventFactory.onExplosionStart(world, explosion)) {
             explosion.doExplosionA();
-            world.playSound((EntityPlayer)null, pos.getX(), pos.getY(), pos.getZ(), FirecrackerRegistry.soundFirecrackerExplode, SoundCategory.NEUTRAL, 4.0F, (1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F) * 0.7F);
+            world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), FirecrackerRegistry.soundFirecrackerExplode, SoundCategory.NEUTRAL, 4.0F, (1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F) * 0.7F);
             world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 0.0D, 0.0D);
         }
         if(world instanceof WorldServer) {

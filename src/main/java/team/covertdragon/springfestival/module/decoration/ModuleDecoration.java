@@ -29,7 +29,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.internal.client.SpringFestivalProxyClient;
 import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.internal.network.SpringFestivalNetworkHandler;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;

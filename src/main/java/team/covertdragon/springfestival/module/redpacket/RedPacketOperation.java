@@ -60,8 +60,8 @@ public abstract class RedPacketOperation {
 
         private static final class RedPacketDistributionTask implements Runnable {
 
-            private EntityPlayer player;
-            private RedPacketData packet;
+            private final EntityPlayer player;
+            private final RedPacketData packet;
 
             RedPacketDistributionTask(final EntityPlayer player, final RedPacketData data) {
                 this.player = player;

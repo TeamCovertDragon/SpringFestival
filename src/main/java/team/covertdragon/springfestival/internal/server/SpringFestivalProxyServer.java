@@ -12,6 +12,8 @@ package team.covertdragon.springfestival.internal.server;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import team.covertdragon.springfestival.SpringFestivalProxy;
 
 import javax.annotation.Nullable;
@@ -20,6 +22,18 @@ import java.util.UUID;
 public final class SpringFestivalProxyServer extends SpringFestivalProxy {
 
     private MinecraftServer serverInstance = FMLCommonHandler.instance().getMinecraftServerInstance();
+
+    @Override
+    public void onServerStarting(FMLServerStartingEvent event) {
+        super.onServerStarting(event);
+        this.serverInstance = event.getServer();
+    }
+
+    @Override
+    public void onServerStopping(FMLServerStoppingEvent event) {
+        super.onServerStopping(event);
+        this.serverInstance = null;
+    }
 
     @Override
     public boolean isPhysicalServer() {

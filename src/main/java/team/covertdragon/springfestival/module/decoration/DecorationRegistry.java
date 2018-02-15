@@ -22,31 +22,45 @@ import team.covertdragon.springfestival.module.decoration.redpillar.BlockLargeRe
 @GameRegistry.ObjectHolder(SpringFestivalConstants.MOD_ID)
 public class DecorationRegistry {
 
-    public static final Item FU = null;
+    public static final Item FU;
 
-    public static final ItemArmor RED_HAT = null;
+    public static final ItemArmor RED_HAT;
 
-    public static final ItemArmor RED_GOWN = null;
+    public static final ItemArmor RED_GOWN;
 
-    public static final ItemArmor RED_TROUSERS = null;
+    public static final ItemArmor RED_TROUSERS;
 
-    public static final ItemArmor RED_SHOES = null;
-
-    @GameRegistry.ObjectHolder("fu_door")
-    public static final BlockFuDoor FU_DOOR = null;
+    public static final ItemArmor RED_SHOES;
 
     @GameRegistry.ObjectHolder("fu_door")
-    public static final ItemFuDoor FU_DOOR_ITEM = null;
+    public static final BlockFuDoor FU_DOOR;
+
+    @GameRegistry.ObjectHolder("fu_door")
+    public static final ItemFuDoor FU_DOOR_ITEM;
 
     @GameRegistry.ObjectHolder("large_red_pillar")
-    public static final BlockLargeRedPillar blockLargeRedPillar = null;
+    public static final BlockLargeRedPillar blockLargeRedPillar;
 
     @GameRegistry.ObjectHolder("large_red_pillar")
-    public static final ItemBlock itemLargeRedPillar = null;
+    public static final ItemBlock itemLargeRedPillar;
 
     @GameRegistry.ObjectHolder("large_red_pillar_alt")
-    public static final BlockLargeRedPillarAlt blockLargeRedPillarAlt = null;
+    public static final BlockLargeRedPillarAlt blockLargeRedPillarAlt;
 
     @GameRegistry.ObjectHolder("large_red_pillar_alt")
-    public static final ItemBlock itemLargeRedPillarAlt = null;
+    public static final ItemBlock itemLargeRedPillarAlt;
+
+    static {
+        FU = null;
+        RED_HAT = null;
+        RED_GOWN = null;
+        RED_TROUSERS = null;
+        RED_SHOES = null;
+        FU_DOOR = null;
+        FU_DOOR_ITEM = null;
+        blockLargeRedPillar = null;
+        itemLargeRedPillar = null;
+        blockLargeRedPillarAlt = null;
+        itemLargeRedPillarAlt = null;
+    }
 }

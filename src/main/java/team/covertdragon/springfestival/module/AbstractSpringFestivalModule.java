@@ -9,7 +9,7 @@
 
 package team.covertdragon.springfestival.module;
 
-public class AbstractSpringFestivalModule implements ISpringFestivalModule{
+public class AbstractSpringFestivalModule implements ISpringFestivalModule {
 
     @Override
     public void onInit() {

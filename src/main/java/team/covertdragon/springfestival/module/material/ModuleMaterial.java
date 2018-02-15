@@ -23,8 +23,6 @@ import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 
-import java.rmi.registry.Registry;
-
 /**
  * A module that holds shared materials, for other modules to use.
  */
