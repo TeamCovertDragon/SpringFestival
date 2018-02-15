@@ -19,6 +19,7 @@ import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import team.covertdragon.springfestival.internal.SpringFestivalGuiHandler;
 import team.covertdragon.springfestival.internal.time.ISpringFestivalTimeProvider;
+import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderFuzzyMatch;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderImpossible;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderLocal;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderQuerying;
@@ -72,6 +73,9 @@ public abstract class SpringFestivalProxy {
         DATE_CHECKERS.add(SpringFestivalTimeProviderQuerying.INSTANCE);
         DATE_CHECKERS.add(SpringFestivalTimeProviderLocal.INSTANCE);
         DATE_CHECKERS.add(SpringFestivalTimeProviderImpossible.INSTANCE);
+        if (SpringFestivalConfig.useFuzzySpringFestivalMatcher) {
+            DATE_CHECKERS.add(SpringFestivalTimeProviderFuzzyMatch.INSTANCE);
+        }
     }
 
     @OverridingMethodsMustInvokeSuper
