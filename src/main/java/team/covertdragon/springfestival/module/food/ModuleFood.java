@@ -20,11 +20,11 @@ import team.covertdragon.springfestival.module.SpringFestivalModule;
 
 @SpringFestivalModule(name = "food", dependencies = {"material"})
 public class ModuleFood extends AbstractSpringFestivalModule{
-    private static final Item DUMPLING = new ItemSpringFestivalFood(2, 1.0F)
+    private static final Item DUMPLING = new ItemSpringFestivalFood(3, 1.5F)
             .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".dumpling")
             .setRegistryName(SpringFestivalConstants.MOD_ID, "dumpling");
 
-    private static final Item NIANGAO = new ItemSpringFestivalFood(2, 1.0F)
+    private static final Item NIANGAO = new ItemSpringFestivalFood(2, 3.0F)
             .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".niangao")
             .setRegistryName(SpringFestivalConstants.MOD_ID, "niangao");
 

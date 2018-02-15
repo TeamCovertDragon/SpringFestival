@@ -8,6 +8,7 @@
  */
 package team.covertdragon.springfestival.module.material;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
@@ -18,9 +19,9 @@ public class MaterialRegistry {
     static {
         itemRedPaper = null;
         itemRedPaperBroken = null;
-        glutinousRiceCrop = null;
-        glutinousRice = null;
-        glutinousRiceSeed = null;
+        GLUTINOUS_RICE_CROP = null;
+        GLUTINOUS_RICE = null;
+        GLUTINOUS_RICE_SEED = null;
     }
 
     @GameRegistry.ObjectHolder("red_paper")
@@ -29,10 +30,10 @@ public class MaterialRegistry {
     @GameRegistry.ObjectHolder("red_paper_broken")
     public static final Item itemRedPaperBroken;
 
-    public static final Item glutinousRiceCrop;
+    public static final Block GLUTINOUS_RICE_CROP;
     
-    public static final Item glutinousRice;
+    public static final Item GLUTINOUS_RICE;
     
-    public static final Item glutinousRiceSeed;
+    public static final Item GLUTINOUS_RICE_SEED;
     
 }

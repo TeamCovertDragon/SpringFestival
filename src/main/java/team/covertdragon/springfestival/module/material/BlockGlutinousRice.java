@@ -10,10 +10,23 @@
 package team.covertdragon.springfestival.module.material;
 
 import net.minecraft.block.BlockCrops;
+import net.minecraft.item.Item;
+
+import javax.annotation.Nonnull;
 
 /**
  * The block that represents Nuomi (Oryza sativa var. glutinosa),
  * often used in cuisine or as glue after harvested.
  */
 public class BlockGlutinousRice extends BlockCrops {
+
+    @Nonnull
+    protected Item getSeed() {
+        return MaterialRegistry.GLUTINOUS_RICE_SEED;
+    }
+
+    @Nonnull
+    protected Item getCrop() {
+        return MaterialRegistry.GLUTINOUS_RICE;
+    }
 }
