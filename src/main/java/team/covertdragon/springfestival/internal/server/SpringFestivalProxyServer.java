@@ -21,6 +21,16 @@ public final class SpringFestivalProxyServer extends SpringFestivalProxy {
 
     private final MinecraftServer serverInstance = FMLCommonHandler.instance().getMinecraftServerInstance();
 
+    @Override
+    public boolean isPhysicalServer() {
+        return true;
+    }
+
+    @Override
+    public boolean isPhysicalClient() {
+        return false;
+    }
+
     @Nullable
     @Override
     public EntityPlayerMP getPlayerByUUID(UUID uuid) {

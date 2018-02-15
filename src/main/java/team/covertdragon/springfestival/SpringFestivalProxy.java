@@ -45,7 +45,7 @@ public abstract class SpringFestivalProxy {
      *
      * @return true if it is during Spring Festival; false for otherwise.
      */
-    public boolean isDuringSpringFestivalSeason() {
+    public final boolean isDuringSpringFestivalSeason() {
         if (hasQueriedTime) {
             return isDuringSpringFestival;
         }
@@ -54,6 +54,10 @@ public abstract class SpringFestivalProxy {
         }
         this.hasQueriedTime = true;
         return isDuringSpringFestival;
+    }
+
+    public final boolean isModuleLoaded(final String module) {
+        return false; // TODO Stub!
     }
 
     public final void onConstruct(FMLConstructionEvent event) {
@@ -86,6 +90,18 @@ public abstract class SpringFestivalProxy {
     public void onServerStopping(FMLServerStoppingEvent event) {
         modules.forEach(ISpringFestivalModule::onServerStopping);
     }
+
+    /**
+     * Helper method to determine whether this proxy is running on a physical server environment
+     * @return true if this proxy object is on a physical server; false otherwise.
+     */
+    public abstract boolean isPhysicalServer();
+
+    /**
+     * Helper method to determine whether this proxy is running on a physical client environment
+     * @return true if this proxy object is on a physical client; false otherwise.
+     */
+    public abstract boolean isPhysicalClient();
 
     @Nullable
     public abstract EntityPlayer getPlayerByUUID(UUID uuid);
