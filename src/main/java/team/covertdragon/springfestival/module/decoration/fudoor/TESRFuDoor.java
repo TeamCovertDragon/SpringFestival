@@ -63,7 +63,8 @@ public class TESRFuDoor extends FastTESR<TileFuDoor> {
         TextureAtlasSprite sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(FU_TEXTURE_LOCATION);
         int light = te.getWorld().getCombinedLight(te.getPos(), 0);
         int l1 = light >> 16 & 65535, l2 = light & 65535;
-        // TODO Must be in pos -> color -> tex -> light -> end order, Must not omit, reason awaiting research
+        // Must be in pos -> color -> tex -> light -> end order, Must not omit, reason awaiting research
+        // TODO Handle opening and left/right hinge
         switch (doorFacing) {
             case EAST: {
                 buffer.pos(x + 0.0, y + 0.0, z + 0.0).color(255, 255, 255, 255).tex(sprite.getInterpolatedU( 0), sprite.getInterpolatedV( 0)).lightmap(l1, l2).endVertex();
