@@ -10,11 +10,24 @@
 package team.covertdragon.springfestival.module.food;
 
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemStack;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
 public class ItemSpringFestivalFood extends ItemFood {
+    public final int itemUseDuration;
+    
     ItemSpringFestivalFood(int amount, float saturation) {
+        this(amount, saturation, 32);
+    }
+    
+    ItemSpringFestivalFood(int amount, float saturation, int itemUseDuration) {
         super(amount, saturation, false);
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
+        this.itemUseDuration = itemUseDuration;
+    }
+    
+    public int getMaxItemUseDuration(ItemStack stack)
+    {
+        return itemUseDuration;
     }
 }
