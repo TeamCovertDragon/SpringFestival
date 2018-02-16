@@ -13,6 +13,9 @@ import java.lang.reflect.Field;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
+import net.minecraft.block.BlockTNT;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
@@ -23,11 +26,16 @@ import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Bootstrap.BehaviorDispenseOptional;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -61,6 +69,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     public void onInit() {
         EntityRegistry.registerModEntity(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker"), EntityFirecracker.class, "Firecracker", 0, SpringFestival.getInstance(), 80, 3, true);
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(FirecrackerRegistry.itemFirecrackerEgg, new BehaviourFirecrackerDispense());
+        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.FLINT_AND_STEEL, new BehaviourFlintAndSteelDispense());
 //        useFancyLighting = Loader.isModLoaded("albedo");
     }
     
@@ -146,5 +155,38 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
             return new EntityFirecracker(worldIn, position.getX(), position.getY(), position.getZ(), null);
         }
         
+    }
+    public class BehaviourFlintAndSteelDispense extends BehaviorDispenseOptional {
+        protected ItemStack dispenseStack(IBlockSource source, ItemStack stack)
+        {
+            World world = source.getWorld();
+            this.successful = true;
+            BlockPos blockpos = source.getBlockPos().offset((EnumFacing)source.getBlockState().getValue(BlockDispenser.FACING));
+            IBlockState state = world.getBlockState(blockpos);
+            if (state.getMaterial() == Material.AIR)
+            {
+                world.setBlockState(blockpos, Blocks.FIRE.getDefaultState());
+
+                if (stack.attemptDamageItem(1, world.rand, (EntityPlayerMP)null))
+                {
+                    stack.setCount(0);
+                }
+            }
+            else if (state.getBlock() == Blocks.TNT)
+            {
+                Blocks.TNT.onBlockDestroyedByPlayer(world, blockpos, Blocks.TNT.getDefaultState().withProperty(BlockTNT.EXPLODE, true));
+                world.setBlockToAir(blockpos);
+            }
+            else if (state.getBlock() == FirecrackerRegistry.blockHangingFireCracker && state.getValue(FirecrackerRegistry.blockHangingFireCracker.COUNT) == 0)
+            {
+                FirecrackerRegistry.blockHangingFireCracker.ignite(world, blockpos, state, false, null);
+            }
+            else
+            {
+                this.successful = false;
+            }
+
+            return stack;
+        }
     }
 }
