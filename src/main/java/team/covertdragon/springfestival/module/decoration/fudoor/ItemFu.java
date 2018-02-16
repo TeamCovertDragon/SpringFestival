@@ -52,6 +52,7 @@ public class ItemFu extends Item {
             world.setBlockToAir(pos);
             world.setBlockToAir(pos.add(0, -1, 0));
             //Set Tile Entity
+            // TODO Orientation is wrong
             ItemFuDoor.placeDoor(world, pos.add(0, -1, 0), state.getValue(BlockDoor.FACING), DecorationRegistry.FU_DOOR, state.getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT);
             TileFuDoor te = (TileFuDoor) world.getTileEntity(pos);
             if (te != null) {

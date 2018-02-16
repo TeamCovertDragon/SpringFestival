@@ -26,6 +26,10 @@ import net.minecraft.world.World;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.decoration.DecorationRegistry;
 
+/**
+ * @deprecated Technical block should not have item form
+ */
+@Deprecated
 public class ItemFuDoor extends ItemDoor {
 
     public ItemFuDoor(BlockFuDoor blockFuDoor) {
