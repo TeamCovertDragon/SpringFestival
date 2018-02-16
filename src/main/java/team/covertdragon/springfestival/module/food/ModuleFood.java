@@ -9,7 +9,9 @@
 
 package team.covertdragon.springfestival.module.food;
 
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
+import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -20,11 +22,13 @@ import team.covertdragon.springfestival.module.SpringFestivalModule;
 
 @SpringFestivalModule(name = "food", dependencies = {"material"})
 public class ModuleFood extends AbstractSpringFestivalModule{
-    private static final Item DUMPLING = new ItemSpringFestivalFood(3, 1.5F)
+    private static final Item DUMPLING = new ItemSpringFestivalFood(0, 1F)
+            .setPotionEffect(new PotionEffect(MobEffects.SATURATION, 120), 0.06F)
+            .setAlwaysEdible()
             .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".dumpling")
             .setRegistryName(SpringFestivalConstants.MOD_ID, "dumpling");
 
-    private static final Item NIANGAO = new ItemSpringFestivalFood(2, 3.0F)
+    private static final Item NIANGAO = new ItemSpringFestivalFood(1, 5.0F, 88)
             .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".niangao")
             .setRegistryName(SpringFestivalConstants.MOD_ID, "niangao");
 
