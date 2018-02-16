@@ -9,18 +9,18 @@
 
 package team.covertdragon.springfestival.internal.time;
 
+import team.covertdragon.springfestival.SpringFestivalConfig;
+
+import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TimeZone;
 
 public final class SpringFestivalTimeProviderLocal implements ISpringFestivalTimeProvider {
 
     public static final SpringFestivalTimeProviderLocal INSTANCE = new SpringFestivalTimeProviderLocal();
 
-    private final Set<Date> validDates = new HashSet<>();
+    private final Set<LocalDate> validDates = new HashSet<>();
 
     private SpringFestivalTimeProviderLocal() {
         /*
@@ -32,7 +32,10 @@ public final class SpringFestivalTimeProviderLocal implements ISpringFestivalTim
 
     @Override
     public boolean isDuringSpringFestival() {
-        final Date currentDate = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.of("UTC+08:00"))).getTime();
-        return validDates.parallelStream().anyMatch(currentDate::after);
+        if (SpringFestivalConfig.enforceChinaStandardTime) {
+            return validDates.contains(LocalDate.now(ZoneId.of("Asia/Shanghai")));
+        } else {
+            return validDates.contains(LocalDate.now());
+        }
     }
 }

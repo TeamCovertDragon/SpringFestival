@@ -2,5 +2,8 @@
     "recipes": {
         "shaped_flexible_duration": "team.covertdragon.springfestival.internal.recipes.ShapedFlexibleDurationRecipeFactory",
         "shapeless_flexible_duration": "team.covertdragon.springfestival.internal.recipes.ShapelessFlexibleDurationRecipeFactory"
+    },
+    "conditions": {
+        "spring_festival_module": "team.covertdragon.springfestival.internal.recipes.conditions.ConditionFactorySpringFestivalModule"
     }
 }

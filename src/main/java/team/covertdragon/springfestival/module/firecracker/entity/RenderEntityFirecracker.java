@@ -18,9 +18,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.firecracker.FirecrackerRegistry;
 
 public class RenderEntityFirecracker extends RenderSnowball<EntityFirecracker> {

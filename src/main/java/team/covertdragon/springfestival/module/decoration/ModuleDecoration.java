@@ -29,13 +29,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.internal.client.SpringFestivalProxyClient;
 import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.internal.network.SpringFestivalNetworkHandler;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 import team.covertdragon.springfestival.module.decoration.clothes.ItemRedClothes;
 import team.covertdragon.springfestival.module.decoration.fudoor.BlockFuDoor;
+import team.covertdragon.springfestival.module.decoration.fudoor.ItemFu;
 import team.covertdragon.springfestival.module.decoration.fudoor.ItemFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.ServerPacketFuDoorCreation;
 import team.covertdragon.springfestival.module.decoration.fudoor.TESRFuDoor;
@@ -50,7 +50,7 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
 
     public void onInit() {
         SpringFestivalNetworkHandler.INSTANCE.registerPacket(ServerPacketFuDoorCreation.class);
-        if (SpringFestival.proxy instanceof SpringFestivalProxyClient && SpringFestival.proxy.isDuringSpringFestivalSeason()) {
+        if (SpringFestival.proxy.isPhysicalClient() && SpringFestival.proxy.isDuringSpringFestivalSeason()) {
             try {
                 Field textureChestSingle = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_NORMAL");
                 Field textureChestDouble = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_NORMAL_DOUBLE");
@@ -69,12 +69,12 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onModelRegister(ModelRegistryEvent event) {
-        ModelLoader.setCustomStateMapper(DecorationRegistry.blockFuDoor, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
-        ModelUtil.mapItemModel(DecorationRegistry.itemFuDoor);
-        ModelUtil.mapItemModel(DecorationRegistry.red_hat);
-        ModelUtil.mapItemModel(DecorationRegistry.red_gown);
-        ModelUtil.mapItemModel(DecorationRegistry.red_trousers);
-        ModelUtil.mapItemModel(DecorationRegistry.red_shoes);
+        ModelLoader.setCustomStateMapper(DecorationRegistry.FU_DOOR, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
+        ModelUtil.mapItemModel(DecorationRegistry.FU_DOOR_ITEM);
+        ModelUtil.mapItemModel(DecorationRegistry.RED_HAT);
+        ModelUtil.mapItemModel(DecorationRegistry.RED_GOWN);
+        ModelUtil.mapItemModel(DecorationRegistry.RED_TROUSERS);
+        ModelUtil.mapItemModel(DecorationRegistry.RED_SHOES);
         ModelUtil.mapItemModel(DecorationRegistry.itemLargeRedPillar);
         ModelUtil.mapItemModel(DecorationRegistry.itemLargeRedPillarAlt);
         ModelUtil.mapItemModel(DecorationRegistry.itemLargeRedPillar);
@@ -86,13 +86,15 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onTextureStitch(TextureStitchEvent event) {
+        // Inject the Fu character overlay to the texture map
         event.getMap().registerSprite(new ResourceLocation(TESRFuDoor.FU_TEXTURE_LOCATION));
     }
 
     @SubscribeEvent
     public void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                new ItemFuDoor(DecorationRegistry.blockFuDoor),
+                new ItemFu(),
+                new ItemFuDoor(DecorationRegistry.FU_DOOR),
                 new ItemRedClothes.RedHat(),
                 new ItemRedClothes.RedGown(),
                 new ItemRedClothes.RedTrousers(),
@@ -121,7 +123,7 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
         if (!event.getWorld().isRemote) {
             if (event.getState().getBlock() instanceof BlockFuDoor && event.getState().getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER) {
                 event.setCanceled(true);
-                DecorationRegistry.blockFuDoor.harvestBlock(event.getWorld(), event.getPlayer(), event.getPos().add(0, 1, 0), event.getState(), event.getWorld().getTileEntity(event.getPos().add(0, 1, 0)), event.getPlayer().getHeldItem(event.getPlayer().getActiveHand()));
+                DecorationRegistry.FU_DOOR.harvestBlock(event.getWorld(), event.getPlayer(), event.getPos().add(0, 1, 0), event.getState(), event.getWorld().getTileEntity(event.getPos().add(0, 1, 0)), event.getPlayer().getHeldItem(event.getPlayer().getActiveHand()));
                 event.getWorld().setBlockToAir(event.getPos());
             }
         }

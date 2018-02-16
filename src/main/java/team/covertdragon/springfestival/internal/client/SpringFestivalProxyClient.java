@@ -21,6 +21,16 @@ import java.util.UUID;
 @SideOnly(Side.CLIENT)
 public final class SpringFestivalProxyClient extends SpringFestivalProxy {
 
+    @Override
+    public boolean isPhysicalServer() {
+        return false;
+    }
+
+    @Override
+    public boolean isPhysicalClient() {
+        return true;
+    }
+
     // TODO This implementation is potentially wrong, needs double check
     @Override
     public EntityPlayer getPlayerByUUID(UUID uuid) {

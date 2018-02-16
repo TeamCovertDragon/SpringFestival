@@ -10,7 +10,6 @@
 package team.covertdragon.springfestival.module.firecracker;
 
 import java.lang.reflect.Field;
-import java.util.Iterator;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
@@ -98,12 +97,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     @SubscribeEvent
     public void onExplosionDetonate(ExplosionEvent.Detonate event)
     {
-        Iterator<Entity> itr = event.getAffectedEntities().iterator();
-        while (itr.hasNext())
-        {
-            Entity e = itr.next();
-            if (e instanceof EntityXPOrb || e instanceof EntityItem) itr.remove();
-        }
+        event.getAffectedEntities().removeIf(e -> e instanceof EntityXPOrb || e instanceof EntityItem);
     }
     
     @SubscribeEvent

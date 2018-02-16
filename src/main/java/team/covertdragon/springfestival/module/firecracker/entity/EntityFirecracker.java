@@ -26,7 +26,6 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import team.covertdragon.springfestival.internal.SpringFestivalUtil;
-import team.covertdragon.springfestival.module.firecracker.ModuleFirecracker;
 import team.covertdragon.springfestival.module.material.MaterialRegistry;
 
 public class EntityFirecracker extends EntityThrowable /*implements ILightProvider*/ {

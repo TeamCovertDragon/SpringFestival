@@ -7,13 +7,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package team.covertdragon.springfestival.module;
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
+package team.covertdragon.springfestival.module.decoration.fudoor;
 
-public class AbstractSpringFestivalModule implements ISpringFestivalModule {
+import mcp.MethodsReturnNonnullByDefault;
 
-    @Override
-    public void onInit() {
-
-    }
-
-}
+import javax.annotation.ParametersAreNonnullByDefault;

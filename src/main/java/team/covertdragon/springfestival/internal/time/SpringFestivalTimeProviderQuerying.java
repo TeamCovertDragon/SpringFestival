@@ -10,12 +10,14 @@
 package team.covertdragon.springfestival.internal.time;
 
 import org.apache.commons.io.IOUtils;
+import team.covertdragon.springfestival.SpringFestivalConfig;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -44,7 +46,10 @@ public final class SpringFestivalTimeProviderQuerying implements ISpringFestival
 
     @Override
     public boolean isDuringSpringFestival() {
-        final LocalDate today = LocalDate.now(); // TODO Config option to enforce UTC+8, a.k.a. China Standard Time
-        return validDates.contains(today);
+        if (SpringFestivalConfig.enforceChinaStandardTime) {
+            return validDates.contains(LocalDate.now(ZoneId.of("Asia/Shanghai")));
+        } else {
+            return validDates.contains(LocalDate.now());
+        }
     }
 }

@@ -19,6 +19,7 @@ import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import team.covertdragon.springfestival.internal.SpringFestivalGuiHandler;
 import team.covertdragon.springfestival.internal.time.ISpringFestivalTimeProvider;
+import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderFuzzyMatch;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderImpossible;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderLocal;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderQuerying;
@@ -45,7 +46,7 @@ public abstract class SpringFestivalProxy {
      *
      * @return true if it is during Spring Festival; false for otherwise.
      */
-    public boolean isDuringSpringFestivalSeason() {
+    public final boolean isDuringSpringFestivalSeason() {
         if (hasQueriedTime) {
             return isDuringSpringFestival;
         }
@@ -54,6 +55,10 @@ public abstract class SpringFestivalProxy {
         }
         this.hasQueriedTime = true;
         return isDuringSpringFestival;
+    }
+
+    public final boolean isModuleLoaded(final String module) {
+        return false; // TODO Stub! We might need a Map instead of List...
     }
 
     public final void onConstruct(FMLConstructionEvent event) {
@@ -68,6 +73,9 @@ public abstract class SpringFestivalProxy {
         DATE_CHECKERS.add(SpringFestivalTimeProviderQuerying.INSTANCE);
         DATE_CHECKERS.add(SpringFestivalTimeProviderLocal.INSTANCE);
         DATE_CHECKERS.add(SpringFestivalTimeProviderImpossible.INSTANCE);
+        if (SpringFestivalConfig.useFuzzySpringFestivalMatcher) {
+            DATE_CHECKERS.add(SpringFestivalTimeProviderFuzzyMatch.INSTANCE);
+        }
     }
 
     @OverridingMethodsMustInvokeSuper
@@ -86,6 +94,18 @@ public abstract class SpringFestivalProxy {
     public void onServerStopping(FMLServerStoppingEvent event) {
         modules.forEach(ISpringFestivalModule::onServerStopping);
     }
+
+    /**
+     * Helper method to determine whether this proxy is running on a physical server environment
+     * @return true if this proxy object is on a physical server; false otherwise.
+     */
+    public abstract boolean isPhysicalServer();
+
+    /**
+     * Helper method to determine whether this proxy is running on a physical client environment
+     * @return true if this proxy object is on a physical client; false otherwise.
+     */
+    public abstract boolean isPhysicalClient();
 
     @Nullable
     public abstract EntityPlayer getPlayerByUUID(UUID uuid);
