@@ -18,10 +18,7 @@ import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.client.model.animation.FastTESR;
-import net.minecraftforge.client.model.pipeline.IVertexConsumer;
-import net.minecraftforge.client.model.pipeline.VertexBufferConsumer;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -45,7 +42,6 @@ public class TESRFuDoor extends FastTESR<TileFuDoor> {
             BlockRendererDispatcher dispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
             IBakedModel modelUpper = dispatcher.getModelForState(upper);
             IBakedModel modelLower = dispatcher.getModelForState(lower);
-            IVertexConsumer consumer = new VertexBufferConsumer(buffer);
             int brightness = upper.getPackedLightmapCoords(te.getWorld(), te.getPos());
             for (EnumFacing facing : EnumFacing.values()) {
                 List<BakedQuad> quadsUpper = modelUpper.getQuads(upper, facing, MathHelper.getPositionRandom(te.getPos()));
