@@ -18,7 +18,7 @@ import net.minecraftforge.common.util.EnumHelper;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
 public class ItemRedClothes extends ItemArmor{
-    public static final ItemArmor.ArmorMaterial RED_CLOTHES = EnumHelper.addArmorMaterial("RED_CLOTH", SpringFestivalConstants.MOD_ID + ":" + "red_cloth", 10, new int[] {1,1,1,1}, 10, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F);
+    public static final ItemArmor.ArmorMaterial RED_CLOTHES = EnumHelper.addArmorMaterial("RED_CLOTH", SpringFestivalConstants.MOD_ID + ":" + "red_cloth", 10, new int[] {1,3,4,2}, 10, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F);
 
     public ItemRedClothes(EntityEquipmentSlot equipmentSlotIn) {
         super(RED_CLOTHES, 0, equipmentSlotIn);
