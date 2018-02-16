@@ -29,6 +29,7 @@ import net.minecraft.item.ItemDoor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
@@ -48,6 +49,11 @@ public class BlockFuDoor extends BlockDoor {
         setHardness(1.5F);
         setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".fu_door");
         setRegistryName(SpringFestivalConstants.MOD_ID, "fu_door");
+    }
+
+    @Override
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Override

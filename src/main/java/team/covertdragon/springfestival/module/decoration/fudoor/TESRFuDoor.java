@@ -9,13 +9,22 @@
 
 package team.covertdragon.springfestival.module.decoration.fudoor;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.client.model.animation.FastTESR;
+import net.minecraftforge.client.model.pipeline.IVertexConsumer;
+import net.minecraftforge.client.model.pipeline.VertexBufferConsumer;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class TESRFuDoor extends FastTESR<TileFuDoor> {
 
@@ -26,6 +35,34 @@ public class TESRFuDoor extends FastTESR<TileFuDoor> {
         if (te == null) {
             return;
         }
+
+        {
+            IBlockState upper = te.getOriginalBlockStateUpper();
+            IBlockState lower = te.getOriginalBlockStateLower();
+            if (upper == null || lower == null) {
+                return;
+            }
+            BlockRendererDispatcher dispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
+            IBakedModel modelUpper = dispatcher.getModelForState(upper);
+            IBakedModel modelLower = dispatcher.getModelForState(lower);
+            IVertexConsumer consumer = new VertexBufferConsumer(buffer);
+            int brightness = upper.getPackedLightmapCoords(te.getWorld(), te.getPos());
+            for (EnumFacing facing : EnumFacing.values()) {
+                List<BakedQuad> quadsUpper = modelUpper.getQuads(upper, facing, MathHelper.getPositionRandom(te.getPos()));
+                for (BakedQuad quad : quadsUpper) {
+                    buffer.addVertexData(quad.getVertexData());
+                    buffer.putBrightness4(brightness, brightness, brightness, brightness);
+                    buffer.putPosition(x, y, z);
+                }
+                List<BakedQuad> quadsLower = modelLower.getQuads(lower, facing, MathHelper.getPositionRandom(te.getPos().down()));
+                for (BakedQuad quad : quadsLower) {
+                    buffer.addVertexData(quad.getVertexData());
+                    buffer.putBrightness4(brightness, brightness, brightness, brightness);
+                    buffer.putPosition(x, y - 1, z);
+                }
+            }
+        }
+
         EnumFacing doorFacing = te.getWorld().getBlockState(te.getPos()).getValue(BlockFuDoor.FACING);
         TextureAtlasSprite sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(FU_TEXTURE_LOCATION);
         int light = te.getWorld().getCombinedLight(te.getPos(), 0);
