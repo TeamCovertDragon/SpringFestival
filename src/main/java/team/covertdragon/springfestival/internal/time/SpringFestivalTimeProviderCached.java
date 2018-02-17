@@ -13,21 +13,21 @@ import team.covertdragon.springfestival.SpringFestivalConfig;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.function.Consumer;
 
-public final class SpringFestivalTimeProviderLocal implements ISpringFestivalTimeProvider {
+final class SpringFestivalTimeProviderCached implements ISpringFestivalTimeProvider {
+    private final Collection<LocalDate> validDates = new LinkedList<>();
 
-    public static final SpringFestivalTimeProviderLocal INSTANCE = new SpringFestivalTimeProviderLocal();
-
-    private final Set<LocalDate> validDates = new HashSet<>();
-
-    private SpringFestivalTimeProviderLocal() {
-        /*
-         * TODO: Hardcode here. I think it's also a gentle way. <- Wait, this is local time provider - means that we need to bundle a file into the source!
-         * Information can be get here:
-         * https://www.timeanddate.com/holidays/china/spring-festival-golden-week
-         */
+    SpringFestivalTimeProviderCached(Consumer<Collection<LocalDate>> validDatesSink, final String name) {
+        Thread t = new Thread(() -> {
+            synchronized (validDates) {
+                validDatesSink.accept(validDates);
+            }
+        }, name);
+        t.setDaemon(true);
+        t.start();
     }
 
     @Override

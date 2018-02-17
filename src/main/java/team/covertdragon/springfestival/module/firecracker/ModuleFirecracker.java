@@ -161,13 +161,13 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         {
             World world = source.getWorld();
             this.successful = true;
-            BlockPos blockpos = source.getBlockPos().offset((EnumFacing)source.getBlockState().getValue(BlockDispenser.FACING));
+            BlockPos blockpos = source.getBlockPos().offset(source.getBlockState().getValue(BlockDispenser.FACING));
             IBlockState state = world.getBlockState(blockpos);
             if (state.getMaterial() == Material.AIR)
             {
                 world.setBlockState(blockpos, Blocks.FIRE.getDefaultState());
 
-                if (stack.attemptDamageItem(1, world.rand, (EntityPlayerMP)null))
+                if (stack.attemptDamageItem(1, world.rand, null))
                 {
                     stack.setCount(0);
                 }

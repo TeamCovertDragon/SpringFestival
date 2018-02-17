@@ -9,14 +9,13 @@
 
 package team.covertdragon.springfestival.module.decoration.fudoor;
 
-import jline.internal.Nullable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntity;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class TileFuDoor extends TileEntity {
@@ -52,15 +51,14 @@ public class TileFuDoor extends TileEntity {
     }
 
     @Override
-    @Nonnull
-    public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound compound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         compound.setTag("upper", NBTUtil.writeBlockState(new NBTTagCompound(), originalBlockStateUpper));
         compound.setTag("lower", NBTUtil.writeBlockState(new NBTTagCompound(), originalBlockStateLower));
         return super.writeToNBT(compound);
     }
 
     @Override
-    public void readFromNBT(@Nonnull NBTTagCompound compound) {
+    public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
         this.originalBlockStateUpper = NBTUtil.readBlockState(compound.getCompoundTag("upper"));
         this.originalBlockStateLower = NBTUtil.readBlockState(compound.getCompoundTag("lower"));

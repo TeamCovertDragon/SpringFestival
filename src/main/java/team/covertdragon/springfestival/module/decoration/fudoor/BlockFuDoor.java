@@ -29,6 +29,7 @@ import net.minecraft.item.ItemDoor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
@@ -48,6 +49,11 @@ public class BlockFuDoor extends BlockDoor {
         setHardness(1.5F);
         setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".fu_door");
         setRegistryName(SpringFestivalConstants.MOD_ID, "fu_door");
+    }
+
+    @Override
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
@@ -78,24 +84,30 @@ public class BlockFuDoor extends BlockDoor {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (!world.isRemote && player.getHeldItem(hand).isEmpty() && player.isSneaking()) {
-            TileFuDoor te = (TileFuDoor) world.getTileEntity(pos);
-            BlockPos position = pos;
-            //TileEntity will be null if the block is the lower part of the door
-            if (te == null) {
-                position = position.add(0, 1, 0);
-                te = (TileFuDoor) world.getTileEntity(position);
-            }
-
-            if (te != null && te.getOriginalBlockStateUpper() != null) {
-                //Set door
-                ItemDoor.placeDoor(world, position.add(0, -1, 0), te.getOriginalBlockStateUpper().getValue(BlockDoor.FACING), te.getOriginalBlockStateUpper().getBlock(), te.getOriginalBlockStateUpper().getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT);
-
-                //Drop Fu
-                EntityItem entityItem = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(MaterialRegistry.itemRedPaper, 1));
-                entityItem.setDefaultPickupDelay();
-                world.spawnEntity(entityItem);
-                return true;
+        BlockPos position = pos;
+        //TileEntity will be null if the block is the lower part of the door
+        if (state.getValue(HALF) == EnumDoorHalf.LOWER) {
+            position = position.up();
+        }
+        TileFuDoor te = (TileFuDoor) world.getTileEntity(position);
+        if (te != null) {
+            if (!world.isRemote && player.getHeldItem(hand).isEmpty()) {
+                if (player.isSneaking()) {
+                    if (te.getOriginalBlockStateUpper() != null) {
+                        //Set door
+                        ItemDoor.placeDoor(world, position.add(0, -1, 0), te.getOriginalBlockStateUpper().getValue(BlockDoor.FACING), te.getOriginalBlockStateUpper().getBlock(), te.getOriginalBlockStateUpper().getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT);
+                        //Drop Fu
+                        EntityItem entityItem = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(MaterialRegistry.itemRedPaper, 1));
+                        entityItem.setDefaultPickupDelay();
+                        world.spawnEntity(entityItem);
+                        return true;
+                    }
+                }
+            } else {
+                IBlockState upper = te.getOriginalBlockStateUpper();
+                if (upper != null) {
+                    upper.getBlock().onBlockActivated(world, pos, upper, player, hand, facing, hitX, hitY, hitZ);
+                }
             }
         }
         return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);

@@ -9,47 +9,20 @@
 
 package team.covertdragon.springfestival.internal.time;
 
-import org.apache.commons.io.IOUtils;
-import team.covertdragon.springfestival.SpringFestivalConfig;
-import team.covertdragon.springfestival.SpringFestivalConstants;
+final class SpringFestivalTimeProviderQuerying implements ISpringFestivalTimeProvider {
 
-import java.io.IOException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Collection;
-import java.util.LinkedList;
-
-public final class SpringFestivalTimeProviderQuerying implements ISpringFestivalTimeProvider {
-
-    public static final SpringFestivalTimeProviderQuerying INSTANCE = new SpringFestivalTimeProviderQuerying();
-
-    private final Collection<LocalDate> validDates = new LinkedList<>();
-
-    private SpringFestivalTimeProviderQuerying() {
-        Thread t = new Thread(() -> {
-            try {
-                synchronized (validDates) {
-                    IOUtils.readLines(new URL("").openStream(), StandardCharsets.UTF_8)
-                            .stream()
-                            .map(LocalDate::parse)
-                            .forEach(validDates::add);
-                }
-            } catch (IOException e) {
-                SpringFestivalConstants.logger.catching(e);
-            }
-        }, "SpringFestival-DateQuerying");
-        t.setDaemon(true);
-        t.start();
+    public SpringFestivalTimeProviderQuerying() {
+        /*
+         * TODO: Hardcode here. I think it's also a gentle way.
+         * Information can be get here:
+         * https://www.timeanddate.com/holidays/china/spring-festival-golden-week
+         *
+         * ^ That one is not free
+         */
     }
 
     @Override
     public boolean isDuringSpringFestival() {
-        if (SpringFestivalConfig.enforceChinaStandardTime) {
-            return validDates.contains(LocalDate.now(ZoneId.of("Asia/Shanghai")));
-        } else {
-            return validDates.contains(LocalDate.now());
-        }
+        return false;
     }
 }
