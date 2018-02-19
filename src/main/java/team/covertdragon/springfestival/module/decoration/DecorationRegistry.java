@@ -15,7 +15,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.decoration.fudoor.BlockFuDoor;
-import team.covertdragon.springfestival.module.decoration.fudoor.ItemFuDoor;
 import team.covertdragon.springfestival.module.decoration.redpillar.BlockLargeRedPillar;
 import team.covertdragon.springfestival.module.decoration.redpillar.BlockLargeRedPillarAlt;
 
@@ -34,9 +33,6 @@ public class DecorationRegistry {
 
     @GameRegistry.ObjectHolder("fu_door")
     public static final BlockFuDoor FU_DOOR;
-
-    @GameRegistry.ObjectHolder("fu_door")
-    public static final ItemFuDoor FU_DOOR_ITEM;
 
     @GameRegistry.ObjectHolder("large_red_pillar")
     public static final BlockLargeRedPillar blockLargeRedPillar;
@@ -57,7 +53,6 @@ public class DecorationRegistry {
         RED_TROUSERS = null;
         RED_SHOES = null;
         FU_DOOR = null;
-        FU_DOOR_ITEM = null;
         blockLargeRedPillar = null;
         itemLargeRedPillar = null;
         blockLargeRedPillarAlt = null;

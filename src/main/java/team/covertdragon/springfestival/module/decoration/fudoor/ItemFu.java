@@ -13,6 +13,7 @@ import net.minecraft.block.BlockDoor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemDoor;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -53,7 +54,7 @@ public class ItemFu extends Item {
             world.setBlockToAir(pos.add(0, -1, 0));
             //Set Tile Entity
             // TODO Orientation is wrong
-            ItemFuDoor.placeDoor(world, pos.add(0, -1, 0), state.getValue(BlockDoor.FACING), DecorationRegistry.FU_DOOR, state.getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT);
+            ItemDoor.placeDoor(world, pos.add(0, -1, 0), state.getValue(BlockDoor.FACING), DecorationRegistry.FU_DOOR, state.getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT);
             TileFuDoor te = (TileFuDoor) world.getTileEntity(pos);
             if (te != null) {
                 te.setOriginalBlockStateLower(originalLower);

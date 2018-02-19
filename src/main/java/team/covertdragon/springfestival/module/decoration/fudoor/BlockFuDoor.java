@@ -19,10 +19,8 @@ import javax.annotation.Nullable;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDoor;
@@ -38,7 +36,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.module.decoration.DecorationRegistry;
 import team.covertdragon.springfestival.module.material.MaterialRegistry;
 
 public class BlockFuDoor extends BlockDoor {
@@ -126,38 +123,23 @@ public class BlockFuDoor extends BlockDoor {
             throw new NullPointerException();
         }
 
-        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) > 0) {
-            List<ItemStack> items = new ArrayList<>();
-            ItemStack itemstack = new ItemStack(DecorationRegistry.FU_DOOR_ITEM);
-            itemstack.setTagCompound(te.serializeNBT());
+        harvesters.set(player);
 
-            if (!itemstack.isEmpty()) {
-                items.add(itemstack);
-            }
+        List<ItemStack> drops = new ArrayList<>();
+        drops.add(((TileFuDoor) te).getOriginalDoor());
+        drops.add(new ItemStack(MaterialRegistry.itemRedPaper, 1));
 
-            //ForgeEventFactory.fireBlockHarvesting(items, world, pos, state, 0, 1.0f, true, player);
-            for (ItemStack item : items) {
-                spawnAsEntity(world, pos, item);
-            }
-        } else {
-            harvesters.set(player);
-
-            List<ItemStack> drops = new ArrayList<>();
-            drops.add(((TileFuDoor) te).getOriginalDoor());
-            drops.add(new ItemStack(MaterialRegistry.itemRedPaper, 1));
-
-            for (ItemStack drop : drops) {
-                EntityItem entity = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), drop);
-                entity.setDefaultPickupDelay();
-                world.spawnEntity(entity);
-            }
-
-            harvesters.set(null);
+        for (ItemStack drop : drops) {
+            EntityItem entity = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), drop);
+            entity.setDefaultPickupDelay();
+            world.spawnEntity(entity);
         }
+
+        harvesters.set(null);
     }
 
     @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-        return new ItemStack(DecorationRegistry.FU_DOOR_ITEM);
+        return ItemStack.EMPTY; // Technical block should not have item form
     }
 }
