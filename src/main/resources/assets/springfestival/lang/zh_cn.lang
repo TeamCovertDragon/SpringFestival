@@ -37,3 +37,5 @@ firework.tooltip.count=烟花数量: %d
 
 toast.redpacket.publish.passcode=%s刚发了一个口令红包！
 toast.redpacket.publish.regular=%s刚发了一个手气红包！
+
+error.springfestival.spend_time_with_your_family=过年了，要少玩会 Minecraft，多陪陪家人
