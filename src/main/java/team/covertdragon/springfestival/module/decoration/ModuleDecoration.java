@@ -17,7 +17,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
@@ -36,7 +35,6 @@ import team.covertdragon.springfestival.module.SpringFestivalModule;
 import team.covertdragon.springfestival.module.decoration.clothes.ItemRedClothes;
 import team.covertdragon.springfestival.module.decoration.fudoor.BlockFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.ItemFu;
-import team.covertdragon.springfestival.module.decoration.fudoor.ItemFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.ServerPacketFuDoorCreation;
 import team.covertdragon.springfestival.module.decoration.fudoor.TESRFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.TileFuDoor;
@@ -70,7 +68,7 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
     @SideOnly(Side.CLIENT)
     public void onModelRegister(ModelRegistryEvent event) {
         ModelLoader.setCustomStateMapper(DecorationRegistry.FU_DOOR, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
-        ModelUtil.mapItemModel(DecorationRegistry.FU_DOOR_ITEM);
+        ModelUtil.mapItemModel(DecorationRegistry.FU);
         ModelUtil.mapItemModel(DecorationRegistry.RED_HAT);
         ModelUtil.mapItemModel(DecorationRegistry.RED_GOWN);
         ModelUtil.mapItemModel(DecorationRegistry.RED_TROUSERS);
@@ -82,19 +80,18 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileFuDoor.class, new TESRFuDoor());
     }
-
+/*
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onTextureStitch(TextureStitchEvent event) {
         // Inject the Fu character overlay to the texture map
         event.getMap().registerSprite(new ResourceLocation(TESRFuDoor.FU_TEXTURE_LOCATION));
-    }
+    }*/
 
     @SubscribeEvent
     public void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
                 new ItemFu(),
-                new ItemFuDoor(DecorationRegistry.FU_DOOR),
                 new ItemRedClothes.RedHat(),
                 new ItemRedClothes.RedGown(),
                 new ItemRedClothes.RedTrousers(),

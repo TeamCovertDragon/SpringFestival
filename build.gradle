@@ -38,6 +38,8 @@ minecraft {
 
 dependencies {
     deobfCompile "mezz.jei:jei_${minecraft_version}:${jei_version}"
+
+    testCompile "junit:junit:4.12"
 }
 
 processResources {

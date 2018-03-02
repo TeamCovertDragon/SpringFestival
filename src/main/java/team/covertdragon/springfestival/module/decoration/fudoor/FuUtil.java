@@ -26,48 +26,7 @@ import net.minecraft.world.World;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.decoration.DecorationRegistry;
 
-/**
- * @deprecated Technical block should not have item form
- */
-@Deprecated
-public class ItemFuDoor extends ItemDoor {
-
-    public ItemFuDoor(BlockFuDoor blockFuDoor) {
-        super(blockFuDoor);
-        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".fu_door");
-        setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
-        setRegistryName(SpringFestivalConstants.MOD_ID, "fu_door");
-    }
-
-    @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (facing != EnumFacing.UP) {
-            return EnumActionResult.FAIL;
-        } else {
-            IBlockState iblockstate = worldIn.getBlockState(pos);
-            Block block = iblockstate.getBlock();
-
-            if (!block.isReplaceable(worldIn, pos)) {
-                pos = pos.offset(facing);
-            }
-
-            ItemStack itemstack = player.getHeldItem(hand);
-
-            if (player.canPlayerEdit(pos, facing, itemstack) && DecorationRegistry.FU_DOOR.canPlaceBlockAt(worldIn, pos)) {
-                EnumFacing enumfacing = EnumFacing.fromAngle((double) player.rotationYaw);
-                int i = enumfacing.getFrontOffsetX();
-                int j = enumfacing.getFrontOffsetZ();
-                boolean flag = i < 0 && hitZ < 0.5F || i > 0 && hitZ > 0.5F || j < 0 && hitX > 0.5F || j > 0 && hitX < 0.5F;
-                placeDoor(worldIn, pos, enumfacing, DecorationRegistry.FU_DOOR, flag, itemstack);
-                SoundType soundtype = worldIn.getBlockState(pos).getBlock().getSoundType(worldIn.getBlockState(pos), worldIn, pos, player);
-                worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-                itemstack.shrink(1);
-                return EnumActionResult.SUCCESS;
-            } else {
-                return EnumActionResult.FAIL;
-            }
-        }
-    }
+public class FuUtil {
 
     public static void placeDoor(World world, BlockPos pos, EnumFacing facing, Block door, boolean isRightHinge, ItemStack stack) {
         BlockPos blockpos = pos.offset(facing.rotateY());
