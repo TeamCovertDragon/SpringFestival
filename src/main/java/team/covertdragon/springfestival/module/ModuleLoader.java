@@ -33,7 +33,7 @@ public final class ModuleLoader {
                 if (!expectedModules.contains(asmData.getAnnotationInfo().get("name").toString())) {
                     continue;
                 }
-                if (!expectedModules.containsAll((List<String>) asmData.getAnnotationInfo().get("dependencies"))) {
+                if (asmData.getAnnotationInfo().get("dependencies") != null && !expectedModules.containsAll((List<String>) asmData.getAnnotationInfo().get("dependencies"))) {
                     continue;
                 }
                 Class<?> asmClass = Class.forName(asmData.getClassName());
