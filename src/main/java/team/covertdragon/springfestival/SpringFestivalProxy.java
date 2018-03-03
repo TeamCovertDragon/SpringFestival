@@ -26,7 +26,7 @@ import java.util.*;
 public abstract class SpringFestivalProxy {
 
     private static final List<ISpringFestivalTimeProvider> DATE_CHECKERS = new ArrayList<>();
-    private Map<String, ISpringFestivalModule> modules = new HashMap<>();
+    private final Map<String, ISpringFestivalModule> modules = new HashMap<>();
     private boolean isDuringSpringFestival = false, hasQueriedTime = false;
 
     /**

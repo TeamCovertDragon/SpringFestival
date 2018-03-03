@@ -9,20 +9,30 @@
 
 package team.covertdragon.springfestival.module.monster;
 
+import net.minecraft.entity.monster.IMob;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 
 @SpringFestivalModule(name = "monster")
 public class ModuleMonster extends AbstractSpringFestivalModule {
 
-    /*TODO: fix this thing
     @SubscribeEvent
-    public void onLivingSpawn(EntityJoinWorldEvent event) {
-        if (SpringFestival.proxy.isDuringSpringFestivalSeason() && event.getEntity() instanceof IMob) {
-            event.setCanceled(true);
+    public void onLivingSpawn(LivingSpawnEvent event) {
+        // Remove any entity that is classified as monster
+        if (SpringFestival.proxy.isDuringSpringFestivalSeason()) {
+            if (event.getEntityLiving() instanceof IMob) {
+                // Remove the entity being ridden. This is for situations like Chicken Jockey and Skeleton Horseman.
+                if (event.getEntityLiving().isRiding() && event.getEntityLiving().getRidingEntity() != null) {
+                    event.getEntityLiving().dismountRidingEntity();
+                    event.getEntityLiving().getRidingEntity().setDead();
+                }
+                event.setCanceled(true);
+            }
         }
     }
-    */
 
     /*
     @SubscribeEvent

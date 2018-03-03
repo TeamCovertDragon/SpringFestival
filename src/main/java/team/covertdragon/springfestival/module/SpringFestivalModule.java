@@ -10,16 +10,31 @@
 package team.covertdragon.springfestival.module;
 
 
+import javax.annotation.Nonnull;
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.TYPE)
+/**
+ * The annotation of marking an implementation of {@link ISpringFestivalModule}
+ * as a loadable module.
+ *
+ * Spring Festival Mod will make following assumptions for any class that is marked
+ * with this annotation:
+ * <ol>
+ *     <li>Proposition <code>instanceof ISpringFestival</code> holds true.</li>
+ *     <li>Has zero-parameter (i.e. default) constructor.</li>
+ *     <li>{@link #name()} is not null nor empty.</li>
+ * </ol>
+ */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
 public @interface SpringFestivalModule {
 
-    String name();
+    @Nonnull String name();
 
     String[] dependencies() default {};
 }
