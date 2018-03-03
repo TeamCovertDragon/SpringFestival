@@ -70,6 +70,7 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
     @SubscribeEvent
     public void onModelRegister(ModelRegistryEvent event) {
         ModelUtil.mapItemModel(FortuneRegistry.fortuneStone);
+        ModelUtil.mapItemModel(FortuneRegistry.itemBasicFVCollector);
     }
 
     @SubscribeEvent

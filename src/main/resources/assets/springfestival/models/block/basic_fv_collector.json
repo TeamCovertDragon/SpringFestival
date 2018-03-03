@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "springfestival:blocks/basic_fv_collector_bottom",
+    "up": "springfestival:blocks/basic_fv_collector_top",
+    "north": "springfestival:blocks/basic_fv_collector_side",
+    "east": "springfestival:blocks/basic_fv_collector_side",
+    "south": "springfestival:blocks/basic_fv_collector_side",
+    "west": "springfestival:blocks/basic_fv_collector_side",
+    "particle":"springfestival:blocks/basic_fv_collector_side"
+  }
+}
