@@ -21,5 +21,5 @@ public @interface SpringFestivalModule {
 
     String name();
 
-    String[] dependencies();
+    String[] dependencies() default {};
 }
