@@ -36,7 +36,6 @@ public class ModuleMaterial extends AbstractSpringFestivalModule {
         ModelUtil.mapItemModel(MaterialRegistry.itemRedPaperBroken);
     }
 
-    // TODO Just add more common stuff below, for tracking
     @SubscribeEvent
     public void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
