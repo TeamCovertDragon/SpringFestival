@@ -12,6 +12,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
@@ -20,6 +21,9 @@ import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.Fortun
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityFortuneValueSystem;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityLoader;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.IFortuneValueSystem;
+import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.ItemBlockFVMachine;
+import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.collector.BasicFVCollector;
+import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.collector.TileBasicFVCollector;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.tools.FortuneStone;
 
 @SpringFestivalModule(name = "fortune", dependencies = {"material"})
@@ -70,14 +74,17 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
 
     @SubscribeEvent
     public void onBlockRegistry(RegistryEvent.Register<Block> event) {
+        GameRegistry.registerTileEntity(TileBasicFVCollector.class, SpringFestivalConstants.MOD_ID + ".fv_collector");
         event.getRegistry().registerAll(
+                new BasicFVCollector()
         );
     }
 
     @SubscribeEvent
     public void onItemRegistry(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                new FortuneStone()
+                new FortuneStone(),
+                new ItemBlockFVMachine(FortuneRegistry.basicFVCollector)
         );
     }
 
