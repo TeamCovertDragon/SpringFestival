@@ -19,7 +19,7 @@ import team.covertdragon.springfestival.module.SpringFestivalModule;
  *
  * This module is disabled by default.
  */
-@SpringFestivalModule(name = "trick", dependencies = {})
+@SpringFestivalModule(name = "trick")
 public class ModuleTrick extends AbstractSpringFestivalModule {
     @Override
     public void onPreInit() {
