@@ -16,7 +16,7 @@ import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 
-@SpringFestivalModule(name = "monster")
+@SpringFestivalModule(name = "monster", dependencies = {})
 public class ModuleMonster extends AbstractSpringFestivalModule {
 
     @SubscribeEvent

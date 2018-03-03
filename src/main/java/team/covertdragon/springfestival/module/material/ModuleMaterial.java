@@ -26,7 +26,7 @@ import team.covertdragon.springfestival.module.SpringFestivalModule;
 /**
  * A module that holds shared materials, for other modules to use.
  */
-@SpringFestivalModule(name = "material")
+@SpringFestivalModule(name = "material", dependencies = {})
 public class ModuleMaterial extends AbstractSpringFestivalModule {
 
     @SubscribeEvent
