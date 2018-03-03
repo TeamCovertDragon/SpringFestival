@@ -35,5 +35,6 @@ final class PleaseSpendMoreTimeWithYourFamilyException extends CustomModLoadingE
             errorScreen.drawCenteredString(fontRenderer, sentence, errorScreen.width / 2, yOffset, 0xFFFFFF);
             yOffset += 10;
         }
+        // TODO Display the way of disabling this feature for those who don't have life
     }
 }
