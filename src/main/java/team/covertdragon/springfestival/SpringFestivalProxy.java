@@ -47,7 +47,6 @@ public abstract class SpringFestivalProxy {
     }
 
     public final boolean isModuleLoaded(final String module) {
-        //TODO: Here's your map, remove this after reading.
         return modules.containsKey(module);
     }
 
@@ -57,13 +56,13 @@ public abstract class SpringFestivalProxy {
 
     public final void onConstruct(FMLConstructionEvent event) {
         ModuleLoader.readASMDataTable(event.getASMHarvestedData()).forEach(mod -> this.modules.put(ModuleLoader.getNameByInstance(mod), mod));
-        modules.forEach((K, V) -> MinecraftForge.EVENT_BUS.register(V));
+        modules.values().forEach(MinecraftForge.EVENT_BUS::register);
     }
 
     @OverridingMethodsMustInvokeSuper
     public void onPreInit(FMLPreInitializationEvent event) {
         SpringFestivalConstants.logger = event.getModLog();
-        modules.forEach((K, V) -> V.onPreInit());
+        modules.values().forEach(ISpringFestivalModule::onPreInit);
         DATE_CHECKERS.add(ISpringFestivalTimeProvider.fromURL("http://covertdragon.team/sfapi.html", "SpringFestival-DateQuerying"));
         DATE_CHECKERS.add(ISpringFestivalTimeProvider.impossible());
         if (SpringFestivalConfig.useFuzzySpringFestivalMatcher) {
@@ -74,18 +73,18 @@ public abstract class SpringFestivalProxy {
     @OverridingMethodsMustInvokeSuper
     public void onInit(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(SpringFestival.getInstance(), new SpringFestivalGuiHandler());
-        modules.forEach((K, V) -> V.onInit());
+        modules.values().forEach(ISpringFestivalModule::onInit);
     }
 
     @OverridingMethodsMustInvokeSuper
     public void onServerStarting(FMLServerStartingEvent event) {
         SpringFestivalConstants.server = event.getServer();
-        modules.forEach((K, V) -> V.onServerStarting());
+        modules.values().forEach(ISpringFestivalModule::onServerStarting);
     }
 
     @OverridingMethodsMustInvokeSuper
     public void onServerStopping(FMLServerStoppingEvent event) {
-        modules.forEach((K, V) -> V.onServerStopping());
+        modules.values().forEach(ISpringFestivalModule::onServerStopping);
     }
 
     /**
