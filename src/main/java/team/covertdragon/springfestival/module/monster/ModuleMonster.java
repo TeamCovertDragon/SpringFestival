@@ -9,22 +9,20 @@
 
 package team.covertdragon.springfestival.module.monster;
 
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 
 @SpringFestivalModule(name = "monster")
 public class ModuleMonster extends AbstractSpringFestivalModule {
 
+    /*TODO: fix this thing
     @SubscribeEvent
-    public void onLivingSpawn(LivingSpawnEvent event) {
-        if (SpringFestival.proxy.isDuringSpringFestivalSeason() && event.getEntity() instanceof EntityMob) {
+    public void onLivingSpawn(EntityJoinWorldEvent event) {
+        if (SpringFestival.proxy.isDuringSpringFestivalSeason() && event.getEntity() instanceof IMob) {
             event.setCanceled(true);
         }
     }
+    */
 
     /*
     @SubscribeEvent
