@@ -13,12 +13,14 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.FortuneValueManager;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityFortuneValueSystem;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityLoader;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.IFortuneValueSystem;
+import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.tools.FortuneStone;
 
 @SpringFestivalModule(name = "fortune", dependencies = {"material"})
 public class ModuleFortune extends AbstractSpringFestivalModule {
@@ -63,6 +65,7 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
 
     @SubscribeEvent
     public void onModelRegister(ModelRegistryEvent event) {
+        ModelUtil.mapItemModel(FortuneRegistry.fortuneStone);
     }
 
     @SubscribeEvent
@@ -74,6 +77,7 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
     @SubscribeEvent
     public void onItemRegistry(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
+                new FortuneStone()
         );
     }
 

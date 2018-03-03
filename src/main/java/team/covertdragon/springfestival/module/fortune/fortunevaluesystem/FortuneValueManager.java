@@ -39,13 +39,15 @@ public class FortuneValueManager implements Runnable {
                 shouldUpdatePlayerList = false;
             }
 
-            for (EntityPlayerMP player : playerList) {
-                if (player != null)
-                    updatePlayerFortuneValue(player);
+            while (!TASKS.isEmpty()) {
+                TASKS.poll().run();
             }
 
-            while (!TASKS.isEmpty())
-                TASKS.poll().run();
+            for (EntityPlayerMP player : playerList) {
+                if (player != null) {
+                    updatePlayerFortuneValue(player);
+                }
+            }
 
             try {
                 Thread.sleep(1000);
