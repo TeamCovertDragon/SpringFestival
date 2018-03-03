@@ -11,11 +11,7 @@ package team.covertdragon.springfestival;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.event.FMLConstructionEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import team.covertdragon.springfestival.internal.SpringFestivalGuiHandler;
 import team.covertdragon.springfestival.internal.time.ISpringFestivalTimeProvider;
@@ -25,15 +21,13 @@ import team.covertdragon.springfestival.module.ModuleLoader;
 
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class SpringFestivalProxy {
 
     private static final List<ISpringFestivalTimeProvider> DATE_CHECKERS = new ArrayList<>();
     private List<? extends ISpringFestivalModule> modules = Collections.emptyList();
+    private Map<String, ISpringFestivalModule> modulesMap = new HashMap<>();
 
     private boolean isDuringSpringFestival = false, hasQueriedTime = false;
 
@@ -55,12 +49,14 @@ public abstract class SpringFestivalProxy {
     }
 
     public final boolean isModuleLoaded(final String module) {
-        return false; // TODO Stub! We might need a Map instead of List...
+        //TODO: Here's your map, remove this after reading.
+        return modulesMap.containsKey(module);
     }
 
     public final void onConstruct(FMLConstructionEvent event) {
         modules = ModuleLoader.readASMDataTable(event.getASMHarvestedData());
         modules.forEach(MinecraftForge.EVENT_BUS::register);
+        modules.forEach(mod -> modulesMap.put(ModuleLoader.getNameByInstance(mod), mod));
     }
 
     @OverridingMethodsMustInvokeSuper
@@ -93,12 +89,14 @@ public abstract class SpringFestivalProxy {
 
     /**
      * Helper method to determine whether this proxy is running on a physical server environment
+     *
      * @return true if this proxy object is on a physical server; false otherwise.
      */
     public abstract boolean isPhysicalServer();
 
     /**
      * Helper method to determine whether this proxy is running on a physical client environment
+     *
      * @return true if this proxy object is on a physical client; false otherwise.
      */
     public abstract boolean isPhysicalClient();

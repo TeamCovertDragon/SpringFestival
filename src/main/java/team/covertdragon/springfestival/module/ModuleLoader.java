@@ -48,11 +48,11 @@ public final class ModuleLoader {
         return (List<T>) sorter.sort();
     }
 
-    private static Collection<?> getDependenciesByInstance(ISpringFestivalModule instance) {
+    public static Collection<?> getDependenciesByInstance(ISpringFestivalModule instance) {
         return Arrays.asList(instance.getClass().getAnnotation(SpringFestivalModule.class).dependencies());
     }
 
-    private static String getNameByInstance(ISpringFestivalModule instance) {
+    public static String getNameByInstance(ISpringFestivalModule instance) {
         return instance.getClass().getAnnotation(SpringFestivalModule.class).name();
     }
 
