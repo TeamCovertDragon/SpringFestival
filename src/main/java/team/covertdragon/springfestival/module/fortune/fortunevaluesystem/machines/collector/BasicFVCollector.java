@@ -14,8 +14,8 @@ import javax.annotation.Nullable;
 public class BasicFVCollector extends Block {
     public BasicFVCollector() {
         super(Material.IRON, MapColor.RED);
-        setHardness(10.0F);
-        setHarvestLevel("pickaxe", 2);
+        setHardness(5.0F);
+        setHarvestLevel("pickaxe", 1);
         setSoundType(SoundType.METAL);
         setRegistryName(SpringFestivalConstants.MOD_ID, "basic_fv_collector");
         setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".basic_fv_collector");
