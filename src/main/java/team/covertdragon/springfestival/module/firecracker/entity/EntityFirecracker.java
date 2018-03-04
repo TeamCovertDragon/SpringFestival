@@ -113,7 +113,7 @@ public class EntityFirecracker extends EntityThrowable /*implements ILightProvid
     private void explode()
     {
         SpringFestivalUtil.createNonDestructiveExplosion(this.world, this.getPosition(), 2.0F, igniter);
-        EntityItem e = new EntityItem(world, this.posX, this.posY, this.posZ, new ItemStack(MaterialRegistry.itemRedPaperBroken, 1));
+        EntityItem e = new EntityItem(world, this.posX, this.posY, this.posZ, new ItemStack(MaterialRegistry.RED_PAPER_BROKEN, 1));
         e.setDefaultPickupDelay();
         this.world.spawnEntity(e);
     }

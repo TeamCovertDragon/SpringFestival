@@ -63,6 +63,8 @@ import team.covertdragon.springfestival.module.firecracker.hanging.TileHangingFi
 
 @SpringFestivalModule(name = "firecracker", dependencies = {"material"})
 public class ModuleFirecracker extends AbstractSpringFestivalModule {
+    // TODO Albedo support? Are we sure on this one?
+    // TODO The compatibility should be done via {@link net.minecraftforge.fml.common.Optional.Interface}
     public static Boolean useFancyLighting;
 
     public void onInit() {
@@ -176,7 +178,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
                 Blocks.TNT.onBlockDestroyedByPlayer(world, blockpos, Blocks.TNT.getDefaultState().withProperty(BlockTNT.EXPLODE, true));
                 world.setBlockToAir(blockpos);
             }
-            else if (state.getBlock() == FirecrackerRegistry.blockHangingFireCracker && state.getValue(FirecrackerRegistry.blockHangingFireCracker.COUNT) == 0)
+            else if (state.getBlock() == FirecrackerRegistry.blockHangingFireCracker && state.getValue(BlockHangingFirecracker.COUNT) == 0)
             {
                 FirecrackerRegistry.blockHangingFireCracker.ignite(world, blockpos, state, false, null);
             }

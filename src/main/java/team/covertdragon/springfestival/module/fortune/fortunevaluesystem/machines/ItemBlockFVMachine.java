@@ -15,8 +15,8 @@ import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capabi
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-public class AbstractItemBlockFVMachine extends ItemBlock {
-    public AbstractItemBlockFVMachine(Block block) {
+public class ItemBlockFVMachine extends ItemBlock {
+    public ItemBlockFVMachine(Block block) {
         super(block);
         setRegistryName(block.getRegistryName());
         setUnlocalizedName(block.getUnlocalizedName().replaceAll("tile.", ""));
@@ -36,6 +36,7 @@ public class AbstractItemBlockFVMachine extends ItemBlock {
             } else {
                 throw new RuntimeException(String.format("Unable to read info for machine at %d, %d, %d", pos.getX(), pos.getY(), pos.getZ()));
             }
+            return true;
         }
         return false;
     }

@@ -18,8 +18,18 @@ import java.util.*;
 
 public final class ModuleLoader {
 
-    public static List<AbstractSpringFestivalModule> readASMDataTable(ASMDataTable table) {
-        return getInstances(table, SpringFestivalModule.class, AbstractSpringFestivalModule.class);
+    private static boolean dataHarvested = false;
+
+    private ModuleLoader() {
+        throw new UnsupportedOperationException("No instance");
+    }
+
+    public static List<ISpringFestivalModule> readASMDataTable(ASMDataTable table) {
+        if (dataHarvested) {
+            throw new IllegalStateException("Modules are already initialized");
+        }
+        dataHarvested = true;
+        return new ModuleSorter(getInstances(table, SpringFestivalModule.class, ISpringFestivalModule.class)).sort();
     }
 
     @SuppressWarnings("unchecked")
@@ -33,7 +43,7 @@ public final class ModuleLoader {
                 if (!expectedModules.contains(asmData.getAnnotationInfo().get("name").toString())) {
                     continue;
                 }
-                if (!expectedModules.containsAll((List<String>) asmData.getAnnotationInfo().get("dependencies"))) {
+                if (asmData.getAnnotationInfo().get("dependencies") != null && !expectedModules.containsAll((List<String>) asmData.getAnnotationInfo().get("dependencies"))) {
                     continue;
                 }
                 Class<?> asmClass = Class.forName(asmData.getClassName());
@@ -41,18 +51,17 @@ public final class ModuleLoader {
                 T instance = asmInstanceClass.newInstance();
                 instances.add(instance);
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-                throw (new RuntimeException("Failed to load: " + asmData.getClassName() + " " + e.toString()));
+                throw new RuntimeException("Failed to load: " + asmData.getClassName() + " " + e.toString());
             }
         }
-        ModuleSorter sorter = new ModuleSorter((List<ISpringFestivalModule>) instances);
-        return (List<T>) sorter.sort();
+        return instances;
     }
 
-    private static Collection<?> getDependenciesByInstance(ISpringFestivalModule instance) {
+    static Collection<?> getDependenciesByInstance(ISpringFestivalModule instance) {
         return Arrays.asList(instance.getClass().getAnnotation(SpringFestivalModule.class).dependencies());
     }
 
-    private static String getNameByInstance(ISpringFestivalModule instance) {
+    public static String getNameByInstance(ISpringFestivalModule instance) {
         return instance.getClass().getAnnotation(SpringFestivalModule.class).name();
     }
 
@@ -69,7 +78,7 @@ public final class ModuleLoader {
     private static class ModuleSorter {
         private TopologicalSort.DirectedGraph<ISpringFestivalModule> moduleGraph;
 
-        public ModuleSorter(List<ISpringFestivalModule> modules) {
+        ModuleSorter(List<ISpringFestivalModule> modules) {
             buildGraph(modules);
         }
 
@@ -91,7 +100,7 @@ public final class ModuleLoader {
             }
         }
 
-        public List<ISpringFestivalModule> sort() {
+        List<ISpringFestivalModule> sort() {
             return TopologicalSort.topologicalSort(moduleGraph);
         }
     }
