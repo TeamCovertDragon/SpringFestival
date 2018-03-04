@@ -10,11 +10,14 @@
 package team.covertdragon.springfestival.test.time;
 
 import org.junit.Test;
+import team.covertdragon.springfestival.internal.time.ISpringFestivalTimeProvider;
 
 public class SpringFestivalDeterminationTest {
 
     @Test
     public void testSpringFestivalChecking() {
-
+        ISpringFestivalTimeProvider provider = ISpringFestivalTimeProvider.fromURL("http://covertdragon.team/springfestival/date.txt","test");
+        System.out.println(provider.getAsBoolean());
+        System.out.println(provider.isDuringSpringFestival());
     }
 }

@@ -63,7 +63,7 @@ public abstract class SpringFestivalProxy {
     public void onPreInit(FMLPreInitializationEvent event) {
         SpringFestivalConstants.logger = event.getModLog();
         modules.values().forEach(ISpringFestivalModule::onPreInit);
-        DATE_CHECKERS.add(ISpringFestivalTimeProvider.fromURL("http://covertdragon.team/sfapi.html", "SpringFestival-DateQuerying"));
+        DATE_CHECKERS.add(ISpringFestivalTimeProvider.fromURL("http://covertdragon.team/springfestival/date.txt", "SpringFestival-DateQuerying"));
         DATE_CHECKERS.add(ISpringFestivalTimeProvider.impossible());
         if (SpringFestivalConfig.useFuzzySpringFestivalMatcher) {
             DATE_CHECKERS.add(SpringFestivalTimeProviderFuzzyMatch.INSTANCE);
