@@ -64,7 +64,6 @@ import team.covertdragon.springfestival.module.firecracker.hanging.TileHangingFi
 @SpringFestivalModule(name = "firecracker", dependencies = {"material"})
 public class ModuleFirecracker extends AbstractSpringFestivalModule {
     // TODO Albedo support? Are we sure on this one?
-    // TODO If we support Albedo, how about Mirage (https://github.com/elytra/Mirage)?
     // TODO The compatibility should be done via {@link net.minecraftforge.fml.common.Optional.Interface}
     public static Boolean useFancyLighting;
 

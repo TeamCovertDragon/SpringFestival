@@ -50,7 +50,7 @@ public class BlockSpringCouplet extends Block {
 
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        drops.add(new ItemStack(MaterialRegistry.itemRedPaperBroken));
+        drops.add(new ItemStack(MaterialRegistry.RED_PAPER_BROKEN));
     }
 
     @Override

@@ -23,7 +23,7 @@ public class SpringFestivalConstants {
     public static final CreativeTabs CREATIVE_TAB = new CreativeTabs("spring_festival") {
         @Override
         public ItemStack getTabIconItem() {
-            return new ItemStack(MaterialRegistry.itemRedPaper); // Yeah... we have hard-dep on this one
+            return new ItemStack(MaterialRegistry.RED_PAPER); // Yeah... we have hard-dep on this one
         }
     };
 
