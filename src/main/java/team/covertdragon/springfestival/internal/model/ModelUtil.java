@@ -17,6 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 @SideOnly(Side.CLIENT)
 public final class ModelUtil {
@@ -25,7 +26,11 @@ public final class ModelUtil {
 
     public static void mapItemModel(Item item) {
         ModelLoader.setCustomModelResourceLocation(item, 0,
-                new ModelResourceLocation(item.getRegistryName().toString(), "inventory"));
+                new ModelResourceLocation(
+                        Objects.requireNonNull(item.getRegistryName(), "Unregistered item or invalid registry name"),
+                        "inventory"
+                )
+        );
     }
 
     public static void mapItemModel(Item item, @Nonnull String customPath) {

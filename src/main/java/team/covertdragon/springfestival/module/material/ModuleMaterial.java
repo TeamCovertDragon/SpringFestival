@@ -26,17 +26,16 @@ import team.covertdragon.springfestival.module.SpringFestivalModule;
 /**
  * A module that holds shared materials, for other modules to use.
  */
-@SpringFestivalModule(name = "material", dependencies = {})
+@SpringFestivalModule(name = "material")
 public class ModuleMaterial extends AbstractSpringFestivalModule {
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onModelRegister(ModelRegistryEvent event) {
-        ModelUtil.mapItemModel(MaterialRegistry.itemRedPaper);
-        ModelUtil.mapItemModel(MaterialRegistry.itemRedPaperBroken);
+        ModelUtil.mapItemModel(MaterialRegistry.RED_PAPER);
+        ModelUtil.mapItemModel(MaterialRegistry.RED_PAPER_BROKEN);
     }
 
-    // TODO Just add more common stuff below, for tracking
     @SubscribeEvent
     public void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
