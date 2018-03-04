@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import team.covertdragon.springfestival.internal.SpringFestivalGuiHandler;
 import team.covertdragon.springfestival.internal.time.ISpringFestivalTimeProvider;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderFuzzyMatch;
+import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderLocal;
 import team.covertdragon.springfestival.module.ISpringFestivalModule;
 import team.covertdragon.springfestival.module.ModuleLoader;
 
@@ -41,6 +42,9 @@ public abstract class SpringFestivalProxy {
         }
         for (ISpringFestivalTimeProvider checker : DATE_CHECKERS) {
             this.isDuringSpringFestival |= checker.isDuringSpringFestival();
+            if (isDuringSpringFestival) {
+                break;
+            }
         }
         this.hasQueriedTime = true;
         return isDuringSpringFestival;
@@ -63,8 +67,8 @@ public abstract class SpringFestivalProxy {
     public void onPreInit(FMLPreInitializationEvent event) {
         SpringFestivalConstants.logger = event.getModLog();
         modules.values().forEach(ISpringFestivalModule::onPreInit);
+        DATE_CHECKERS.add(SpringFestivalTimeProviderLocal.INSTANCE);
         DATE_CHECKERS.add(ISpringFestivalTimeProvider.fromURL("http://covertdragon.team/springfestival/date.txt", "SpringFestival-DateQuerying"));
-        DATE_CHECKERS.add(ISpringFestivalTimeProvider.impossible());
         if (SpringFestivalConfig.useFuzzySpringFestivalMatcher) {
             DATE_CHECKERS.add(SpringFestivalTimeProviderFuzzyMatch.INSTANCE);
         }

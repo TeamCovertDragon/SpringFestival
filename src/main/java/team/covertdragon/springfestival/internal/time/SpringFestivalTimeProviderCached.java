@@ -14,11 +14,11 @@ import team.covertdragon.springfestival.SpringFestivalConfig;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 final class SpringFestivalTimeProviderCached implements ISpringFestivalTimeProvider {
-    private final Collection<LocalDate> validDates = new LinkedList<>();
+    private final Collection<LocalDate> validDates = new ArrayList<>(8);
     private volatile boolean available = false;
 
     SpringFestivalTimeProviderCached(final Consumer<Collection<LocalDate>> validDatesSink, final String name) {
