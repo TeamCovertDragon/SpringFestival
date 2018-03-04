@@ -19,22 +19,34 @@ import java.util.function.Consumer;
 
 final class SpringFestivalTimeProviderCached implements ISpringFestivalTimeProvider {
     private final Collection<LocalDate> validDates = new ArrayList<>(8);
-    private volatile boolean available = false;
+
+    private volatile QueryStatus status = QueryStatus.UNINITIALIZED;
 
     SpringFestivalTimeProviderCached(final Consumer<Collection<LocalDate>> validDatesSink, final String name) {
         Thread t = new Thread(() -> {
-            synchronized (validDates) {
-                validDatesSink.accept(validDates);
+            try {
+                status = QueryStatus.PENDING;
+                synchronized (validDates) {
+                    validDatesSink.accept(validDates);
+                }
+                status = QueryStatus.AVAILABLE;
+            } catch (Exception e) {
+                status = QueryStatus.ERROR;
             }
-            available = true;
         }, name);
         t.setDaemon(true);
         t.start();
     }
 
+    public QueryStatus getStatus() {
+        return status;
+    }
+
     @Override
     public boolean isDuringSpringFestival() {
-        while (!available);
+        if (status != QueryStatus.AVAILABLE) {
+            return false;
+        }
         if (SpringFestivalConfig.enforceChinaStandardTime) {
             return validDates.contains(LocalDate.now(ZoneId.of("Asia/Shanghai")));
         } else {

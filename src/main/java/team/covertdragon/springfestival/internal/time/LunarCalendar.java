@@ -43,6 +43,8 @@ import java.util.GregorianCalendar;
 // TODO Clean up
 // TODO Weaken access of some fields and methods
 // TODO Remove unneeded functionality
+// TODO Add more javadoc
+// TODO Consistent code style
 public class LunarCalendar {
     /**
      * serialVersionUID

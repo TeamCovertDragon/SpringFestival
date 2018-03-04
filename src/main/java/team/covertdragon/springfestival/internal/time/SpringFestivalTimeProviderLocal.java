@@ -9,7 +9,10 @@
 
 package team.covertdragon.springfestival.internal.time;
 
+import team.covertdragon.springfestival.SpringFestivalConfig;
+
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 public class SpringFestivalTimeProviderLocal implements ISpringFestivalTimeProvider {
 
@@ -19,7 +22,12 @@ public class SpringFestivalTimeProviderLocal implements ISpringFestivalTimeProvi
 
     @Override
     public boolean isDuringSpringFestival() {
-        LocalDate date = LocalDate.now();
+        final LocalDate date;
+        if (SpringFestivalConfig.enforceChinaStandardTime) {
+            date = LocalDate.now(ZoneId.of("Asia/Shanghai"));
+        } else {
+            date = LocalDate.now();
+        }
         LunarCalendar lunarCalendar = new LunarCalendar(date.getYear(), date.getMonth().getValue(), date.getDayOfMonth(), false, false);
         return lunarCalendar.getMonth() == 1 && lunarCalendar.getDate() == 1;
     }

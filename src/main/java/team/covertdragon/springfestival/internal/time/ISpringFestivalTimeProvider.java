@@ -35,6 +35,7 @@ public interface ISpringFestivalTimeProvider extends BooleanSupplier {
                             .forEach(sink::add);
             } catch (Exception e) {
                 SpringFestivalConstants.logger.catching(e);
+                throw new RuntimeException(e);
             }
         }, name);
     }
