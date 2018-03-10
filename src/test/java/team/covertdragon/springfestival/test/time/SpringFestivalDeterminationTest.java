@@ -13,6 +13,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import team.covertdragon.springfestival.internal.time.ISpringFestivalTimeProvider;
 import team.covertdragon.springfestival.internal.time.LunarCalendar;
+import team.covertdragon.springfestival.internal.time.QueryStatus;
 
 import java.time.LocalDate;
 
@@ -25,8 +26,8 @@ public class SpringFestivalDeterminationTest {
 
     @Test
     public void testCacheBasedDateChecker() throws InterruptedException {
-        ISpringFestivalTimeProvider provider = ISpringFestivalTimeProvider.fromURL("http://covertdragon.team/springfestival/date","test");
-        Thread.sleep(2000);
+        ISpringFestivalTimeProvider provider = ISpringFestivalTimeProvider.fromURL("http://covertdragon.team/springfestival/date", "test");
+        while (provider.getStatus() != QueryStatus.AVAILABLE) ;
         Assert.assertTrue(provider.isDuringSpringFestival());
     }
 

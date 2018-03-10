@@ -38,6 +38,7 @@ final class SpringFestivalTimeProviderCached implements ISpringFestivalTimeProvi
         t.start();
     }
 
+    @Override
     public QueryStatus getStatus() {
         return status;
     }

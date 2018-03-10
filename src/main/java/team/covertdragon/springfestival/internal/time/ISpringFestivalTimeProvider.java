@@ -40,6 +40,10 @@ public interface ISpringFestivalTimeProvider extends BooleanSupplier {
         }, name);
     }
 
+    default QueryStatus getStatus() {
+        return QueryStatus.AVAILABLE;
+    }
+
     static ISpringFestivalTimeProvider impossible() {
         return SpringFestivalTimeProviderImpossible.INSTANCE;
     }
