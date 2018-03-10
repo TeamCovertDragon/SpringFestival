@@ -24,8 +24,9 @@ public class SpringFestivalDeterminationTest {
     }
 
     @Test
-    public void testCacheBasedDateChecker() {
-        ISpringFestivalTimeProvider provider = ISpringFestivalTimeProvider.fromURL("http://covertdragon.team/springfestival/date.txt","test");
+    public void testCacheBasedDateChecker() throws InterruptedException {
+        ISpringFestivalTimeProvider provider = ISpringFestivalTimeProvider.fromURL("http://covertdragon.team/springfestival/date","test");
+        Thread.sleep(2000);
         Assert.assertTrue(provider.isDuringSpringFestival());
     }
 
