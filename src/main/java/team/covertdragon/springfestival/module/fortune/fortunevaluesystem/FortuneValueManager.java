@@ -10,10 +10,11 @@ import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machin
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class FortuneValueManager implements Runnable {
     public boolean alive = false;
-    private Queue<Runnable> TASKS = new ArrayDeque<>();
+    private Queue<Runnable> TASKS = new ConcurrentLinkedQueue<>();
     private MinecraftServer server;
     private List<EntityPlayerMP> playerList;
     private boolean shouldUpdatePlayerList = false;
