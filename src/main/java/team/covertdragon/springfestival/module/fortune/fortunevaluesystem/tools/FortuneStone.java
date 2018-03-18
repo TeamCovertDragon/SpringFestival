@@ -20,6 +20,7 @@ public class FortuneStone extends Item {
         setRegistryName(SpringFestivalConstants.MOD_ID, "fortune_stone");
         setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".fortune_stone");
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
+        setMaxStackSize(1);
     }
 
     @Override
