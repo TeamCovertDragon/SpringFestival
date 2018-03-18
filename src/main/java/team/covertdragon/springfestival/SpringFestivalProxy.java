@@ -28,6 +28,7 @@ public abstract class SpringFestivalProxy {
 
     private static final List<ISpringFestivalTimeProvider> DATE_CHECKERS = new ArrayList<>();
     private final Map<String, ISpringFestivalModule> modules = new HashMap<>();
+    private List<ISpringFestivalModule> moduleArrayList;
     private boolean isDuringSpringFestival = false, hasQueriedTime = false;
 
     /**
@@ -59,14 +60,15 @@ public abstract class SpringFestivalProxy {
     }
 
     public final void onConstruct(FMLConstructionEvent event) {
-        ModuleLoader.readASMDataTable(event.getASMHarvestedData()).forEach(mod -> this.modules.put(ModuleLoader.getNameByInstance(mod), mod));
-        modules.values().forEach(MinecraftForge.EVENT_BUS::register);
+        moduleArrayList = ModuleLoader.readASMDataTable(event.getASMHarvestedData());
+        moduleArrayList.forEach(mod -> this.modules.put(ModuleLoader.getNameByInstance(mod), mod));
+        moduleArrayList.forEach(MinecraftForge.EVENT_BUS::register);
     }
 
     @OverridingMethodsMustInvokeSuper
     public void onPreInit(FMLPreInitializationEvent event) {
         SpringFestivalConstants.logger = event.getModLog();
-        modules.values().forEach(ISpringFestivalModule::onPreInit);
+        moduleArrayList.forEach(ISpringFestivalModule::onPreInit);
         DATE_CHECKERS.add(SpringFestivalTimeProviderLocal.INSTANCE);
         DATE_CHECKERS.add(ISpringFestivalTimeProvider.fromURL("http://covertdragon.team/springfestival/date", "SpringFestival-DateQuerying"));
         if (SpringFestivalConfig.useFuzzySpringFestivalMatcher) {
@@ -77,18 +79,18 @@ public abstract class SpringFestivalProxy {
     @OverridingMethodsMustInvokeSuper
     public void onInit(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(SpringFestival.getInstance(), new SpringFestivalGuiHandler());
-        modules.values().forEach(ISpringFestivalModule::onInit);
+        moduleArrayList.forEach(ISpringFestivalModule::onInit);
     }
 
     @OverridingMethodsMustInvokeSuper
     public void onServerStarting(FMLServerStartingEvent event) {
         SpringFestivalConstants.server = event.getServer();
-        modules.values().forEach(ISpringFestivalModule::onServerStarting);
+        moduleArrayList.forEach(ISpringFestivalModule::onServerStarting);
     }
 
     @OverridingMethodsMustInvokeSuper
     public void onServerStopping(FMLServerStoppingEvent event) {
-        modules.values().forEach(ISpringFestivalModule::onServerStopping);
+        moduleArrayList.forEach(ISpringFestivalModule::onServerStopping);
     }
 
     /**
