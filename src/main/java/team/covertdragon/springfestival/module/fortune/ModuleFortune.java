@@ -37,6 +37,11 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
     }
 
     @Override
+    public void onInit() {
+        FortuneNetwork.init();
+    }
+
+    @Override
     public void onServerStarting() {
         manager = new FortuneValueManager(SpringFestivalConstants.server);
         FV_MANAGER_THREAD = new Thread(manager, "SpringFestival-FVManager");
