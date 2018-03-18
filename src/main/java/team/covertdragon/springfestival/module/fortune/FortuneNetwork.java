@@ -1,11 +1,14 @@
 package team.covertdragon.springfestival.module.fortune;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.TextComponentTranslation;
 import team.covertdragon.springfestival.internal.network.AbstractSpringFestivalPacket;
 import team.covertdragon.springfestival.internal.network.SpringFestivalNetworkHandler;
 
-final class FortuneNetwork {
+public class FortuneNetwork {
     static void init() {
         SpringFestivalNetworkHandler.INSTANCE.registerPacket(packetFortuneValue.class);
     }
@@ -27,7 +30,8 @@ final class FortuneNetwork {
 
         @Override
         public void readDataFrom(ByteBuf buffer, EntityPlayer player) {
-            this.val = buffer.readInt();
+            Minecraft.getMinecraft().player.sendMessage(new TextComponentTranslation(
+                    I18n.format("chat.springfestival.fv", buffer.readInt())));
         }
     }
 }

@@ -29,6 +29,8 @@ entity.springfestival.firecracker.name=爆竹
 subtitle.springfestival.firecracker.throw=爆竹：投掷
 subtitle.springfestival.firecracker.explode=爆竹：爆炸
 
+chat.springfestival.fv=当前福气值: %d
+
 redpacket.owner=红包主人：%s
 redpacket.receiver=%s将会收到这个红包
 redpacket.receiver.any=所有人都
