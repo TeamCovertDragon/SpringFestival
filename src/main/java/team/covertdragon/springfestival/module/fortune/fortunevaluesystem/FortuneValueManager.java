@@ -7,7 +7,6 @@ import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capabi
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.IFortuneValueSystem;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.AbstractTileFVMachine;
 
-import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -16,7 +15,6 @@ public class FortuneValueManager implements Runnable {
     public boolean alive = false;
     private Queue<Runnable> TASKS = new ConcurrentLinkedQueue<>();
     private MinecraftServer server;
-    private List<EntityPlayerMP> playerList;
 
     public FortuneValueManager(MinecraftServer server) {
         this.server = server;
@@ -29,7 +27,7 @@ public class FortuneValueManager implements Runnable {
     @Override
     public void run() {
         SpringFestivalConstants.logger.info("Starting fortune value handler...");
-        playerList = server.getPlayerList().getPlayers();
+        List<EntityPlayerMP> playerList = server.getPlayerList().getPlayers();
         while (alive) {
             while (!TASKS.isEmpty()) {
                 TASKS.poll().run();
