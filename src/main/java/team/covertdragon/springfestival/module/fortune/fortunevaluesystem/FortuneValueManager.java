@@ -17,14 +17,9 @@ public class FortuneValueManager implements Runnable {
     private Queue<Runnable> TASKS = new ConcurrentLinkedQueue<>();
     private MinecraftServer server;
     private List<EntityPlayerMP> playerList;
-    private boolean shouldUpdatePlayerList = false;
 
     public FortuneValueManager(MinecraftServer server) {
         this.server = server;
-    }
-
-    public void updatePlayerList() {
-        shouldUpdatePlayerList = true;
     }
 
     public void addTask(Runnable task) {
@@ -34,12 +29,8 @@ public class FortuneValueManager implements Runnable {
     @Override
     public void run() {
         SpringFestivalConstants.logger.info("Starting fortune value handler...");
+        playerList = server.getPlayerList().getPlayers();
         while (alive) {
-            if (shouldUpdatePlayerList) {
-                playerList = server.getPlayerList().getPlayers();
-                shouldUpdatePlayerList = false;
-            }
-
             while (!TASKS.isEmpty()) {
                 TASKS.poll().run();
             }

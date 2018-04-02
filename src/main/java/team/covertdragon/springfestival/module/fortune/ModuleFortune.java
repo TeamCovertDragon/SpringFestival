@@ -46,7 +46,6 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
         manager = new FortuneValueManager(SpringFestivalConstants.server);
         FV_MANAGER_THREAD = new Thread(manager, "SpringFestival-FVManager");
         FV_MANAGER_THREAD.setDaemon(true);
-        manager.updatePlayerList();
         manager.alive = true;
         FV_MANAGER_THREAD.start();
     }
@@ -60,16 +59,6 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
         } catch (InterruptedException e) {
             SpringFestivalConstants.logger.error("Fail to shutdown FV_MANAGER thread", e);
         }
-    }
-
-    @SubscribeEvent
-    public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        manager.updatePlayerList();
-    }
-
-    @SubscribeEvent
-    public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedInEvent event) {
-        manager.updatePlayerList();
     }
 
     @SubscribeEvent
