@@ -13,17 +13,23 @@ item.springfestival.niangao.name=年糕
 item.springfestival.firecracker_egg.name=爆竹
 item.springfestival.large_red_pillar.name=大红柱
 item.springfestival.large_red_pillar_alt.name=大红柱
+item.springfestival.fortune_stone.name=福石
+item.springfestival.glutinous_rice.name=糯米
+item.springfestival.glutinous_rice_seed.name=糯米种子
 
 tile.springfestival.fu_door.name=福字门
 tile.springfestival.hanging_firecracker.name=挂着的爆竹
 tile.springfestival.firework_box.name=礼炮
 tile.springfestival.large_red_pillar.name=大红柱
 tile.springfestival.large_red_pillar_alt.name=大红柱
+tile.springfestival.basic_fv_collector.name=基础福气收集器
 
 entity.springfestival.firecracker.name=爆竹
 
 subtitle.springfestival.firecracker.throw=爆竹：投掷
 subtitle.springfestival.firecracker.explode=爆竹：爆炸
+
+chat.springfestival.fv=当前福气值: %d
 
 redpacket.owner=红包主人：%s
 redpacket.receiver=%s将会收到这个红包

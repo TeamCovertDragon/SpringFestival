@@ -83,7 +83,7 @@ public class TileHangingFirecracker extends TileEntity implements ITickable {
     {
         int amount = tick / 10;
         if (amount > 6) amount = 6;
-        ItemStack stack = new ItemStack(MaterialRegistry.itemRedPaperBroken, amount);
+        ItemStack stack = new ItemStack(MaterialRegistry.RED_PAPER_BROKEN, amount);
         EntityItem entity = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
         entity.setDefaultPickupDelay();
         world.spawnEntity(entity);

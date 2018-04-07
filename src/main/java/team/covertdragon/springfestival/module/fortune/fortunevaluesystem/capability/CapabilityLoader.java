@@ -8,7 +8,7 @@ public class CapabilityLoader {
     @CapabilityInject(IFortuneValueSystem.class)
     public static Capability<IFortuneValueSystem> fortuneValue;
 
-    public static void initCapabilities() {
+    public static void init() {
         CapabilityManager.INSTANCE.register(IFortuneValueSystem.class, new CapabilityFortuneValueSystem.Storage(), new CapabilityFortuneValueSystem.Factory());
     }
 }

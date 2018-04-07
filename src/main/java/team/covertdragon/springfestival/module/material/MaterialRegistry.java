@@ -17,18 +17,16 @@ import team.covertdragon.springfestival.SpringFestivalConstants;
 public class MaterialRegistry {
 
     static {
-        itemRedPaper = null;
-        itemRedPaperBroken = null;
+        RED_PAPER = null;
+        RED_PAPER_BROKEN = null;
         GLUTINOUS_RICE_CROP = null;
         GLUTINOUS_RICE = null;
         GLUTINOUS_RICE_SEED = null;
     }
 
-    @GameRegistry.ObjectHolder("red_paper")
-    public static final Item itemRedPaper;
+    public static final Item RED_PAPER;
 
-    @GameRegistry.ObjectHolder("red_paper_broken")
-    public static final Item itemRedPaperBroken;
+    public static final Item RED_PAPER_BROKEN;
 
     public static final Block GLUTINOUS_RICE_CROP;
     

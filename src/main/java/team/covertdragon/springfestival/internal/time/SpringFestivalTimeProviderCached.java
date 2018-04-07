@@ -14,16 +14,24 @@ import team.covertdragon.springfestival.SpringFestivalConfig;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 final class SpringFestivalTimeProviderCached implements ISpringFestivalTimeProvider {
-    private final Collection<LocalDate> validDates = new LinkedList<>();
+    private final Collection<LocalDate> validDates = new ArrayList<>(8);
 
-    SpringFestivalTimeProviderCached(Consumer<Collection<LocalDate>> validDatesSink, final String name) {
+    private volatile QueryStatus status = QueryStatus.UNINITIALIZED;
+
+    SpringFestivalTimeProviderCached(final Consumer<Collection<LocalDate>> validDatesSink, final String name) {
         Thread t = new Thread(() -> {
-            synchronized (validDates) {
-                validDatesSink.accept(validDates);
+            try {
+                status = QueryStatus.PENDING;
+                synchronized (validDates) {
+                    validDatesSink.accept(validDates);
+                }
+                status = QueryStatus.AVAILABLE;
+            } catch (Exception e) {
+                status = QueryStatus.ERROR;
             }
         }, name);
         t.setDaemon(true);
@@ -31,7 +39,15 @@ final class SpringFestivalTimeProviderCached implements ISpringFestivalTimeProvi
     }
 
     @Override
+    public QueryStatus getStatus() {
+        return status;
+    }
+
+    @Override
     public boolean isDuringSpringFestival() {
+        if (status != QueryStatus.AVAILABLE) {
+            return false;
+        }
         if (SpringFestivalConfig.enforceChinaStandardTime) {
             return validDates.contains(LocalDate.now(ZoneId.of("Asia/Shanghai")));
         } else {

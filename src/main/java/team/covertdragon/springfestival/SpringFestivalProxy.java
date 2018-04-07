@@ -11,30 +11,24 @@ package team.covertdragon.springfestival;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.event.FMLConstructionEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import team.covertdragon.springfestival.internal.SpringFestivalGuiHandler;
 import team.covertdragon.springfestival.internal.time.ISpringFestivalTimeProvider;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderFuzzyMatch;
+import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderLocal;
 import team.covertdragon.springfestival.module.ISpringFestivalModule;
 import team.covertdragon.springfestival.module.ModuleLoader;
 
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class SpringFestivalProxy {
 
     private static final List<ISpringFestivalTimeProvider> DATE_CHECKERS = new ArrayList<>();
-    private List<? extends ISpringFestivalModule> modules = Collections.emptyList();
-
+    private final Map<String, ISpringFestivalModule> modules = new HashMap<>();
+    private List<ISpringFestivalModule> moduleArrayList;
     private boolean isDuringSpringFestival = false, hasQueriedTime = false;
 
     /**
@@ -49,26 +43,34 @@ public abstract class SpringFestivalProxy {
         }
         for (ISpringFestivalTimeProvider checker : DATE_CHECKERS) {
             this.isDuringSpringFestival |= checker.isDuringSpringFestival();
+            if (isDuringSpringFestival) {
+                break;
+            }
         }
         this.hasQueriedTime = true;
         return isDuringSpringFestival;
     }
 
     public final boolean isModuleLoaded(final String module) {
-        return false; // TODO Stub! We might need a Map instead of List...
+        return modules.containsKey(module);
+    }
+
+    public final ISpringFestivalModule getModule(final String module) {
+        return modules.get(module);
     }
 
     public final void onConstruct(FMLConstructionEvent event) {
-        modules = ModuleLoader.readASMDataTable(event.getASMHarvestedData());
-        modules.forEach(MinecraftForge.EVENT_BUS::register);
+        moduleArrayList = ModuleLoader.readASMDataTable(event.getASMHarvestedData());
+        moduleArrayList.forEach(mod -> this.modules.put(ModuleLoader.getNameByInstance(mod), mod));
+        moduleArrayList.forEach(MinecraftForge.EVENT_BUS::register);
     }
 
     @OverridingMethodsMustInvokeSuper
     public void onPreInit(FMLPreInitializationEvent event) {
         SpringFestivalConstants.logger = event.getModLog();
-        modules.forEach(ISpringFestivalModule::onPreInit);
-        DATE_CHECKERS.add(ISpringFestivalTimeProvider.fromURL("", "SpringFestival-DateQuerying"));
-        DATE_CHECKERS.add(ISpringFestivalTimeProvider.impossible());
+        moduleArrayList.forEach(ISpringFestivalModule::onPreInit);
+        DATE_CHECKERS.add(SpringFestivalTimeProviderLocal.INSTANCE);
+        DATE_CHECKERS.add(ISpringFestivalTimeProvider.fromURL("http://covertdragon.team/springfestival/date", "SpringFestival-DateQuerying"));
         if (SpringFestivalConfig.useFuzzySpringFestivalMatcher) {
             DATE_CHECKERS.add(SpringFestivalTimeProviderFuzzyMatch.INSTANCE);
         }
@@ -77,28 +79,30 @@ public abstract class SpringFestivalProxy {
     @OverridingMethodsMustInvokeSuper
     public void onInit(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(SpringFestival.getInstance(), new SpringFestivalGuiHandler());
-        modules.forEach(ISpringFestivalModule::onInit);
+        moduleArrayList.forEach(ISpringFestivalModule::onInit);
     }
 
     @OverridingMethodsMustInvokeSuper
     public void onServerStarting(FMLServerStartingEvent event) {
         SpringFestivalConstants.server = event.getServer();
-        modules.forEach(ISpringFestivalModule::onServerStarting);
+        moduleArrayList.forEach(ISpringFestivalModule::onServerStarting);
     }
 
     @OverridingMethodsMustInvokeSuper
     public void onServerStopping(FMLServerStoppingEvent event) {
-        modules.forEach(ISpringFestivalModule::onServerStopping);
+        moduleArrayList.forEach(ISpringFestivalModule::onServerStopping);
     }
 
     /**
      * Helper method to determine whether this proxy is running on a physical server environment
+     *
      * @return true if this proxy object is on a physical server; false otherwise.
      */
     public abstract boolean isPhysicalServer();
 
     /**
      * Helper method to determine whether this proxy is running on a physical client environment
+     *
      * @return true if this proxy object is on a physical client; false otherwise.
      */
     public abstract boolean isPhysicalClient();

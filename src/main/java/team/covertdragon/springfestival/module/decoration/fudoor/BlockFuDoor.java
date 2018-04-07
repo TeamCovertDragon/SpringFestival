@@ -9,13 +9,6 @@
 
 package team.covertdragon.springfestival.module.decoration.fudoor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -36,7 +29,13 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.module.material.MaterialRegistry;
+import team.covertdragon.springfestival.module.decoration.DecorationRegistry;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class BlockFuDoor extends BlockDoor {
 
@@ -56,7 +55,7 @@ public class BlockFuDoor extends BlockDoor {
     @Override
     @Nonnull
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER ? MaterialRegistry.itemRedPaper : Items.AIR;
+        return state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER ? DecorationRegistry.FU : Items.AIR;
     }
 
     @Override
@@ -94,7 +93,7 @@ public class BlockFuDoor extends BlockDoor {
                         //Set door
                         ItemDoor.placeDoor(world, position.add(0, -1, 0), te.getOriginalBlockStateUpper().getValue(BlockDoor.FACING), te.getOriginalBlockStateUpper().getBlock(), te.getOriginalBlockStateUpper().getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT);
                         //Drop Fu
-                        EntityItem entityItem = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(MaterialRegistry.itemRedPaper, 1));
+                        EntityItem entityItem = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(DecorationRegistry.FU, 1));
                         entityItem.setDefaultPickupDelay();
                         world.spawnEntity(entityItem);
                         return true;
@@ -127,7 +126,7 @@ public class BlockFuDoor extends BlockDoor {
 
         List<ItemStack> drops = new ArrayList<>();
         drops.add(((TileFuDoor) te).getOriginalDoor());
-        drops.add(new ItemStack(MaterialRegistry.itemRedPaper, 1));
+        drops.add(new ItemStack(DecorationRegistry.FU, 1));
 
         for (ItemStack drop : drops) {
             EntityItem entity = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), drop);
