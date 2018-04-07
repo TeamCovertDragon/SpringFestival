@@ -13,10 +13,9 @@ import java.lang.reflect.Field;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
-import net.minecraft.block.BlockTNT;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
+import net.minecraft.dispenser.IBehaviorDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.Entity;
@@ -26,10 +25,11 @@ import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.init.Blocks;
+import net.minecraft.init.Bootstrap;
 import net.minecraft.init.Bootstrap.BehaviorDispenseOptional;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -38,12 +38,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestival;
@@ -58,7 +59,6 @@ import team.covertdragon.springfestival.module.firecracker.firework.BlockFirewor
 import team.covertdragon.springfestival.module.firecracker.firework.ItemFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.firework.TileFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.hanging.BlockHangingFirecracker;
-import team.covertdragon.springfestival.module.firecracker.hanging.ItemHangingFirecracker;
 import team.covertdragon.springfestival.module.firecracker.hanging.TileHangingFirecracker;
 
 @SpringFestivalModule(name = "firecracker", dependencies = {"material"})
@@ -68,28 +68,33 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     public void onInit() {
         EntityRegistry.registerModEntity(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker"), EntityFirecracker.class, "Firecracker", 0, SpringFestival.getInstance(), 80, 3, true);
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(FirecrackerRegistry.itemFirecrackerEgg, new BehaviourFirecrackerDispense());
-        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.FLINT_AND_STEEL, new BehaviourFlintAndSteelDispense());
+        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(
+                Items.FLINT_AND_STEEL,
+                new BehaviourFlintAndSteelDispense(BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(Items.FLINT_AND_STEEL))
+        );
 //        useFancyLighting = Loader.isModLoaded("albedo");
     }
     
     @SubscribeEvent
-    public void onEntityTick(LivingUpdateEvent event) {
-        if(event.getEntity() instanceof EntityMob) {
+    public void onEntityJoin(EntityJoinWorldEvent event) {
+        if (!event.getWorld().isRemote && event.getEntity() instanceof EntityMob) {
             EntityMob mob = (EntityMob) event.getEntity();
-            for(EntityAITaskEntry task : mob.tasks.taskEntries)
+            for (EntityAITaskEntry task : mob.tasks.taskEntries)
                 try {
-                    if(task.action instanceof EntityAIAvoidEntity)
+                    if (task.action instanceof EntityAIAvoidEntity)
                     {
-                        Field f = ((EntityAIAvoidEntity)task.action).getClass().getDeclaredField("classToAvoid");
+                        Field f = ReflectionHelper.findField(EntityAIAvoidEntity.class, "field_181064_i", "classToAvoid");
                         f.setAccessible(true);
-                        if (f.get(task.action).getClass() == EntityFirecracker.class)
+                        if (f.get(task.action) == EntityFirecracker.class)
+                        {
                             return;
+                        }
                     }
                 } catch (Exception e) {
                     SpringFestivalConstants.logger.catching(e);
                 }
                     
-            mob.tasks.addTask(3, new EntityAIAvoidEntity<>(mob, EntityFirecracker.class, 6.0F, 1.0D, 1.2D));
+            mob.tasks.addTask(1, new EntityAIAvoidEntity<>(mob, EntityFirecracker.class, 6.0F, 1.0D, 1.2D));
         }
     }
     
@@ -114,7 +119,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         event.getRegistry().registerAll(
                 new ItemFireworkBox(),
                 new ItemFirecrackerEgg(),
-                new ItemHangingFirecracker()
+                new ItemBlock(FirecrackerRegistry.blockHangingFireCracker).setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker")
         );
     }
 
@@ -156,33 +161,27 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         
     }
     public class BehaviourFlintAndSteelDispense extends BehaviorDispenseOptional {
+        private final IBehaviorDispenseItem behavior;
+        
+        protected BehaviourFlintAndSteelDispense(IBehaviorDispenseItem behavior)
+        {
+            this.behavior = behavior;
+        }
+        
         protected ItemStack dispenseStack(IBlockSource source, ItemStack stack)
         {
-            World world = source.getWorld();
-            this.successful = true;
-            BlockPos blockpos = source.getBlockPos().offset(source.getBlockState().getValue(BlockDispenser.FACING));
-            IBlockState state = world.getBlockState(blockpos);
-            if (state.getMaterial() == Material.AIR)
+            behavior.dispense(source, stack);
+            boolean s = ReflectionHelper.getPrivateValue(Bootstrap.BehaviorDispenseOptional.class, (BehaviorDispenseOptional) behavior, "field_190911_b", "successful");
+            if (!s)
             {
-                world.setBlockState(blockpos, Blocks.FIRE.getDefaultState());
-
-                if (stack.attemptDamageItem(1, world.rand, null))
+                World world = source.getWorld();
+                BlockPos blockpos = source.getBlockPos().offset(source.getBlockState().getValue(BlockDispenser.FACING));
+                IBlockState state = world.getBlockState(blockpos);
+                if (state.getBlock() == FirecrackerRegistry.blockHangingFireCracker && state.getValue(FirecrackerRegistry.blockHangingFireCracker.COUNT) == 0)
                 {
-                    stack.setCount(0);
+                    FirecrackerRegistry.blockHangingFireCracker.ignite(world, blockpos, state, false, null);
+                    this.successful = true;
                 }
-            }
-            else if (state.getBlock() == Blocks.TNT)
-            {
-                Blocks.TNT.onBlockDestroyedByPlayer(world, blockpos, Blocks.TNT.getDefaultState().withProperty(BlockTNT.EXPLODE, true));
-                world.setBlockToAir(blockpos);
-            }
-            else if (state.getBlock() == FirecrackerRegistry.blockHangingFireCracker && state.getValue(FirecrackerRegistry.blockHangingFireCracker.COUNT) == 0)
-            {
-                FirecrackerRegistry.blockHangingFireCracker.ignite(world, blockpos, state, false, null);
-            }
-            else
-            {
-                this.successful = false;
             }
 
             return stack;
