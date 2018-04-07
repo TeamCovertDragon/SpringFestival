@@ -65,7 +65,9 @@ import team.covertdragon.springfestival.module.firecracker.hanging.TileHangingFi
 public class ModuleFirecracker extends AbstractSpringFestivalModule {
     // TODO Albedo support? Are we sure on this one?
     // TODO The compatibility should be done via {@link net.minecraftforge.fml.common.Optional.Interface}
-    public static Boolean useFancyLighting;
+//    public static Boolean useFancyLighting;
+    private static final Field FIELD_AVOID_CLASS = ReflectionHelper.findField(EntityAIAvoidEntity.class, "field_181064_i", "classToAvoid");
+    private static final Field FIELD_DISPENSE_RESULT = ReflectionHelper.findField(Bootstrap.BehaviorDispenseOptional.class, "field_190911_b", "successful");
 
     public void onInit() {
         EntityRegistry.registerModEntity(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker"), EntityFirecracker.class, "Firecracker", 0, SpringFestival.getInstance(), 80, 3, true);
@@ -74,6 +76,8 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
                 Items.FLINT_AND_STEEL,
                 new BehaviourFlintAndSteelDispense(BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(Items.FLINT_AND_STEEL))
         );
+        FIELD_AVOID_CLASS.setAccessible(true);
+        FIELD_DISPENSE_RESULT.setAccessible(true);
 //        useFancyLighting = Loader.isModLoaded("albedo");
     }
     
@@ -85,9 +89,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
                 try {
                     if (task.action instanceof EntityAIAvoidEntity)
                     {
-                        Field f = ReflectionHelper.findField(EntityAIAvoidEntity.class, "field_181064_i", "classToAvoid");
-                        f.setAccessible(true);
-                        if (f.get(task.action) == EntityFirecracker.class)
+                        if (FIELD_AVOID_CLASS.get(task.action) == EntityFirecracker.class)
                         {
                             return;
                         }
@@ -173,19 +175,21 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         protected ItemStack dispenseStack(IBlockSource source, ItemStack stack)
         {
             behavior.dispense(source, stack);
-            boolean s = ReflectionHelper.getPrivateValue(Bootstrap.BehaviorDispenseOptional.class, (BehaviorDispenseOptional) behavior, "field_190911_b", "successful");
-            if (!s)
-            {
-                World world = source.getWorld();
-                BlockPos blockpos = source.getBlockPos().offset(source.getBlockState().getValue(BlockDispenser.FACING));
-                IBlockState state = world.getBlockState(blockpos);
-                if (state.getBlock() == FirecrackerRegistry.blockHangingFireCracker && state.getValue(FirecrackerRegistry.blockHangingFireCracker.COUNT) == 0)
+            try {
+                if (!FIELD_DISPENSE_RESULT.getBoolean(behavior))
                 {
-                    FirecrackerRegistry.blockHangingFireCracker.ignite(world, blockpos, state, false, null);
-                    this.successful = true;
+                    World world = source.getWorld();
+                    BlockPos blockpos = source.getBlockPos().offset(source.getBlockState().getValue(BlockDispenser.FACING));
+                    IBlockState state = world.getBlockState(blockpos);
+                    if (state.getBlock() == FirecrackerRegistry.blockHangingFireCracker && state.getValue(FirecrackerRegistry.blockHangingFireCracker.COUNT) == 0)
+                    {
+                        FirecrackerRegistry.blockHangingFireCracker.ignite(world, blockpos, state, false, null);
+                        this.successful = true;
+                    }
                 }
+            } catch (Exception e) {
+                SpringFestivalConstants.logger.catching(e);
             }
-
             return stack;
         }
     }
