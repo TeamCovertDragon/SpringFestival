@@ -70,7 +70,7 @@ public abstract class SpringFestivalProxy {
         SpringFestivalConstants.logger = event.getModLog();
         moduleArrayList.forEach(ISpringFestivalModule::onPreInit);
         DATE_CHECKERS.add(SpringFestivalTimeProviderLocal.INSTANCE);
-        DATE_CHECKERS.add(ISpringFestivalTimeProvider.fromURL("http://covertdragon.team/springfestival/date", "SpringFestival-DateQuerying"));
+        DATE_CHECKERS.add(ISpringFestivalTimeProvider.fromURL("https://covertdragon.team/springfestival/date", "SpringFestival-DateQuerying"));
         if (SpringFestivalConfig.useFuzzySpringFestivalMatcher) {
             DATE_CHECKERS.add(SpringFestivalTimeProviderFuzzyMatch.INSTANCE);
         }

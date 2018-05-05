@@ -26,7 +26,7 @@ public class SpringFestivalDeterminationTest {
 
     @Test
     public void testCacheBasedDateChecker() {
-        ISpringFestivalTimeProvider provider = ISpringFestivalTimeProvider.fromURL("http://covertdragon.team/springfestival/date", "test");
+        ISpringFestivalTimeProvider provider = ISpringFestivalTimeProvider.fromURL("https://covertdragon.team/springfestival/date", "test");
         while (provider.getStatus() != QueryStatus.AVAILABLE) ;
         System.out.println(provider.isDuringSpringFestival());
         //Assert.assertTrue(provider.isDuringSpringFestival());
