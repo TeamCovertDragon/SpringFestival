@@ -11,7 +11,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.model.ModelUtil;
@@ -33,7 +32,7 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
 
     @Override
     public void onPreInit() {
-        CapabilityLoader.initCapabilities();
+        CapabilityLoader.init();
     }
 
     @Override
@@ -43,10 +42,10 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
 
     @Override
     public void onServerStarting() {
+        // Start Fortune Thread
         manager = new FortuneValueManager(SpringFestivalConstants.server);
         FV_MANAGER_THREAD = new Thread(manager, "SpringFestival-FVManager");
         FV_MANAGER_THREAD.setDaemon(true);
-        manager.updatePlayerList();
         manager.alive = true;
         FV_MANAGER_THREAD.start();
     }
@@ -60,16 +59,6 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
         } catch (InterruptedException e) {
             SpringFestivalConstants.logger.error("Fail to shutdown FV_MANAGER thread", e);
         }
-    }
-
-    @SubscribeEvent
-    public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        manager.updatePlayerList();
-    }
-
-    @SubscribeEvent
-    public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedInEvent event) {
-        manager.updatePlayerList();
     }
 
     @SubscribeEvent
