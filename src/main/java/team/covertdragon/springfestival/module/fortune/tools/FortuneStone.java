@@ -2,8 +2,12 @@ package team.covertdragon.springfestival.module.fortune.tools;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -27,7 +31,20 @@ public class FortuneStone extends Item {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-        SpringFestivalNetworkHandler.INSTANCE.sendToServer(new FortuneNetwork.packetRequestFortuneValue());
-        tooltip.add(I18n.format("tooltip.springfestival.fv", FortuneClientHelper.fortune_value));
+        if (stack.getItemDamage() == 233) {
+            SpringFestivalNetworkHandler.INSTANCE.sendToServer(new FortuneNetwork.packetRequestFortuneValue());
+            tooltip.add(I18n.format("tooltip.springfestival.fv", FortuneClientHelper.fortune_value));
+        } else {
+            tooltip.add(I18n.format("tooltip.springfestival.right_click_to_active"));
+        }
+    }
+
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand handIn) {
+        ItemStack stack = player.getHeldItem(handIn);
+        if (stack.getItemDamage() == 233)
+            return new ActionResult<>(EnumActionResult.FAIL, stack);
+        stack.setItemDamage(233);
+        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
     }
 }
