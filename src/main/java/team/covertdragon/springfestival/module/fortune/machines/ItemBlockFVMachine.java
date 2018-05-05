@@ -1,4 +1,4 @@
-package team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines;
+package team.covertdragon.springfestival.module.fortune.machines;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

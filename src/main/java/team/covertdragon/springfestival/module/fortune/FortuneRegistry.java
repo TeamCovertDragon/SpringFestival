@@ -2,9 +2,9 @@ package team.covertdragon.springfestival.module.fortune;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.ItemBlockFVMachine;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.collector.BasicFVCollector;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.tools.FortuneStone;
+import team.covertdragon.springfestival.module.fortune.machines.ItemBlockFVMachine;
+import team.covertdragon.springfestival.module.fortune.machines.collector.BasicFVCollector;
+import team.covertdragon.springfestival.module.fortune.tools.FortuneStone;
 
 @GameRegistry.ObjectHolder(SpringFestivalConstants.MOD_ID)
 public class FortuneRegistry {

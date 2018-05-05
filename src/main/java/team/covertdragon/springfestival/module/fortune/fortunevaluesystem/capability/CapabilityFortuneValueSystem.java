@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.AbstractTileFVMachine;
+import team.covertdragon.springfestival.module.fortune.machines.AbstractTileFVMachine;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

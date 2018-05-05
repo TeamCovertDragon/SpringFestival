@@ -29,7 +29,7 @@ entity.springfestival.firecracker.name=Firecracker
 subtitle.springfestival.firecracker.throw=Firecracker flies
 subtitle.springfestival.firecracker.explode=Firecracker explodes
 
-chat.springfestival.fv=Current Fortune Value: %d
+tooltip.springfestival.fv=Current Fortune Value: %d
 
 redpacket.owner=Owned by %s
 redpacket.receiver=Will be sent to %s

@@ -1,4 +1,4 @@
-package team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.collector;
+package team.covertdragon.springfestival.module.fortune.machines.collector;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;

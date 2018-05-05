@@ -21,10 +21,10 @@ import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.Fortun
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityFortuneValueSystem;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityLoader;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.IFortuneValueSystem;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.ItemBlockFVMachine;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.collector.BasicFVCollector;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.collector.TileBasicFVCollector;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.tools.FortuneStone;
+import team.covertdragon.springfestival.module.fortune.machines.ItemBlockFVMachine;
+import team.covertdragon.springfestival.module.fortune.machines.collector.BasicFVCollector;
+import team.covertdragon.springfestival.module.fortune.machines.collector.TileBasicFVCollector;
+import team.covertdragon.springfestival.module.fortune.tools.FortuneStone;
 
 @SpringFestivalModule(name = "fortune", dependencies = {"material"})
 public class ModuleFortune extends AbstractSpringFestivalModule {

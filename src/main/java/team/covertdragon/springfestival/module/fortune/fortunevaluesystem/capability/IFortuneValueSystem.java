@@ -1,6 +1,6 @@
 package team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability;
 
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.AbstractTileFVMachine;
+import team.covertdragon.springfestival.module.fortune.machines.AbstractTileFVMachine;
 
 import java.util.List;
 

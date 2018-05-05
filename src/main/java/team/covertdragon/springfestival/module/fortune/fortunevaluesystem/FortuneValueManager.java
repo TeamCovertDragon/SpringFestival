@@ -5,9 +5,8 @@ import net.minecraft.server.MinecraftServer;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityLoader;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.IFortuneValueSystem;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.AbstractTileFVMachine;
+import team.covertdragon.springfestival.module.fortune.machines.AbstractTileFVMachine;
 
-import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;

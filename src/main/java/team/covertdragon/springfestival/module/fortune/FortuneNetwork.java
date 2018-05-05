@@ -1,25 +1,25 @@
 package team.covertdragon.springfestival.module.fortune;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.entity.player.EntityPlayerMP;
 import team.covertdragon.springfestival.internal.network.AbstractSpringFestivalPacket;
 import team.covertdragon.springfestival.internal.network.SpringFestivalNetworkHandler;
+import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityLoader;
 
 public class FortuneNetwork {
     static void init() {
-        SpringFestivalNetworkHandler.INSTANCE.registerPacket(packetFortuneValue.class);
+        SpringFestivalNetworkHandler.INSTANCE.registerPacket(packetSendFortuneValue.class);
+        SpringFestivalNetworkHandler.INSTANCE.registerPacket(packetRequestFortuneValue.class);
     }
 
-    public static class packetFortuneValue implements AbstractSpringFestivalPacket {
+    public static class packetSendFortuneValue implements AbstractSpringFestivalPacket {
         int val;
 
-        public packetFortuneValue() {
+        public packetSendFortuneValue() {
         }
 
-        public packetFortuneValue(int val) {
+        public packetSendFortuneValue(int val) {
             this.val = val;
         }
 
@@ -30,8 +30,21 @@ public class FortuneNetwork {
 
         @Override
         public void readDataFrom(ByteBuf buffer, EntityPlayer player) {
-            Minecraft.getMinecraft().player.sendMessage(new TextComponentTranslation(
-                    I18n.format("chat.springfestival.fv", buffer.readInt())));
+            FortuneClientHelper.fortune_value = buffer.readInt();
+        }
+    }
+
+    public static class packetRequestFortuneValue implements AbstractSpringFestivalPacket {
+
+        @Override
+        public void writeDataTo(ByteBuf buffer) {
+
+        }
+
+        @Override
+        public void readDataFrom(ByteBuf buffer, EntityPlayer player) {
+            int fv = player.getCapability(CapabilityLoader.fortuneValue, null).getFortuneValue();
+            SpringFestivalNetworkHandler.INSTANCE.sendToPlayer(new packetSendFortuneValue(fv), (EntityPlayerMP) player);
         }
     }
 }

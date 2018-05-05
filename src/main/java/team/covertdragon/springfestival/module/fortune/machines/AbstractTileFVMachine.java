@@ -1,4 +1,4 @@
-package team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines;
+package team.covertdragon.springfestival.module.fortune.machines;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

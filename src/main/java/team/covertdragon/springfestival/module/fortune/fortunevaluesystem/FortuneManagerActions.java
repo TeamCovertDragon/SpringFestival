@@ -1,7 +1,7 @@
 package team.covertdragon.springfestival.module.fortune.fortunevaluesystem;
 
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.IFortuneValueSystem;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.AbstractTileFVMachine;
+import team.covertdragon.springfestival.module.fortune.machines.AbstractTileFVMachine;
 
 public class FortuneManagerActions {
     public static class ActionRegisterMachine implements Runnable {
