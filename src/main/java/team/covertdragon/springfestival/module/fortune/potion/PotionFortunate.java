@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
 public class PotionFortunate extends Potion {
-    protected PotionFortunate() {
+    public PotionFortunate() {
         super(false, 0x7F0000);
         setRegistryName(SpringFestivalConstants.MOD_ID, "fortunate");
         setPotionName("potion.fortunate");
@@ -31,6 +31,6 @@ public class PotionFortunate extends Potion {
     @Override
     public void renderHUDEffect(int x, int y, PotionEffect effect, Minecraft mc, float alpha) {
         mc.getTextureManager().bindTexture(new ResourceLocation(SpringFestivalConstants.MOD_ID, "textures/gui/potion.png"));
-        mc.ingameGUI.drawTexturedModalRect(x + 5, y + 5, 0, 0, 18, 18);
+        mc.ingameGUI.drawTexturedModalRect(x + 3, y + 3, 0, 0, 18, 18);
     }
 }

@@ -12,10 +12,10 @@ package team.covertdragon.springfestival.module.fortune.fortunevaluesystem;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.module.fortune.FortuneRegistry;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityLoader;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.IFortuneValueSystem;
 import team.covertdragon.springfestival.module.fortune.machines.AbstractTileFVMachine;
-import team.covertdragon.springfestival.module.fortune.potion.PotionLoaderFortune;
 
 import java.util.List;
 import java.util.Queue;
@@ -61,7 +61,7 @@ public class FortuneValueManager implements Runnable {
         IFortuneValueSystem system = player.getCapability(CapabilityLoader.fortuneValue, null);
         if (system != null) {
             //Fortune potion
-            if (player.isPotionActive(PotionLoaderFortune.potionFortunate)) {
+            if (player.isPotionActive(FortuneRegistry.potionFortunate)) {
                 system.addFortune(9);
             }
 

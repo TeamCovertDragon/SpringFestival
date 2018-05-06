@@ -16,7 +16,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.module.fortune.potion.PotionLoaderFortune;
+import team.covertdragon.springfestival.module.fortune.FortuneRegistry;
 
 public class ItemSpringFestivalFood extends ItemFood {
     public final int itemUseDuration;
@@ -42,7 +42,7 @@ public class ItemSpringFestivalFood extends ItemFood {
         super.onFoodEaten(stack, worldIn, player);
         //Fortune module integration
         if (SpringFestival.proxy.isModuleLoaded("fortune")) {
-            player.addPotionEffect(new PotionEffect(PotionLoaderFortune.potionFortunate, 200));
+            player.addPotionEffect(new PotionEffect(FortuneRegistry.potionFortunate, 200));
         }
     }
 }
