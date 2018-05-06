@@ -1,6 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "springfestival:item/fortune_stone"
+    "layer0": "springfestival:item/fortune_stone",
+    "layer233": "springfestival:item/fortune_stone"
   }
 }

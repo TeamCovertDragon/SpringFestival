@@ -1,10 +1,19 @@
+/*
+ * Copyright (c) 2018 CovertDragon Team.
+ * Copyright (c) 2018 Contributors of SpringFestival.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
 package team.covertdragon.springfestival.module.fortune;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.ItemBlockFVMachine;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.collector.BasicFVCollector;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.tools.FortuneStone;
+import team.covertdragon.springfestival.module.fortune.machines.ItemBlockFVMachine;
+import team.covertdragon.springfestival.module.fortune.machines.collector.BasicFVCollector;
+import team.covertdragon.springfestival.module.fortune.tools.FortuneStone;
 
 @GameRegistry.ObjectHolder(SpringFestivalConstants.MOD_ID)
 public class FortuneRegistry {

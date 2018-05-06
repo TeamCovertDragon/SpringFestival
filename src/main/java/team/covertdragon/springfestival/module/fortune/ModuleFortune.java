@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2018 CovertDragon Team.
+ * Copyright (c) 2018 Contributors of SpringFestival.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
 package team.covertdragon.springfestival.module.fortune;
 
 import net.minecraft.block.Block;
@@ -11,7 +20,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.model.ModelUtil;
@@ -21,10 +29,10 @@ import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.Fortun
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityFortuneValueSystem;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityLoader;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.IFortuneValueSystem;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.ItemBlockFVMachine;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.collector.BasicFVCollector;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.collector.TileBasicFVCollector;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.tools.FortuneStone;
+import team.covertdragon.springfestival.module.fortune.machines.ItemBlockFVMachine;
+import team.covertdragon.springfestival.module.fortune.machines.collector.BasicFVCollector;
+import team.covertdragon.springfestival.module.fortune.machines.collector.TileBasicFVCollector;
+import team.covertdragon.springfestival.module.fortune.tools.FortuneStone;
 
 @SpringFestivalModule(name = "fortune", dependencies = {"material"})
 public class ModuleFortune extends AbstractSpringFestivalModule {
@@ -33,15 +41,20 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
 
     @Override
     public void onPreInit() {
-        CapabilityLoader.initCapabilities();
+        CapabilityLoader.init();
+    }
+
+    @Override
+    public void onInit() {
+        FortuneNetwork.init();
     }
 
     @Override
     public void onServerStarting() {
+        // Start Fortune Thread
         manager = new FortuneValueManager(SpringFestivalConstants.server);
         FV_MANAGER_THREAD = new Thread(manager, "SpringFestival-FVManager");
         FV_MANAGER_THREAD.setDaemon(true);
-        manager.updatePlayerList();
         manager.alive = true;
         FV_MANAGER_THREAD.start();
     }
@@ -58,18 +71,9 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
     }
 
     @SubscribeEvent
-    public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        manager.updatePlayerList();
-    }
-
-    @SubscribeEvent
-    public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedInEvent event) {
-        manager.updatePlayerList();
-    }
-
-    @SubscribeEvent
     public void onModelRegister(ModelRegistryEvent event) {
         ModelUtil.mapItemModel(FortuneRegistry.fortuneStone);
+        ModelUtil.mapItemModel(FortuneRegistry.fortuneStone, 233);
         ModelUtil.mapItemModel(FortuneRegistry.itemBasicFVCollector);
     }
 

@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2018 CovertDragon Team.
+ * Copyright (c) 2018 Contributors of SpringFestival.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
 package team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability;
 
 import net.minecraft.nbt.NBTBase;
@@ -9,7 +18,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.AbstractTileFVMachine;
+import team.covertdragon.springfestival.module.fortune.machines.AbstractTileFVMachine;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -27,6 +36,7 @@ public class CapabilityFortuneValueSystem {
             NBTTagCompound tag = new NBTTagCompound();
             tag.setInteger("fv", instance.getFortuneValue());
             tag.setInteger("incp", instance.getIncreasingPoint());
+            tag.setInteger("id", instance.getCurrentlyNextMachineId());
             tag.setTag("machines", writeMachinesToNBT(instance));
             return tag;
         }
@@ -35,6 +45,7 @@ public class CapabilityFortuneValueSystem {
         public void readNBT(Capability<IFortuneValueSystem> capability, IFortuneValueSystem instance, EnumFacing side, NBTBase nbt) {
             instance.setFortuneValue(((NBTTagCompound) nbt).getInteger("fv"));
             instance.setBufPoint(((NBTTagCompound) nbt).getInteger("incp"));
+            instance.setNextMachineId(((NBTTagCompound) nbt).getInteger("id"));
             instance.setMachines(readMachinesFromNBT((NBTTagCompound) nbt));
         }
 
@@ -77,7 +88,7 @@ public class CapabilityFortuneValueSystem {
         private int increasingPoint = 1;//TODO increase more quickly in springfestival?
         private int increasingBuff = 0;
         private List<WeakReference<AbstractTileFVMachine>> machines = new LinkedList<>();
-        private int nextMachineId;
+        private int nextMachineId = 0;
 
         @Override
         public int getFortuneValue() {
@@ -170,6 +181,9 @@ public class CapabilityFortuneValueSystem {
                         machines.remove(i);
                         return;
                     }
+                } else {
+                    machines.remove(i);
+                    i--;
                 }
             }
         }

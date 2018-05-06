@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2018 CovertDragon Team.
+ * Copyright (c) 2018 Contributors of SpringFestival.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
 package team.covertdragon.springfestival.module.fortune.fortunevaluesystem;
 
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -5,25 +14,19 @@ import net.minecraft.server.MinecraftServer;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityLoader;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.IFortuneValueSystem;
-import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines.AbstractTileFVMachine;
+import team.covertdragon.springfestival.module.fortune.machines.AbstractTileFVMachine;
 
-import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class FortuneValueManager implements Runnable {
     public boolean alive = false;
-    private Queue<Runnable> TASKS = new ArrayDeque<>();
+    private Queue<Runnable> TASKS = new ConcurrentLinkedQueue<>();
     private MinecraftServer server;
-    private List<EntityPlayerMP> playerList;
-    private boolean shouldUpdatePlayerList = false;
 
     public FortuneValueManager(MinecraftServer server) {
         this.server = server;
-    }
-
-    public void updatePlayerList() {
-        shouldUpdatePlayerList = true;
     }
 
     public void addTask(Runnable task) {
@@ -33,12 +36,8 @@ public class FortuneValueManager implements Runnable {
     @Override
     public void run() {
         SpringFestivalConstants.logger.info("Starting fortune value handler...");
+        List<EntityPlayerMP> playerList = server.getPlayerList().getPlayers();
         while (alive) {
-            if (shouldUpdatePlayerList) {
-                playerList = server.getPlayerList().getPlayers();
-                shouldUpdatePlayerList = false;
-            }
-
             while (!TASKS.isEmpty()) {
                 TASKS.poll().run();
             }
@@ -67,11 +66,8 @@ public class FortuneValueManager implements Runnable {
             //Tick FV machines
             for (AbstractTileFVMachine machine : system.getFVMachines()) {
                 if (machine.getWorld().getTileEntity(machine.getPos()) == null) {
-                    TASKS.add(new FortuneManagerActions.ActionDeleteMachine(machine, system));
-                    continue;
-                }
-
-                if (system.shrinkFortune(machine.getRequiredFV())) {
+                    system.deleteMachine(machine.getId());
+                } else if (system.shrinkFortune(machine.getRequiredFV())) {
                     machine.onFVProvided();
                 }
             }

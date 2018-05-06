@@ -92,7 +92,7 @@ public class TileFireworkBox extends TileEntity implements ITickable {
         EntityFireworkRocket firework = new EntityFireworkRocket(world,
                 pos.getX() + 0.111111 * (count % 8 + 1),
                 pos.getY(),
-                pos.getZ() + 0.111111 * (new Double(count / 8).intValue() + 1),
+                pos.getZ() + 0.111111 * ((int) (count / 8) + 1),
                 makeFirework());
         world.spawnEntity(firework);
     }

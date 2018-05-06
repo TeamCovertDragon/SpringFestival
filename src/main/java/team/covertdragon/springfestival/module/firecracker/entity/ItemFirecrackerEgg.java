@@ -34,11 +34,7 @@ public class ItemFirecrackerEgg extends Item {
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
-
-        if (!playerIn.capabilities.isCreativeMode)
-        {
-            itemstack.shrink(1);
-        }
+        itemstack.shrink(1);
 
         worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, FirecrackerRegistry.soundFirecrackerThrow, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 

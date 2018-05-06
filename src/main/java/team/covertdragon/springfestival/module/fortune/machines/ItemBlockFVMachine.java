@@ -1,4 +1,13 @@
-package team.covertdragon.springfestival.module.fortune.fortunevaluesystem.machines;
+/*
+ * Copyright (c) 2018 CovertDragon Team.
+ * Copyright (c) 2018 Contributors of SpringFestival.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+package team.covertdragon.springfestival.module.fortune.machines;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -27,14 +36,12 @@ public class ItemBlockFVMachine extends ItemBlock {
     public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState) {
         if (super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState)) {
             TileEntity te = world.getTileEntity(pos);
-            if (te != null && te instanceof AbstractTileFVMachine) {
+            if (te != null && te instanceof AbstractTileFVMachine && (!world.isRemote)) {
                 try {
                     ModuleFortune.manager.addTask(new FortuneManagerActions.ActionRegisterMachine((AbstractTileFVMachine) te, player.getCapability(CapabilityLoader.fortuneValue, null)));
                 } catch (NullPointerException e) {
                     throw new RuntimeException("Unable to read fv info for player " + player.getGameProfile().getName());
                 }
-            } else {
-                throw new RuntimeException(String.format("Unable to read info for machine at %d, %d, %d", pos.getX(), pos.getY(), pos.getZ()));
             }
             return true;
         }

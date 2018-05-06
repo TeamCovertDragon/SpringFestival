@@ -29,6 +29,9 @@ entity.springfestival.firecracker.name=Firecracker
 subtitle.springfestival.firecracker.throw=Firecracker flies
 subtitle.springfestival.firecracker.explode=Firecracker explodes
 
+tooltip.springfestival.fv=Current Fortune Value: %d
+tooltip.springfestival.right_click_to_active=Right click to active
+
 redpacket.owner=Owned by %s
 redpacket.receiver=Will be sent to %s
 redpacket.receiver.any=everyone

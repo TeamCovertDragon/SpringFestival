@@ -22,10 +22,20 @@ import java.util.Objects;
 @SideOnly(Side.CLIENT)
 public final class ModelUtil {
 
-    private ModelUtil() {}
+    private ModelUtil() {
+    }
 
     public static void mapItemModel(Item item) {
         ModelLoader.setCustomModelResourceLocation(item, 0,
+                new ModelResourceLocation(
+                        Objects.requireNonNull(item.getRegistryName(), "Unregistered item or invalid registry name"),
+                        "inventory"
+                )
+        );
+    }
+
+    public static void mapItemModel(Item item, int meta) {
+        ModelLoader.setCustomModelResourceLocation(item, meta,
                 new ModelResourceLocation(
                         Objects.requireNonNull(item.getRegistryName(), "Unregistered item or invalid registry name"),
                         "inventory"
