@@ -5,3 +5,4 @@
 
 Welcome to the repository of SpringFestival, a Minecraft Mod themed with Chinese Lunar New Year.
 
+![](https://www.travis-ci.org/TeamCovertDragon/SpringFestival.svg?branch=master)
