@@ -7,26 +7,20 @@ buildscript {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-		maven {
-			url = "http://mirrors.ibiblio.org/pub/mirrors/maven2"
-		}
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
 
-<<<<<<< HEAD
 allprojects {
     repositories {
         maven {
-			url 'http://maven.aliyun.com/nexus/content/groups/public/' 
+			url 'http://repository.jboss.org/nexus/content/groups/public' 
 		}
     }
 }
 
-=======
->>>>>>> parent of ee7541c... Update build.gradle
 apply plugin: 'idea'
 apply plugin: 'net.minecraftforge.gradle.forge'
 
