@@ -1,18 +1,24 @@
 buildscript {
     repositories {
-        jcenter() {
-			url = 'http://jcenter.bintray.com/'
-		}
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-		maven {
-			url = "http://mirrors.ibiblio.org/pub/mirrors/maven2"
-		}
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+
+allprojects {
+    repositories {
+        maven {
+			url 'http://mirrors.ibiblio.org/pub/mirrors/maven2' 
+		}
+		jcenter() {
+			url = 'http://jcenter.bintray.com/'
+		}
     }
 }
 
