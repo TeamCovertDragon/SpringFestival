@@ -30,8 +30,10 @@ public interface IFortuneValueSystem {
 
     boolean shrinkBuffPoint(int quality);
 
+    @Deprecated
     List<AbstractTileFVMachine> getFVMachines();
 
+    @Deprecated
     void setMachines(List<AbstractTileFVMachine> machines);
 
     void registerFVMachine(AbstractTileFVMachine machine);
