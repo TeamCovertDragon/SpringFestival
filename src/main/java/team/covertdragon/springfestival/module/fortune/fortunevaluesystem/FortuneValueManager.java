@@ -15,7 +15,9 @@ import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityLoader;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.IFortuneValueSystem;
 import team.covertdragon.springfestival.module.fortune.machines.AbstractTileFVMachine;
+import team.covertdragon.springfestival.module.fortune.utils.TEDefinition;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -43,9 +45,7 @@ public class FortuneValueManager implements Runnable {
             }
 
             for (EntityPlayerMP player : playerList) {
-                if (player != null) {
-                    updatePlayerFortuneValue(player);
-                }
+                updatePlayerFortuneValue(player);
             }
 
             try {
@@ -64,11 +64,12 @@ public class FortuneValueManager implements Runnable {
             system.setBufPoint(0);
 
             //Tick FV machines
-            for (AbstractTileFVMachine machine : system.getFVMachines()) {
-                if (machine.getWorld().getTileEntity(machine.getPos()) == null) {
-                    system.deleteMachine(machine.getId());
-                } else if (system.shrinkFortune(machine.getRequiredFV())) {
-                    machine.onFVProvided();
+            for (TEDefinition def : system.getFVMachines()) {
+                if (def.available()) {
+                    AbstractTileFVMachine te = (AbstractTileFVMachine) def.getTE();
+                    if (system.shrinkFortune(te.getRequiredFV())) {
+                        te.onFVProvided();
+                    }
                 }
             }
         } else {

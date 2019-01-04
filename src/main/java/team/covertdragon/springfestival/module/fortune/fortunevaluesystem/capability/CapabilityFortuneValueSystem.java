@@ -13,12 +13,10 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.fortune.machines.AbstractTileFVMachine;
+import team.covertdragon.springfestival.module.fortune.utils.TEDefinition;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -37,7 +35,7 @@ public class CapabilityFortuneValueSystem {
             tag.setInteger("fv", instance.getFortuneValue());
             tag.setInteger("incp", instance.getIncreasingPoint());
             tag.setInteger("id", instance.getCurrentlyNextMachineId());
-            tag.setTag("machines", writeMachinesToNBT(instance));
+            tag.setTag("definitions", writeMachinesToNBT(instance));
             return tag;
         }
 
@@ -46,32 +44,29 @@ public class CapabilityFortuneValueSystem {
             instance.setFortuneValue(((NBTTagCompound) nbt).getInteger("fv"));
             instance.setBufPoint(((NBTTagCompound) nbt).getInteger("incp"));
             instance.setNextMachineId(((NBTTagCompound) nbt).getInteger("id"));
-            instance.setMachines(readMachinesFromNBT((NBTTagCompound) nbt));
+            instance.setDefinitions(readMachinesFromNBT((NBTTagCompound) nbt));
         }
 
         private NBTTagList writeMachinesToNBT(IFortuneValueSystem instance) {
             NBTTagList tagList = new NBTTagList();
 
-            for (AbstractTileFVMachine machine : instance.getFVMachines()) {
-                if (machine != null) {
-                    NBTTagCompound tag = machine.serializeNBT();
-                    tag.setInteger("world", machine.getWorld().provider.getDimension());
-                    tagList.appendTag(tag);
+            for (TEDefinition definition : instance.getFVMachines()) {
+                if (!definition.shouldClean()) {
+                    tagList.appendTag(definition.serializeNBT());
                 }
             }
             return tagList;
         }
 
-        private List<AbstractTileFVMachine> readMachinesFromNBT(NBTTagCompound nbt) {
-            List<AbstractTileFVMachine> list = new LinkedList<>();
-            NBTTagList tagList = (NBTTagList) nbt.getTag("machines");
-            for (NBTBase base : tagList) {
-                NBTTagCompound tag = (NBTTagCompound) base;
-                World world = SpringFestivalConstants.server.getWorld(tag.getInteger("world"));
-                BlockPos pos = new BlockPos(tag.getInteger("x"), tag.getInteger("y"), tag.getInteger("z"));
-                list.add((AbstractTileFVMachine) world.getTileEntity(pos));
+        private List<TEDefinition> readMachinesFromNBT(NBTTagCompound nbt) {
+            List<TEDefinition> ret = new LinkedList<>();
+            NBTTagList tagList = (NBTTagList) nbt.getTag("definitions");
+            if (tagList != null) {
+                for (NBTBase base : tagList) {
+                    ret.add(TEDefinition.fromNBT((NBTTagCompound) base));
+                }
             }
-            return list;
+            return ret;
         }
     }
 
@@ -87,7 +82,7 @@ public class CapabilityFortuneValueSystem {
         private int fortuneValue = 0;
         private int increasingPoint = 1;//TODO increase more quickly in springfestival?
         private int increasingBuff = 0;
-        private List<WeakReference<AbstractTileFVMachine>> machines = new LinkedList<>();
+        private List<TEDefinition> definitions = new LinkedList<>();
         private int nextMachineId = 0;
 
         @Override
@@ -139,27 +134,19 @@ public class CapabilityFortuneValueSystem {
         }
 
         @Override
-        public List<AbstractTileFVMachine> getFVMachines() {
-            List<AbstractTileFVMachine> machines = new LinkedList<>();
-            for (WeakReference<AbstractTileFVMachine> reference : this.machines) {
-                if (reference.get() != null) {
-                    machines.add(reference.get());
-                }
-            }
-            return machines;
+        public List<TEDefinition> getFVMachines() {
+            return definitions;
         }
 
         @Override
-        public void setMachines(List<AbstractTileFVMachine> machines) {
-            for (AbstractTileFVMachine machine : machines) {
-                this.machines.add(new WeakReference<>(machine));
-            }
+        public void setDefinitions(List<TEDefinition> definitions) {
+            this.definitions = definitions;
         }
 
         @Override
         public void registerFVMachine(AbstractTileFVMachine machine) {
             machine.setId(nextMachineId++);
-            machines.add(new WeakReference<>(machine));
+            definitions.add(new TEDefinition(machine));
         }
 
         @Override
@@ -174,16 +161,14 @@ public class CapabilityFortuneValueSystem {
 
         @Override
         public void deleteMachine(int id) {
-            for (int i = 0; i < machines.size(); i++) {
-                AbstractTileFVMachine machine = machines.get(i).get();
-                if (machine != null) {
-                    if (machine.getId() == id) {
-                        machines.remove(i);
-                        return;
+            for (int i = 0; i < definitions.size(); i++) {
+                TEDefinition def = definitions.get(i);
+                if (def.available()) {
+                    AbstractTileFVMachine te = (AbstractTileFVMachine) def.getTE();
+                    if (te.getId() == id) {
+                        definitions.remove(i);
+                        i--;
                     }
-                } else {
-                    machines.remove(i);
-                    i--;
                 }
             }
         }

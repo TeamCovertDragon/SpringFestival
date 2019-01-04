@@ -10,6 +10,7 @@
 package team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability;
 
 import team.covertdragon.springfestival.module.fortune.machines.AbstractTileFVMachine;
+import team.covertdragon.springfestival.module.fortune.utils.TEDefinition;
 
 import java.util.List;
 
@@ -30,11 +31,9 @@ public interface IFortuneValueSystem {
 
     boolean shrinkBuffPoint(int quality);
 
-    @Deprecated
-    List<AbstractTileFVMachine> getFVMachines();
+    List<TEDefinition> getFVMachines();
 
-    @Deprecated
-    void setMachines(List<AbstractTileFVMachine> machines);
+    void setDefinitions(List<TEDefinition> definitions);
 
     void registerFVMachine(AbstractTileFVMachine machine);
 

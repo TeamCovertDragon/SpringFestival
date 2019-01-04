@@ -46,19 +46,4 @@ public abstract class AbstractTileFVMachine extends TileEntity implements INBTSe
         super.readFromNBT(compound);
         this.id = compound.getInteger("fvid");
     }
-
-    @Override
-    public NBTTagCompound serializeNBT() {
-        NBTTagCompound tag = super.serializeNBT();
-        tag.setInteger("fvid", getId());
-        return tag;
-    }
-
-    @Override
-    public void deserializeNBT(NBTTagCompound nbt) {
-        super.deserializeNBT(nbt);
-        if (nbt.hasKey("fvid")) {
-            this.setId(nbt.getInteger("fvid"));
-        }
-    }
 }

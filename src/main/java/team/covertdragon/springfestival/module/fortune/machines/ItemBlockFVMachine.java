@@ -36,7 +36,7 @@ public class ItemBlockFVMachine extends ItemBlock {
     public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState) {
         if (super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState)) {
             TileEntity te = world.getTileEntity(pos);
-            if (te != null && te instanceof AbstractTileFVMachine && (!world.isRemote)) {
+            if (te instanceof AbstractTileFVMachine && (!world.isRemote)) {
                 try {
                     ModuleFortune.manager.addTask(new FortuneManagerActions.ActionRegisterMachine((AbstractTileFVMachine) te, player.getCapability(CapabilityLoader.fortuneValue, null)));
                 } catch (NullPointerException e) {

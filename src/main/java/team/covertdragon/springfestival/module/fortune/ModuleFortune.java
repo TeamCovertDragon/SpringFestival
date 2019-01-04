@@ -37,7 +37,7 @@ import team.covertdragon.springfestival.module.fortune.tools.FortuneStone;
 @SpringFestivalModule(name = "fortune", dependencies = {"material"})
 public class ModuleFortune extends AbstractSpringFestivalModule {
     public static FortuneValueManager manager;
-    public static Thread FV_MANAGER_THREAD;
+    private static Thread FV_MANAGER_THREAD;
 
     @Override
     public void onPreInit() {
