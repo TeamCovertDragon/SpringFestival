@@ -11,6 +11,7 @@ package team.covertdragon.springfestival.module.fortune.fortunevaluesystem;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityLoader;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.IFortuneValueSystem;
@@ -25,11 +26,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class FortuneValueManager implements Runnable {
     public boolean alive = false;
     private Queue<Runnable> TASKS = new ConcurrentLinkedQueue<>();
-    private MinecraftServer server;
-
-    public FortuneValueManager(MinecraftServer server) {
-        this.server = server;
-    }
+    private MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 
     public void addTask(Runnable task) {
         TASKS.add(task);

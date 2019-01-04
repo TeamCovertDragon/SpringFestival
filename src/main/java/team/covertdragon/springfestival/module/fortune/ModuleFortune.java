@@ -52,7 +52,7 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
     @Override
     public void onServerStarting() {
         // Start Fortune Thread
-        manager = new FortuneValueManager(SpringFestivalConstants.server);
+        manager = new FortuneValueManager();
         FV_MANAGER_THREAD = new Thread(manager, "SpringFestival-FVManager");
         FV_MANAGER_THREAD.setDaemon(true);
         manager.alive = true;

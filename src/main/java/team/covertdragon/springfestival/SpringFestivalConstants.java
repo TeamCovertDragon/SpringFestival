@@ -28,6 +28,4 @@ public class SpringFestivalConstants {
     };
 
     public static org.apache.logging.log4j.Logger logger;
-
-    public static MinecraftServer server;
 }

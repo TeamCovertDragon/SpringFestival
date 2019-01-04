@@ -84,7 +84,6 @@ public abstract class SpringFestivalProxy {
 
     @OverridingMethodsMustInvokeSuper
     public void onServerStarting(FMLServerStartingEvent event) {
-        SpringFestivalConstants.server = event.getServer();
         moduleArrayList.forEach(ISpringFestivalModule::onServerStarting);
     }
 
