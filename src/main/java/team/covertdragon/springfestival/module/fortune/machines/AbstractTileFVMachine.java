@@ -11,12 +11,11 @@ package team.covertdragon.springfestival.module.fortune.machines;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.INBTSerializable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-public abstract class AbstractTileFVMachine extends TileEntity implements INBTSerializable<NBTTagCompound> {
+public abstract class AbstractTileFVMachine extends TileEntity {
     private int id;
 
     public abstract int getRequiredFV();
