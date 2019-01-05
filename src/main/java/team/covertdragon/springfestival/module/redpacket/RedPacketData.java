@@ -10,6 +10,7 @@
 package team.covertdragon.springfestival.module.redpacket;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTUtil;
@@ -171,8 +172,8 @@ public class RedPacketData implements INBTSerializable<NBTTagCompound> {
         if (nbt.hasKey("contents", Constants.NBT.TAG_LIST)) {
             NBTTagList list = nbt.getTagList("contents", nbt.getId());
             ArrayList<ItemStack> contents = new ArrayList<>();
-            for (int i = 0; i < contents.size(); i++) {
-                contents.add(new ItemStack(list.getCompoundTagAt(i)));
+            for (NBTBase tag : list) {
+                contents.add(new ItemStack((NBTTagCompound) tag));
             }
             this.contents = contents;
         }

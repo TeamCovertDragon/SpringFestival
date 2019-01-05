@@ -57,7 +57,7 @@ public final class ModuleLoader {
         return instances;
     }
 
-    static Collection<?> getDependenciesByInstance(ISpringFestivalModule instance) {
+    private static Collection<?> getDependenciesByInstance(ISpringFestivalModule instance) {
         return Arrays.asList(instance.getClass().getAnnotation(SpringFestivalModule.class).dependencies());
     }
 
