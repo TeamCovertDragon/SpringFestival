@@ -32,6 +32,7 @@ import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capabi
 import team.covertdragon.springfestival.module.fortune.machines.ItemBlockFVMachine;
 import team.covertdragon.springfestival.module.fortune.machines.collector.BasicFVCollector;
 import team.covertdragon.springfestival.module.fortune.machines.collector.TileBasicFVCollector;
+import team.covertdragon.springfestival.module.fortune.tools.DebugTool;
 import team.covertdragon.springfestival.module.fortune.tools.FortuneStone;
 
 @SpringFestivalModule(name = "fortune", dependencies = {"material"})
@@ -75,6 +76,7 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
         ModelUtil.mapItemModel(FortuneRegistry.fortuneStone);
         ModelUtil.mapItemModel(FortuneRegistry.fortuneStone, 233);
         ModelUtil.mapItemModel(FortuneRegistry.itemBasicFVCollector);
+        ModelUtil.mapItemModel(FortuneRegistry.debugTool);
     }
 
     @SubscribeEvent
@@ -89,7 +91,8 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
     public void onItemRegistry(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
                 new FortuneStone(),
-                new ItemBlockFVMachine(FortuneRegistry.basicFVCollector)
+                new ItemBlockFVMachine(FortuneRegistry.basicFVCollector),
+                new DebugTool()
         );
     }
 

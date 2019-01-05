@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.fortune.machines.ItemBlockFVMachine;
 import team.covertdragon.springfestival.module.fortune.machines.collector.BasicFVCollector;
+import team.covertdragon.springfestival.module.fortune.tools.DebugTool;
 import team.covertdragon.springfestival.module.fortune.tools.FortuneStone;
 
 @GameRegistry.ObjectHolder(SpringFestivalConstants.MOD_ID)
@@ -21,6 +22,7 @@ public class FortuneRegistry {
         fortuneStone = null;
         basicFVCollector = null;
         itemBasicFVCollector = null;
+        debugTool = null;
     }
 
     @GameRegistry.ObjectHolder("fortune_stone")
@@ -31,4 +33,7 @@ public class FortuneRegistry {
 
     @GameRegistry.ObjectHolder("basic_fv_collector")
     public static final ItemBlockFVMachine itemBasicFVCollector;
+
+    @GameRegistry.ObjectHolder("debug_tool")
+    public static final DebugTool debugTool;
 }

@@ -17,10 +17,19 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 public abstract class AbstractTileFVMachine extends TileEntity {
     private int id;
+    private String owner;
 
     public abstract int getRequiredFV();
 
     public abstract void onFVProvided();
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
 
     public int getId() {
         return id;
@@ -36,6 +45,7 @@ public abstract class AbstractTileFVMachine extends TileEntity {
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         compound.setInteger("fvid", id);
+        compound.setString("owner",owner);
         return compound;
     }
 
@@ -44,5 +54,6 @@ public abstract class AbstractTileFVMachine extends TileEntity {
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
         this.id = compound.getInteger("fvid");
+        this.owner = compound.getString("owner");
     }
 }

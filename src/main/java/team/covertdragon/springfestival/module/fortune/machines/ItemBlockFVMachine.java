@@ -39,6 +39,7 @@ public class ItemBlockFVMachine extends ItemBlock {
             if (te instanceof AbstractTileFVMachine && (!world.isRemote)) {
                 try {
                     ModuleFortune.manager.addTask(new FortuneManagerActions.ActionRegisterMachine((AbstractTileFVMachine) te, player.getCapability(CapabilityLoader.fortuneValue, null)));
+                    ((AbstractTileFVMachine) te).setOwner(player.getName());
                 } catch (NullPointerException e) {
                     throw new RuntimeException("Unable to read fv info for player " + player.getGameProfile().getName());
                 }

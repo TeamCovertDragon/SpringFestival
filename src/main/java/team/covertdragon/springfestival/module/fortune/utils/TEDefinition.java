@@ -18,8 +18,8 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import team.covertdragon.springfestival.module.fortune.machines.AbstractTileFVMachine;
 
 public class TEDefinition implements INBTSerializable<NBTTagCompound> {
-    BlockPos pos;
-    int dim;
+    private BlockPos pos;
+    private int dim;
 
     public TEDefinition() {}
 
