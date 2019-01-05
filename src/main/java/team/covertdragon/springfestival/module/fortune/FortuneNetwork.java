@@ -18,17 +18,17 @@ import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capabi
 
 public class FortuneNetwork {
     static void init() {
-        SpringFestivalNetworkHandler.INSTANCE.registerPacket(packetResponseFortuneValue.class);
-        SpringFestivalNetworkHandler.INSTANCE.registerPacket(packetRequestFortuneValue.class);
+        SpringFestivalNetworkHandler.INSTANCE.registerPacket(PacketResponseFortuneValue.class);
+        SpringFestivalNetworkHandler.INSTANCE.registerPacket(PacketRequestFortuneValue.class);
     }
 
-    public static class packetResponseFortuneValue implements AbstractSpringFestivalPacket {
+    public static class PacketResponseFortuneValue implements AbstractSpringFestivalPacket {
         int val;
 
-        public packetResponseFortuneValue() {
+        public PacketResponseFortuneValue() {
         }
 
-        public packetResponseFortuneValue(int val) {
+        public PacketResponseFortuneValue(int val) {
             this.val = val;
         }
 
@@ -43,7 +43,7 @@ public class FortuneNetwork {
         }
     }
 
-    public static class packetRequestFortuneValue implements AbstractSpringFestivalPacket {
+    public static class PacketRequestFortuneValue implements AbstractSpringFestivalPacket {
 
         @Override
         public void writeDataTo(ByteBuf buffer) {
@@ -53,7 +53,7 @@ public class FortuneNetwork {
         @Override
         public void readDataFrom(ByteBuf buffer, EntityPlayer player) {
             int fv = player.getCapability(CapabilityLoader.fortuneValue, null).getFortuneValue();
-            SpringFestivalNetworkHandler.INSTANCE.sendToPlayer(new packetResponseFortuneValue(fv), (EntityPlayerMP) player);
+            SpringFestivalNetworkHandler.INSTANCE.sendToPlayer(new PacketResponseFortuneValue(fv), (EntityPlayerMP) player);
         }
     }
 }
