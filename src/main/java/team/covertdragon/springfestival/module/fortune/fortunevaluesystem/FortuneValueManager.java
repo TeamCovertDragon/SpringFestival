@@ -18,7 +18,6 @@ import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capabi
 import team.covertdragon.springfestival.module.fortune.machines.AbstractTileFVMachine;
 import team.covertdragon.springfestival.module.fortune.utils.TEDefinition;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;

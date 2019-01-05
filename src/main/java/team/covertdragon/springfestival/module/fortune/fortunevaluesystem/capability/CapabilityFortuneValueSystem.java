@@ -20,7 +20,6 @@ import team.covertdragon.springfestival.module.fortune.utils.TEDefinition;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.lang.ref.WeakReference;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Callable;

@@ -21,7 +21,8 @@ public class TEDefinition implements INBTSerializable<NBTTagCompound> {
     private BlockPos pos;
     private int dim;
 
-    public TEDefinition() {}
+    public TEDefinition() {
+    }
 
     public TEDefinition(TileEntity te) {
         this.pos = te.getPos();
