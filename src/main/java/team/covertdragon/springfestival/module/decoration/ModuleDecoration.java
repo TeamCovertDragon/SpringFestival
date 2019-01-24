@@ -98,10 +98,10 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
                 new ItemRedClothes.RedShoes(),
                 new ItemBlock(DecorationRegistry.blockLargeRedPillar)
                         .setRegistryName(SpringFestivalConstants.MOD_ID,"large_red_pillar")
-                        .setUnlocalizedName(SpringFestivalConstants.MOD_ID+".large_red_pillar"),
+                        .setTranslationKey(SpringFestivalConstants.MOD_ID+".large_red_pillar"),
                 new ItemBlock(DecorationRegistry.blockLargeRedPillarAlt)
                         .setRegistryName(SpringFestivalConstants.MOD_ID,"large_red_pillar_alt")
-                        .setUnlocalizedName(SpringFestivalConstants.MOD_ID+".large_red_pillar_alt")
+                        .setTranslationKey(SpringFestivalConstants.MOD_ID+".large_red_pillar_alt")
         );
     }
 

@@ -149,11 +149,11 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         public ItemStack dispenseStack(IBlockSource source, ItemStack stack)
         {
             World world = source.getWorld();
-            IPosition iposition = BlockDispenser.getDispensePosition(source);
-            EnumFacing enumfacing = source.getBlockState().getValue(BlockDispenser.FACING);
-            IProjectile iprojectile = this.getProjectileEntity(world, iposition, stack);
-            iprojectile.shoot((double)enumfacing.getFrontOffsetX(), (double)((float)enumfacing.getFrontOffsetY() + 0.1F), (double)enumfacing.getFrontOffsetZ(), enumfacing != EnumFacing.UP ? 0.943F : 1.2450F , 0.233F);
-            world.spawnEntity((Entity)iprojectile);
+            IPosition position = BlockDispenser.getDispensePosition(source);
+            EnumFacing facing = source.getBlockState().getValue(BlockDispenser.FACING);
+            IProjectile projectile = this.getProjectileEntity(world, position, stack);
+            projectile.shoot(facing.getXOffset(), facing.getYOffset() + 0.1F, facing.getZOffset(), facing != EnumFacing.UP ? 0.943F : 1.2450F , 0.233F);
+            world.spawnEntity((Entity)projectile);
             stack.shrink(1);
             return stack;
         }
@@ -179,11 +179,11 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
                 if (!FIELD_DISPENSE_RESULT.getBoolean(behavior))
                 {
                     World world = source.getWorld();
-                    BlockPos blockpos = source.getBlockPos().offset(source.getBlockState().getValue(BlockDispenser.FACING));
-                    IBlockState state = world.getBlockState(blockpos);
+                    BlockPos pos = source.getBlockPos().offset(source.getBlockState().getValue(BlockDispenser.FACING));
+                    IBlockState state = world.getBlockState(pos);
                     if (state.getBlock() == FirecrackerRegistry.blockHangingFireCracker && state.getValue(FirecrackerRegistry.blockHangingFireCracker.COUNT) == 0)
                     {
-                        FirecrackerRegistry.blockHangingFireCracker.ignite(world, blockpos, state, false, null);
+                        FirecrackerRegistry.blockHangingFireCracker.ignite(world, pos, state, false, null);
                         this.successful = true;
                     }
                 }

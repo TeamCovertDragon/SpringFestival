@@ -11,7 +11,7 @@ public class BlockLargeRedPillarAlt extends BlockRotatedPillar{
         super(Material.ROCK, MapColor.RED);
         setSoundType(SoundType.STONE);
         setRegistryName(SpringFestivalConstants.MOD_ID, "large_red_pillar_alt");
-        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".large_red_pillar_alt");
+        setTranslationKey(SpringFestivalConstants.MOD_ID + ".large_red_pillar_alt");
         setHardness(2.5F);
         setHarvestLevel("pickaxe", 2);
         setResistance(10.0F);

@@ -27,7 +27,7 @@ public class ItemFirecrackerEgg extends Item {
     public ItemFirecrackerEgg()
     {
         this.setRegistryName(SpringFestivalConstants.MOD_ID, "firecracker_egg");
-        this.setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".firecracker_egg");
+        this.setTranslationKey(SpringFestivalConstants.MOD_ID + ".firecracker_egg");
         this.setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
     }
 

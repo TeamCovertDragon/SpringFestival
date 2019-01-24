@@ -28,7 +28,7 @@ public class ModuleRedPacket extends AbstractSpringFestivalModule {
 
     public static final Item RED_PACKET = new ItemRedPacket()
             .setCreativeTab(SpringFestivalConstants.CREATIVE_TAB)
-            .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".redpacket")
+            .setTranslationKey(SpringFestivalConstants.MOD_ID + ".redpacket")
             .setRegistryName(SpringFestivalConstants.MOD_ID, "redpacket");
 
     public static final int GUI_RED_PACKET = 0;

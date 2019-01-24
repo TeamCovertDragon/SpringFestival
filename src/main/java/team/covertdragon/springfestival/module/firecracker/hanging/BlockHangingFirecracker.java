@@ -64,7 +64,7 @@ public class BlockHangingFirecracker extends Block {
     public BlockHangingFirecracker() {
         super(Material.CACTUS, MapColor.RED);
         this.setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
-        this.setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".hanging_firecracker");
+        this.setTranslationKey(SpringFestivalConstants.MOD_ID + ".hanging_firecracker");
         this.setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker");
         this.setDefaultState(this.blockState.getBaseState().withProperty(COUNT, 0));
     }
@@ -206,14 +206,14 @@ public class BlockHangingFirecracker extends Block {
     }
     
     @Override
-    public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn) {
+    public void onExplosionDestroy(World worldIn, BlockPos pos, Explosion explosionIn) {
         if (!worldIn.isRemote) {
             this.ignite(worldIn, pos, worldIn.getBlockState(pos), false, explosionIn.getExplosivePlacedBy());
         }
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
+    public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
     {
         if (!worldIn.isRemote && entityIn.isBurning())
         {

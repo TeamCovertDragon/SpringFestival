@@ -28,7 +28,7 @@ public class BlockFireworkBox extends Block {
     public BlockFireworkBox() {
         super(Material.WOOD, MapColor.RED);
         setSoundType(SoundType.WOOD);
-        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".firework_box");
+        setTranslationKey(SpringFestivalConstants.MOD_ID + ".firework_box");
         setRegistryName(SpringFestivalConstants.MOD_ID, "firework_box");
         setHarvestLevel("axe", 0);
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);

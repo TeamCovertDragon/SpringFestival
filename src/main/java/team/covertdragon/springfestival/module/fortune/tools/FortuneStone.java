@@ -31,7 +31,7 @@ import java.util.List;
 public class FortuneStone extends Item {
     public FortuneStone() {
         setRegistryName(SpringFestivalConstants.MOD_ID, "fortune_stone");
-        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".fortune_stone");
+        setTranslationKey(SpringFestivalConstants.MOD_ID + ".fortune_stone");
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
         setMaxStackSize(1);
     }

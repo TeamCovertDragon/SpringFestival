@@ -32,7 +32,7 @@ public class ItemRedClothes extends ItemArmor{
     public static class RedHat extends ItemRedClothes{
         public RedHat() {
             super(EntityEquipmentSlot.HEAD);
-            this.setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".red_hat");
+            this.setTranslationKey(SpringFestivalConstants.MOD_ID + ".red_hat");
             this.setRegistryName(SpringFestivalConstants.MOD_ID, "red_hat");
         }
     }
@@ -40,7 +40,7 @@ public class ItemRedClothes extends ItemArmor{
     public static class RedGown extends ItemRedClothes{
         public RedGown() {
             super(EntityEquipmentSlot.CHEST);
-            this.setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".red_gown");
+            this.setTranslationKey(SpringFestivalConstants.MOD_ID + ".red_gown");
             this.setRegistryName(SpringFestivalConstants.MOD_ID, "red_gown");
         }
     }
@@ -48,7 +48,7 @@ public class ItemRedClothes extends ItemArmor{
     public static class RedTrousers extends ItemRedClothes{
         public RedTrousers() {
             super(EntityEquipmentSlot.LEGS);
-            this.setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".red_trousers");
+            this.setTranslationKey(SpringFestivalConstants.MOD_ID + ".red_trousers");
             this.setRegistryName(SpringFestivalConstants.MOD_ID, "red_trousers");
         }
 
@@ -60,7 +60,7 @@ public class ItemRedClothes extends ItemArmor{
     public static class RedShoes extends ItemRedClothes{
         public RedShoes() {
             super(EntityEquipmentSlot.FEET);
-            this.setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".red_shoes");
+            this.setTranslationKey(SpringFestivalConstants.MOD_ID + ".red_shoes");
             this.setRegistryName(SpringFestivalConstants.MOD_ID, "red_shoes");
         }
     }

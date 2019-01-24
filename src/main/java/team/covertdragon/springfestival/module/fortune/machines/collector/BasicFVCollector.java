@@ -27,7 +27,7 @@ public class BasicFVCollector extends Block {
         setHarvestLevel("pickaxe", 1);
         setSoundType(SoundType.METAL);
         setRegistryName(SpringFestivalConstants.MOD_ID, "basic_fv_collector");
-        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".basic_fv_collector");
+        setTranslationKey(SpringFestivalConstants.MOD_ID + ".basic_fv_collector");
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
     }
 

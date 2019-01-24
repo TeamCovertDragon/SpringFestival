@@ -28,7 +28,7 @@ public class ItemBlockFVMachine extends ItemBlock {
     public ItemBlockFVMachine(Block block) {
         super(block);
         setRegistryName(block.getRegistryName());
-        setUnlocalizedName(block.getUnlocalizedName().replaceAll("tile.", ""));
+        setTranslationKey(block.getTranslationKey().replaceAll("tile.", ""));
     }
 
     @Override

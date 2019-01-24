@@ -16,7 +16,7 @@ public class DebugTool extends Item {
 
     public DebugTool() {
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
-        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".debug_tool");
+        setTranslationKey(SpringFestivalConstants.MOD_ID + ".debug_tool");
         setRegistryName(SpringFestivalConstants.MOD_ID, "debug_tool");
     }
 

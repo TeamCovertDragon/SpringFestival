@@ -25,11 +25,11 @@ public class ModuleFood extends AbstractSpringFestivalModule{
     private static final Item DUMPLING = new ItemSpringFestivalFood(0, 1F)
             .setPotionEffect(new PotionEffect(MobEffects.SATURATION, 120), 0.06F)
             .setAlwaysEdible()
-            .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".dumpling")
+            .setTranslationKey(SpringFestivalConstants.MOD_ID + ".dumpling")
             .setRegistryName(SpringFestivalConstants.MOD_ID, "dumpling");
 
     private static final Item NIANGAO = new ItemSpringFestivalFood(1, 5.0F, 88)
-            .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".niangao")
+            .setTranslationKey(SpringFestivalConstants.MOD_ID + ".niangao")
             .setRegistryName(SpringFestivalConstants.MOD_ID, "niangao");
 
     // TODO What else do we eat during spring festival???

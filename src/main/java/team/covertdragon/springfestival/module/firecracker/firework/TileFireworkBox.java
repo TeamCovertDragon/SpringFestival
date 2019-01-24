@@ -35,7 +35,7 @@ public class TileFireworkBox extends TileEntity implements ITickable {
 
     @Override
     public void update() {
-        if (world.isBlockPowered(pos) || world.isBlockIndirectlyGettingPowered(pos) > 0) {
+        if (world.isBlockPowered(pos) || world.getRedstonePowerFromNeighbors(pos) > 0) {
             setActive(true);
         }
 

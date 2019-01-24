@@ -31,7 +31,7 @@ public class ItemFireworkBox extends ItemBlock {
     public ItemFireworkBox() {
         super(FirecrackerRegistry.blockFirework);
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
-        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".firework_box");
+        setTranslationKey(SpringFestivalConstants.MOD_ID + ".firework_box");
         setRegistryName(SpringFestivalConstants.MOD_ID, "firework_box");
     }
 

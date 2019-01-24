@@ -30,7 +30,7 @@ public class ItemFu extends Item {
 
     public ItemFu() {
         setRegistryName(SpringFestivalConstants.MOD_ID, "fu");
-        setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".fu");
+        setTranslationKey(SpringFestivalConstants.MOD_ID + ".fu");
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
     }
 
