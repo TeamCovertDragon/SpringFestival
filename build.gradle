@@ -1,77 +1,126 @@
 buildscript {
     repositories {
         jcenter() {
-			url = 'http://jcenter.bintray.com/'
-		}
+            url = 'http://jcenter.bintray.com/'
+        }
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-		maven {
-			url 'http://repository.jboss.org/nexus/content/groups/public' 
-		}
+        maven {
+            url 'http://repository.jboss.org/nexus/content/groups/public' 
+        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
 
-allprojects {
-    repositories {
-		jcenter() {
-			url = 'http://jcenter.bintray.com/'
-		}
-        maven {
-			url 'http://repository.jboss.org/nexus/content/groups/public' 
-		}
-    }
-}
-
+// Because of IntelliJ IDEA users.
 apply plugin: 'idea'
-apply plugin: 'net.minecraftforge.gradle.forge'
 
-sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
-
-version = "${version_major}.${version_minor}.${version_patch}"
-group = "team.covertdragon"
-archivesBaseName = "SpringFestival"
-
-repositories {
-    maven {
-        name = "jei"
-        url = "http://dvs1.progwml6.com/files/maven"
-    }
-}
-
-minecraft {
-    version = "${minecraft_version}-${forge_version}"
-    runDir = "run"
-
-    mappings = "${mapping_version}"
+allprojects {
+    // All sub-projects has to go over ForgeGradle.
+    apply plugin: 'net.minecraftforge.gradle.forge'
     
-    replace "@VERSION_INJECT@", project.version
-}
+    // For the maven artifact id
+    group = "team.covertdragon.springfestival"
+    
+    // Unified version number for everything
+    version = "${version_major}.${version_minor}.${version_patch}"
+    // TODO build number?
 
-dependencies {
-    deobfCompile "mezz.jei:jei_${minecraft_version}:${jei_version}"
+    // Enforce Java 8
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
-    testCompile "junit:junit:4.12"
-}
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+    // So we have access to JUnit, JEI and other stuff
+    repositories {
+        jcenter() {
+            url = 'http://jcenter.bintray.com/'
+        }
+        maven {
+            url 'http://repository.jboss.org/nexus/content/groups/public' 
+        }
+        maven {
+            name = "jei"
+            url = "http://dvs1.progwml6.com/files/maven"
+        }
     }
 
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+    minecraft {
+        version = "${minecraft_version}-${forge_version}"
+        runDir = "run"
+        
+        // Stick with this one.
+        mappings = "stable_39"
+        
+        replace "@VERSION_INJECT@", project.version
+    }
+
+    dependencies {
+        deobfCompile "mezz.jei:jei_${minecraft_version}:${jei_version}"
+
+        testCompile "junit:junit:4.12"
+    }
+    
+    jar {
+        manifest {
+            attributes 'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}"
+            attributes 'Timestamp': System.currentTimeMillis()
+        }
+    }
+
+    processResources {
+        inputs.property "version", project.version
+        inputs.property "mcversion", project.minecraft.version
+        
+        from(sourceSets.main.resources.srcDirs) {
+            include 'mcmod.info'
+            expand 'version':project.version, 'mcversion':project.minecraft.version
+        }
+        
+        from(sourceSets.main.resources.srcDirs) {
+            exclude 'mcmod.info'
+        }
+    }
+    
+    // Because some of y'all don't use UTF-8 as system default.
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
     }
 }
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+subprojects {
+    // Re-use the project name as archive base name for all sub-projects' names
+    archivesBaseName = project.name
+}
+
+archivesBaseName = "springfestival-all"
+
+subprojects.each { p ->
+    evaluationDependsOn(p.path)
+}
+
+jar.dependsOn subprojects.tasks['classes']
+
+jar {
+    subprojects.each { p ->
+        from p.sourceSets.main.output.classesDirs
+        from p.sourceSets.main.output.resourcesDir
+        
+        from p.sourceSets.api.output.classesDirs
+        from p.sourceSets.api.output.resourcesDir
+    }
+}
+
+sourceJar {
+    subprojects.each { p ->
+        from p.sourceSets.main.java
+        from p.sourceSets.main.resources
+    }
+}
+
+task copyJars(type: Copy) {
+    from subprojects.collect { it.tasks.withType(Jar) }
+    into "$buildDir/libs"
 }
