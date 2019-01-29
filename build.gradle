@@ -36,6 +36,10 @@ version = "${version_major}.${version_minor}.${version_patch}"
 group = "team.covertdragon"
 archivesBaseName = "SpringFestival"
 
+if (System.getenv().BUILD_NUMBER != null) {
+    version += "-build${System.getenv().BUILD_NUMBER}"
+}
+
 repositories {
     maven {
         name = "jei"
