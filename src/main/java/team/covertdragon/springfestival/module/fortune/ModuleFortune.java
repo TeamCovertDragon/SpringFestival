@@ -30,8 +30,6 @@ import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capabi
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityLoader;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.IFortuneValueSystem;
 import team.covertdragon.springfestival.module.fortune.machines.ItemBlockFVMachine;
-import team.covertdragon.springfestival.module.fortune.machines.collector.BasicFVCollector;
-import team.covertdragon.springfestival.module.fortune.machines.collector.TileBasicFVCollector;
 import team.covertdragon.springfestival.module.fortune.tools.DebugTool;
 import team.covertdragon.springfestival.module.fortune.tools.FortuneStone;
 
@@ -75,23 +73,17 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
     public void onModelRegister(ModelRegistryEvent event) {
         ModelUtil.mapItemModel(FortuneRegistry.fortuneStone);
         ModelUtil.mapItemModel(FortuneRegistry.fortuneStone, 233);
-        ModelUtil.mapItemModel(FortuneRegistry.itemBasicFVCollector);
         ModelUtil.mapItemModel(FortuneRegistry.debugTool);
     }
 
     @SubscribeEvent
     public void onBlockRegistry(RegistryEvent.Register<Block> event) {
-        GameRegistry.registerTileEntity(TileBasicFVCollector.class, SpringFestivalConstants.MOD_ID + ".fv_collector");
-        event.getRegistry().registerAll(
-                new BasicFVCollector()
-        );
     }
 
     @SubscribeEvent
     public void onItemRegistry(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
                 new FortuneStone(),
-                new ItemBlockFVMachine(FortuneRegistry.basicFVCollector),
                 new DebugTool()
         );
     }
