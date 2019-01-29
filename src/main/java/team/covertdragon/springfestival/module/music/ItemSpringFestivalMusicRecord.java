@@ -11,7 +11,7 @@ package team.covertdragon.springfestival.module.music;
 
 import net.minecraft.item.ItemRecord;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -27,6 +27,6 @@ public class ItemSpringFestivalMusicRecord extends ItemRecord {
     @Override
     @SideOnly(Side.CLIENT)
     public String getRecordNameLocal() {
-        return I18n.translateToLocal(displayNameKey);
+        return I18n.format(displayNameKey);
     }
 }

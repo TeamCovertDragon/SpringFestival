@@ -80,38 +80,35 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         FIELD_DISPENSE_RESULT.setAccessible(true);
 //        useFancyLighting = Loader.isModLoaded("albedo");
     }
-    
+
     @SubscribeEvent
     public void onEntityJoin(EntityJoinWorldEvent event) {
         if (!event.getWorld().isRemote && event.getEntity() instanceof EntityMob) {
             EntityMob mob = (EntityMob) event.getEntity();
             for (EntityAITaskEntry task : mob.tasks.taskEntries)
                 try {
-                    if (task.action instanceof EntityAIAvoidEntity)
-                    {
-                        if (FIELD_AVOID_CLASS.get(task.action) == EntityFirecracker.class)
-                        {
+                    if (task.action instanceof EntityAIAvoidEntity) {
+                        if (FIELD_AVOID_CLASS.get(task.action) == EntityFirecracker.class) {
                             return;
                         }
                     }
                 } catch (Exception e) {
                     SpringFestivalConstants.logger.catching(e);
                 }
-                    
+
             mob.tasks.addTask(1, new EntityAIAvoidEntity<>(mob, EntityFirecracker.class, 6.0F, 1.0D, 1.2D));
         }
     }
-    
+
     @SubscribeEvent
-    public void onExplosionDetonate(ExplosionEvent.Detonate event)
-    {
+    public void onExplosionDetonate(ExplosionEvent.Detonate event) {
         event.getAffectedEntities().removeIf(e -> e instanceof EntityXPOrb || e instanceof EntityItem);
     }
-    
+
     @SubscribeEvent
     public void onBlockRegister(RegistryEvent.Register<Block> event) {
-        GameRegistry.registerTileEntity(TileFireworkBox.class, "tile_firework_box");
-        GameRegistry.registerTileEntity(TileHangingFirecracker.class, "tile_hanging_firecracker");
+        GameRegistry.registerTileEntity(TileFireworkBox.class, new ResourceLocation(SpringFestivalConstants.MOD_ID, "tile_firework_box"));
+        GameRegistry.registerTileEntity(TileHangingFirecracker.class, new ResourceLocation(SpringFestivalConstants.MOD_ID, "tile_hanging_firecracker"));
         event.getRegistry().registerAll(
                 new BlockHangingFirecracker(),
                 new BlockFireworkBox()
@@ -133,7 +130,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         event.getRegistry().register(FirecrackerRegistry.soundFirecrackerThrow);
         event.getRegistry().register(FirecrackerRegistry.soundFirecrackerExplode);
     }
-    
+
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onModelRegister(ModelRegistryEvent event) {
@@ -142,47 +139,43 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         ModelUtil.mapItemModel(FirecrackerRegistry.itemHangingFirecracker);
         RenderingRegistry.registerEntityRenderingHandler(EntityFirecracker.class, RenderEntityFirecracker.FACTORY);
     }
-    
+
     public class BehaviourFirecrackerDispense extends BehaviorProjectileDispense {
 
         @Override
-        public ItemStack dispenseStack(IBlockSource source, ItemStack stack)
-        {
+        public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
             World world = source.getWorld();
             IPosition position = BlockDispenser.getDispensePosition(source);
             EnumFacing facing = source.getBlockState().getValue(BlockDispenser.FACING);
             IProjectile projectile = this.getProjectileEntity(world, position, stack);
-            projectile.shoot(facing.getXOffset(), facing.getYOffset() + 0.1F, facing.getZOffset(), facing != EnumFacing.UP ? 0.943F : 1.2450F , 0.233F);
-            world.spawnEntity((Entity)projectile);
+            projectile.shoot(facing.getXOffset(), facing.getYOffset() + 0.1F, facing.getZOffset(), facing != EnumFacing.UP ? 0.943F : 1.2450F, 0.233F);
+            world.spawnEntity((Entity) projectile);
             stack.shrink(1);
             return stack;
         }
-        
+
         @Override
         protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
             return new EntityFirecracker(worldIn, position.getX(), position.getY(), position.getZ(), null);
         }
-        
+
     }
+
     public class BehaviourFlintAndSteelDispense extends BehaviorDispenseOptional {
         private final IBehaviorDispenseItem behavior;
-        
-        protected BehaviourFlintAndSteelDispense(IBehaviorDispenseItem behavior)
-        {
+
+        protected BehaviourFlintAndSteelDispense(IBehaviorDispenseItem behavior) {
             this.behavior = behavior;
         }
-        
-        protected ItemStack dispenseStack(IBlockSource source, ItemStack stack)
-        {
+
+        protected ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
             behavior.dispense(source, stack);
             try {
-                if (!FIELD_DISPENSE_RESULT.getBoolean(behavior))
-                {
+                if (!FIELD_DISPENSE_RESULT.getBoolean(behavior)) {
                     World world = source.getWorld();
                     BlockPos pos = source.getBlockPos().offset(source.getBlockState().getValue(BlockDispenser.FACING));
                     IBlockState state = world.getBlockState(pos);
-                    if (state.getBlock() == FirecrackerRegistry.blockHangingFireCracker && state.getValue(FirecrackerRegistry.blockHangingFireCracker.COUNT) == 0)
-                    {
+                    if (state.getBlock() == FirecrackerRegistry.blockHangingFireCracker && state.getValue(FirecrackerRegistry.blockHangingFireCracker.COUNT) == 0) {
                         FirecrackerRegistry.blockHangingFireCracker.ignite(world, pos, state, false, null);
                         this.successful = true;
                     }
