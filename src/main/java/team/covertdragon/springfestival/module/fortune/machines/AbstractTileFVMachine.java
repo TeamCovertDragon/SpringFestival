@@ -45,7 +45,7 @@ public abstract class AbstractTileFVMachine extends TileEntity {
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         compound.setInteger("fvid", id);
-        compound.setString("owner",owner);
+        compound.setString("owner", owner);
         return compound;
     }
 

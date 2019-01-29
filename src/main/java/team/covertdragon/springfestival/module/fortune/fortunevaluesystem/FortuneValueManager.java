@@ -64,7 +64,7 @@ public class FortuneValueManager implements Runnable {
                 if (def.available()) {
                     AbstractTileFVMachine te = (AbstractTileFVMachine) def.getTE();
                     if (system.shrinkFortune(te.getRequiredFV())) {
-                        te.onFVProvided();
+                        FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(te::onFVProvided);
                     }
                 }
             }
