@@ -1,11 +1,11 @@
 include
- ':springfestival-base'
- ':springfestival-calligraphy'
- ':springfestival-decoration'
- ':springfestival-firecracker'
- ':springfestival-food'
- ':springfestival-fortune'
- ':springfestival-monster'
- ':springfestival-music'
- ':springfestival-redpacket'
+ ':springfestival-base',
+ ':springfestival-calligraphy',
+ ':springfestival-decoration',
+ ':springfestival-firecracker',
+ ':springfestival-food',
+ ':springfestival-fortune',
+ ':springfestival-monster',
+ ':springfestival-music',
+ ':springfestival-redpacket',
  ':springfestival-trick'
