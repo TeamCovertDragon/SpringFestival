@@ -11,14 +11,22 @@ package team.covertdragon.springfestival.module.monster;
 
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import team.covertdragon.springfestival.SpringFestivalConstants;
 
 public class EntityNian extends EntityMob implements IMob {
+
+    private static final ResourceLocation NIAN_DROPS = new ResourceLocation(SpringFestivalConstants.MOD_ID, "entities/nian");
 
     public EntityNian(World worldIn) {
         super(worldIn);
     }
 
+    // TODO Pending on detailed documentation, just leave this stub here
 
-    // TODO Pending on detailed documentation, just leave this stub her
+    @Override
+    protected ResourceLocation getLootTable() {
+        return NIAN_DROPS;
+    }
 }
