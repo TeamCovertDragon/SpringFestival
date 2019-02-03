@@ -9,11 +9,21 @@
 
 package team.covertdragon.springfestival.module.monster;
 
+import net.minecraft.entity.ai.EntityAIAvoidEntity;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.module.firecracker.entity.EntityFirecracker;
 
 public class EntityNian extends EntityMob implements IMob {
 
@@ -28,5 +38,28 @@ public class EntityNian extends EntityMob implements IMob {
     @Override
     protected ResourceLocation getLootTable() {
         return NIAN_DROPS;
+    }
+
+    @Override
+    protected void initEntityAI() {
+        // In case there is something happening there.
+        super.initEntityAI();
+        // Nian attacks village.
+        this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityVillager.class, 32F));
+        // Nian can be dispelled by firecrackers.
+        this.tasks.addTask(1, new EntityAIAvoidEntity<>(this, EntityFirecracker.class, 16F, 1F, 2F));
+        // Nian will wander if it has nothing to do.
+        this.tasks.addTask(2, new EntityAIWanderAvoidWater(this, 1F));
+        // Nian will just look around if it feels bored.
+        this.tasks.addTask(3, new EntityAILookIdle(this));
+
+        // Nian always try attacking villagers first.
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityVillager.class, true));
+        // Nian also try attacking iron golems.
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityIronGolem.class, true));
+        // Nian also defends itself.
+        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
+        // Nina also attacks players.
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
     }
 }
