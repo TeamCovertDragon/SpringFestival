@@ -14,7 +14,14 @@ import net.minecraftforge.fml.common.toposort.TopologicalSort;
 import team.covertdragon.springfestival.SpringFestivalConfig;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public final class ModuleLoader {
 
@@ -36,25 +43,49 @@ public final class ModuleLoader {
     private static <T> List<T> getInstances(ASMDataTable asmDataTable, Class annotationClass, Class<T> instanceClass) {
         String annotationClassName = annotationClass.getCanonicalName();
         Set<ASMDataTable.ASMData> asmDataSet = asmDataTable.getAll(annotationClassName);
-        final List<String> expectedModules = Arrays.asList(SpringFestivalConfig.modules);
+        final List<String> expectedModules = SpringFestivalConfig.MODULES.entrySet()
+                .stream()
+                .filter(Map.Entry::getValue)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+        // We use a LinkedList here to preserve insertion order, so that we have deterministic iteration order.
         List<T> instances = new LinkedList<>();
         for (ASMDataTable.ASMData asmData : asmDataSet) {
             try {
                 if (!expectedModules.contains(asmData.getAnnotationInfo().get("name").toString())) {
                     continue;
                 }
-                if (asmData.getAnnotationInfo().get("dependencies") != null && !expectedModules.containsAll((List<String>) asmData.getAnnotationInfo().get("dependencies"))) {
+                if (asmData.getAnnotationInfo().get("dependencies") != null && !expectedModules.containsAll(sanitize(asmData.getAnnotationInfo().get("dependencies")))) {
                     continue;
                 }
-                Class<?> asmClass = Class.forName(asmData.getClassName());
-                Class<? extends T> asmInstanceClass = asmClass.asSubclass(instanceClass);
-                T instance = asmInstanceClass.newInstance();
-                instances.add(instance);
+                Class<? extends T> targetClass = Class.forName(asmData.getClassName()).asSubclass(instanceClass);
+                instances.add(targetClass.newInstance());
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
                 throw new RuntimeException("Failed to load: " + asmData.getClassName() + " " + e.toString());
             }
         }
         return instances;
+    }
+
+    /**
+     * Work around against <code>-Dfml.enableJsonAnnotations=true</code> system properties.
+     *
+     * @param o Unknown object to be evaluated as List&lt;String&gt;
+     * @return a list of string if o is either string array or already a list of string;
+     *         an empty list if otherwise.
+     *
+     * @see <a href="https://github.com/MinecraftForge/MinecraftForge/issues/5021">Forge Issue Ticket #5021</a>
+     */
+    @SuppressWarnings("unchecked")
+    private static List<String> sanitize(Object o) {
+        if (o instanceof String[]) {
+            return Arrays.asList((String[])o);
+        } else if (o instanceof List) {
+            return (List<String>)o;
+        } else {
+            // TODO (3TUSK): shouldn't be possible unless call on wrong thing, worth logging
+            return Collections.emptyList();
+        }
     }
 
     private static Collection<?> getDependenciesByInstance(ISpringFestivalModule instance) {
