@@ -23,7 +23,6 @@ tile.springfestival.hanging_firecracker.name=Hanging firecracker
 tile.springfestival.firework_box.name=Firework box
 tile.springfestival.large_red_pillar.name=Large red pillar
 tile.springfestival.large_red_pillar_alt.name=Large red pillar
-tile.springfestival.basic_fv_collector.name=Basic Fortune Collector
 
 entity.springfestival.firecracker.name=Firecracker
 
@@ -48,3 +47,5 @@ toast.redpacket.publish.regular=%s just sent a fortune packet!
 
 error.springfestival.spend_time_with_your_family=You know, it's festival season, spend more your time with your family and less on Minecraft
 error.springfestival.spend_time_with_your_family.opt_out=If you just want to play Minecraft, you may disable this by removing "tricks" from the "module" option in springfestival.cfg.
+
+potion.fortunate=Fortunate

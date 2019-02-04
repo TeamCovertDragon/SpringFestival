@@ -9,25 +9,40 @@
 
 package team.covertdragon.springfestival.module.food;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.World;
+import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.module.fortune.FortuneRegistry;
 
 public class ItemSpringFestivalFood extends ItemFood {
     public final int itemUseDuration;
-    
+
     ItemSpringFestivalFood(int amount, float saturation) {
         this(amount, saturation, 32);
     }
-    
+
     ItemSpringFestivalFood(int amount, float saturation, int itemUseDuration) {
         super(amount, saturation, false);
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
         this.itemUseDuration = itemUseDuration;
+        setAlwaysEdible();
     }
-    
-    public int getMaxItemUseDuration(ItemStack stack)
-    {
+
+    @Override
+    public int getMaxItemUseDuration(ItemStack stack) {
         return itemUseDuration;
+    }
+
+    @Override
+    protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
+        super.onFoodEaten(stack, worldIn, player);
+        //Fortune module integration
+        if (SpringFestival.proxy.isModuleLoaded("fortune")) {
+            player.addPotionEffect(new PotionEffect(FortuneRegistry.potionFortunate, 200));
+        }
     }
 }

@@ -12,6 +12,7 @@ package team.covertdragon.springfestival.module.fortune;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.fortune.machines.ItemBlockFVMachine;
+import team.covertdragon.springfestival.module.fortune.potion.PotionFortunate;
 import team.covertdragon.springfestival.module.fortune.tools.DebugTool;
 import team.covertdragon.springfestival.module.fortune.tools.FortuneStone;
 
@@ -19,6 +20,7 @@ import team.covertdragon.springfestival.module.fortune.tools.FortuneStone;
 public class FortuneRegistry {
     static {
         fortuneStone = null;
+        potionFortunate = null;
         debugTool = null;
     }
 
@@ -27,4 +29,7 @@ public class FortuneRegistry {
 
     @GameRegistry.ObjectHolder("debug_tool")
     public static final DebugTool debugTool;
+
+    @GameRegistry.ObjectHolder("fortunate")
+    public static final PotionFortunate potionFortunate;
 }

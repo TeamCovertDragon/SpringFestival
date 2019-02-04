@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTBase;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.capabilities.Capability;
@@ -29,8 +30,8 @@ import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.Fortun
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityFortuneValueSystem;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityLoader;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.IFortuneValueSystem;
-import team.covertdragon.springfestival.module.fortune.machines.ItemBlockFVMachine;
 import team.covertdragon.springfestival.module.fortune.tools.DebugTool;
+import team.covertdragon.springfestival.module.fortune.potion.PotionFortunate;
 import team.covertdragon.springfestival.module.fortune.tools.FortuneStone;
 
 @SpringFestivalModule(name = "fortune", dependencies = {"material"})
@@ -94,6 +95,13 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
             event.addCapability(new ResourceLocation(SpringFestivalConstants.MOD_ID, "fv_system"),
                     new CapabilityFortuneValueSystem.PlayerProvider());
         }
+    }
+
+    @SubscribeEvent
+    public void onPotionRegistry(RegistryEvent.Register<Potion> event) {
+        event.getRegistry().registerAll(
+                new PotionFortunate()
+        );
     }
 
     @SubscribeEvent

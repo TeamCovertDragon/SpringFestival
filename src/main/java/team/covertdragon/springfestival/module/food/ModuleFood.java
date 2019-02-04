@@ -32,13 +32,26 @@ public class ModuleFood extends AbstractSpringFestivalModule{
             .setTranslationKey(SpringFestivalConstants.MOD_ID + ".niangao")
             .setRegistryName(SpringFestivalConstants.MOD_ID, "niangao");
 
+    private static final Item FRIED_NIANGAO = new ItemSpringFestivalFood(2, 3.0F, 88)
+            .setTranslationKey(SpringFestivalConstants.MOD_ID + ".fried_niangao")
+            .setRegistryName(SpringFestivalConstants.MOD_ID, "fried_niangao");
+
+    private static final Item SUNFLOWER_SEED = new ItemSpringFestivalFood(1, 1.0F)
+            .setTranslationKey(SpringFestivalConstants.MOD_ID + ".sunflower_seed")
+            .setRegistryName(SpringFestivalConstants.MOD_ID, "sunflower_seed");
+
+    private static final Item TANGHULU = new ItemSpringFestivalFood(6, 4.0F, 66)
+            .setTranslationKey(SpringFestivalConstants.MOD_ID + ".tanghulu")
+            .setRegistryName(SpringFestivalConstants.MOD_ID, "tanghulu");
+
     // TODO What else do we eat during spring festival???
 
     @SubscribeEvent
     public void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
                 DUMPLING,
-                NIANGAO
+                NIANGAO,
+                FRIED_NIANGAO
         );
     }
 
@@ -46,6 +59,7 @@ public class ModuleFood extends AbstractSpringFestivalModule{
     public void onModelRegister(ModelRegistryEvent event) {
         ModelUtil.mapItemModel(DUMPLING);
         ModelUtil.mapItemModel(NIANGAO);
+        ModelUtil.mapItemModel(FRIED_NIANGAO);
     }
 
 }
