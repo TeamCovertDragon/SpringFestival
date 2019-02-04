@@ -21,41 +21,29 @@ import team.covertdragon.springfestival.module.decoration.redpillar.BlockLargeRe
 @GameRegistry.ObjectHolder(SpringFestivalConstants.MOD_ID)
 public class DecorationRegistry {
 
-    public static final Item FU;
+    public static Item FU;
 
-    public static final ItemArmor RED_HAT;
+    public static ItemArmor RED_HAT;
 
-    public static final ItemArmor RED_GOWN;
+    public static ItemArmor RED_GOWN;
 
-    public static final ItemArmor RED_TROUSERS;
+    public static ItemArmor RED_TROUSERS;
 
-    public static final ItemArmor RED_SHOES;
+    public static ItemArmor RED_SHOES;
 
     @GameRegistry.ObjectHolder("fu_door")
-    public static final BlockFuDoor FU_DOOR;
+    public static BlockFuDoor FU_DOOR;
 
     @GameRegistry.ObjectHolder("large_red_pillar")
-    public static final BlockLargeRedPillar blockLargeRedPillar;
+    public static BlockLargeRedPillar blockLargeRedPillar;
 
     @GameRegistry.ObjectHolder("large_red_pillar")
-    public static final ItemBlock itemLargeRedPillar;
+    public static ItemBlock itemLargeRedPillar;
 
     @GameRegistry.ObjectHolder("large_red_pillar_alt")
-    public static final BlockLargeRedPillarAlt blockLargeRedPillarAlt;
+    public static BlockLargeRedPillarAlt blockLargeRedPillarAlt;
 
     @GameRegistry.ObjectHolder("large_red_pillar_alt")
-    public static final ItemBlock itemLargeRedPillarAlt;
+    public static ItemBlock itemLargeRedPillarAlt;
 
-    static {
-        FU = null;
-        RED_HAT = null;
-        RED_GOWN = null;
-        RED_TROUSERS = null;
-        RED_SHOES = null;
-        FU_DOOR = null;
-        blockLargeRedPillar = null;
-        itemLargeRedPillar = null;
-        blockLargeRedPillarAlt = null;
-        itemLargeRedPillarAlt = null;
-    }
 }

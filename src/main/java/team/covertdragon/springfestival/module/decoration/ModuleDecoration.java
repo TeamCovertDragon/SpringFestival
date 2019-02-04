@@ -30,6 +30,7 @@ import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.internal.network.SpringFestivalNetworkHandler;
+import team.covertdragon.springfestival.internal.time.SpringFestivalTimeChecker;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 import team.covertdragon.springfestival.module.decoration.clothes.ItemRedClothes;
@@ -48,7 +49,7 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
 
     public void onInit() {
         SpringFestivalNetworkHandler.INSTANCE.registerPacket(ServerPacketFuDoorCreation.class);
-        if (SpringFestival.proxy.isPhysicalClient() && SpringFestival.proxy.isDuringSpringFestivalSeason()) {
+        if (SpringFestival.proxy.isPhysicalClient() && SpringFestivalTimeChecker.INSTANCE.isDuringSpringFestivalSeason()) {
             try {
                 Field textureChestSingle = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_NORMAL");
                 Field textureChestDouble = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_NORMAL_DOUBLE");

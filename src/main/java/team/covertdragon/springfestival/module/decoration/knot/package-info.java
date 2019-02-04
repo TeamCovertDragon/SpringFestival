@@ -7,14 +7,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package team.covertdragon.springfestival.module.monster;
+@ParametersAreNonnullByDefault
+package team.covertdragon.springfestival.module.decoration.knot;
 
-import net.minecraft.client.model.ModelBase;
-
-/**
- * The entity model for EntityNian.
- */
-public class ModelNian extends ModelBase {
-
-    // TODO draw the very model
-}
+import javax.annotation.ParametersAreNonnullByDefault;

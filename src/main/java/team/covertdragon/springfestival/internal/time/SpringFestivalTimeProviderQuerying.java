@@ -9,7 +9,7 @@
 
 package team.covertdragon.springfestival.internal.time;
 
-final class SpringFestivalTimeProviderQuerying implements ISpringFestivalTimeProvider {
+final class SpringFestivalTimeProviderQuerying implements SpringFestivalTimeProvider {
 
     public SpringFestivalTimeProviderQuerying() {
         /*

@@ -14,7 +14,7 @@ import team.covertdragon.springfestival.SpringFestivalConfig;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-public class SpringFestivalTimeProviderLocal implements ISpringFestivalTimeProvider {
+public class SpringFestivalTimeProviderLocal implements SpringFestivalTimeProvider {
 
     public static final SpringFestivalTimeProviderLocal INSTANCE = new SpringFestivalTimeProviderLocal();
 

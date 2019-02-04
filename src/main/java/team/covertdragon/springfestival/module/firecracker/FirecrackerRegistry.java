@@ -22,28 +22,20 @@ import team.covertdragon.springfestival.module.firecracker.hanging.BlockHangingF
 @GameRegistry.ObjectHolder(SpringFestivalConstants.MOD_ID)
 public class FirecrackerRegistry {
 
-    static {
-        blockFirework = null;
-        blockHangingFireCracker = null;
-        itemFireWorkBox = null;
-        itemFirecrackerEgg = null;
-        itemHangingFirecracker = null;
-    }
-
     @GameRegistry.ObjectHolder("firework_box")
-    public static final BlockFireworkBox blockFirework;
+    public static BlockFireworkBox blockFirework;
 
     @GameRegistry.ObjectHolder("hanging_firecracker")
-    public static final BlockHangingFirecracker blockHangingFireCracker;
+    public static BlockHangingFirecracker blockHangingFireCracker;
 
     @GameRegistry.ObjectHolder("firework_box")
-    public static final ItemFireworkBox itemFireWorkBox;
+    public static ItemFireworkBox itemFireWorkBox;
 
     @GameRegistry.ObjectHolder("firecracker_egg")
-    public static final ItemFirecrackerEgg itemFirecrackerEgg;
+    public static ItemFirecrackerEgg itemFirecrackerEgg;
 
     @GameRegistry.ObjectHolder("hanging_firecracker")
-    public static final ItemBlock itemHangingFirecracker;
+    public static ItemBlock itemHangingFirecracker;
     
     public static final SoundEvent soundFirecrackerThrow = new SoundEvent(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker.throw"))
             .setRegistryName(SpringFestivalConstants.MOD_ID, "firecracker_throw");

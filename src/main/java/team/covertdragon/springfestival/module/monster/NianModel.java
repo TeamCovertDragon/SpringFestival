@@ -9,16 +9,12 @@
 
 package team.covertdragon.springfestival.module.monster;
 
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.world.World;
+import net.minecraft.client.model.ModelBase;
 
-public class EntityNian extends EntityMob implements IMob {
+/**
+ * The entity model for EntityNian.
+ */
+public class NianModel extends ModelBase {
 
-    public EntityNian(World worldIn) {
-        super(worldIn);
-    }
-
-
-    // TODO Pending on detailed documentation, just leave this stub her
+    // TODO draw the very model
 }

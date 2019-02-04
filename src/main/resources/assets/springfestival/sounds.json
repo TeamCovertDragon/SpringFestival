@@ -1,21 +1,24 @@
 {
-   "firecracker.throw":{
-      "category":"player",
-      "subtitle":"subtitle.springfestival.firecracker.throw",
-      "sounds":[
+   "firecracker.throw": {
+      "category": "player",
+      "subtitle": "subtitle.springfestival.firecracker.throw",
+      "sounds": [
          "minecraft:random/bow"
       ]
    },
-   "firecracker.explode":{
-      "category":"neutral",
-      "subtitle":"subtitle.springfestival.firecracker.explode",
-      "sounds":[
+   "firecracker.explode": {
+      "category": "neutral",
+      "subtitle": "subtitle.springfestival.firecracker.explode",
+      "sounds": [
          "springfestival:firecracker/explosion1",
          "springfestival:firecracker/explosion2",
          "springfestival:firecracker/explosion3",
          "springfestival:firecracker/explosion4",
          "springfestival:firecracker/explosion5"
       ]
+   },
+   "track.01": {
+      "category": "music"
    }
 }
 

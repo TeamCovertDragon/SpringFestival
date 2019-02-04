@@ -24,6 +24,17 @@ import java.util.List;
  * when the time is intended for family.
  */
 final class PleaseSpendMoreTimeWithYourFamilyException extends CustomModLoadingErrorDisplayException {
+
+    PleaseSpendMoreTimeWithYourFamilyException() {
+        super(
+                "Launching is intentionally interrupted as it is designed so, for sake of encouraging " +
+                "spending time with your family members. This feature is designed as disabled by default, " +
+                "and under almost all circumstances it should keep disabled. You can disable this feature by" +
+                "disabling trick module in Spring Festival's config file. It is strongly suggest that you keep" +
+                "this feature disabled in a public modpack. Last but not least: this is a feature, NOT a bug!",
+                null);
+    }
+
     @Override
     public void initGui(GuiErrorScreen errorScreen, FontRenderer fontRenderer) {}
 
@@ -35,6 +46,12 @@ final class PleaseSpendMoreTimeWithYourFamilyException extends CustomModLoadingE
             errorScreen.drawCenteredString(fontRenderer, sentence, errorScreen.width / 2, yOffset, 0xFFFFFF);
             yOffset += 10;
         }
-        // TODO Display the way of disabling this feature for those who don't have life
+        yOffset += 20;
+        final List<String> optOut = fontRenderer.listFormattedStringToWidth(I18n.format("error.springfestival.spend_time_with_your_family.opt_out"), errorScreen.width - 80);
+        for (String sentence : optOut) {
+            errorScreen.drawCenteredString(fontRenderer, sentence, errorScreen.width / 2, yOffset, 0xFFFFFF);
+            yOffset += 10;
+        }
     }
+
 }

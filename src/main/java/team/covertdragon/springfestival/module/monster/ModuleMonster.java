@@ -9,21 +9,28 @@
 
 package team.covertdragon.springfestival.module.monster;
 
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.init.Biomes;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import team.covertdragon.springfestival.SpringFestival;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
+import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.internal.time.SpringFestivalTimeChecker;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 
 @SpringFestivalModule(name = "monster")
-public class ModuleMonster extends AbstractSpringFestivalModule {
+public final class ModuleMonster extends AbstractSpringFestivalModule {
 
     @SubscribeEvent
     public void onLivingSpawn(LivingSpawnEvent event) {
-        // Remove any entity that is classified as monster
-        if (SpringFestival.proxy.isDuringSpringFestivalSeason()) {
-            if (event.getEntityLiving() instanceof IMob) {
+        // Remove any entity that is classified as monster when it's spring festival season
+        if (SpringFestivalTimeChecker.INSTANCE.isDuringSpringFestivalSeason()) {
+            if (event.getEntityLiving() instanceof IMob && event.getEntityLiving().getClass() != Nian.class) {
                 // Remove the entity being ridden. This is for situations like Chicken Jockey and Skeleton Horseman.
                 if (event.getEntityLiving().isRiding() && event.getEntityLiving().getRidingEntity() != null) {
                     event.getEntityLiving().dismountRidingEntity();
@@ -34,15 +41,16 @@ public class ModuleMonster extends AbstractSpringFestivalModule {
         }
     }
 
-    /*
     @SubscribeEvent
     public void onEntityRegister(RegistryEvent.Register<EntityEntry> event) {
-        event.getRegistry().register(EntityEntryBuilder.<EntityNian>create()
-                .entity(EntityNian.class)
+        event.getRegistry().register(EntityEntryBuilder.create()
+                .entity(Nian.class)
                 .id(new ResourceLocation(SpringFestivalConstants.MOD_ID, "nian"),0)
                 .name("nian")
                 .egg(0xCC1122, 0xCC66666)
+                .spawn(EnumCreatureType.MONSTER, 10, 1, 4, Biomes.DESERT, Biomes.ICE_PLAINS, Biomes.PLAINS, Biomes.SAVANNA)
+                .tracker(80, 5, true)
                 .build()
         );
-    }*/
+    }
 }

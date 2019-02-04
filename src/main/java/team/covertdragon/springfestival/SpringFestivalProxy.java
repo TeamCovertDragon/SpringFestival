@@ -11,45 +11,28 @@ package team.covertdragon.springfestival;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.event.FMLConstructionEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import team.covertdragon.springfestival.internal.SpringFestivalGuiHandler;
-import team.covertdragon.springfestival.internal.time.ISpringFestivalTimeProvider;
-import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderFuzzyMatch;
-import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderLocal;
+import team.covertdragon.springfestival.internal.time.SpringFestivalTimeChecker;
 import team.covertdragon.springfestival.module.ISpringFestivalModule;
 import team.covertdragon.springfestival.module.ModuleLoader;
 
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public abstract class SpringFestivalProxy {
 
-    private static final List<ISpringFestivalTimeProvider> DATE_CHECKERS = new ArrayList<>();
     private final Map<String, ISpringFestivalModule> modules = new HashMap<>();
     private List<ISpringFestivalModule> moduleArrayList;
-    private boolean isDuringSpringFestival = false, hasQueriedTime = false;
-
-    /**
-     * Determine whether the current time is falling into the Spring Festival season, based on
-     * current system time.
-     *
-     * @return true if it is during Spring Festival; false for otherwise.
-     */
-    public final boolean isDuringSpringFestivalSeason() {
-        if (hasQueriedTime) {
-            return isDuringSpringFestival;
-        }
-        for (ISpringFestivalTimeProvider checker : DATE_CHECKERS) {
-            this.isDuringSpringFestival |= checker.isDuringSpringFestival();
-            if (isDuringSpringFestival) {
-                break;
-            }
-        }
-        this.hasQueriedTime = true;
-        return isDuringSpringFestival;
-    }
 
     public final boolean isModuleLoaded(final String module) {
         return modules.containsKey(module);
@@ -63,17 +46,13 @@ public abstract class SpringFestivalProxy {
         moduleArrayList = ModuleLoader.readASMDataTable(event.getASMHarvestedData());
         moduleArrayList.forEach(mod -> this.modules.put(ModuleLoader.getNameByInstance(mod), mod));
         moduleArrayList.forEach(MinecraftForge.EVENT_BUS::register);
+        SpringFestivalTimeChecker.INSTANCE.reset();
     }
 
     @OverridingMethodsMustInvokeSuper
     public void onPreInit(FMLPreInitializationEvent event) {
         SpringFestivalConstants.logger = event.getModLog();
         moduleArrayList.forEach(ISpringFestivalModule::onPreInit);
-        DATE_CHECKERS.add(SpringFestivalTimeProviderLocal.INSTANCE);
-        DATE_CHECKERS.add(ISpringFestivalTimeProvider.fromURL("https://covertdragon.team/springfestival/date", "SpringFestival-DateQuerying"));
-        if (SpringFestivalConfig.useFuzzySpringFestivalMatcher) {
-            DATE_CHECKERS.add(SpringFestivalTimeProviderFuzzyMatch.INSTANCE);
-        }
     }
 
     @OverridingMethodsMustInvokeSuper
