@@ -9,7 +9,9 @@
 
 package team.covertdragon.springfestival.module.monster;
 
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.init.Biomes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
@@ -46,6 +48,7 @@ public final class ModuleMonster extends AbstractSpringFestivalModule {
                 .id(new ResourceLocation(SpringFestivalConstants.MOD_ID, "nian"),0)
                 .name("nian")
                 .egg(0xCC1122, 0xCC66666)
+                .spawn(EnumCreatureType.MONSTER, 10, 1, 4, Biomes.DESERT, Biomes.ICE_PLAINS, Biomes.PLAINS, Biomes.SAVANNA)
                 .build()
         );
     }
