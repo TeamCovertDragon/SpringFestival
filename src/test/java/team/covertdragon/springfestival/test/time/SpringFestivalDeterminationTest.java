@@ -11,7 +11,7 @@ package team.covertdragon.springfestival.test.time;
 
 import org.junit.Assert;
 import org.junit.Test;
-import team.covertdragon.springfestival.internal.time.ISpringFestivalTimeProvider;
+import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProvider;
 import team.covertdragon.springfestival.internal.time.LunarCalendar;
 import team.covertdragon.springfestival.internal.time.QueryStatus;
 
@@ -21,12 +21,12 @@ public class SpringFestivalDeterminationTest {
 
     @Test
     public void testImpossibleDateChecker() {
-        Assert.assertFalse(ISpringFestivalTimeProvider.impossible().isDuringSpringFestival());
+        Assert.assertFalse(SpringFestivalTimeProvider.impossible().isDuringSpringFestival());
     }
 
     @Test
     public void testCacheBasedDateChecker() {
-        ISpringFestivalTimeProvider provider = ISpringFestivalTimeProvider.fromURL("https://covertdragon.team/springfestival/date", "test");
+        SpringFestivalTimeProvider provider = SpringFestivalTimeProvider.fromURL("https://covertdragon.team/springfestival/date", "test");
         while (provider.getStatus() != QueryStatus.AVAILABLE) ;
         System.out.println(provider.isDuringSpringFestival());
         //Assert.assertTrue(provider.isDuringSpringFestival());

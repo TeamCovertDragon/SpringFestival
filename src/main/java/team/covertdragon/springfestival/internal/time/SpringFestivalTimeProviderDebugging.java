@@ -12,7 +12,7 @@ package team.covertdragon.springfestival.internal.time;
 /**
  * An implementation of ISpringFestivalTimeProvider that always returns true, useful for debugging purpose.
  */
-public class SpringFestivalTimeProviderDebugging implements ISpringFestivalTimeProvider {
+public class SpringFestivalTimeProviderDebugging implements SpringFestivalTimeProvider {
 
     public static final SpringFestivalTimeProviderDebugging INSTANCE = new SpringFestivalTimeProviderDebugging();
 

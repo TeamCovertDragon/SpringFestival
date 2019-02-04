@@ -14,7 +14,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import team.covertdragon.springfestival.internal.SpringFestivalGuiHandler;
-import team.covertdragon.springfestival.internal.time.ISpringFestivalTimeProvider;
+import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProvider;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderFuzzyMatch;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeProviderLocal;
 import team.covertdragon.springfestival.module.ISpringFestivalModule;
@@ -26,7 +26,7 @@ import java.util.*;
 
 public abstract class SpringFestivalProxy {
 
-    private static final List<ISpringFestivalTimeProvider> DATE_CHECKERS = new ArrayList<>();
+    private static final List<SpringFestivalTimeProvider> DATE_CHECKERS = new ArrayList<>();
     private final Map<String, ISpringFestivalModule> modules = new HashMap<>();
     private List<ISpringFestivalModule> moduleArrayList;
     private boolean isDuringSpringFestival = false, hasQueriedTime = false;
@@ -41,7 +41,7 @@ public abstract class SpringFestivalProxy {
         if (hasQueriedTime) {
             return isDuringSpringFestival;
         }
-        for (ISpringFestivalTimeProvider checker : DATE_CHECKERS) {
+        for (SpringFestivalTimeProvider checker : DATE_CHECKERS) {
             this.isDuringSpringFestival |= checker.isDuringSpringFestival();
             if (isDuringSpringFestival) {
                 break;
@@ -70,7 +70,7 @@ public abstract class SpringFestivalProxy {
         SpringFestivalConstants.logger = event.getModLog();
         moduleArrayList.forEach(ISpringFestivalModule::onPreInit);
         DATE_CHECKERS.add(SpringFestivalTimeProviderLocal.INSTANCE);
-        DATE_CHECKERS.add(ISpringFestivalTimeProvider.fromURL("https://covertdragon.team/springfestival/date", "SpringFestival-DateQuerying"));
+        DATE_CHECKERS.add(SpringFestivalTimeProvider.fromURL("https://covertdragon.team/springfestival/date", "SpringFestival-DateQuerying"));
         if (SpringFestivalConfig.useFuzzySpringFestivalMatcher) {
             DATE_CHECKERS.add(SpringFestivalTimeProviderFuzzyMatch.INSTANCE);
         }

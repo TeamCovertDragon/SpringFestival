@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.function.BooleanSupplier;
 
-public interface ISpringFestivalTimeProvider extends BooleanSupplier {
+public interface SpringFestivalTimeProvider extends BooleanSupplier {
 
     boolean isDuringSpringFestival();
 
@@ -26,7 +26,7 @@ public interface ISpringFestivalTimeProvider extends BooleanSupplier {
         return isDuringSpringFestival();
     }
 
-    static ISpringFestivalTimeProvider fromURL(final String url, final String name) {
+    static SpringFestivalTimeProvider fromURL(final String url, final String name) {
         return new SpringFestivalTimeProviderCached(sink -> {
             try {
                 IOUtils.readLines(new URL(url).openStream(), StandardCharsets.UTF_8)
@@ -44,7 +44,7 @@ public interface ISpringFestivalTimeProvider extends BooleanSupplier {
         return QueryStatus.AVAILABLE;
     }
 
-    static ISpringFestivalTimeProvider impossible() {
+    static SpringFestivalTimeProvider impossible() {
         return SpringFestivalTimeProviderImpossible.INSTANCE;
     }
 }

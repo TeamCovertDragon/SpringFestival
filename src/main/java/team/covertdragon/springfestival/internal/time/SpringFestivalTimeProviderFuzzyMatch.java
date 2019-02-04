@@ -19,7 +19,7 @@ import java.time.ZoneId;
  * A implementation of ISpringFestivalTimeProvider that roughly match the spring festival time
  * when it's in January or February of Georgian Calendar.
  */
-public class SpringFestivalTimeProviderFuzzyMatch implements ISpringFestivalTimeProvider {
+public class SpringFestivalTimeProviderFuzzyMatch implements SpringFestivalTimeProvider {
 
     public static final SpringFestivalTimeProviderFuzzyMatch INSTANCE = new SpringFestivalTimeProviderFuzzyMatch();
 

@@ -9,7 +9,7 @@
 
 package team.covertdragon.springfestival.internal.time;
 
-final class SpringFestivalTimeProviderImpossible implements ISpringFestivalTimeProvider {
+final class SpringFestivalTimeProviderImpossible implements SpringFestivalTimeProvider {
 
     static final SpringFestivalTimeProviderImpossible INSTANCE = new SpringFestivalTimeProviderImpossible();
 

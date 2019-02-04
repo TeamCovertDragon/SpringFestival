@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-final class SpringFestivalTimeProviderCached implements ISpringFestivalTimeProvider {
+final class SpringFestivalTimeProviderCached implements SpringFestivalTimeProvider {
     private final Collection<LocalDate> validDates = new ArrayList<>(8);
 
     private volatile QueryStatus status = QueryStatus.UNINITIALIZED;
