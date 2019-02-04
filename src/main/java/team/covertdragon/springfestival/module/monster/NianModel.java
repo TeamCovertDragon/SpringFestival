@@ -14,7 +14,7 @@ import net.minecraft.client.model.ModelBase;
 /**
  * The entity model for EntityNian.
  */
-public class ModelNian extends ModelBase {
+public class NianModel extends ModelBase {
 
     // TODO draw the very model
 }
