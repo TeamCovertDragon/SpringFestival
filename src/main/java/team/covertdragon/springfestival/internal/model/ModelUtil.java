@@ -11,40 +11,39 @@ package team.covertdragon.springfestival.internal.model;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
-@SideOnly(Side.CLIENT)
 public final class ModelUtil {
 
     private ModelUtil() {
+        throw new UnsupportedOperationException("You just don't have instance of ModelUtil.");
     }
 
     public static void mapItemModel(Item item) {
-        ModelLoader.setCustomModelResourceLocation(item, 0,
-                new ModelResourceLocation(
-                        Objects.requireNonNull(item.getRegistryName(), "Unregistered item or invalid registry name"),
-                        "inventory"
-                )
-        );
+        mapItemModel(item, 0);
     }
 
     public static void mapItemModel(Item item, int meta) {
-        ModelLoader.setCustomModelResourceLocation(item, meta,
-                new ModelResourceLocation(
-                        Objects.requireNonNull(item.getRegistryName(), "Unregistered item or invalid registry name"),
-                        "inventory"
-                )
-        );
+        if (item == null) {
+            SpringFestivalConstants.logger.debug("Someone was trying to map model location for null item. Context: {}", new RuntimeException());
+            return;
+        }
+        ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(
+                Objects.requireNonNull(item.getRegistryName(), "Unregistered item or invalid registry name"),
+                "inventory"));
     }
 
     public static void mapItemModel(Item item, @Nonnull String customPath) {
+        if (item == null) {
+            SpringFestivalConstants.logger.debug("Someone was trying to map model location '{}' for null item. Context: {}", customPath, new RuntimeException());
+            return;
+        }
         ModelLoader.setCustomModelResourceLocation(item, 0,
-                new ModelResourceLocation(SpringFestivalConstants.MOD_ID + ":" + customPath, "inventory"));
+                new ModelResourceLocation(new ResourceLocation(SpringFestivalConstants.MOD_ID, customPath), "inventory"));
     }
 }
