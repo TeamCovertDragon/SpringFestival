@@ -39,7 +39,6 @@ public final class ModuleLoader {
         return new ModuleSorter(getInstances(table, SpringFestivalModule.class, ISpringFestivalModule.class)).sort();
     }
 
-    @SuppressWarnings("unchecked")
     private static <T> List<T> getInstances(ASMDataTable asmDataTable, Class annotationClass, Class<T> instanceClass) {
         String annotationClassName = annotationClass.getCanonicalName();
         Set<ASMDataTable.ASMData> asmDataSet = asmDataTable.getAll(annotationClassName);

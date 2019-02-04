@@ -39,7 +39,7 @@ public class ItemFireworkBox extends ItemBlock {
     public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState) {
         if (super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState)) {
             TileEntity te = world.getTileEntity(pos);
-            if (te != null && te instanceof TileFireworkBox && stack.hasTagCompound()) {
+            if (te instanceof TileFireworkBox && stack.hasTagCompound()) {
                 ((TileFireworkBox) te).setCount(stack.getTagCompound().getInteger("count"));
             }
             return true;

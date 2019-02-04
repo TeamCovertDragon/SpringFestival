@@ -175,7 +175,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
                     World world = source.getWorld();
                     BlockPos pos = source.getBlockPos().offset(source.getBlockState().getValue(BlockDispenser.FACING));
                     IBlockState state = world.getBlockState(pos);
-                    if (state.getBlock() == FirecrackerRegistry.blockHangingFireCracker && state.getValue(FirecrackerRegistry.blockHangingFireCracker.COUNT) == 0) {
+                    if (state.getBlock() == FirecrackerRegistry.blockHangingFireCracker && state.getValue(BlockHangingFirecracker.COUNT) == 0) {
                         FirecrackerRegistry.blockHangingFireCracker.ignite(world, pos, state, false, null);
                         this.successful = true;
                     }

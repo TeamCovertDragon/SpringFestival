@@ -32,8 +32,6 @@ public class TileEntityCalligraphyDesk extends TileEntity implements IGuiAccessi
      * value of false indicates a white (RGB [255, 255, 255]) pixel. Because it's hand-writing
      * with ink and pen, we only need to consider about 2 colors.
      * </p>
-     *
-     * @see GuiCalligraphy#canvas
      */
     private boolean canvas[][] = new boolean[256][256];
 

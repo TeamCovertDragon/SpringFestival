@@ -12,7 +12,6 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.SpringFestivalUtil;
 
-@SuppressWarnings("unchecked")
 public class ShapelessFlexibleDurationRecipeFactory implements IRecipeFactory{
     @Override
     public IRecipe parse(JsonContext context, JsonObject json) {

@@ -11,7 +11,6 @@ package team.covertdragon.springfestival;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import team.covertdragon.springfestival.module.material.MaterialRegistry;
 
 public class SpringFestivalConstants {

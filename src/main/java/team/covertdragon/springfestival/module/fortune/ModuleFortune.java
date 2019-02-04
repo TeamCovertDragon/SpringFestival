@@ -21,7 +21,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
