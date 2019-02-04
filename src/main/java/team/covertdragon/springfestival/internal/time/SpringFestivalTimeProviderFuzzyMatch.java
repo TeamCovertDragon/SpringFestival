@@ -9,8 +9,11 @@
 
 package team.covertdragon.springfestival.internal.time;
 
+import team.covertdragon.springfestival.SpringFestivalConfig;
+
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.ZoneId;
 
 /**
  * A implementation of ISpringFestivalTimeProvider that roughly match the spring festival time
@@ -24,7 +27,12 @@ public class SpringFestivalTimeProviderFuzzyMatch implements ISpringFestivalTime
 
     @Override
     public boolean isDuringSpringFestival() {
-        Month month = LocalDate.now().getMonth();
+        Month month;
+        if (SpringFestivalConfig.enforceChinaStandardTime) {
+            month = LocalDate.now(ZoneId.of("Asia/Shanghai")).getMonth();
+        } else {
+            month = LocalDate.now().getMonth();
+        }
         return month == Month.JANUARY || month == Month.FEBRUARY;
     }
 }
