@@ -25,11 +25,11 @@ import net.minecraft.world.World;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.firecracker.entity.EntityFirecracker;
 
-public class EntityNian extends EntityMob implements IMob {
+public class Nian extends EntityMob implements IMob {
 
     private static final ResourceLocation NIAN_DROPS = new ResourceLocation(SpringFestivalConstants.MOD_ID, "entities/nian");
 
-    public EntityNian(World worldIn) {
+    public Nian(World worldIn) {
         super(worldIn);
     }
 

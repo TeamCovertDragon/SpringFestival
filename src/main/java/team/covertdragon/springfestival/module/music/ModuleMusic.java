@@ -30,6 +30,15 @@ public class ModuleMusic extends AbstractSpringFestivalModule {
         if (SPRING_FESTIVAL_TRACK_01 == null) {
             SPRING_FESTIVAL_TRACK_01 = new SoundEvent(new ResourceLocation(SpringFestivalConstants.MOD_ID, "track.01"));
         }
+
+        /*
+         * To any music composers who are looking at this, or heard about these comments:
+         * we do need one track of music with theme of Chinese Lunar New Year. If you are interested
+         * in providing help on this, feel free to drop issue ticket or pull request to our repository.
+         * Please also leave your e-mail if you do so (for credit purpose - we need to properly
+         * attribute author in respective commit(s)).
+         */
+
         event.getRegistry().register(
                 new ItemSpringFestivalMusicRecord("track.01", SPRING_FESTIVAL_TRACK_01)
                         .setCreativeTab(SpringFestivalConstants.CREATIVE_TAB)
