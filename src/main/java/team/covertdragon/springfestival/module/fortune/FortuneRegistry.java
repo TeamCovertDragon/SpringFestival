@@ -19,6 +19,7 @@ import team.covertdragon.springfestival.module.fortune.tools.FortuneStone;
 public class FortuneRegistry {
     static {
         fortuneStone = null;
+        potionFortunate = null;
         debugTool = null;
     }
 
@@ -27,4 +28,7 @@ public class FortuneRegistry {
 
     @GameRegistry.ObjectHolder("debug_tool")
     public static final DebugTool debugTool;
+
+    @GameRegistry.ObjectHolder("fortunate")
+    public static final PotionFortunate potionFortunate;
 }

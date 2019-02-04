@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.module.fortune.FortuneRegistry;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityLoader;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.IFortuneValueSystem;
 import team.covertdragon.springfestival.module.fortune.machines.AbstractTileFVMachine;
@@ -55,6 +56,11 @@ public class FortuneValueManager implements Runnable {
     private void updatePlayerFortuneValue(EntityPlayerMP player) {
         IFortuneValueSystem system = player.getCapability(CapabilityLoader.fortuneValue, null);
         if (system != null) {
+            //Fortune potion
+            if (player.isPotionActive(FortuneRegistry.potionFortunate)) {
+                system.addFortune(9);
+            }
+
             //Update player fortune level
             system.addFortune(system.getIncreasingPoint());
             system.setBufPoint(0);

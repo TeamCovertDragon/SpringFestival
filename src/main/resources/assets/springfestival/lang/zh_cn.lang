@@ -47,3 +47,5 @@ toast.redpacket.publish.regular=%s刚发了一个手气红包！
 
 error.springfestival.spend_time_with_your_family=过年了，要少玩会 Minecraft，多陪陪家人
 error.springfestival.spend_time_with_your_family.opt_out=如果你一定要玩 Minecraft，请在《新春工坊》的配置文件中找到 modules 一项，删除其中的 tricks 后保存并重启游戏。
+
+potion.fortunate=福气满满
