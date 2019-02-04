@@ -18,8 +18,8 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
-import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.internal.time.SpringFestivalTimeChecker;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 
@@ -29,7 +29,7 @@ public final class ModuleMonster extends AbstractSpringFestivalModule {
     @SubscribeEvent
     public void onLivingSpawn(LivingSpawnEvent event) {
         // Remove any entity that is classified as monster when it's spring festival season
-        if (SpringFestival.proxy.isDuringSpringFestivalSeason()) {
+        if (SpringFestivalTimeChecker.INSTANCE.isDuringSpringFestivalSeason()) {
             if (event.getEntityLiving() instanceof IMob && event.getEntityLiving().getClass() != Nian.class) {
                 // Remove the entity being ridden. This is for situations like Chicken Jockey and Skeleton Horseman.
                 if (event.getEntityLiving().isRiding() && event.getEntityLiving().getRidingEntity() != null) {

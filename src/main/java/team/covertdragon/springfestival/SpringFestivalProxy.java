@@ -34,19 +34,6 @@ public abstract class SpringFestivalProxy {
     private final Map<String, ISpringFestivalModule> modules = new HashMap<>();
     private List<ISpringFestivalModule> moduleArrayList;
 
-    /**
-     * Determine whether the current time is falling into the Spring Festival season, based on
-     * current system time.
-     *
-     * @return true if it is during Spring Festival; false for otherwise.
-     *
-     * @deprecated Use {@link SpringFestivalTimeChecker#isDuringSpringFestivalSeason()} directly.
-     */
-    //@Deprecated
-    public final boolean isDuringSpringFestivalSeason() {
-        return SpringFestivalTimeChecker.INSTANCE.isDuringSpringFestivalSeason();
-    }
-
     public final boolean isModuleLoaded(final String module) {
         return modules.containsKey(module);
     }

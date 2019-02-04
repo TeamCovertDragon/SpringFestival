@@ -21,6 +21,12 @@ public final class SpringFestivalTimeChecker {
         }
     }
 
+    /**
+     * Determine whether the current time is falling into the Spring Festival season, based on
+     * current system time.
+     *
+     * @return true if it is during Spring Festival; false for otherwise.
+     */
     public final boolean isDuringSpringFestivalSeason() {
         if (hasQueriedTime) {
             return isDuringSpringFestival;

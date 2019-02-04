@@ -10,6 +10,7 @@
 package team.covertdragon.springfestival.module.trick;
 
 import team.covertdragon.springfestival.SpringFestival;
+import team.covertdragon.springfestival.internal.time.SpringFestivalTimeChecker;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 
@@ -23,7 +24,7 @@ import team.covertdragon.springfestival.module.SpringFestivalModule;
 public class ModuleTrick extends AbstractSpringFestivalModule {
     @Override
     public void onPreInit() {
-        if (SpringFestival.proxy.isPhysicalClient() && SpringFestival.proxy.isDuringSpringFestivalSeason()) {
+        if (SpringFestival.proxy.isPhysicalClient() && SpringFestivalTimeChecker.INSTANCE.isDuringSpringFestivalSeason()) {
             throw new PleaseSpendMoreTimeWithYourFamilyException();
         }
     }
