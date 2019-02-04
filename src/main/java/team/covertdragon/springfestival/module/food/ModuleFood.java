@@ -33,15 +33,15 @@ public class ModuleFood extends AbstractSpringFestivalModule{
             .setRegistryName(SpringFestivalConstants.MOD_ID, "niangao");
 
     private static final Item FRIED_NIANGAO = new ItemSpringFestivalFood(2, 3.0F, 88)
-            .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".fried_niangao")
+            .setTranslationKey(SpringFestivalConstants.MOD_ID + ".fried_niangao")
             .setRegistryName(SpringFestivalConstants.MOD_ID, "fried_niangao");
 
     private static final Item SUNFLOWER_SEED = new ItemSpringFestivalFood(1, 1.0F)
-            .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".sunflower_seed")
+            .setTranslationKey(SpringFestivalConstants.MOD_ID + ".sunflower_seed")
             .setRegistryName(SpringFestivalConstants.MOD_ID, "sunflower_seed");
 
     private static final Item TANGHULU = new ItemSpringFestivalFood(6, 4.0F, 66)
-            .setUnlocalizedName(SpringFestivalConstants.MOD_ID + ".tanghulu")
+            .setTranslationKey(SpringFestivalConstants.MOD_ID + ".tanghulu")
             .setRegistryName(SpringFestivalConstants.MOD_ID, "tanghulu");
 
     // TODO What else do we eat during spring festival???

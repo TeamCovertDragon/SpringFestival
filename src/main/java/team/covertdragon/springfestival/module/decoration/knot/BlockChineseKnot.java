@@ -29,17 +29,20 @@ public final class BlockChineseKnot extends Block {
 
     @Nullable
     @Override
+    @SuppressWarnings("deprecation")
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
         return NULL_AABB;
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean isFullCube(IBlockState state)
     {
         return false;
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean isOpaqueCube(IBlockState state)
     {
         return false;
