@@ -28,7 +28,7 @@ public final class ModuleMonster extends AbstractSpringFestivalModule {
     public void onLivingSpawn(LivingSpawnEvent event) {
         // Remove any entity that is classified as monster
         if (SpringFestival.proxy.isDuringSpringFestivalSeason()) {
-            if (event.getEntityLiving() instanceof IMob) {
+            if (event.getEntityLiving() instanceof IMob && event.getEntityLiving().getClass() != Nian.class) {
                 // Remove the entity being ridden. This is for situations like Chicken Jockey and Skeleton Horseman.
                 if (event.getEntityLiving().isRiding() && event.getEntityLiving().getRidingEntity() != null) {
                     event.getEntityLiving().dismountRidingEntity();
