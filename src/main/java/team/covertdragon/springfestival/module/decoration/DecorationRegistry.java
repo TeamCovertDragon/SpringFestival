@@ -9,41 +9,30 @@
 
 package team.covertdragon.springfestival.module.decoration;
 
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.module.decoration.fudoor.BlockFuDoor;
-import team.covertdragon.springfestival.module.decoration.redpillar.BlockLargeRedPillar;
-import team.covertdragon.springfestival.module.decoration.redpillar.BlockLargeRedPillarAlt;
 
 @GameRegistry.ObjectHolder(SpringFestivalConstants.MOD_ID)
 public class DecorationRegistry {
 
-    public static Item FU;
+    public static final Item FU = Items.AIR;
 
-    public static ItemArmor RED_HAT;
+    public static final Item RED_HAT = Items.AIR;
 
-    public static ItemArmor RED_GOWN;
+    public static final Item RED_GOWN = Items.AIR;
 
-    public static ItemArmor RED_TROUSERS;
+    public static final Item RED_TROUSERS = Items.AIR;
 
-    public static ItemArmor RED_SHOES;
+    public static final Item RED_SHOES = Items.AIR;
 
-    @GameRegistry.ObjectHolder("fu_door")
-    public static BlockFuDoor FU_DOOR;
+    public static final Block FU_DOOR = Blocks.AIR;
 
-    @GameRegistry.ObjectHolder("large_red_pillar")
-    public static BlockLargeRedPillar blockLargeRedPillar;
+    public static final Block LARGE_RED_PILLAR = Blocks.AIR;
 
-    @GameRegistry.ObjectHolder("large_red_pillar")
-    public static ItemBlock itemLargeRedPillar;
-
-    @GameRegistry.ObjectHolder("large_red_pillar_alt")
-    public static BlockLargeRedPillarAlt blockLargeRedPillarAlt;
-
-    @GameRegistry.ObjectHolder("large_red_pillar_alt")
-    public static ItemBlock itemLargeRedPillarAlt;
+    public static final Block LARGE_RED_PILLAR_ALT = Blocks.AIR;
 
 }

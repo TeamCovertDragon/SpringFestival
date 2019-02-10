@@ -9,6 +9,8 @@
 package team.covertdragon.springfestival.module.material;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import team.covertdragon.springfestival.SpringFestivalConstants;
@@ -16,14 +18,14 @@ import team.covertdragon.springfestival.SpringFestivalConstants;
 @GameRegistry.ObjectHolder(SpringFestivalConstants.MOD_ID)
 public class MaterialRegistry {
 
-    public static Item RED_PAPER;
+    public static final Item RED_PAPER = Items.AIR;
 
-    public static Item RED_PAPER_BROKEN;
+    public static final Item RED_PAPER_BROKEN = Items.AIR;
 
-    public static Block GLUTINOUS_RICE_CROP;
+    public static final Block GLUTINOUS_RICE_CROP = Blocks.AIR;
     
-    public static Item GLUTINOUS_RICE;
+    public static final Item GLUTINOUS_RICE = Items.AIR;
     
-    public static Item GLUTINOUS_RICE_SEED;
+    public static final Item GLUTINOUS_RICE_SEED = Items.AIR;
     
 }

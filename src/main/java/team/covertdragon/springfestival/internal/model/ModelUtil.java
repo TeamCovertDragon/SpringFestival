@@ -9,6 +9,7 @@
 
 package team.covertdragon.springfestival.internal.model;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -22,6 +23,10 @@ public final class ModelUtil {
 
     private ModelUtil() {
         throw new UnsupportedOperationException("You just don't have instance of ModelUtil.");
+    }
+
+    public static void mapItemModel(Block block) {
+        mapItemModel(Item.getItemFromBlock(block));
     }
 
     public static void mapItemModel(Item item) {

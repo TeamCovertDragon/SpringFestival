@@ -9,21 +9,28 @@
 
 package team.covertdragon.springfestival.module.music;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestivalConstants;
+import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 
 @SpringFestivalModule(name = "music")
 public class ModuleMusic extends AbstractSpringFestivalModule {
 
-    @GameRegistry.ObjectHolder("springfestival:track_01")
-    public static SoundEvent SPRING_FESTIVAL_TRACK_01;
+    private static SoundEvent SPRING_FESTIVAL_TRACK_01;
+
+    @GameRegistry.ObjectHolder(SpringFestivalConstants.MOD_ID + ':' + "track_01")
+    public static final Item TRACK_01_ITEM = Items.AIR;
 
     @SubscribeEvent
     public void onItemRegistry(RegistryEvent.Register<Item> event) {
@@ -42,6 +49,7 @@ public class ModuleMusic extends AbstractSpringFestivalModule {
         event.getRegistry().register(
                 new ItemSpringFestivalMusicRecord("track.01", SPRING_FESTIVAL_TRACK_01)
                         .setCreativeTab(SpringFestivalConstants.CREATIVE_TAB)
+                        .setTranslationKey(SpringFestivalConstants.MOD_ID + '.' + "track_01")
                         .setRegistryName(SpringFestivalConstants.MOD_ID, "track_01")
         );
     }
@@ -52,5 +60,11 @@ public class ModuleMusic extends AbstractSpringFestivalModule {
             return;
         }
         event.getRegistry().register(SPRING_FESTIVAL_TRACK_01.setRegistryName(SpringFestivalConstants.MOD_ID, "track_01"));
+    }
+
+    @SideOnly(Side.CLIENT)
+    @SubscribeEvent
+    public void model(ModelRegistryEvent event) {
+        ModelUtil.mapItemModel(TRACK_01_ITEM);
     }
 }

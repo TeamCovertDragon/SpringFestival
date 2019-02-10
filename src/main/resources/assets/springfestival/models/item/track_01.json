@@ -1,0 +1,7 @@
+{
+  "____comment": "Temp. placeholder model",
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "minecraft:items/record_chirp"
+  }
+}

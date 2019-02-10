@@ -74,10 +74,8 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
         ModelUtil.mapItemModel(DecorationRegistry.RED_GOWN);
         ModelUtil.mapItemModel(DecorationRegistry.RED_TROUSERS);
         ModelUtil.mapItemModel(DecorationRegistry.RED_SHOES);
-        ModelUtil.mapItemModel(DecorationRegistry.itemLargeRedPillar);
-        ModelUtil.mapItemModel(DecorationRegistry.itemLargeRedPillarAlt);
-        ModelUtil.mapItemModel(DecorationRegistry.itemLargeRedPillar);
-        ModelUtil.mapItemModel(DecorationRegistry.itemLargeRedPillarAlt);
+        ModelUtil.mapItemModel(DecorationRegistry.LARGE_RED_PILLAR);
+        ModelUtil.mapItemModel(DecorationRegistry.LARGE_RED_PILLAR_ALT);
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileFuDoor.class, new TESRFuDoor());
     }
@@ -97,10 +95,10 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
                 new ItemRedClothes.RedGown(),
                 new ItemRedClothes.RedTrousers(),
                 new ItemRedClothes.RedShoes(),
-                new ItemBlock(DecorationRegistry.blockLargeRedPillar)
+                new ItemBlock(DecorationRegistry.LARGE_RED_PILLAR)
                         .setRegistryName(SpringFestivalConstants.MOD_ID, "large_red_pillar")
                         .setTranslationKey(SpringFestivalConstants.MOD_ID + ".large_red_pillar"),
-                new ItemBlock(DecorationRegistry.blockLargeRedPillarAlt)
+                new ItemBlock(DecorationRegistry.LARGE_RED_PILLAR_ALT)
                         .setRegistryName(SpringFestivalConstants.MOD_ID, "large_red_pillar_alt")
                         .setTranslationKey(SpringFestivalConstants.MOD_ID + ".large_red_pillar_alt")
         );
