@@ -4,15 +4,15 @@
       "item": "springfestival:red_hat"
     },
     "title": {
-      "translate": "advancement.springfestival:getRedHat"
+      "translate": "advancement.springfestival.red_hat"
     },
     "description": {
-      "translate": "advancement.springfestival:getRedHat.desc"
+      "translate": "advancement.springfestival.red_hat.desc"
     }
   },
   "parent": "springfestival:material/0_red_paper",
   "criteria": {
-    "use_lexicon": {
+    "acquire_red_hat": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "item": {

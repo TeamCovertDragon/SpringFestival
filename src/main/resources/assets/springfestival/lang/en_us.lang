@@ -1,33 +1,41 @@
 itemGroup.spring_festival=Spring Festival
 
-item.springfestival.fu_door.name=Fortune door
-item.springfestival.redpacket.name=Red packet
-item.springfestival.red_paper.name=Red paper
-item.springfestival.red_paper_broken.name=Broken red paper
-item.springfestival.red_hat.name=Red hat
-item.springfestival.red_gown.name=Red gown
-item.springfestival.red_trousers.name=Red trousers
-item.springfestival.red_shoes.name=Red shoes
+item.springfestival.fu.name="Fu"
+item.springfestival.fu_door.name=Fortune Door
+item.springfestival.redpacket.name=Red Packet
+item.springfestival.red_paper.name=Red Paper
+item.springfestival.red_paper_broken.name=Broken Red Paper
+item.springfestival.red_hat.name=Red Hat
+item.springfestival.red_gown.name=Red Gown
+item.springfestival.red_trousers.name=Red Trousers
+item.springfestival.red_shoes.name=Red Shoes
 item.springfestival.dumpling.name=Dumpling
-item.springfestival.niangao.name=Rice cake
+item.springfestival.niangao.name=Rice Cake
+item.springfestival.fried_niangao.name=Fired Rice Cake
 item.springfestival.firecracker_egg.name=Firecracker
-item.springfestival.large_red_pillar.name=Large red pillar
-item.springfestival.large_red_pillar_alt.name=Large red pillar
-item.springfestival.fortune_stone.name=Fortune stone
-item.springfestival.debug_tool.name=Debug tool
-item.springfestival.glutinous_rice.name=Glutinous rice
-item.springfestival.glutinous_rice_seed.name=Glutinous rice seed
+item.springfestival.large_red_pillar.name=Large Red Pillar
+item.springfestival.large_red_pillar_alt.name=Large Red Pillar
+item.springfestival.fortune_stone.name=Fortune Stone
+item.springfestival.debug_tool.name=Debug Tool
+item.springfestival.glutinous_rice.name=Glutinous Rice
+item.springfestival.glutinous_rice_seed.name=Glutinous Rice Seed
+item.springfestival.track_01.name=Spring Festival Music Track No. 01
 
-tile.springfestival.fu_door.name=Fortune door
-tile.springfestival.hanging_firecracker.name=Hanging firecracker
-tile.springfestival.firework_box.name=Firework box
-tile.springfestival.large_red_pillar.name=Large red pillar
-tile.springfestival.large_red_pillar_alt.name=Large red pillar
+tile.springfestival.fu_door.name=Fortune Door
+tile.springfestival.hanging_firecracker.name=Hanging Firecracker
+tile.springfestival.firework_box.name=Firework Box
+tile.springfestival.large_red_pillar.name=Large Red Pillar
+tile.springfestival.large_red_pillar_alt.name=Large Red Pillar
 
 entity.springfestival.firecracker.name=Firecracker
 
-subtitle.springfestival.firecracker.throw=Firecracker flies
-subtitle.springfestival.firecracker.explode=Firecracker explodes
+subtitle.springfestival.firecracker.throw=Firecracker Flies
+subtitle.springfestival.firecracker.explode=Firecracker Explodes
+
+advancement.springfestival.root=Spring Festival
+advancement.springfestival.root.desc=Heyo, the New Year is coming!
+advancement.springfestival.red_hat=Get a Red Hat
+advancement.springfestival.red_hat.desc=New year, new clothes!
 
 tooltip.springfestival.fv=Current Fortune Value: %d
 tooltip.springfestival.right_click_to_active=Right click to active

@@ -1,6 +1,7 @@
 itemGroup.spring_festival=新春工坊
 
 item.springfestival.fu.name=福字
+item.springfestival.fu_door.name=福字门
 item.springfestival.redpacket.name=红包
 item.springfestival.red_paper.name=红纸
 item.springfestival.red_paper_broken.name=破碎的红纸
@@ -10,6 +11,7 @@ item.springfestival.red_trousers.name=红棉裤
 item.springfestival.red_shoes.name=红鞋子
 item.springfestival.dumpling.name=饺子
 item.springfestival.niangao.name=年糕
+item.springfestival.fried_niangao.name=炸年糕
 item.springfestival.firecracker_egg.name=爆竹
 item.springfestival.large_red_pillar.name=大红柱
 item.springfestival.large_red_pillar_alt.name=大红柱
@@ -17,6 +19,7 @@ item.springfestival.fortune_stone.name=福石
 item.springfestival.debug_tool.name=调试工具
 item.springfestival.glutinous_rice.name=糯米
 item.springfestival.glutinous_rice_seed.name=糯米种子
+item.springfestival.track_01.name=新春工坊唱片（第 1 轨）
 
 tile.springfestival.fu_door.name=福字门
 tile.springfestival.hanging_firecracker.name=挂着的爆竹
@@ -28,6 +31,11 @@ entity.springfestival.firecracker.name=爆竹
 
 subtitle.springfestival.firecracker.throw=爆竹：投掷
 subtitle.springfestival.firecracker.explode=爆竹：爆炸
+
+advancement.springfestival.root=新春工坊
+advancement.springfestival.root.desc=新年将至！
+advancement.springfestival.red_hat=Get a Red Hat
+advancement.springfestival.red_hat.desc=新年新衣裳！
 
 tooltip.springfestival.fv=当前福气值: %d
 tooltip.springfestival.right_click_to_active=右键以激活
