@@ -129,7 +129,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     public void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
                 new ItemFireworkBox(),
-                new ItemFirecrackerEgg(),
+                new ItemFirecrackerEgg().setRegistryName(SpringFestivalConstants.MOD_ID, "firecracker_egg"),
                 new ItemBlock(FirecrackerRegistry.blockHangingFireCracker).setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker")
         );
     }

@@ -24,28 +24,27 @@ import team.covertdragon.springfestival.module.firecracker.FirecrackerRegistry;
 // TODO: Firecharge?
 public class ItemFirecrackerEgg extends Item {
 
-    public ItemFirecrackerEgg()
-    {
-        this.setRegistryName(SpringFestivalConstants.MOD_ID, "firecracker_egg");
+    public ItemFirecrackerEgg() {
         this.setTranslationKey(SpringFestivalConstants.MOD_ID + ".firecracker_egg");
         this.setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
-    {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
-        itemstack.shrink(1);
-
-        worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, FirecrackerRegistry.soundFirecrackerThrow, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-
-        if (!worldIn.isRemote)
-        {
-            EntityFirecracker entityfirecracker = new EntityFirecracker(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, playerIn);
-            entityfirecracker.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 0.943F, 0.233F);
-            worldIn.spawnEntity(entityfirecracker);
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack held = player.getHeldItem(hand);
+        if (!player.isCreative()) {
+            held.shrink(1);
         }
 
-        playerIn.addStat(StatList.getObjectUseStats(this));
-        return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
+        world.playSound(null, player.posX, player.posY, player.posZ, FirecrackerRegistry.soundFirecrackerThrow, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+
+        if (!world.isRemote) {
+            EntityFirecracker firecracker = new EntityFirecracker(world, player.posX, player.posY, player.posZ, player);
+            firecracker.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 0.943F, 0.233F);
+            world.spawnEntity(firecracker);
+            player.addStat(StatList.getObjectUseStats(this));
+        }
+
+        return new ActionResult<>(EnumActionResult.SUCCESS, held);
     }
 }
