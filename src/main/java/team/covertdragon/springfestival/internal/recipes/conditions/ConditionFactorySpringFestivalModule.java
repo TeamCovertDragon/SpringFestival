@@ -15,6 +15,7 @@ import net.minecraft.util.JsonUtils;
 import net.minecraftforge.common.crafting.IConditionFactory;
 import net.minecraftforge.common.crafting.JsonContext;
 import team.covertdragon.springfestival.SpringFestival;
+import team.covertdragon.springfestival.SpringFestivalModuleController;
 
 import java.util.function.BooleanSupplier;
 
@@ -23,7 +24,7 @@ public class ConditionFactorySpringFestivalModule implements IConditionFactory {
     public BooleanSupplier parse(JsonContext context, JsonObject json) {
         try {
             final String moduleID = JsonUtils.getString(json, "module");
-            return () -> SpringFestival.proxy.isModuleLoaded(moduleID);
+            return () -> SpringFestivalModuleController.isModuleLoaded(moduleID);
         } catch (Exception e) {
             throw new JsonSyntaxException("Failed to parse Spring Festival module condition", e);
         }

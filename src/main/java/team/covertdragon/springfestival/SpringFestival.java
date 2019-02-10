@@ -16,6 +16,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import team.covertdragon.springfestival.internal.SpringFestivalGuiHandler;
 
 @Mod(modid = SpringFestivalConstants.MOD_ID, name = SpringFestivalConstants.NAME, version = "@VERSION_INJECT@", useMetadata = true)
 public final class SpringFestival {
@@ -37,26 +39,28 @@ public final class SpringFestival {
 
     @Mod.EventHandler
     public void onConstruct(FMLConstructionEvent event) {
-        proxy.onConstruct(event);
+        SpringFestivalModuleController.INSTANCE.onConstruct(event);
     }
 
     @Mod.EventHandler
     public void onPreInit(FMLPreInitializationEvent event) {
-        proxy.onPreInit(event);
+        SpringFestivalConstants.logger = event.getModLog();
+        NetworkRegistry.INSTANCE.registerGuiHandler(SpringFestival.getInstance(), new SpringFestivalGuiHandler());
+        SpringFestivalModuleController.INSTANCE.onPreInit(event);
     }
 
     @Mod.EventHandler
     public void onInit(FMLInitializationEvent event) {
-        proxy.onInit(event);
+        SpringFestivalModuleController.INSTANCE.onInit(event);
     }
 
     @Mod.EventHandler
     public void onServerStarting(FMLServerStartingEvent event) {
-        proxy.onServerStarting(event);
+        SpringFestivalModuleController.INSTANCE.onServerStarting(event);
     }
 
     @Mod.EventHandler
     public void onServerStopping(FMLServerStoppingEvent event) {
-        proxy.onServerStopping(event);
+        SpringFestivalModuleController.INSTANCE.onServerStopping(event);
     }
 }

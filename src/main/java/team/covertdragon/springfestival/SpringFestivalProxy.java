@@ -10,66 +10,11 @@
 package team.covertdragon.springfestival;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.event.FMLConstructionEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import team.covertdragon.springfestival.internal.SpringFestivalGuiHandler;
-import team.covertdragon.springfestival.internal.time.SpringFestivalTimeChecker;
-import team.covertdragon.springfestival.module.ISpringFestivalModule;
-import team.covertdragon.springfestival.module.ModuleLoader;
 
 import javax.annotation.Nullable;
-import javax.annotation.OverridingMethodsMustInvokeSuper;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public abstract class SpringFestivalProxy {
-
-    private final Map<String, ISpringFestivalModule> modules = new HashMap<>();
-    private List<ISpringFestivalModule> moduleArrayList;
-
-    public final boolean isModuleLoaded(final String module) {
-        return modules.containsKey(module);
-    }
-
-    public final ISpringFestivalModule getModule(final String module) {
-        return modules.get(module);
-    }
-
-    public final void onConstruct(FMLConstructionEvent event) {
-        moduleArrayList = ModuleLoader.readASMDataTable(event.getASMHarvestedData());
-        moduleArrayList.forEach(mod -> this.modules.put(ModuleLoader.getNameByInstance(mod), mod));
-        moduleArrayList.forEach(MinecraftForge.EVENT_BUS::register);
-        SpringFestivalTimeChecker.INSTANCE.reset();
-    }
-
-    @OverridingMethodsMustInvokeSuper
-    public void onPreInit(FMLPreInitializationEvent event) {
-        SpringFestivalConstants.logger = event.getModLog();
-        moduleArrayList.forEach(ISpringFestivalModule::onPreInit);
-    }
-
-    @OverridingMethodsMustInvokeSuper
-    public void onInit(FMLInitializationEvent event) {
-        NetworkRegistry.INSTANCE.registerGuiHandler(SpringFestival.getInstance(), new SpringFestivalGuiHandler());
-        moduleArrayList.forEach(ISpringFestivalModule::onInit);
-    }
-
-    @OverridingMethodsMustInvokeSuper
-    public void onServerStarting(FMLServerStartingEvent event) {
-        moduleArrayList.forEach(ISpringFestivalModule::onServerStarting);
-    }
-
-    @OverridingMethodsMustInvokeSuper
-    public void onServerStopping(FMLServerStoppingEvent event) {
-        moduleArrayList.forEach(ISpringFestivalModule::onServerStopping);
-    }
 
     /**
      * Helper method to determine whether this proxy is running on a physical server environment
