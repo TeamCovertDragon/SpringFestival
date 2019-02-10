@@ -87,18 +87,18 @@ public final class ModuleLoader {
         }
     }
 
-    private static Collection<?> getDependenciesByInstance(ISpringFestivalModule instance) {
+    private static List<String> getModuleDependencies(ISpringFestivalModule instance) {
         return Arrays.asList(instance.getClass().getAnnotation(SpringFestivalModule.class).dependencies());
     }
 
-    public static String getNameByInstance(ISpringFestivalModule instance) {
+    public static String getModuleName(ISpringFestivalModule instance) {
         return instance.getClass().getAnnotation(SpringFestivalModule.class).name();
     }
 
     @Nullable
-    private static ISpringFestivalModule getInstanceByName(List<ISpringFestivalModule> modules, String name) {
+    private static ISpringFestivalModule findModule(List<ISpringFestivalModule> modules, String name) {
         for (ISpringFestivalModule module : modules) {
-            if (getNameByInstance(module).equals(name)) {
+            if (getModuleName(module).equals(name)) {
                 return module;
             }
         }
@@ -120,13 +120,13 @@ public final class ModuleLoader {
             }
 
             for (ISpringFestivalModule module : modules) {
-                Collection<?> dependencies = getDependenciesByInstance(module);
+                Collection<?> dependencies = getModuleDependencies(module);
 
                 if (dependencies.size() == 0) {
                     continue;
                 }
 
-                dependencies.forEach(dep -> moduleGraph.addEdge(getInstanceByName(modules, (String) dep), module));
+                dependencies.forEach(dep -> moduleGraph.addEdge(findModule(modules, (String) dep), module));
             }
         }
 

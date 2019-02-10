@@ -10,42 +10,48 @@ import team.covertdragon.springfestival.internal.time.SpringFestivalTimeChecker;
 import team.covertdragon.springfestival.module.ISpringFestivalModule;
 import team.covertdragon.springfestival.module.ModuleLoader;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public enum SpringFestivalModuleController {
 
     INSTANCE;
 
-    // TODO (3TUSK): LinkedHashMap? So that we can have deterministic iteration order and we unify two thing together
-    private final Map<String, ISpringFestivalModule> modules = new HashMap<>();
-    private List<ISpringFestivalModule> moduleList;
+    private Map<String, ISpringFestivalModule> modules = Collections.emptyMap();
 
     public static boolean isModuleLoaded(String moduleId) {
         return INSTANCE.modules.containsKey(moduleId);
     }
 
+    private static <T> BinaryOperator<T> failMerger() {
+        return (a, b) -> { throw new UnsupportedOperationException(); };
+    }
+
     public void onConstruct(FMLConstructionEvent event) {
-        this.moduleList = ModuleLoader.readASMDataTable(event.getASMHarvestedData());
-        this.moduleList.forEach(mod -> this.modules.put(ModuleLoader.getNameByInstance(mod), mod));
-        this.moduleList.forEach(MinecraftForge.EVENT_BUS::register);
+        this.modules = ModuleLoader.readASMDataTable(event.getASMHarvestedData())
+                .stream()
+                .peek(MinecraftForge.EVENT_BUS::register)
+                .collect(Collectors.toMap(ModuleLoader::getModuleName, Function.identity(), failMerger(), LinkedHashMap::new));
         SpringFestivalTimeChecker.INSTANCE.reset();
     }
 
     public void onPreInit(FMLPreInitializationEvent event) {
-        this.moduleList.forEach(ISpringFestivalModule::onPreInit);
+        this.modules.values().forEach(ISpringFestivalModule::onPreInit);
     }
 
     public void onInit(FMLInitializationEvent event) {
-        this.moduleList.forEach(ISpringFestivalModule::onInit);
+        this.modules.values().forEach(ISpringFestivalModule::onInit);
     }
 
     public void onServerStarting(FMLServerStartingEvent event) {
-        this.moduleList.forEach(ISpringFestivalModule::onServerStarting);
+        this.modules.values().forEach(ISpringFestivalModule::onServerStarting);
     }
 
     public void onServerStopping(FMLServerStoppingEvent event) {
-        this.moduleList.forEach(ISpringFestivalModule::onServerStopping);
+        this.modules.values().forEach(ISpringFestivalModule::onServerStopping);
     }
 }
