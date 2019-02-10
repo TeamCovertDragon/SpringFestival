@@ -14,7 +14,6 @@ import com.google.gson.JsonSyntaxException;
 import net.minecraft.util.JsonUtils;
 import net.minecraftforge.common.crafting.IConditionFactory;
 import net.minecraftforge.common.crafting.JsonContext;
-import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.SpringFestivalModuleController;
 
 import java.util.function.BooleanSupplier;

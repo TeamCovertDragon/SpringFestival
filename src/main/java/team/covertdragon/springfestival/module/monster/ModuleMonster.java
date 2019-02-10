@@ -41,7 +41,7 @@ public final class ModuleMonster extends AbstractSpringFestivalModule {
     public void onEntityRegister(RegistryEvent.Register<EntityEntry> event) {
         event.getRegistry().register(EntityEntryBuilder.create()
                 .entity(Nian.class)
-                .id(new ResourceLocation(SpringFestivalConstants.MOD_ID, "nian"),0)
+                .id(new ResourceLocation(SpringFestivalConstants.MOD_ID, "nian"), 1) // 0 is for Firecracker from Firecracker module.
                 .name("nian")
                 .egg(0xCC1122, 0xCC66666)
                 .spawn(EnumCreatureType.MONSTER, 10, 1, 4, Biomes.DESERT, Biomes.ICE_PLAINS, Biomes.PLAINS, Biomes.SAVANNA)

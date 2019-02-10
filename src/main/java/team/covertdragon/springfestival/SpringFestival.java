@@ -45,7 +45,7 @@ public final class SpringFestival {
     @Mod.EventHandler
     public void onPreInit(FMLPreInitializationEvent event) {
         SpringFestivalConstants.logger = event.getModLog();
-        NetworkRegistry.INSTANCE.registerGuiHandler(SpringFestival.getInstance(), new SpringFestivalGuiHandler());
+        NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new SpringFestivalGuiHandler());
         SpringFestivalModuleController.INSTANCE.onPreInit(event);
     }
 

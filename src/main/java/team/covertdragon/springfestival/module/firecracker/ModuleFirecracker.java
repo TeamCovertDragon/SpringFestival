@@ -42,12 +42,12 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
@@ -69,8 +69,18 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     private static final Field FIELD_AVOID_CLASS = ReflectionHelper.findField(EntityAIAvoidEntity.class, "field_181064_i", "classToAvoid");
     private static final Field FIELD_DISPENSE_RESULT = ReflectionHelper.findField(Bootstrap.BehaviorDispenseOptional.class, "field_190911_b", "successful");
 
+    @SubscribeEvent
+    public void entityRegistration(RegistryEvent.Register<EntityEntry> event) {
+        event.getRegistry().register(EntityEntryBuilder.create()
+                .entity(EntityFirecracker.class)
+                .id(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker"), 0)
+                .name("springfestival.firecracker")
+                .tracker(80, 3, true)
+                .build());
+    }
+
+    @Override
     public void onInit() {
-        EntityRegistry.registerModEntity(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker"), EntityFirecracker.class, "Firecracker", 0, SpringFestival.getInstance(), 80, 3, true);
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(FirecrackerRegistry.itemFirecrackerEgg, new BehaviourFirecrackerDispense());
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(
                 Items.FLINT_AND_STEEL,
