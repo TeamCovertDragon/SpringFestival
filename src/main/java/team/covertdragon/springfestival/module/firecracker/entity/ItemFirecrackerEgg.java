@@ -36,7 +36,7 @@ public class ItemFirecrackerEgg extends Item {
             held.shrink(1);
         }
 
-        world.playSound(null, player.posX, player.posY, player.posZ, FirecrackerRegistry.soundFirecrackerThrow, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        world.playSound(null, player.posX, player.posY, player.posZ, FirecrackerRegistry.FIRECRACKER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
         if (!world.isRemote) {
             EntityFirecracker firecracker = new EntityFirecracker(world, player.posX, player.posY, player.posZ, player);

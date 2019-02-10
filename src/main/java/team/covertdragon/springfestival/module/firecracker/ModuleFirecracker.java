@@ -81,7 +81,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
 
     @Override
     public void onInit() {
-        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(FirecrackerRegistry.itemFirecrackerEgg, new BehaviourFirecrackerDispense());
+        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(FirecrackerRegistry.FIRECRACKER_EGG, new BehaviourFirecrackerDispense());
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(
                 Items.FLINT_AND_STEEL,
                 new BehaviourFlintAndSteelDispense(BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(Items.FLINT_AND_STEEL))
@@ -128,24 +128,30 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     @SubscribeEvent
     public void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                new ItemFireworkBox(),
+                new ItemFireworkBox(FirecrackerRegistry.FIREWORK_BOX)
+                        .setTranslationKey(SpringFestivalConstants.MOD_ID + ".firework_box")
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "firework_box"),
                 new ItemFirecrackerEgg().setRegistryName(SpringFestivalConstants.MOD_ID, "firecracker_egg"),
-                new ItemBlock(FirecrackerRegistry.blockHangingFireCracker).setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker")
+                new ItemBlock(FirecrackerRegistry.HANGING_FIRECRACKER).setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker")
         );
     }
 
     @SubscribeEvent
     public void onSoundEventRegistry(RegistryEvent.Register<SoundEvent> event) {
-        event.getRegistry().register(FirecrackerRegistry.soundFirecrackerThrow);
-        event.getRegistry().register(FirecrackerRegistry.soundFirecrackerExplode);
+        event.getRegistry().registerAll(
+                new SoundEvent(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker.throw"))
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "firecracker_throw"),
+                new SoundEvent(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker.explode"))
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "firecracker_explode")
+        );
     }
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onModelRegister(ModelRegistryEvent event) {
-        ModelUtil.mapItemModel(FirecrackerRegistry.itemFireWorkBox);
-        ModelUtil.mapItemModel(FirecrackerRegistry.itemFirecrackerEgg);
-        ModelUtil.mapItemModel(FirecrackerRegistry.itemHangingFirecracker);
+        ModelUtil.mapItemModel(FirecrackerRegistry.FIREWORK_BOX);
+        ModelUtil.mapItemModel(FirecrackerRegistry.FIRECRACKER_EGG);
+        ModelUtil.mapItemModel(FirecrackerRegistry.HANGING_FIRECRACKER);
         RenderingRegistry.registerEntityRenderingHandler(EntityFirecracker.class, RenderEntityFirecracker.FACTORY);
     }
 
@@ -184,8 +190,9 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
                     World world = source.getWorld();
                     BlockPos pos = source.getBlockPos().offset(source.getBlockState().getValue(BlockDispenser.FACING));
                     IBlockState state = world.getBlockState(pos);
-                    if (state.getBlock() == FirecrackerRegistry.blockHangingFireCracker && state.getValue(BlockHangingFirecracker.COUNT) == 0) {
-                        FirecrackerRegistry.blockHangingFireCracker.ignite(world, pos, state, false, null);
+                    if (state.getBlock() == FirecrackerRegistry.HANGING_FIRECRACKER && state.getValue(BlockHangingFirecracker.COUNT) == 0) {
+                        // TODO (3TUSK): need a way to avoid casting
+                        ((BlockHangingFirecracker)FirecrackerRegistry.HANGING_FIRECRACKER).ignite(world, pos, state, false, null);
                         this.successful = true;
                     }
                 }

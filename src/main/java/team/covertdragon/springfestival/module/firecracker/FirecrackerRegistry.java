@@ -9,6 +9,11 @@
 
 package team.covertdragon.springfestival.module.firecracker;
 
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -23,23 +28,14 @@ import team.covertdragon.springfestival.module.firecracker.hanging.BlockHangingF
 public class FirecrackerRegistry {
 
     @GameRegistry.ObjectHolder("firework_box")
-    public static BlockFireworkBox blockFirework;
+    public static final Block FIREWORK_BOX = Blocks.AIR;
 
     @GameRegistry.ObjectHolder("hanging_firecracker")
-    public static BlockHangingFirecracker blockHangingFireCracker;
+    public static final Block HANGING_FIRECRACKER = Blocks.AIR;
 
-    @GameRegistry.ObjectHolder("firework_box")
-    public static ItemFireworkBox itemFireWorkBox;
+    public static final Item FIRECRACKER_EGG = Items.AIR;
 
-    @GameRegistry.ObjectHolder("firecracker_egg")
-    public static ItemFirecrackerEgg itemFirecrackerEgg;
-
-    @GameRegistry.ObjectHolder("hanging_firecracker")
-    public static ItemBlock itemHangingFirecracker;
+    public static final SoundEvent FIRECRACKER_THROW = SoundEvents.ENTITY_EGG_THROW;
     
-    public static final SoundEvent soundFirecrackerThrow = new SoundEvent(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker.throw"))
-            .setRegistryName(SpringFestivalConstants.MOD_ID, "firecracker_throw");
-    
-    public static final SoundEvent soundFirecrackerExplode = new SoundEvent(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker.explode"))
-            .setRegistryName(SpringFestivalConstants.MOD_ID, "firecracker_explode");
+    public static final SoundEvent FIRECRACKER_EXPLODE = SoundEvents.ENTITY_GENERIC_EXPLODE;
 }

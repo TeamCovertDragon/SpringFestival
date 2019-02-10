@@ -85,7 +85,7 @@ public class TileFireworkBox extends TileEntity implements ITickable {
     }
 
     public void dropBlockAsItem() {
-        ItemStack stack = new ItemStack(FirecrackerRegistry.itemFireWorkBox, 1);
+        ItemStack stack = new ItemStack(FirecrackerRegistry.FIREWORK_BOX, 1);
         NBTTagCompound tag = new NBTTagCompound();
         tag.setInteger("count", count);
         stack.setTagCompound(tag);

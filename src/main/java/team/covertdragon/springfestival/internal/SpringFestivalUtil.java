@@ -27,7 +27,7 @@ public final class SpringFestivalUtil {
         Explosion explosion = new Explosion(world, source, pos.getX(), pos.getY(), pos.getZ(), power, false, false);
         if (!ForgeEventFactory.onExplosionStart(world, explosion)) {
             explosion.doExplosionA();
-            world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), FirecrackerRegistry.soundFirecrackerExplode, SoundCategory.NEUTRAL, 4.0F, (1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F) * 0.7F);
+            world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), FirecrackerRegistry.FIRECRACKER_EXPLODE, SoundCategory.NEUTRAL, 4.0F, (1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F) * 0.7F);
             world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 0.0D, 0.0D);
         }
         if(world instanceof WorldServer) {

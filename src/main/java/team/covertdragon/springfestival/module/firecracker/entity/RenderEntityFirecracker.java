@@ -32,14 +32,14 @@ public class RenderEntityFirecracker extends RenderSnowball<EntityFirecracker> {
     @Nonnull
     @Override
     public ItemStack getStackToRender(EntityFirecracker entityIn) {
-      return new ItemStack(FirecrackerRegistry.itemFirecrackerEgg);
+      return new ItemStack(FirecrackerRegistry.FIRECRACKER_EGG);
     }
 
     private static class Factory implements IRenderFactory<EntityFirecracker> {
 
       @Override
       public Render<? super EntityFirecracker> createRenderFor(RenderManager manager) {
-        return new RenderEntityFirecracker(manager, FirecrackerRegistry.itemFirecrackerEgg, Minecraft.getMinecraft().getRenderItem());
+        return new RenderEntityFirecracker(manager, FirecrackerRegistry.FIRECRACKER_EGG, Minecraft.getMinecraft().getRenderItem());
       }
     }
 }

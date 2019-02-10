@@ -9,6 +9,7 @@
 
 package team.covertdragon.springfestival.module.firecracker.firework;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -28,11 +29,9 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemFireworkBox extends ItemBlock {
-    public ItemFireworkBox() {
-        super(FirecrackerRegistry.blockFirework);
+    public ItemFireworkBox(Block block) {
+        super(block);
         setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
-        setTranslationKey(SpringFestivalConstants.MOD_ID + ".firework_box");
-        setRegistryName(SpringFestivalConstants.MOD_ID, "firework_box");
     }
 
     @Override
