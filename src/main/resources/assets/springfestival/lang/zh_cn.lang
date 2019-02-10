@@ -49,3 +49,11 @@ error.springfestival.spend_time_with_your_family=过年了，要少玩会 Minecr
 error.springfestival.spend_time_with_your_family.opt_out=如果你一定要玩 Minecraft，请在《新春工坊》的配置文件中找到 modules 一项，删除其中的 tricks 后保存并重启游戏。
 
 potion.fortunate=福气满满
+
+config.springfestival.modules=模块
+config.springfestival.modules.tooltip=启用或禁用《新春工坊》的模块。
+
+config.springfestival.general.enforce_timezone=强制使用北京时间
+config.springfestival.general.enforce_timezone.tooltip=启用后，《新春工坊》会强制使用传统农历使用的世界协调时 +08:00（即北京时间）来判断当前是否处于春节节期中。不启用此选项时则使用本机时间。
+config.springfestival.general.fuzzy_time_checker=启用模糊时间检查
+config.springfestival.general.fuzzy_time_checker.tooltip=启用后，《新春工坊》将会无条件视整个公历的一月和二月为春节节期。

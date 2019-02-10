@@ -24,7 +24,9 @@ import java.util.Map;
 public final class SpringFestivalConfig {
 
     @Config.Comment("Toggles of all modules available in Spring Festival mod.")
+    @Config.LangKey("config.springfestival.modules")
     @Config.Name("modules")
+    @Config.RequiresMcRestart
     public static final Map<String, Boolean> MODULES = new HashMap<>();
 
     static {
@@ -41,10 +43,13 @@ public final class SpringFestivalConfig {
     }
 
     @Config.Comment("If true, the UTC +08:00 timezone, the traditional time zone used for calculating Chinese Lunar Calendar, will be used to determine whether today is in Spring Festival Season or not.")
+    @Config.LangKey("config.springfestival.general.enforce_timezone")
     @Config.Name("Enforce UTC+0800 Timezone")
     public static boolean enforceChinaStandardTime = true;
 
     @Config.Comment("If true, the mod will consider any day in January or February as \"during Spring Festival season\".")
+    @Config.LangKey("config.springfestival.general.fuzzy_time_checker")
+    @Config.Name("Use Fuzzy Spring Festival Time Checker")
     public static boolean useFuzzySpringFestivalMatcher = false;
 
     @SubscribeEvent
