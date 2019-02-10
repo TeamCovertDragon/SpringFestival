@@ -135,7 +135,6 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     }
 
     @SubscribeEvent
-    @SideOnly(Side.CLIENT)
     public void onSoundEventRegistry(RegistryEvent.Register<SoundEvent> event) {
         event.getRegistry().register(FirecrackerRegistry.soundFirecrackerThrow);
         event.getRegistry().register(FirecrackerRegistry.soundFirecrackerExplode);
