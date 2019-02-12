@@ -10,6 +10,9 @@
     "authorList": ["CovertDragon Team"],
     "credits": "You",
     "logoFile": "logo.png",
-    "screenshots": []
+    "screenshots": [],
+    "useDependencyInformation": true,
+    "requiredMods": [ "forge@[14.23.5.2779,)" ],
+    "dependencies": [ "forge" ]
   }
 ]

@@ -41,11 +41,11 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestivalConstants;
@@ -66,8 +66,15 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     // TODO Albedo support? Are we sure on this one?
     // TODO The compatibility should be done via {@link net.minecraftforge.fml.common.Optional.Interface}
 //    public static Boolean useFancyLighting;
-    private static final Field FIELD_AVOID_CLASS = ReflectionHelper.findField(EntityAIAvoidEntity.class, "field_181064_i", "classToAvoid");
-    private static final Field FIELD_DISPENSE_RESULT = ReflectionHelper.findField(Bootstrap.BehaviorDispenseOptional.class, "field_190911_b", "successful");
+    /*
+     * We use the ObfuscationReflectionHelper because ReflectionHelper under relauncher package is in the Land of C***mod,
+     * implying that those two classes are on different class loaders. Since we are regular FML mods, we use the one
+     * that is on the same class loader as of which we are on.
+     */
+    private static final Field FIELD_AVOID_CLASS = ObfuscationReflectionHelper.findField(EntityAIAvoidEntity.class, "field_181064_i");
+    // TODO (3TUSK): I guess we can actually cast that instance of anonymous class to Bootstrap.BehaviorDispenseOptional,
+    //  so we don't need extra reflection.
+    private static final Field FIELD_DISPENSE_RESULT = ObfuscationReflectionHelper.findField(Bootstrap.BehaviorDispenseOptional.class, "field_190911_b");
 
     @SubscribeEvent
     public void entityRegistration(RegistryEvent.Register<EntityEntry> event) {
