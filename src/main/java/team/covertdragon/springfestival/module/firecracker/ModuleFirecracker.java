@@ -71,10 +71,17 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
      * implying that those two classes are on different class loaders. Since we are regular FML mods, we use the one
      * that is on the same class loader as of which we are on.
      */
-    private static final Field FIELD_AVOID_CLASS = ObfuscationReflectionHelper.findField(EntityAIAvoidEntity.class, "field_181064_i");
+    private static final Field FIELD_AVOID_CLASS;
     // TODO (3TUSK): I guess we can actually cast that instance of anonymous class to Bootstrap.BehaviorDispenseOptional,
     //  so we don't need extra reflection.
-    private static final Field FIELD_DISPENSE_RESULT = ObfuscationReflectionHelper.findField(Bootstrap.BehaviorDispenseOptional.class, "field_190911_b");
+    private static final Field FIELD_DISPENSE_RESULT;
+
+    static {
+        FIELD_AVOID_CLASS = ObfuscationReflectionHelper.findField(EntityAIAvoidEntity.class, "field_181064_i");
+        FIELD_DISPENSE_RESULT = ObfuscationReflectionHelper.findField(Bootstrap.BehaviorDispenseOptional.class, "field_190911_b");
+        FIELD_AVOID_CLASS.setAccessible(true);
+        FIELD_DISPENSE_RESULT.setAccessible(true);
+    }
 
     @SubscribeEvent
     public void entityRegistration(RegistryEvent.Register<EntityEntry> event) {
@@ -93,8 +100,6 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
                 Items.FLINT_AND_STEEL,
                 new BehaviourFlintAndSteelDispense(BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(Items.FLINT_AND_STEEL))
         );
-        FIELD_AVOID_CLASS.setAccessible(true);
-        FIELD_DISPENSE_RESULT.setAccessible(true);
 //        useFancyLighting = Loader.isModLoaded("albedo");
     }
 

@@ -27,10 +27,8 @@ import team.covertdragon.springfestival.module.firecracker.hanging.BlockHangingF
 @GameRegistry.ObjectHolder(SpringFestivalConstants.MOD_ID)
 public class FirecrackerRegistry {
 
-    @GameRegistry.ObjectHolder("firework_box")
     public static final Block FIREWORK_BOX = Blocks.AIR;
 
-    @GameRegistry.ObjectHolder("hanging_firecracker")
     public static final Block HANGING_FIRECRACKER = Blocks.AIR;
 
     public static final Item FIRECRACKER_EGG = Items.AIR;

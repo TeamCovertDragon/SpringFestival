@@ -14,12 +14,13 @@ import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Config(modid = SpringFestivalConstants.MOD_ID)
-@Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID)
+@Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID, value = Side.CLIENT)
 @SuppressWarnings("CanBeFinal")
 public final class SpringFestivalConfig {
 
@@ -57,5 +58,9 @@ public final class SpringFestivalConfig {
         if (SpringFestivalConstants.MOD_ID.equals(event.getModID())) {
             ConfigManager.sync(SpringFestivalConstants.MOD_ID, Config.Type.INSTANCE);
         }
+    }
+
+    private SpringFestivalConfig() {
+        throw new UnsupportedOperationException("You just don't have the instance.");
     }
 }
