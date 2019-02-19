@@ -1,0 +1,50 @@
+{
+    "itemGroup.spring_festival": "新春工坊",
+
+    "item.springfestival.fu": "福字",
+    "item.springfestival.redpacket": "紅包",
+    "item.springfestival.red_paper": "紅紙",
+    "item.springfestival.red_paper_broken": "破碎的紅紙",
+    "item.springfestival.red_hat": "紅帽",
+    "item.springfestival.red_gown": "紅袍",
+    "item.springfestival.red_trousers": "紅棉褲",
+    "item.springfestival.red_shoes": "紅鞋子",
+    "item.springfestival.dumpling": "餃子",
+    "item.springfestival.niangao": "年糕",
+    "item.springfestival.firecracker_egg": "爆竹",
+    "item.springfestival.large_red_pillar": "大紅柱",
+    "item.springfestival.large_red_pillar_alt": "大紅柱",
+    "item.springfestival.fortune_stone": "福石",
+    "item.springfestival.glutinous_rice": "糯米",
+    "item.springfestival.glutinous_rice_seed": "糯米種子",
+
+    "block.springfestival.fu_door": "福字門",
+    "block.springfestival.hanging_firecracker": "掛着的爆竹",
+    "block.springfestival.firework_box": "禮炮",
+    "block.springfestival.large_red_pillar": "大紅柱",
+    "block.springfestival.large_red_pillar_alt": "大紅柱",
+    "block.springfestival.basic_fv_collector": "基礎福氣收集器",
+
+    "entity.springfestival.firecracker": "爆竹",
+
+    "subtitle.springfestival.firecracker.throw": "爆竹：投擲",
+    "subtitle.springfestival.firecracker.explode": "爆竹：爆炸",
+
+    "tooltip.springfestival.fv": "當前福氣值：%d",
+    "tooltip.springfestival.right_click_to_active": "右鍵以激活",
+
+    "redpacket.owner": "紅包主人：%s",
+    "redpacket.receiver": "%s將會收到這個紅包",
+    "redpacket.receiver.any": "所有人都",
+    "redpacket.message": "賀詞：%s",
+    "redpacket.message.empty": "【暫無】",
+    "redpacket.mode.passcode": "口令紅包",
+    "redpacket.mode.regular": "手氣紅包",
+
+    "firework.tooltip.count": "煙花數量：%d",
+
+    "toast.redpacket.publish.passcode": "%s剛發了一個口令紅包！",
+    "toast.redpacket.publish.regular": "%s剛發了一個手氣紅包！",
+
+    "error.springfestival.spend_time_with_your_family": "過年了，要少玩 Minecraft，多陪陪家人"
+}

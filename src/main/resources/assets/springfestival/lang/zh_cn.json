@@ -1,0 +1,69 @@
+{
+    "itemGroup.spring_festival": "新春工坊",
+
+    "item.springfestival.fu": "福字",
+    "item.springfestival.fu_door": "福字门",
+    "item.springfestival.redpacket": "红包",
+    "item.springfestival.red_paper": "红纸",
+    "item.springfestival.red_paper_broken": "破碎的红纸",
+    "item.springfestival.red_hat": "红帽",
+    "item.springfestival.red_gown": "红袍",
+    "item.springfestival.red_trousers": "红棉裤",
+    "item.springfestival.red_shoes": "红鞋子",
+    "item.springfestival.dumpling": "饺子",
+    "item.springfestival.niangao": "年糕",
+    "item.springfestival.fried_niangao": "炸年糕",
+    "item.springfestival.firecracker_egg": "爆竹",
+    "item.springfestival.large_red_pillar": "大红柱",
+    "item.springfestival.large_red_pillar_alt": "大红柱",
+    "item.springfestival.fortune_stone": "福石",
+    "item.springfestival.debug_tool": "调试工具",
+    "item.springfestival.glutinous_rice": "糯米",
+    "item.springfestival.glutinous_rice_seed": "糯米种子",
+    "item.springfestival.track_01": "新春工坊唱片（第 1 轨）",
+
+    "block.springfestival.fu_door": "福字门",
+    "block.springfestival.hanging_firecracker": "挂着的爆竹",
+    "block.springfestival.firework_box": "礼炮",
+    "block.springfestival.large_red_pillar": "大红柱",
+    "block.springfestival.large_red_pillar_alt": "大红柱",
+
+    "entity.springfestival.firecracker": "爆竹",
+
+    "subtitle.springfestival.firecracker.throw": "爆竹：投掷",
+    "subtitle.springfestival.firecracker.explode": "爆竹：爆炸",
+
+    "advancement.springfestival.root": "新春工坊",
+    "advancement.springfestival.root.desc": "新年将至！",
+    "advancement.springfestival.red_hat": "Get a Red Hat",
+    "advancement.springfestival.red_hat.desc": "新年新衣裳！",
+
+    "tooltip.springfestival.fv": "当前福气值: %d",
+    "tooltip.springfestival.right_click_to_active": "右键以激活",
+
+    "redpacket.owner": "红包主人：%s",
+    "redpacket.receiver": "%s将会收到这个红包",
+    "redpacket.receiver.any": "所有人都",
+    "redpacket.message": "贺词：%s",
+    "redpacket.message.empty": "【暂无】",
+    "redpacket.mode.passcode": "口令红包",
+    "redpacket.mode.regular": "手气红包",
+
+    "firework.tooltip.count": "烟花数量: %d",
+
+    "toast.redpacket.publish.passcode": "%s刚发了一个口令红包！",
+    "toast.redpacket.publish.regular": "%s刚发了一个手气红包！",
+
+    "error.springfestival.spend_time_with_your_family": "过年了，要少玩会 Minecraft，多陪陪家人",
+    "error.springfestival.spend_time_with_your_family.opt_out": "如果你一定要玩 Minecraft，请在《新春工坊》的配置文件中找到 modules 一项，删除其中的 tricks 后保存并重启游戏。",
+
+    "potion.fortunate": "福气满满",
+
+    "config.springfestival.modules": "模块",
+    "config.springfestival.modules.tooltip": "启用或禁用《新春工坊》的模块。",
+
+    "config.springfestival.general.enforce_timezone": "强制使用北京时间",
+    "config.springfestival.general.enforce_timezone.tooltip": "启用后，《新春工坊》会强制使用传统农历使用的世界协调时 +08:00（即北京时间）来判断当前是否处于春节节期中。不启用此选项时则使用本机时间。",
+    "config.springfestival.general.fuzzy_time_checker": "启用模糊时间检查",
+    "config.springfestival.general.fuzzy_time_checker.tooltip": "启用后，《新春工坊》将会无条件视整个公历的一月和二月为春节节期。"
+}

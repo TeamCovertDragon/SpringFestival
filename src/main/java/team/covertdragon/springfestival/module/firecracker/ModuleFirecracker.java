@@ -96,7 +96,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     }
 
     @SubscribeEvent
-    public void onEntityJoin(EntityJoinWorldEvent event) {
+    public static void onEntityJoin(EntityJoinWorldEvent event) {
         /*if (!event.getWorld().isRemote && event.getEntity() instanceof EntityMob) {
             EntityMob mob = (EntityMob) event.getEntity();
             for (EntityAITaskEntry task : mob.tasks.taskEntries)
@@ -145,7 +145,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
     }
 
     @SubscribeEvent
-    public void onItemRegister(RegistryEvent.Register<Item> event) {
+    public static void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
                 new ItemFireworkBox(FirecrackerRegistry.FIREWORK_BOX, new Item.Properties().group(SpringFestivalConstants.SPRING_GROUP))
                         .setRegistryName(SpringFestivalConstants.MOD_ID, "firework_box"),

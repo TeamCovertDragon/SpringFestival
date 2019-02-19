@@ -1,0 +1,69 @@
+{
+    "itemGroup.spring_festival": "Spring Festival",
+
+    "item.springfestival.fu": "\"Fu\"",
+    "item.springfestival.fu_door": "Fortune Door",
+    "item.springfestival.redpacket": "Red Packet",
+    "item.springfestival.red_paper": "Red Paper",
+    "item.springfestival.red_paper_broken": "Broken Red Paper",
+    "item.springfestival.red_hat": "Red Hat",
+    "item.springfestival.red_gown": "Red Gown",
+    "item.springfestival.red_trousers": "Red Trousers",
+    "item.springfestival.red_shoes": "Red Shoes",
+    "item.springfestival.dumpling": "Dumpling",
+    "item.springfestival.niangao": "Rice Cake",
+    "item.springfestival.fried_niangao": "Fired Rice Cake",
+    "item.springfestival.firecracker_egg": "Firecracker",
+    "item.springfestival.large_red_pillar": "Large Red Pillar",
+    "item.springfestival.large_red_pillar_alt": "Large Red Pillar",
+    "item.springfestival.fortune_stone": "Fortune Stone",
+    "item.springfestival.debug_tool": "Debug Tool",
+    "item.springfestival.glutinous_rice": "Glutinous Rice",
+    "item.springfestival.glutinous_rice_seed": "Glutinous Rice Seed",
+    "item.springfestival.track_01": "Spring Festival Music Track No. 01",
+
+    "block.springfestival.fu_door": "Fortune Door",
+    "block.springfestival.hanging_firecracker": "Hanging Firecracker",
+    "block.springfestival.firework_box": "Firework Box",
+    "block.springfestival.large_red_pillar": "Large Red Pillar",
+    "block.springfestival.large_red_pillar_alt": "Large Red Pillar",
+
+    "entity.springfestival.firecracker": "Firecracker",
+
+    "subtitle.springfestival.firecracker.throw": "Firecracker Flies",
+    "subtitle.springfestival.firecracker.explode": "Firecracker Explodes",
+
+    "advancement.springfestival.root": "Spring Festival",
+    "advancement.springfestival.root.desc": "Heyo, the New Year is coming!",
+    "advancement.springfestival.red_hat": "Get a Red Hat",
+    "advancement.springfestival.red_hat.desc": "New year, new clothes!",
+
+    "tooltip.springfestival.fv": "Current Fortune Value: %d",
+    "tooltip.springfestival.right_click_to_active": "Right click to active",
+
+    "redpacket.owner": "Owned by %s",
+    "redpacket.receiver": "Will be sent to %s",
+    "redpacket.receiver.any": "everyone",
+    "redpacket.message": "Greeting Message: %s",
+    "redpacket.message.empty": "None",
+    "redpacket.mode.passcode": "Passcode Mode (Only people who respond with the same greeting message will share this packet)",
+    "redpacket.mode.regular": "Fortune Mode (Everyone can share it - so long as they are fast enough)",
+
+    "firework.tooltip.count": "Fireworks Count: %d",
+
+    "toast.redpacket.publish.passcode": "%s just sent a passcode packet!",
+    "toast.redpacket.publish.regular": "%s just sent a fortune packet!",
+
+    "error.springfestival.spend_time_with_your_family": "You know, it's festival season, spend more your time with your family and less on Minecraft",
+    "error.springfestival.spend_time_with_your_family.opt_out": "If you just want to play Minecraft, you may disable this by removing \"tricks\" from the \"module\" option in springfestival.cfg.",
+
+    "potion.fortunate": "Fortunate",
+
+    "config.springfestival.modules": "Modules",
+    "config.springfestival.modules.tooltip": "Enable/Disable modules in Spring Festiavl.",
+
+    "config.springfestival.general.enforce_timezone": "Enforce UTC+08:00 Timezone",
+    "config.springfestival.general.enforce_timezone.tooltip": "If true, the UTC +08:00 timezone, the traditional time zone used for calculating Chinese Lunar Calendar, will be used to determine whether today is in Spring Festival Season or not. Otherwise, it will use the local timezone used by your computer.",
+    "config.springfestival.general.fuzzy_time_checker": "Enable Fuzzy Time Checker",
+    "config.springfestival.general.fuzzy_time_checker.tooltip": "If true, the Spring Festival mod will consider any day in January or February as \"during Spring Festival season\"."
+}

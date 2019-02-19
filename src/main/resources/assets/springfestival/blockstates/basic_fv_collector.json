@@ -1,7 +1,7 @@
 {
   "variants": {
     "normal": {
-      "model": "springfestival:basic_fv_collector"
+      "model": "springfestival:block/basic_fv_collector"
     }
   }
 }

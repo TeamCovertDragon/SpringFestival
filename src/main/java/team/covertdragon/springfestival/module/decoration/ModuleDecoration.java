@@ -90,7 +90,7 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
     }
 
     @SubscribeEvent
-    public void onBlockRegister(RegistryEvent.Register<Block> event) {
+    public static void onBlockRegister(RegistryEvent.Register<Block> event) {
         event.getRegistry().registerAll(
                 new BlockFuDoor(Block.Properties.create(Material.WOOD).hardnessAndResistance(1.5F))
                         .setRegistryName(SpringFestivalConstants.MOD_ID, "fu_door"),
