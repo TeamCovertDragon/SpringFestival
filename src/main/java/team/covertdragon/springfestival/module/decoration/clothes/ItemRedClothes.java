@@ -12,17 +12,63 @@ package team.covertdragon.springfestival.module.decoration.clothes;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.EnumHelper;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.SoundEvent;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
 public class ItemRedClothes extends ItemArmor{
-    public static final ItemArmor.ArmorMaterial RED_CLOTHES = EnumHelper.addArmorMaterial("RED_CLOTH", SpringFestivalConstants.MOD_ID + ":" + "red_cloth", 10, new int[] {1,3,4,2}, 10, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F);
 
-    public ItemRedClothes(EntityEquipmentSlot equipmentSlotIn) {
-        super(RED_CLOTHES, 0, equipmentSlotIn);
-        this.setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
+    public static final class RedClothMaterial implements IArmorMaterial {
+
+        public static final RedClothMaterial INSTANCE = new RedClothMaterial();
+
+        @Override
+        public int getDurability(EntityEquipmentSlot slot) {
+            return 10;
+        }
+
+        @Override
+        public int getDamageReductionAmount(EntityEquipmentSlot slot) {
+            switch (slot) {
+                case HEAD: return 1;
+                case CHEST: return 3;
+                case LEGS: return 4;
+                case FEET: return 2;
+                default: return 0;
+            }
+        }
+
+        @Override
+        public int getEnchantability() {
+            return 10;
+        }
+
+        @Override
+        public SoundEvent getSoundEvent() {
+            return SoundEvents.ITEM_ARMOR_EQUIP_LEATHER;
+        }
+
+        @Override
+        public Ingredient getRepairMaterial() {
+            return Ingredient.EMPTY;
+        }
+
+        @Override
+        public String getName() {
+            return SpringFestivalConstants.MOD_ID + ":" + "red_cloth";
+        }
+
+        @Override
+        public float getToughness() {
+            return 0F;
+        }
+    }
+
+    ItemRedClothes(EntityEquipmentSlot equipmentSlot, Properties properties) {
+        super(RedClothMaterial.INSTANCE, equipmentSlot, properties);
     }
 
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
@@ -30,26 +76,20 @@ public class ItemRedClothes extends ItemArmor{
     }
 
     public static class RedHat extends ItemRedClothes{
-        public RedHat() {
-            super(EntityEquipmentSlot.HEAD);
-            this.setTranslationKey(SpringFestivalConstants.MOD_ID + ".red_hat");
-            this.setRegistryName(SpringFestivalConstants.MOD_ID, "red_hat");
+        public RedHat(Properties properties) {
+            super(EntityEquipmentSlot.HEAD, properties);
         }
     }
 
     public static class RedGown extends ItemRedClothes{
-        public RedGown() {
-            super(EntityEquipmentSlot.CHEST);
-            this.setTranslationKey(SpringFestivalConstants.MOD_ID + ".red_gown");
-            this.setRegistryName(SpringFestivalConstants.MOD_ID, "red_gown");
+        public RedGown(Properties properties) {
+            super(EntityEquipmentSlot.CHEST, properties);
         }
     }
 
     public static class RedTrousers extends ItemRedClothes{
-        public RedTrousers() {
-            super(EntityEquipmentSlot.LEGS);
-            this.setTranslationKey(SpringFestivalConstants.MOD_ID + ".red_trousers");
-            this.setRegistryName(SpringFestivalConstants.MOD_ID, "red_trousers");
+        public RedTrousers(Properties properties) {
+            super(EntityEquipmentSlot.LEGS, properties);
         }
 
         public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
@@ -58,10 +98,8 @@ public class ItemRedClothes extends ItemArmor{
     }
 
     public static class RedShoes extends ItemRedClothes{
-        public RedShoes() {
-            super(EntityEquipmentSlot.FEET);
-            this.setTranslationKey(SpringFestivalConstants.MOD_ID + ".red_shoes");
-            this.setRegistryName(SpringFestivalConstants.MOD_ID, "red_shoes");
+        public RedShoes(Properties properties) {
+            super(EntityEquipmentSlot.FEET, properties);
         }
     }
 }

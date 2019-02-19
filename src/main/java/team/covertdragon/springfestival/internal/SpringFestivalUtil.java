@@ -10,7 +10,7 @@
 package team.covertdragon.springfestival.internal;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.init.Particles;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
@@ -28,11 +28,12 @@ public final class SpringFestivalUtil {
         if (!ForgeEventFactory.onExplosionStart(world, explosion)) {
             explosion.doExplosionA();
             world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), FirecrackerRegistry.FIRECRACKER_EXPLODE, SoundCategory.NEUTRAL, 4.0F, (1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F) * 0.7F);
-            world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 0.0D, 0.0D);
+            world.addParticle(Particles.EXPLOSION, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 0.0D, 0.0D);
         }
         if(world instanceof WorldServer) {
-            ((WorldServer) world).spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, true, pos.getX(), pos.getY(), pos.getZ(), 2, 0, 0, 0, 0d);
-            ((WorldServer) world).spawnParticle(EnumParticleTypes.SMOKE_LARGE, true, pos.getX(), pos.getY(), pos.getZ(), 1, 0, 0, 0, 0d);
+            // TODO (3TUSK): What is this method now?
+            //world.addParticle(EnumParticleTypes.EXPLOSION_NORMAL, true, pos.getX(), pos.getY(), pos.getZ(), 2, 0, 0, 0, 0d);
+            //world.addParticle(EnumParticleTypes.SMOKE_LARGE, true, pos.getX(), pos.getY(), pos.getZ(), 1, 0, 0, 0, 0d);
         }
     }
 

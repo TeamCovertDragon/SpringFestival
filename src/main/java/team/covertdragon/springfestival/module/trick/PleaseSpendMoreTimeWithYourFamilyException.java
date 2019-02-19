@@ -12,18 +12,19 @@ package team.covertdragon.springfestival.module.trick;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiErrorScreen;
 import net.minecraft.client.resources.I18n;
-import net.minecraftforge.fml.client.CustomModLoadingErrorDisplayException;
 
 import java.util.List;
 
 /**
- * An implementation of {@link CustomModLoadingErrorDisplayException} that is thrown
+ * An implementation of CustomModLoadingErrorDisplayException that is thrown
  * when the time is in Spring Festival season and corresponding config option is
  * enabled, for sake of reminding player the fact that Spring Festival is a festival
  * for family reunion and there is no reason to simply stick on your desktop or laptop
  * when the time is intended for family.
  */
-final class PleaseSpendMoreTimeWithYourFamilyException extends CustomModLoadingErrorDisplayException {
+final class PleaseSpendMoreTimeWithYourFamilyException extends RuntimeException {
+
+    // TODO (3TUSK): We need to know what's the replacement
 
     PleaseSpendMoreTimeWithYourFamilyException() {
         super(
@@ -34,7 +35,7 @@ final class PleaseSpendMoreTimeWithYourFamilyException extends CustomModLoadingE
                 "this feature disabled in a public modpack. Last but not least: this is a feature, NOT a bug!",
                 null);
     }
-
+/*
     @Override
     public void initGui(GuiErrorScreen errorScreen, FontRenderer fontRenderer) {}
 
@@ -52,6 +53,6 @@ final class PleaseSpendMoreTimeWithYourFamilyException extends CustomModLoadingE
             errorScreen.drawCenteredString(fontRenderer, sentence, errorScreen.width / 2, yOffset, 0xFFFFFF);
             yOffset += 10;
         }
-    }
+    }*/
 
 }

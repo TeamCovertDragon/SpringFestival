@@ -13,8 +13,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import team.covertdragon.springfestival.module.fortune.machines.AbstractTileFVMachine;
 
 public class TEDefinition implements INBTSerializable<NBTTagCompound> {
@@ -26,13 +27,13 @@ public class TEDefinition implements INBTSerializable<NBTTagCompound> {
 
     public TEDefinition(TileEntity te) {
         this.pos = te.getPos();
-        this.dim = te.getWorld().provider.getDimension();
+        this.dim = te.getWorld().dimension.getType().getId(); // TODO (3TUSK/SeraphJack): Check if it's correct
     }
 
     public boolean available() {
         TileEntity te = world().getTileEntity(pos);
         if (te == null) return false;
-        return te instanceof AbstractTileFVMachine && !te.isInvalid();
+        return te instanceof AbstractTileFVMachine && !te.isRemoved();
     }
 
     public boolean shouldClean() {
@@ -46,19 +47,21 @@ public class TEDefinition implements INBTSerializable<NBTTagCompound> {
     @Override
     public NBTTagCompound serializeNBT() {
         NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setLong("pos", pos.toLong());
-        nbt.setInteger("dim", dim);
+        nbt.putLong("pos", pos.toLong());
+        nbt.putInt("dim", dim);
         return nbt;
     }
 
     @Override
     public void deserializeNBT(NBTTagCompound nbt) {
-        this.dim = nbt.getInteger("dim");
+        this.dim = nbt.getInt("dim");
         this.pos = BlockPos.fromLong(nbt.getLong("pos"));
     }
 
     private World world() {
-        return FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(dim);
+        // TODO (3TUSK): Check if it's correct
+        return ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.getById(dim));
+        //return FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(dim);
     }
 
     public static TEDefinition fromNBT(NBTTagCompound nbt) {

@@ -10,56 +10,37 @@
 package team.covertdragon.springfestival;
 
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLConstructionEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import team.covertdragon.springfestival.internal.SpringFestivalGuiHandler;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(modid = SpringFestivalConstants.MOD_ID, name = SpringFestivalConstants.NAME, version = "@VERSION_INJECT@", useMetadata = true)
+@Mod(SpringFestivalConstants.MOD_ID)
 public final class SpringFestival {
 
-    private static final SpringFestival INSTANCE = new SpringFestival();
+    private static SpringFestival INSTANCE;
 
-    @Mod.InstanceFactory
     public static SpringFestival getInstance() {
         return INSTANCE;
     }
 
-    @SidedProxy(
-            serverSide = "team.covertdragon.springfestival.internal.server.SpringFestivalProxyServer",
-            clientSide = "team.covertdragon.springfestival.internal.client.SpringFestivalProxyClient"
-    )
-    public static SpringFestivalProxy proxy;
+    public SpringFestival() {
+        INSTANCE = this;
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onServerStarting);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onServerStopping);
+    }
 
-    private SpringFestival() {}
-
-    @Mod.EventHandler
-    public void onConstruct(FMLConstructionEvent event) {
+    private void setup(FMLCommonSetupEvent event) {
         SpringFestivalModuleController.INSTANCE.onConstruct(event);
+        //SpringFestivalConstants.logger = event.getModLog(); // TODO (3TUSK): We need a different approach.
+        //NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new SpringFestivalGuiHandler()); // TODO (3TUSK): Awaiting new GUIHandler stuff to be stable
     }
 
-    @Mod.EventHandler
-    public void onPreInit(FMLPreInitializationEvent event) {
-        SpringFestivalConstants.logger = event.getModLog();
-        NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new SpringFestivalGuiHandler());
-        SpringFestivalModuleController.INSTANCE.onPreInit(event);
-    }
-
-    @Mod.EventHandler
-    public void onInit(FMLInitializationEvent event) {
-        SpringFestivalModuleController.INSTANCE.onInit(event);
-    }
-
-    @Mod.EventHandler
-    public void onServerStarting(FMLServerStartingEvent event) {
+    private void onServerStarting(FMLServerStartingEvent event) {
         SpringFestivalModuleController.INSTANCE.onServerStarting(event);
     }
 
-    @Mod.EventHandler
     public void onServerStopping(FMLServerStoppingEvent event) {
         SpringFestivalModuleController.INSTANCE.onServerStopping(event);
     }

@@ -42,18 +42,30 @@ public class GuiContainerRedPacket extends GuiContainer {
     @Override
     public void initGui() {
         super.initGui();
-        GuiButtonImage sendRedPacket = new GuiButtonImage(0, this.guiLeft + 17, this.guiTop + 13, 25, 15, 195, 0, 0, TEXTURE_BG);
-        buttonList.add(sendRedPacket);
+        GuiButtonImage sendRedPacket = new GuiButtonImage(0, this.guiLeft + 17, this.guiTop + 13, 25, 15, 195, 0, 0, TEXTURE_BG) {
+            @Override
+            public void onRelease(double mouseX, double mouseY) {
+                SpringFestivalNetworkHandler.INSTANCE.sendToServer(new ClientPacketConfirmRedPacketSending());
+                Minecraft.getInstance().player.closeScreen();
+            }
+        };
+        buttons.add(sendRedPacket);
         GuiButtonToggle passcodeModeToggle = new GuiButtonToggle(1, this.guiLeft + 15, this.guiTop + 49, 14, 14, false) {
             @Override
-            public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+            public void render(int mouseX, int mouseY, float partialTicks) {
                 if (passcodeMode) {
-                    super.drawButton(mc, mouseX, mouseY, partialTicks);
+                    super.render(mouseX, mouseY, partialTicks);
                 }
+            }
+
+            @Override
+            public void onRelease(double mouseX, double mouseY) {
+                passcodeMode = !passcodeMode;
+                SpringFestivalNetworkHandler.INSTANCE.sendToServer(new ClientPacketTogglePasscodeMode(GuiContainerRedPacket.this.passcodeMode));
             }
         };
         passcodeModeToggle.initTextureValues(195, 17, 0, 0, TEXTURE_BG);
-        buttonList.add(passcodeModeToggle);
+        buttons.add(passcodeModeToggle);
 
         this.receiver = new GuiTextField(2, this.fontRenderer, this.guiLeft + 46 + 4, this.guiTop + 13 + 3, 133, 15);
         this.receiver.setTextColor(-1);
@@ -67,7 +79,7 @@ public class GuiContainerRedPacket extends GuiContainer {
         this.message.setCanLoseFocus(true);
         this.message.setEnabled(true);
 
-        NBTTagCompound data = Minecraft.getMinecraft().player.getHeldItemMainhand().getTagCompound();
+        NBTTagCompound data = Minecraft.getInstance().player.getHeldItemMainhand().getTag();
         if (data != null) {
             this.receiver.setText(data.getString("receiver_name"));
             this.message.setText(data.getString("message"));
@@ -75,40 +87,27 @@ public class GuiContainerRedPacket extends GuiContainer {
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        super.mouseClicked(mouseX, mouseY, mouseButton);
+    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
         this.receiver.mouseClicked(mouseX, mouseY, mouseButton);
         this.message.mouseClicked(mouseX, mouseY, mouseButton);
+        return super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) {
-        if (button.enabled) { // Dirty implementation. No time to waste, just make it works first!
-            if (button.id == 0) {
-                SpringFestivalNetworkHandler.INSTANCE.sendToServer(new ClientPacketConfirmRedPacketSending());
-                this.mc.player.closeScreen();
-            } else if (button.id == 1) {
-                passcodeMode = !passcodeMode;
-                SpringFestivalNetworkHandler.INSTANCE.sendToServer(new ClientPacketTogglePasscodeMode(this.passcodeMode));
-            }
-        }
-    }
-
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTick) {
+    public void render(int mouseX, int mouseY, float partialTick) {
         this.drawDefaultBackground();
-        super.drawScreen(mouseX, mouseY, partialTick);
+        super.render(mouseX, mouseY, partialTick);
         this.renderHoveredToolTip(mouseX, mouseY);
         GlStateManager.disableLighting();
         GlStateManager.disableBlend();
-        this.receiver.drawTextBox();
-        this.message.drawTextBox();
+        this.receiver.drawTextField(mouseX, mouseY, partialTick);
+        this.message.drawTextField(mouseX, mouseY, partialTick);
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-        for (GuiButton button : this.buttonList) {
+        for (GuiButton button : this.buttons) {
             if (button.isMouseOver()) {
                 button.drawButtonForegroundLayer(mouseX, mouseY);
             }
@@ -118,18 +117,21 @@ public class GuiContainerRedPacket extends GuiContainer {
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         this.mc.getTextureManager().bindTexture(TEXTURE_BG);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
     }
 
+
     @Override
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        if (this.receiver.textboxKeyTyped(typedChar, keyCode)) {
+    public boolean charTyped(char typedChar, int keyCode) {
+        if (this.receiver.charTyped(typedChar, keyCode)) {
             SpringFestivalNetworkHandler.INSTANCE.sendToServer(new ClientPacketUpdateRedPacketReceiver(receiver.getText()));
-        } else if (this.message.textboxKeyTyped(typedChar, keyCode)) {
+            return true;
+        } else if (this.message.charTyped(typedChar, keyCode)) {
             SpringFestivalNetworkHandler.INSTANCE.sendToServer(new ClientPacketUpdateRedPacketMessage(message.getText()));
+            return true;
         } else {
-            super.keyTyped(typedChar, keyCode);
+            return super.charTyped(typedChar, keyCode);
         }
     }
 }

@@ -12,6 +12,7 @@ package team.covertdragon.springfestival.module.calligraphy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.World;
 import net.minecraftforge.items.ItemStackHandler;
 import team.covertdragon.springfestival.internal.IGuiAccessible;
@@ -35,16 +36,20 @@ public class TileEntityCalligraphyDesk extends TileEntity implements IGuiAccessi
      */
     private boolean canvas[][] = new boolean[256][256];
 
-    @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
-        inv.deserializeNBT(tag.getCompoundTag("inventory"));
+    public TileEntityCalligraphyDesk(TileEntityType<?> tileEntityTypeIn) {
+        super(tileEntityTypeIn);
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        tag.setTag("inventory", inv.serializeNBT());
-        return super.writeToNBT(tag);
+    public void read(NBTTagCompound tag) {
+        super.read(tag);
+        inv.deserializeNBT(tag.getCompound("inventory"));
+    }
+
+    @Override
+    public NBTTagCompound write(NBTTagCompound tag) {
+        tag.put("inventory", inv.serializeNBT());
+        return super.write(tag);
     }
 
     @Override

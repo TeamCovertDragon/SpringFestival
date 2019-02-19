@@ -9,42 +9,31 @@
 
 package team.covertdragon.springfestival.module.redpacket;
 
-import net.minecraft.command.CommandHandler;
 import net.minecraft.item.Item;
-import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.internal.network.SpringFestivalNetworkHandler;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 
+@Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 @SpringFestivalModule(name = "redpacket", dependencies = {"material"})
 public class ModuleRedPacket extends AbstractSpringFestivalModule {
 
-    public static final Item RED_PACKET = new ItemRedPacket()
-            .setCreativeTab(SpringFestivalConstants.CREATIVE_TAB)
-            .setTranslationKey(SpringFestivalConstants.MOD_ID + ".redpacket")
-            .setRegistryName(SpringFestivalConstants.MOD_ID, "redpacket");
-
     public static final int GUI_RED_PACKET = 0;
+
+    public static Item RED_PACKET;
 
     static final RedPacketDispatchingController RED_PACKET_CONTROLLER = new RedPacketDispatchingController();
     private Thread redPacketThread;
 
     @SubscribeEvent
-    public void onItemRegister(RegistryEvent.Register<Item> event) {
-        event.getRegistry().register(RED_PACKET);
-    }
-
-    @SideOnly(Side.CLIENT)
-    @SubscribeEvent
-    public void onModelRegister(ModelRegistryEvent event) {
-        ModelUtil.mapItemModel(RED_PACKET);
+    public static void onItemRegister(RegistryEvent.Register<Item> event) {
+        event.getRegistry().register((RED_PACKET = new ItemRedPacket(new Item.Properties().group(SpringFestivalConstants.SPRING_GROUP))
+                .setRegistryName(SpringFestivalConstants.MOD_ID, "redpacket")));
     }
 
     @Override
@@ -58,8 +47,8 @@ public class ModuleRedPacket extends AbstractSpringFestivalModule {
     }
 
     @Override
-    public void onServerStarting() {
-        ((CommandHandler)FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager()).registerCommand(new CommandRedPacket());
+    public void onServerStarting(FMLServerStartingEvent event) {
+        new CommandRedPacket(event.getCommandDispatcher());
         RED_PACKET_CONTROLLER.setAlive(true);
         SpringFestivalConstants.logger.info("Starting red packet handler...");
         redPacketThread = new Thread(RED_PACKET_CONTROLLER, "SpringFestival-RedPacket");

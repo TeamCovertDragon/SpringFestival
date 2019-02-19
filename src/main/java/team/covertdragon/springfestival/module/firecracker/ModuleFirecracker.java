@@ -13,12 +13,18 @@ import java.lang.reflect.Field;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderSprite;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
 import net.minecraft.dispenser.IBehaviorDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
@@ -27,40 +33,37 @@ import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.init.Bootstrap.BehaviorDispenseOptional;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 import team.covertdragon.springfestival.module.firecracker.entity.EntityFirecracker;
 import team.covertdragon.springfestival.module.firecracker.entity.ItemFirecrackerEgg;
-import team.covertdragon.springfestival.module.firecracker.entity.RenderEntityFirecracker;
 import team.covertdragon.springfestival.module.firecracker.firework.BlockFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.firework.ItemFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.firework.TileFireworkBox;
 import team.covertdragon.springfestival.module.firecracker.hanging.BlockHangingFirecracker;
 import team.covertdragon.springfestival.module.firecracker.hanging.TileHangingFirecracker;
 
+@Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 @SpringFestivalModule(name = "firecracker", dependencies = {"material"})
 public class ModuleFirecracker extends AbstractSpringFestivalModule {
     // TODO Albedo support? Are we sure on this one?
@@ -71,41 +74,30 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
      * implying that those two classes are on different class loaders. Since we are regular FML mods, we use the one
      * that is on the same class loader as of which we are on.
      */
-    private static final Field FIELD_AVOID_CLASS;
+    //private static final Field FIELD_AVOID_CLASS;
     // TODO (3TUSK): I guess we can actually cast that instance of anonymous class to Bootstrap.BehaviorDispenseOptional,
     //  so we don't need extra reflection.
-    private static final Field FIELD_DISPENSE_RESULT;
+    //private static final Field FIELD_DISPENSE_RESULT;
 
     static {
-        FIELD_AVOID_CLASS = ObfuscationReflectionHelper.findField(EntityAIAvoidEntity.class, "field_181064_i");
-        FIELD_DISPENSE_RESULT = ObfuscationReflectionHelper.findField(Bootstrap.BehaviorDispenseOptional.class, "field_190911_b");
-        FIELD_AVOID_CLASS.setAccessible(true);
-        FIELD_DISPENSE_RESULT.setAccessible(true);
-    }
-
-    @SubscribeEvent
-    public void entityRegistration(RegistryEvent.Register<EntityEntry> event) {
-        event.getRegistry().register(EntityEntryBuilder.create()
-                .entity(EntityFirecracker.class)
-                .id(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker"), 0)
-                .name("springfestival.firecracker")
-                .tracker(80, 3, true)
-                .build());
+        //FIELD_AVOID_CLASS = ObfuscationReflectionHelper.findField(EntityAIAvoidEntity.class, "field_181064_i");
+        //FIELD_DISPENSE_RESULT = ObfuscationReflectionHelper.findField(Bootstrap.BehaviorDispenseOptional.class, "field_190911_b");
+        //FIELD_AVOID_CLASS.setAccessible(true);
+        //FIELD_DISPENSE_RESULT.setAccessible(true);
     }
 
     @Override
     public void onInit() {
-        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(FirecrackerRegistry.FIRECRACKER_EGG, new BehaviourFirecrackerDispense());
-        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(
-                Items.FLINT_AND_STEEL,
+        BlockDispenser.registerDispenseBehavior(FirecrackerRegistry.FIRECRACKER_EGG, new BehaviourFirecrackerDispense());
+        /*BlockDispenser.registerDispenseBehavior(Items.FLINT_AND_STEEL,
                 new BehaviourFlintAndSteelDispense(BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(Items.FLINT_AND_STEEL))
-        );
+        );*/ // TODO (3TUSK): FIX ME
 //        useFancyLighting = Loader.isModLoaded("albedo");
     }
 
     @SubscribeEvent
     public void onEntityJoin(EntityJoinWorldEvent event) {
-        if (!event.getWorld().isRemote && event.getEntity() instanceof EntityMob) {
+        /*if (!event.getWorld().isRemote && event.getEntity() instanceof EntityMob) {
             EntityMob mob = (EntityMob) event.getEntity();
             for (EntityAITaskEntry task : mob.tasks.taskEntries)
                 try {
@@ -119,37 +111,53 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
                 }
 
             mob.tasks.addTask(1, new EntityAIAvoidEntity<>(mob, EntityFirecracker.class, 6.0F, 1.0D, 1.2D));
-        }
+        }*/ // TODO (3TUSK): FIX ME
     }
 
     @SubscribeEvent
-    public void onExplosionDetonate(ExplosionEvent.Detonate event) {
+    public static void onExplosionDetonate(ExplosionEvent.Detonate event) {
         event.getAffectedEntities().removeIf(e -> e instanceof EntityXPOrb || e instanceof EntityItem);
     }
 
     @SubscribeEvent
-    public void onBlockRegister(RegistryEvent.Register<Block> event) {
-        GameRegistry.registerTileEntity(TileFireworkBox.class, new ResourceLocation(SpringFestivalConstants.MOD_ID, "tile_firework_box"));
-        GameRegistry.registerTileEntity(TileHangingFirecracker.class, new ResourceLocation(SpringFestivalConstants.MOD_ID, "tile_hanging_firecracker"));
+    public static void entityRegistration(RegistryEvent.Register<EntityType<?>> event) {
+        event.getRegistry().register(EntityFirecracker.FIRECRACKER_TYPE_TOKEN.setRegistryName(SpringFestivalConstants.MOD_ID, "firecracker"));
+    }
+
+    @SubscribeEvent
+    public static void tileRegistration(RegistryEvent.Register<TileEntityType<?>> event) {
         event.getRegistry().registerAll(
-                new BlockHangingFirecracker(),
-                new BlockFireworkBox()
+                TileFireworkBox.TYPE_TOKEN.setRegistryName(SpringFestivalConstants.MOD_ID, "tile_firework_box"),
+                TileHangingFirecracker.TYPE_TOKEN.setRegistryName(SpringFestivalConstants.MOD_ID, "tile_hanging_firecracker")
+        );
+    }
+
+    @SubscribeEvent
+    public static void onBlockRegister(RegistryEvent.Register<Block> event) {
+        event.getRegistry().registerAll(
+                new BlockHangingFirecracker(Block.Properties.create(Material.CACTUS, MaterialColor.RED).doesNotBlockMovement())
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker"),
+                new BlockFireworkBox(Block.Properties.create(Material.WOOD, MaterialColor.RED)
+                        .hardnessAndResistance(0.5F)
+                        .sound(SoundType.WOOD))
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "firework_box")
         );
     }
 
     @SubscribeEvent
     public void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                new ItemFireworkBox(FirecrackerRegistry.FIREWORK_BOX)
-                        .setTranslationKey(SpringFestivalConstants.MOD_ID + ".firework_box")
+                new ItemFireworkBox(FirecrackerRegistry.FIREWORK_BOX, new Item.Properties().group(SpringFestivalConstants.SPRING_GROUP))
                         .setRegistryName(SpringFestivalConstants.MOD_ID, "firework_box"),
-                new ItemFirecrackerEgg().setRegistryName(SpringFestivalConstants.MOD_ID, "firecracker_egg"),
-                new ItemBlock(FirecrackerRegistry.HANGING_FIRECRACKER).setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker")
+                new ItemFirecrackerEgg(new Item.Properties().group(SpringFestivalConstants.SPRING_GROUP))
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "firecracker_egg"),
+                new ItemBlock(FirecrackerRegistry.HANGING_FIRECRACKER, new Item.Properties().group(SpringFestivalConstants.SPRING_GROUP))
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "hanging_firecracker")
         );
     }
 
     @SubscribeEvent
-    public void onSoundEventRegistry(RegistryEvent.Register<SoundEvent> event) {
+    public static void onSoundEventRegistry(RegistryEvent.Register<SoundEvent> event) {
         event.getRegistry().registerAll(
                 new SoundEvent(new ResourceLocation(SpringFestivalConstants.MOD_ID, "firecracker.throw"))
                         .setRegistryName(SpringFestivalConstants.MOD_ID, "firecracker_throw"),
@@ -158,13 +166,11 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         );
     }
 
+    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    @SideOnly(Side.CLIENT)
-    public void onModelRegister(ModelRegistryEvent event) {
-        ModelUtil.mapItemModel(FirecrackerRegistry.FIREWORK_BOX);
-        ModelUtil.mapItemModel(FirecrackerRegistry.FIRECRACKER_EGG);
-        ModelUtil.mapItemModel(FirecrackerRegistry.HANGING_FIRECRACKER);
-        RenderingRegistry.registerEntityRenderingHandler(EntityFirecracker.class, RenderEntityFirecracker.FACTORY);
+    public static void onModelRegister(ModelRegistryEvent event) {
+        RenderingRegistry.registerEntityRenderingHandler(EntityFirecracker.class,
+                manager -> new RenderSprite<>(manager, FirecrackerRegistry.FIRECRACKER_EGG, Minecraft.getInstance().getItemRenderer()));
     }
 
     public class BehaviourFirecrackerDispense extends BehaviorProjectileDispense {
@@ -173,7 +179,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
             World world = source.getWorld();
             IPosition position = BlockDispenser.getDispensePosition(source);
-            EnumFacing facing = source.getBlockState().getValue(BlockDispenser.FACING);
+            EnumFacing facing = source.getBlockState().get(BlockDispenser.FACING);
             IProjectile projectile = this.getProjectileEntity(world, position, stack);
             projectile.shoot(facing.getXOffset(), facing.getYOffset() + 0.1F, facing.getZOffset(), facing != EnumFacing.UP ? 0.943F : 1.2450F, 0.233F);
             world.spawnEntity((Entity) projectile);
@@ -196,13 +202,13 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
         }
 
         protected ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
-            behavior.dispense(source, stack);
+            /*behavior.dispense(source, stack);
             try {
                 if (!FIELD_DISPENSE_RESULT.getBoolean(behavior)) {
                     World world = source.getWorld();
-                    BlockPos pos = source.getBlockPos().offset(source.getBlockState().getValue(BlockDispenser.FACING));
+                    BlockPos pos = source.getBlockPos().offset(source.getBlockState().get(BlockDispenser.FACING));
                     IBlockState state = world.getBlockState(pos);
-                    if (state.getBlock() == FirecrackerRegistry.HANGING_FIRECRACKER && state.getValue(BlockHangingFirecracker.COUNT) == 0) {
+                    if (state.getBlock() == FirecrackerRegistry.HANGING_FIRECRACKER && state.get(BlockHangingFirecracker.COUNT) == 0) {
                         // TODO (3TUSK): need a way to avoid casting
                         ((BlockHangingFirecracker)FirecrackerRegistry.HANGING_FIRECRACKER).ignite(world, pos, state, false, null);
                         this.successful = true;
@@ -210,7 +216,7 @@ public class ModuleFirecracker extends AbstractSpringFestivalModule {
                 }
             } catch (Exception e) {
                 SpringFestivalConstants.logger.catching(e);
-            }
+            }*/ // TODO (3TUSK): FIX ME
             return stack;
         }
     }

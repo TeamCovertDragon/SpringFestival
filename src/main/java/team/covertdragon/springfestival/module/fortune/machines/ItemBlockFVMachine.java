@@ -12,6 +12,7 @@ package team.covertdragon.springfestival.module.fortune.machines;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -25,27 +26,27 @@ import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capabi
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 public class ItemBlockFVMachine extends ItemBlock {
-    public ItemBlockFVMachine(Block block) {
-        super(block);
-        setRegistryName(block.getRegistryName());
-        setTranslationKey(block.getTranslationKey().replaceAll("tile.", ""));
+    public ItemBlockFVMachine(Block block, Properties properties) {
+        super(block, properties);
+        // setRegistryName(block.getRegistryName());
+        // setTranslationKey(block.getTranslationKey().replaceAll("tile.", ""));
     }
 
     @Override
-    @OverridingMethodsMustInvokeSuper
-    public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState) {
-        if (super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState)) {
-            TileEntity te = world.getTileEntity(pos);
-            if (te instanceof AbstractTileFVMachine && (!world.isRemote)) {
+    protected boolean placeBlock(BlockItemUseContext context, IBlockState newState) {
+        if (super.placeBlock(context, newState)) {
+            TileEntity te = context.getWorld().getTileEntity(context.getPos());
+            if (te instanceof AbstractTileFVMachine && (!context.getWorld().isRemote)) {
                 try {
-                    ModuleFortune.manager.addTask(new FortuneManagerActions.ActionRegisterMachine((AbstractTileFVMachine) te, player.getCapability(CapabilityLoader.fortuneValue, null)));
-                    ((AbstractTileFVMachine) te).setOwner(player.getName());
+                    ModuleFortune.manager.addTask(new FortuneManagerActions.ActionRegisterMachine((AbstractTileFVMachine) te, context.getPlayer().getCapability(CapabilityLoader.fortuneValue, null).orElseThrow(NullPointerException::new)));
+                    ((AbstractTileFVMachine) te).setOwner(context.getPlayer().getGameProfile().getName());
                 } catch (NullPointerException e) {
-                    throw new RuntimeException("Unable to read fv info for player " + player.getGameProfile().getName());
+                    throw new RuntimeException("Unable to read fv info for player " + context.getPlayer().getGameProfile().getName());
                 }
             }
             return true;
         }
         return false;
     }
+
 }

@@ -12,9 +12,8 @@ package team.covertdragon.springfestival.module.redpacket;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import org.apache.commons.lang3.StringUtils;
-import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
 import javax.annotation.Nullable;
@@ -42,7 +41,7 @@ public abstract class RedPacketOperation {
 
         @Override
         public void process() {
-            EntityPlayer player = SpringFestival.proxy.getPlayerByUUID(this.origin);
+            EntityPlayer player = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayerByUUID(this.origin);
             if (player != null) {
                 RedPacketData redPacket;
                 if (StringUtils.isEmpty(passcode)) {
@@ -51,7 +50,7 @@ public abstract class RedPacketOperation {
                     redPacket = ModuleRedPacket.RED_PACKET_CONTROLLER.nextAvailableRedPacket(passcode);
                 }
                 if (redPacket != null) {
-                    FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(new RedPacketDistributionTask(player, redPacket.randomSplit()));
+                    ServerLifecycleHooks.getCurrentServer().addScheduledTask(new RedPacketDistributionTask(player, redPacket.randomSplit()));
                 }
             } else {
                 SpringFestivalConstants.logger.warn("Looks like the player {} has given up. Voiding this operation...", origin);
@@ -71,7 +70,7 @@ public abstract class RedPacketOperation {
             @Override
             public void run() {
                 final ItemStack item = new ItemStack(ModuleRedPacket.RED_PACKET);
-                item.setTagCompound(packet.serializeNBT());
+                item.setTag(packet.serializeNBT());
                 final EntityItem entityItem = new EntityItem(player.world, player.posX, player.posY, player.posZ, item);
                 entityItem.setNoPickupDelay();
                 player.world.spawnEntity(entityItem);

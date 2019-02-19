@@ -10,18 +10,17 @@
 package team.covertdragon.springfestival.module.calligraphy;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
 public class BlockRedPaperWorkbench extends Block {
 
-    public BlockRedPaperWorkbench() {
-        super(Material.WOOD, MapColor.WOOD);
+    public BlockRedPaperWorkbench(Properties properties) {
+        //super(Material.WOOD, MapColor.WOOD);
+        super(properties);
     }
 
     @Override
@@ -31,7 +30,8 @@ public class BlockRedPaperWorkbench extends Block {
 
     @Nullable
     @Override
-    public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileEntityRedPaperWorkbench();
+    public TileEntity createTileEntity(IBlockState state, IBlockReader world) {
+        return null; // TODO (3TUSK): Fix me
+        //return new TileEntityRedPaperWorkbench();
     }
 }

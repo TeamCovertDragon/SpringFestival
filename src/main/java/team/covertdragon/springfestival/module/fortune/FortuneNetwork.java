@@ -52,7 +52,7 @@ public class FortuneNetwork {
 
         @Override
         public void readDataFrom(ByteBuf buffer, EntityPlayer player) {
-            int fv = player.getCapability(CapabilityLoader.fortuneValue, null).getFortuneValue();
+            int fv = player.getCapability(CapabilityLoader.fortuneValue, null).orElseThrow(NullPointerException::new).getFortuneValue();
             SpringFestivalNetworkHandler.INSTANCE.sendToPlayer(new PacketResponseFortuneValue(fv), (EntityPlayerMP) player);
         }
     }

@@ -10,25 +10,19 @@
 package team.covertdragon.springfestival.module.decoration;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoor;
-import net.minecraft.client.renderer.block.statemap.StateMap;
-import net.minecraft.client.renderer.tileentity.TileEntityChestRenderer;
+import net.minecraft.block.BlockRotatedPillar;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.common.util.EnumHelper;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import team.covertdragon.springfestival.SpringFestival;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.internal.network.SpringFestivalNetworkHandler;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeChecker;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
@@ -37,20 +31,16 @@ import team.covertdragon.springfestival.module.decoration.clothes.ItemRedClothes
 import team.covertdragon.springfestival.module.decoration.fudoor.BlockFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.ItemFu;
 import team.covertdragon.springfestival.module.decoration.fudoor.ServerPacketFuDoorCreation;
-import team.covertdragon.springfestival.module.decoration.fudoor.TESRFuDoor;
 import team.covertdragon.springfestival.module.decoration.fudoor.TileFuDoor;
-import team.covertdragon.springfestival.module.decoration.redpillar.BlockLargeRedPillar;
-import team.covertdragon.springfestival.module.decoration.redpillar.BlockLargeRedPillarAlt;
 
-import java.lang.reflect.Field;
-
+@Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 @SpringFestivalModule(name = "decoration", dependencies = {"material"})
 public class ModuleDecoration extends AbstractSpringFestivalModule {
 
     public void onInit() {
         SpringFestivalNetworkHandler.INSTANCE.registerPacket(ServerPacketFuDoorCreation.class);
-        if (SpringFestival.proxy.isPhysicalClient() && SpringFestivalTimeChecker.INSTANCE.isDuringSpringFestivalSeason()) {
-            try {
+        if (FMLEnvironment.dist == Dist.CLIENT && SpringFestivalTimeChecker.INSTANCE.isDuringSpringFestivalSeason()) {
+            /*try {
                 Field textureChestSingle = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_NORMAL");
                 Field textureChestDouble = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_NORMAL_DOUBLE");
                 Field textureTrappedSingle = TileEntityChestRenderer.class.getDeclaredField("TEXTURE_TRAPPED");
@@ -61,25 +51,17 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
                 EnumHelper.setFailsafeFieldValue(textureTrappedDouble, null, new ResourceLocation(SpringFestivalConstants.MOD_ID, "textures/entity/chest_double.png"));
             } catch (Exception e) {
                 SpringFestivalConstants.logger.catching(e);
-            }
+            }*/
         }
     }
 
+    /*@OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    @SideOnly(Side.CLIENT)
-    public void onModelRegister(ModelRegistryEvent event) {
-        ModelLoader.setCustomStateMapper(DecorationRegistry.FU_DOOR, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
-        ModelUtil.mapItemModel(DecorationRegistry.FU);
-        ModelUtil.mapItemModel(DecorationRegistry.RED_HAT);
-        ModelUtil.mapItemModel(DecorationRegistry.RED_GOWN);
-        ModelUtil.mapItemModel(DecorationRegistry.RED_TROUSERS);
-        ModelUtil.mapItemModel(DecorationRegistry.RED_SHOES);
-        ModelUtil.mapItemModel(DecorationRegistry.LARGE_RED_PILLAR);
-        ModelUtil.mapItemModel(DecorationRegistry.LARGE_RED_PILLAR_ALT);
+    public static void onModelRegister(ModelRegistryEvent event) {
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileFuDoor.class, new TESRFuDoor());
     }
-/*
+
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onTextureStitch(TextureStitchEvent event) {
@@ -88,32 +70,48 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
     }*/
 
     @SubscribeEvent
-    public void onItemRegister(RegistryEvent.Register<Item> event) {
+    public static void onItemRegister(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                new ItemFu(),
-                new ItemRedClothes.RedHat(),
-                new ItemRedClothes.RedGown(),
-                new ItemRedClothes.RedTrousers(),
-                new ItemRedClothes.RedShoes(),
-                new ItemBlock(DecorationRegistry.LARGE_RED_PILLAR)
-                        .setRegistryName(SpringFestivalConstants.MOD_ID, "large_red_pillar")
-                        .setTranslationKey(SpringFestivalConstants.MOD_ID + ".large_red_pillar"),
-                new ItemBlock(DecorationRegistry.LARGE_RED_PILLAR_ALT)
+                new ItemFu(new Item.Properties().group(SpringFestivalConstants.SPRING_GROUP))
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "fu"),
+                new ItemRedClothes.RedHat(new Item.Properties().group(SpringFestivalConstants.SPRING_GROUP))
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "red_hat"),
+                new ItemRedClothes.RedGown(new Item.Properties().group(SpringFestivalConstants.SPRING_GROUP))
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "red_gown"),
+                new ItemRedClothes.RedTrousers(new Item.Properties().group(SpringFestivalConstants.SPRING_GROUP))
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "red_trousers"),
+                new ItemRedClothes.RedShoes(new Item.Properties().group(SpringFestivalConstants.SPRING_GROUP))
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "red_shoes"),
+                new ItemBlock(DecorationRegistry.LARGE_RED_PILLAR, new Item.Properties().group(SpringFestivalConstants.SPRING_GROUP))
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "large_red_pillar"),
+                new ItemBlock(DecorationRegistry.LARGE_RED_PILLAR_ALT, new Item.Properties().group(SpringFestivalConstants.SPRING_GROUP))
                         .setRegistryName(SpringFestivalConstants.MOD_ID, "large_red_pillar_alt")
-                        .setTranslationKey(SpringFestivalConstants.MOD_ID + ".large_red_pillar_alt")
         );
     }
 
     @SubscribeEvent
     public void onBlockRegister(RegistryEvent.Register<Block> event) {
-        GameRegistry.registerTileEntity(TileFuDoor.class, new ResourceLocation(SpringFestivalConstants.MOD_ID, "tile_fu_door"));
         event.getRegistry().registerAll(
-                new BlockFuDoor(),
-                new BlockLargeRedPillar(),
-                new BlockLargeRedPillarAlt()
+                new BlockFuDoor(Block.Properties.create(Material.WOOD).hardnessAndResistance(1.5F))
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "fu_door"),
+                new BlockRotatedPillar(Block.Properties // setHarvestLevel("pickaxe", 2)
+                        .create(Material.ROCK, MaterialColor.RED)
+                        .hardnessAndResistance(2.5F, 10F)
+                        .sound(SoundType.STONE))
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "large_red_pillar"),
+                new BlockRotatedPillar(Block.Properties // setHarvestLevel("pickaxe", 2)
+                        .create(Material.ROCK, MaterialColor.RED)
+                        .hardnessAndResistance(2.5F, 10F)
+                        .sound(SoundType.STONE))
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "large_red_pillar_alt")
         );
     }
 
+    @SubscribeEvent
+    public static void onTileEntityRegister(RegistryEvent.Register<TileEntityType<?>> event) {
+        event.getRegistry().register(TileFuDoor.TYPE_TOKEN.setRegistryName(SpringFestivalConstants.MOD_ID, "tile_fu_door"));
+    }
+/*
     @SubscribeEvent
     public void onBlockBreak(BlockEvent.BreakEvent event) {
         if (!event.getWorld().isRemote) {
@@ -123,5 +121,5 @@ public class ModuleDecoration extends AbstractSpringFestivalModule {
                 event.getWorld().setBlockToAir(event.getPos());
             }
         }
-    }
+    }*/
 }

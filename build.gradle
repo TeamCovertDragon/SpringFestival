@@ -12,28 +12,17 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-    }
-}
-
-allprojects {
-    repositories {
-        jcenter() {
-            url = 'http://jcenter.bintray.com/'
-        }
-        maven {
-            url 'http://repository.jboss.org/nexus/content/groups/public'
-        }
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
 
 apply plugin: 'idea'
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
 
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 version = "${version_major}.${version_minor}.${version_patch}"
-group = "team.covertdragon"
+group = "team.covertdragon.springfestival"
 archivesBaseName = "SpringFestival"
 
 if (System.getenv().BUILD_NUMBER != null) {
@@ -41,40 +30,59 @@ if (System.getenv().BUILD_NUMBER != null) {
 }
 
 repositories {
-    maven {
-        name = "jei"
-        url = "http://dvs1.progwml6.com/files/maven"
-    }
+//    maven {
+//        name = "jei"
+//        url = "http://dvs1.progwml6.com/files/maven"
+//    }
 }
 
 minecraft {
-    version = "${minecraft_version}-${forge_version}"
-    runDir = "run"
+    mappings channel: 'snapshot', version: mapping_version
 
-    mappings = "${mapping_version}"
-
-    replace "@VERSION_INJECT@", project.version
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                springfestival {
+                    source sourceSets.main
+                }
+            }
+        }
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                springfestival {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
 }
 
 dependencies {
-    compileOnly "mezz.jei:jei_${minecraft_version}:${jei_version}:api"
+    minecraft 'net.minecraftforge:forge:1.13.2-25.0.33'
+//    compileOnly "mezz.jei:jei_${minecraft_version}:${jei_version}:api"
 
-    runtimeOnly "mezz.jei:jei_${minecraft_version}:${jei_version}"
+//    runtimeOnly "mezz.jei:jei_${minecraft_version}:${jei_version}"
 
     testCompile "junit:junit:4.12"
 }
 
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version': project.version, 'mcversion': project.minecraft.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+jar {
+    manifest {
+        attributes([
+            "Specification-Title": "springfestival",
+            "Specification-Vendor": "TeamCovertDragon",
+            "Specification-Version": "1", // We are version 1 of ourselves
+            "Implementation-Title": project.name,
+            "Implementation-Version": project.version,
+            "Implementation-Vendor" :"TeamCovertDragon",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
     }
 }
 

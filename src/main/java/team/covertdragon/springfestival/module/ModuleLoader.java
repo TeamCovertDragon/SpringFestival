@@ -9,19 +9,25 @@
 
 package team.covertdragon.springfestival.module;
 
-import net.minecraftforge.fml.common.discovery.ASMDataTable;
-import net.minecraftforge.fml.common.toposort.TopologicalSort;
-import team.covertdragon.springfestival.SpringFestivalConfig;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
+import net.minecraftforge.fml.loading.toposort.TopologicalSort;
+import team.covertdragon.springfestival.module.decoration.ModuleDecoration;
+import team.covertdragon.springfestival.module.firecracker.ModuleFirecracker;
+import team.covertdragon.springfestival.module.food.ModuleFood;
+import team.covertdragon.springfestival.module.fortune.ModuleFortune;
+import team.covertdragon.springfestival.module.material.ModuleMaterial;
+import team.covertdragon.springfestival.module.monster.ModuleMonster;
+import team.covertdragon.springfestival.module.music.ModuleMusic;
+import team.covertdragon.springfestival.module.redpacket.ModuleRedPacket;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public final class ModuleLoader {
 
@@ -31,15 +37,25 @@ public final class ModuleLoader {
         throw new UnsupportedOperationException("No instance");
     }
 
-    public static List<ISpringFestivalModule> readASMDataTable(ASMDataTable table) {
+    public static List<ISpringFestivalModule> readASMDataTable(/*ASMDataTable table*/) {
         if (dataHarvested) {
             throw new IllegalStateException("Modules are already initialized");
         }
         dataHarvested = true;
-        return new ModuleSorter(getInstances(table, SpringFestivalModule.class, ISpringFestivalModule.class)).sort();
+        List<ISpringFestivalModule> modules = new ArrayList<>(Arrays.asList(
+                new ModuleDecoration(),
+                new ModuleFirecracker(),
+                new ModuleFood(),
+                new ModuleFortune(),
+                new ModuleMaterial(),
+                new ModuleMonster(),
+                new ModuleMusic(),
+                new ModuleRedPacket()/*,
+                new ModuleTrick()*/));
+        return new ModuleSorter(modules).sort();
     }
 
-    private static <T> List<T> getInstances(ASMDataTable asmDataTable, Class annotationClass, Class<T> instanceClass) {
+    /*private static <T> List<T> getInstances(ASMDataTable asmDataTable, Class annotationClass, Class<T> instanceClass) {
         String annotationClassName = annotationClass.getCanonicalName();
         Set<ASMDataTable.ASMData> asmDataSet = asmDataTable.getAll(annotationClassName);
         final List<String> expectedModules = SpringFestivalConfig.MODULES.entrySet()
@@ -63,8 +79,8 @@ public final class ModuleLoader {
                 throw new RuntimeException("Failed to load: " + asmData.getClassName() + " " + e.toString());
             }
         }
-        return instances;
-    }
+        return Collections.emptyList();
+    }*/
 
     /**
      * Work around against <code>-Dfml.enableJsonAnnotations=true</code> system properties.
@@ -106,14 +122,15 @@ public final class ModuleLoader {
     }
 
     private static class ModuleSorter {
-        private TopologicalSort.DirectedGraph<ISpringFestivalModule> moduleGraph;
+        private MutableGraph<ISpringFestivalModule> moduleGraph;
+        //private TopologicalSort.DirectedGraph<ISpringFestivalModule> moduleGraph;
 
         ModuleSorter(List<ISpringFestivalModule> modules) {
             buildGraph(modules);
         }
 
         private void buildGraph(List<ISpringFestivalModule> modules) {
-            moduleGraph = new TopologicalSort.DirectedGraph<>();
+            moduleGraph = GraphBuilder.directed().expectedNodeCount(modules.size()).build();
 
             for (ISpringFestivalModule module : modules) {
                 moduleGraph.addNode(module);
@@ -126,12 +143,12 @@ public final class ModuleLoader {
                     continue;
                 }
 
-                dependencies.forEach(dep -> moduleGraph.addEdge(findModule(modules, (String) dep), module));
+                dependencies.forEach(dep -> moduleGraph.putEdge(findModule(modules, (String) dep), module));
             }
         }
 
         List<ISpringFestivalModule> sort() {
-            return TopologicalSort.topologicalSort(moduleGraph);
+            return TopologicalSort.topologicalSort(moduleGraph, Comparator.comparing(ModuleLoader::getModuleName));
         }
     }
 }

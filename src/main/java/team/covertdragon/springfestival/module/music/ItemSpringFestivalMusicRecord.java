@@ -11,22 +11,11 @@ package team.covertdragon.springfestival.module.music;
 
 import net.minecraft.item.ItemRecord;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.client.resources.I18n;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemSpringFestivalMusicRecord extends ItemRecord {
+public final class ItemSpringFestivalMusicRecord extends ItemRecord {
 
-    private final String displayNameKey;
-
-    public ItemSpringFestivalMusicRecord(String displayNameKey, SoundEvent soundIn) {
-        super(displayNameKey, soundIn);
-        this.displayNameKey = "item.springfestival.record." + displayNameKey;
+    ItemSpringFestivalMusicRecord(int priority, SoundEvent sound, Properties properties) {
+        super(priority, sound, properties);
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public String getRecordNameLocal() {
-        return I18n.format(displayNameKey);
-    }
 }

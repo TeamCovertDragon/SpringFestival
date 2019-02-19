@@ -9,6 +9,8 @@
 
 package team.covertdragon.springfestival.module;
 
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+
 public interface ISpringFestivalModule {
 
     /**
@@ -25,7 +27,7 @@ public interface ISpringFestivalModule {
     /**
      * Called when FMLServerStartingEvent is dispatched.
      */
-    default void onServerStarting() {}
+    default void onServerStarting(FMLServerStartingEvent event) {}
 
     default void onServerStopping() {}
 }

@@ -24,9 +24,8 @@ import team.covertdragon.springfestival.module.firecracker.FirecrackerRegistry;
 // TODO: Firecharge?
 public class ItemFirecrackerEgg extends Item {
 
-    public ItemFirecrackerEgg() {
-        this.setTranslationKey(SpringFestivalConstants.MOD_ID + ".firecracker_egg");
-        this.setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
+    public ItemFirecrackerEgg(Properties properties) {
+        super(properties);
     }
 
     @Override
@@ -36,13 +35,13 @@ public class ItemFirecrackerEgg extends Item {
             held.shrink(1);
         }
 
-        world.playSound(null, player.posX, player.posY, player.posZ, FirecrackerRegistry.FIRECRACKER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        world.playSound(null, player.posX, player.posY, player.posZ, FirecrackerRegistry.FIRECRACKER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
 
         if (!world.isRemote) {
             EntityFirecracker firecracker = new EntityFirecracker(world, player.posX, player.posY, player.posZ, player);
             firecracker.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 0.943F, 0.233F);
             world.spawnEntity(firecracker);
-            player.addStat(StatList.getObjectUseStats(this));
+            player.addStat(StatList.ITEM_USED.get(this));
         }
 
         return new ActionResult<>(EnumActionResult.SUCCESS, held);

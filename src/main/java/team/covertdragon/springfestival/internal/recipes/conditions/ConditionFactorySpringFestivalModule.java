@@ -8,7 +8,7 @@
  */
 
 package team.covertdragon.springfestival.internal.recipes.conditions;
-
+/* // TODO (3TUSK): Nuked, need a redesign on module system
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.util.JsonUtils;
@@ -28,4 +28,4 @@ public class ConditionFactorySpringFestivalModule implements IConditionFactory {
             throw new JsonSyntaxException("Failed to parse Spring Festival module condition", e);
         }
     }
-}
+}*/

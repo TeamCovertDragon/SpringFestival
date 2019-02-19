@@ -12,7 +12,7 @@ package team.covertdragon.springfestival.module.redpacket;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.network.AbstractSpringFestivalPacket;
 import team.covertdragon.springfestival.internal.network.SpringFestivalNetworkHandler;
@@ -34,7 +34,7 @@ public class ClientPacketConfirmRedPacketSending implements AbstractSpringFestiv
                 SpringFestivalConstants.logger.error("Failed to enqueue red packet! Report immediately!");
             }
         } else {
-            final EntityPlayerMP targetPlayer = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(data.getReceiver());
+            final EntityPlayerMP targetPlayer = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayerByUUID(data.getReceiver());
             if (targetPlayer != null) {
                 player.getHeldItemMainhand().shrink(1);
                 SpringFestivalNetworkHandler.INSTANCE.sendToPlayer(new ServerPacketSendingRedPacketToPlayer(), targetPlayer);

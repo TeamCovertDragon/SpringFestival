@@ -11,60 +11,52 @@ package team.covertdragon.springfestival.module.decoration.fudoor;
 
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemDoor;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.network.SpringFestivalNetworkHandler;
-import team.covertdragon.springfestival.module.decoration.DecorationRegistry;
 
 /**
  * The item instance that represents the Fu character post.
  */
 public class ItemFu extends Item {
 
-    public ItemFu() {
-        setRegistryName(SpringFestivalConstants.MOD_ID, "fu");
-        setTranslationKey(SpringFestivalConstants.MOD_ID + ".fu");
-        setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
+    public ItemFu(Properties properties) {
+        super(properties);
     }
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        IBlockState state = world.getBlockState(pos);
-        if (!world.isRemote && state.getBlock() instanceof BlockDoor && player.isSneaking() && !(state.getBlock() instanceof BlockFuDoor)) {
+    public EnumActionResult onItemUse(ItemUseContext context) {
+        IBlockState state = context.getWorld().getBlockState(context.getPos());
+        if (!context.getWorld().isRemote && state.getBlock() instanceof BlockDoor && context.getPlayer().isSneaking() && !(state.getBlock() instanceof BlockFuDoor)) {
             IBlockState originalUpper;
             IBlockState originalLower;
-            if (state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.UPPER) {
+            if (state.get(BlockDoor.HALF) == DoubleBlockHalf.UPPER) {
                 originalUpper = state;
-                originalLower = world.getBlockState(pos.add(0, -1, 0));
+                originalLower = context.getWorld().getBlockState(context.getPos().add(0, -1, 0));
             } else {
                 originalLower = state;
-                pos = pos.add(0, 1, 0);
-                originalUpper = world.getBlockState(pos);
+                originalUpper = context.getWorld().getBlockState(context.getPos().add(0, 1, 0));
             }
 
             //Delete original door
-            world.setBlockToAir(pos);
-            world.setBlockToAir(pos.add(0, -1, 0));
+            context.getWorld().removeBlock(context.getPos());
+            context.getWorld().removeBlock(context.getPos().add(0, -1, 0));
             //Set Tile Entity
             // TODO Orientation is wrong
-            ItemDoor.placeDoor(world, pos.add(0, -1, 0), state.getValue(BlockDoor.FACING), DecorationRegistry.FU_DOOR, state.getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT);
-            TileFuDoor te = (TileFuDoor) world.getTileEntity(pos);
+            // TODO (3TUSK): Fix me
+            // ItemDoor.placeDoor(world, pos.add(0, -1, 0), state.get(BlockDoor.FACING), DecorationRegistry.FU_DOOR, state.get(BlockDoor.HINGE) == DoorHingeSide.RIGHT);
+            TileFuDoor te = (TileFuDoor) context.getWorld().getTileEntity(context.getPos());
             if (te != null) {
                 te.setOriginalBlockStateLower(originalLower);
                 te.setOriginalBlockStateUpper(originalUpper);
-                SpringFestivalNetworkHandler.INSTANCE.sendToDimension(new ServerPacketFuDoorCreation(te), world.provider.getDimension());
+                SpringFestivalNetworkHandler.INSTANCE.sendToDimension(new ServerPacketFuDoorCreation(te), context.getWorld().dimension.getType().getId()); // TODO (3TUSK): This could be wrong
             } else {
                 throw new NullPointerException();
             }
 
-            player.getHeldItem(hand).shrink(1);
+            context.getPlayer().getHeldItem(context.getPlayer().getActiveHand()).shrink(1);
 
             return EnumActionResult.SUCCESS;
         }

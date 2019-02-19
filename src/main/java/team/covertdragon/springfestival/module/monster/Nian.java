@@ -9,6 +9,7 @@
 
 package team.covertdragon.springfestival.module.monster;
 
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -29,8 +30,12 @@ public class Nian extends EntityMob implements IMob {
 
     private static final ResourceLocation NIAN_DROPS = new ResourceLocation(SpringFestivalConstants.MOD_ID, "entities/nian");
 
-    public Nian(World worldIn) {
-        super(worldIn);
+    static final EntityType<Nian> NIAN_TYPE_TOKEN = EntityType.Builder.create(Nian.class, Nian::new)
+            .tracker(80, 5, true)
+            .build("springfestival.nian");
+
+    public Nian(World world) {
+        super(NIAN_TYPE_TOKEN, world);
     }
 
     // TODO Pending on detailed documentation, just leave this stub here

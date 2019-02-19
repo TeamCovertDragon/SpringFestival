@@ -16,7 +16,7 @@ public final class SpringFestivalTimeChecker {
     private SpringFestivalTimeChecker() {
         this.checkers.add(SpringFestivalTimeProviderLocal.INSTANCE);
         this.checkers.add(SpringFestivalTimeProvider.fromURL("https://covertdragon.team/springfestival/date", "SpringFestival-DateQuerying"));
-        if (SpringFestivalConfig.useFuzzySpringFestivalMatcher) {
+        if (SpringFestivalConfig.TIME_SETTING.useFuzzySpringFestivalMatcher.get()) {
             this.checkers.add(SpringFestivalTimeProviderFuzzyMatch.INSTANCE);
         }
     }

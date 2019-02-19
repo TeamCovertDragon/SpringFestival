@@ -13,9 +13,10 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import team.covertdragon.springfestival.internal.network.AbstractSpringFestivalPacket;
+
+import java.nio.charset.StandardCharsets;
 
 public class ClientPacketUpdateRedPacketReceiver implements AbstractSpringFestivalPacket {
 
@@ -29,19 +30,19 @@ public class ClientPacketUpdateRedPacketReceiver implements AbstractSpringFestiv
 
     @Override
     public void writeDataTo(ByteBuf buffer) {
-        ByteBufUtils.writeUTF8String(buffer, receiverName);
+        buffer.writeCharSequence(receiverName, StandardCharsets.UTF_8);
     }
 
     @Override
     public void readDataFrom(ByteBuf buffer, EntityPlayer player) {
-        final String newReceiver = ByteBufUtils.readUTF8String(buffer);
-        EntityPlayer receiverPlayer = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUsername(newReceiver);
-        NBTTagCompound redPacketData = player.getHeldItemMainhand().getTagCompound();
+        final String newReceiver = /*ByteBufUtils.readUTF8String(buffer)*/"FIX ME"; // TODO (3TUSK): FIX ME
+        EntityPlayer receiverPlayer = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayerByUsername(newReceiver);
+        NBTTagCompound redPacketData = player.getHeldItemMainhand().getTag();
         if (redPacketData != null) {
             if (receiverPlayer != null) {
-                redPacketData.setTag("receiver", NBTUtil.createUUIDTag(receiverPlayer.getUniqueID()));
+                redPacketData.put("receiver", NBTUtil.writeUniqueId(receiverPlayer.getUniqueID()));
             }
-            redPacketData.setString("receiver_name", newReceiver);
+            redPacketData.putString("receiver_name", newReceiver);
         }
     }
 }

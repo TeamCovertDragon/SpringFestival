@@ -10,11 +10,12 @@
 package team.covertdragon.springfestival.internal.capabilities;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -24,7 +25,7 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 
 public class ItemStackInventoryProvider
-        implements IItemHandler, IItemHandlerModifiable, ICapabilityProvider, ICapabilitySerializable<NBTBase> {
+        implements IItemHandler, IItemHandlerModifiable, ICapabilityProvider, ICapabilitySerializable<NBTTagCompound> {
 
     private final int maxSize;
     private final ItemStack[] inv;
@@ -58,9 +59,9 @@ public class ItemStackInventoryProvider
     public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
         if (slot < this.maxSize) {
             if (simulate) {
-                return inv[slot].isEmpty() ? ItemStack.EMPTY : inv[slot].isItemEqual(stack) ? stack.copy().splitStack(stack.getCount() + inv[slot].getCount() - stack.getMaxStackSize()) : ItemStack.EMPTY;
+                return inv[slot].isEmpty() ? ItemStack.EMPTY : inv[slot].isItemEqual(stack) ? stack.copy().split(stack.getCount() + inv[slot].getCount() - stack.getMaxStackSize()) : ItemStack.EMPTY;
             } else {
-                return inv[slot].isEmpty() ? ItemStack.EMPTY : inv[slot].isItemEqual(stack) ? stack.splitStack(stack.getCount() + inv[slot].getCount() - stack.getMaxStackSize()) : ItemStack.EMPTY;
+                return inv[slot].isEmpty() ? ItemStack.EMPTY : inv[slot].isItemEqual(stack) ? stack.split(stack.getCount() + inv[slot].getCount() - stack.getMaxStackSize()) : ItemStack.EMPTY;
             }
         } else {
             return stack;
@@ -72,9 +73,9 @@ public class ItemStackInventoryProvider
     public ItemStack extractItem(int slot, int amount, boolean simulate) {
         if (slot < this.maxSize) {
             if (simulate) {
-                return inv[slot].copy().splitStack(amount);
+                return inv[slot].copy().split(amount);
             } else {
-                return inv[slot].splitStack(amount);
+                return inv[slot].split(amount);
             }
         } else {
             return ItemStack.EMPTY;
@@ -86,25 +87,21 @@ public class ItemStackInventoryProvider
         return slot < this.maxSize ? inv[slot].getMaxStackSize() : 0;
     }
 
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
-    }
-
     @Nullable
     @Override
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ?
-                CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(this) : null;
+                LazyOptional.of(() -> (T)this) : null;
     }
 
     @Override
-    public NBTBase serializeNBT() {
-        return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(this, null);
+    public NBTTagCompound serializeNBT() {
+        // TODO (3TUSK): avoid casting
+        return (NBTTagCompound)CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(this, null);
     }
 
     @Override
-    public void deserializeNBT(NBTBase nbt) {
+    public void deserializeNBT(NBTTagCompound nbt) {
         CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(this, null, nbt);
     }
 }

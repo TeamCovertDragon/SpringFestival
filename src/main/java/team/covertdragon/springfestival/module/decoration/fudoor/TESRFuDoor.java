@@ -8,7 +8,7 @@
  */
 
 package team.covertdragon.springfestival.module.decoration.fudoor;
-
+/*
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
@@ -21,9 +21,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.model.animation.FastTESR;
 
 import javax.annotation.Nullable;
-import java.util.List;
+import java.util.List;*/
 
-public class TESRFuDoor extends FastTESR<TileFuDoor> {
+public class TESRFuDoor {}/*extends FastTESR<TileFuDoor> {
 
     public static final String FU_TEXTURE_LOCATION = "springfestival:blocks/overlay/fu";
 
@@ -96,4 +96,4 @@ public class TESRFuDoor extends FastTESR<TileFuDoor> {
             }
         }
     }
-}
+}*/

@@ -8,27 +8,26 @@
  */
 package team.covertdragon.springfestival.module.firecracker.hanging;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Particles;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import team.covertdragon.springfestival.module.firecracker.entity.EntityFirecracker;
 import team.covertdragon.springfestival.module.material.MaterialRegistry;
 
-
 public class TileHangingFirecracker extends TileEntity implements ITickable {
-    @Nullable
+
+    public static final TileEntityType<TileHangingFirecracker> TYPE_TOKEN = new TileEntityType<>(TileHangingFirecracker::new, null);
+
     private EntityLivingBase igniter;
     public int tick;
 
     public TileHangingFirecracker() {
+        super(TYPE_TOKEN);
         tick = 100;
     }
 
@@ -41,7 +40,7 @@ public class TileHangingFirecracker extends TileEntity implements ITickable {
     }
 
     @Override
-    public void update() {
+    public void tick() {
         --tick;
         if (!world.isRemote)
         {
@@ -53,7 +52,7 @@ public class TileHangingFirecracker extends TileEntity implements ITickable {
                 if (tick % 15 == 0)
                 {
                     IBlockState state = world.getBlockState(pos);
-                    world.setBlockState(pos, state.withProperty(BlockHangingFirecracker.COUNT, 6 - tick / 15), 3);
+                    world.setBlockState(pos, state.with(BlockHangingFirecracker.COUNT, 6 - tick / 15), 3);
                 }
             }
             else if (tick <= 0)
@@ -63,21 +62,21 @@ public class TileHangingFirecracker extends TileEntity implements ITickable {
                 {
                     ((BlockHangingFirecracker)state.getBlock()).ignite(world, pos.up(), state, true, igniter);
                 }
-                world.setBlockToAir(pos);
+                world.removeBlock(pos);
             }
         }
         else if (tick % 4 == 0 && tick > 0)
         {
             double height = tick >= 60 ? 0D : 1 - tick / 60D;
-            world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + 0.5D, pos.getY() + height, pos.getZ() + 0.5D, 0.0D, -0.2D, 0.0D);
+            world.addParticle(Particles.SMOKE, pos.getX() + 0.5D, pos.getY() + height, pos.getZ() + 0.5D, 0.0D, -0.2D, 0.0D);
         }
     }
-    
+    /* // TODO (3TUSK): Re-evaluate, we might no longer need this due to flattening
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
     {
         return oldState.getBlock() != newState.getBlock();
-    }
+    }*/
     
     public void dropItems()
     {

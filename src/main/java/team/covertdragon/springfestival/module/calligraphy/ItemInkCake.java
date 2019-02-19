@@ -22,6 +22,9 @@ import net.minecraft.world.World;
  */
 public class ItemInkCake extends Item {
 
+    public ItemInkCake(Properties properties) {
+        super(properties);
+    }
 
     // TODO: recipe. Probably goes with coal, slime ball (glue replacement, or we have to process leather?), spurge wood and water.
 

@@ -19,12 +19,13 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.StringUtils;
-import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.internal.capabilities.ItemStackInventoryProvider;
 
 import javax.annotation.Nullable;
@@ -32,20 +33,20 @@ import java.util.List;
 
 public class ItemRedPacket extends Item {
 
-    ItemRedPacket() {
-        this.setMaxStackSize(1);
-        this.setMaxDamage(0);
+    ItemRedPacket(Properties properties) {
+        super(properties);
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        NBTTagCompound data = stack.getTagCompound();
+    @OnlyIn(Dist.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        NBTTagCompound data = stack.getTag();
         if (data != null) {
-            tooltip.add(I18n.format("redpacket.owner", data.getString("owner_name")));
-            tooltip.add(I18n.format("redpacket.receiver", StringUtils.defaultIfEmpty(data.getString("receiver_name"), I18n.format("redpacket.receiver.any"))));
-            tooltip.add(I18n.format("redpacket.message", StringUtils.defaultIfEmpty(data.getString("message"), I18n.format("redpacket.message.empty"))));
-            tooltip.add(I18n.format(data.getBoolean("passcode") ? "redpacket.mode.passcode" : "redpacket.mode.regular"));
+            tooltip.add(new TextComponentTranslation("redpacket.owner", data.getString("owner_name")));
+            // TODO (3TUSK): cascading text component
+            tooltip.add(new TextComponentTranslation("redpacket.receiver", StringUtils.defaultIfEmpty(data.getString("receiver_name"), I18n.format("redpacket.receiver.any"))));
+            tooltip.add(new TextComponentTranslation("redpacket.message", StringUtils.defaultIfEmpty(data.getString("message"), I18n.format("redpacket.message.empty"))));
+            tooltip.add(new TextComponentTranslation(data.getBoolean("passcode") ? "redpacket.mode.passcode" : "redpacket.mode.regular"));
         }
     }
 
@@ -56,26 +57,27 @@ public class ItemRedPacket extends Item {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand handIn) {
         if (!worldIn.isRemote && handIn == EnumHand.MAIN_HAND) { // Somehow realistic, more for simplicity
-            ItemStack s = playerIn.getHeldItemMainhand();
-            if (s.getItem() == ModuleRedPacket.RED_PACKET) {
-                NBTTagCompound data = s.getTagCompound();
+            ItemStack s = player.getHeldItemMainhand();
+            if (s.getItem() == this) { // TODO (3TUSK): respect registry override, we need to put a static field somewhere else
+                NBTTagCompound data = s.getTag();
                 if (data == null) {
                     data = new NBTTagCompound();
-                    s.setTagCompound(data);
+                    s.setTag(data);
                 }
-                if (data.hasKey("owner", data.getId())) {
-                    if (!NBTUtil.getUUIDFromTag(data.getCompoundTag("owner")).equals(playerIn.getUniqueID())) {
-                        return ActionResult.newResult(EnumActionResult.FAIL, playerIn.getHeldItem(handIn));
+                if (data.contains("owner", data.getId())) {
+                    if (!NBTUtil.readUniqueId(data.getCompound("owner")).equals(player.getUniqueID())) {
+                        return ActionResult.newResult(EnumActionResult.FAIL, player.getHeldItem(handIn));
                     }
                 } else {
-                    data.setTag("owner", NBTUtil.createUUIDTag(playerIn.getUniqueID()));
-                    data.setString("owner_name", playerIn.getName());
+                    data.put("owner", NBTUtil.writeUniqueId(player.getUniqueID()));
+                    data.putString("owner_name", player.getName().getString());
                 }
-                playerIn.openGui(SpringFestival.getInstance(), 0, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
+                // TODO (3TUSK): Fix GUI
+                // player.openGui(SpringFestival.getInstance(), 0, worldIn, (int) player.posX, (int) player.posY, (int) player.posZ);
             }
         }
-        return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+        return ActionResult.newResult(EnumActionResult.SUCCESS, player.getHeldItem(handIn));
     }
 }

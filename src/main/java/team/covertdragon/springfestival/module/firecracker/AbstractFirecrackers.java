@@ -13,6 +13,10 @@ import net.minecraft.item.Item;
 
 public abstract class AbstractFirecrackers extends Item {
 
+    public AbstractFirecrackers(Properties properties) {
+        super(properties);
+    }
+
     // TODO What do we want this do? 'cause if there are special needs, we gonna convert this to interface
 
 }

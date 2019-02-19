@@ -22,14 +22,14 @@ public class ContainerRedPacket extends Container {
     public ContainerRedPacket(InventoryPlayer playerInv, IItemHandlerModifiable inv) {
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                this.addSlotToContainer(new Slot(playerInv, j + i * 9 + 9, 9 + 8 + j * 18, 10 + 84 + i * 18));
+                this.addSlot(new Slot(playerInv, j + i * 9 + 9, 9 + 8 + j * 18, 10 + 84 + i * 18));
             }
         }
         for (int i = 0; i < 9; ++i) {
-            this.addSlotToContainer(new Slot(playerInv, i, 9 + 8 + i * 18, 142 + 10));
+            this.addSlot(new Slot(playerInv, i, 9 + 8 + i * 18, 142 + 10));
         }
         for (int i = 0; i < 8; ++i) {
-            this.addSlotToContainer(new SlotItemHandler(inv, i, 26 + i * 18, 65));
+            this.addSlot(new SlotItemHandler(inv, i, 26 + i * 18, 65));
         }
     }
 

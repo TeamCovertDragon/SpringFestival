@@ -40,7 +40,7 @@ public class SpringFestivalGuiHandler implements IGuiHandler {
             }
             case ModuleRedPacket.GUI_RED_PACKET: {
                 ItemStack heldItem = player.getHeldItemMainhand();
-                IItemHandler inv = heldItem.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+                IItemHandler inv = heldItem.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElseThrow(NullPointerException::new);
                 if (inv instanceof IItemHandlerModifiable) {
                     return new ContainerRedPacket(player.inventory, (IItemHandlerModifiable) inv);
                 } else {
@@ -64,7 +64,7 @@ public class SpringFestivalGuiHandler implements IGuiHandler {
             }
             case ModuleRedPacket.GUI_RED_PACKET: {
                 ItemStack heldItem = player.getHeldItemMainhand();
-                IItemHandler inv = heldItem.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+                IItemHandler inv = heldItem.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElseThrow(NullPointerException::new);
                 if (inv instanceof IItemHandlerModifiable) {
                     return new GuiContainerRedPacket(player.inventory, (IItemHandlerModifiable) inv);
                 } else {

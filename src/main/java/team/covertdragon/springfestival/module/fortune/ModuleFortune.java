@@ -13,16 +13,15 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.internal.model.ModelUtil;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
 import team.covertdragon.springfestival.module.SpringFestivalModule;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.FortuneValueManager;
@@ -33,6 +32,7 @@ import team.covertdragon.springfestival.module.fortune.tools.DebugTool;
 import team.covertdragon.springfestival.module.fortune.potion.PotionFortunate;
 import team.covertdragon.springfestival.module.fortune.tools.FortuneStone;
 
+@Mod.EventBusSubscriber(modid = SpringFestivalConstants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 @SpringFestivalModule(name = "fortune", dependencies = {"material"})
 public class ModuleFortune extends AbstractSpringFestivalModule {
     public static FortuneValueManager manager;
@@ -49,7 +49,7 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
     }
 
     @Override
-    public void onServerStarting() {
+    public void onServerStarting(FMLServerStartingEvent event) {
         // Start Fortune Thread
         manager = new FortuneValueManager();
         FV_MANAGER_THREAD = new Thread(manager, "SpringFestival-FVManager");
@@ -70,21 +70,18 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
     }
 
     @SubscribeEvent
-    public void onModelRegister(ModelRegistryEvent event) {
-        ModelUtil.mapItemModel(FortuneRegistry.fortuneStone);
-        ModelUtil.mapItemModel(FortuneRegistry.fortuneStone, 233);
-        ModelUtil.mapItemModel(FortuneRegistry.debugTool);
+    public static void onBlockRegistry(RegistryEvent.Register<Block> event) {
     }
 
     @SubscribeEvent
-    public void onBlockRegistry(RegistryEvent.Register<Block> event) {
-    }
-
-    @SubscribeEvent
-    public void onItemRegistry(RegistryEvent.Register<Item> event) {
+    public static void onItemRegistry(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                new FortuneStone(),
-                new DebugTool()
+                new FortuneStone(new Item.Properties()
+                        .group(SpringFestivalConstants.SPRING_GROUP)
+                        .maxStackSize(1)
+                ).setRegistryName(SpringFestivalConstants.MOD_ID, "fortune_stone"),
+                new DebugTool(new Item.Properties().group(SpringFestivalConstants.SPRING_GROUP))
+                        .setRegistryName(SpringFestivalConstants.MOD_ID, "debug_tool")
         );
     }
 
@@ -97,20 +94,21 @@ public class ModuleFortune extends AbstractSpringFestivalModule {
     }
 
     @SubscribeEvent
-    public void onPotionRegistry(RegistryEvent.Register<Potion> event) {
+    public static void onPotionRegistry(RegistryEvent.Register<Potion> event) {
         event.getRegistry().registerAll(
-                new PotionFortunate()
+                new PotionFortunate().setRegistryName(SpringFestivalConstants.MOD_ID, "fortunate")
         );
     }
 
     @SubscribeEvent
-    public void onPlayerClone(net.minecraftforge.event.entity.player.PlayerEvent.Clone event) {
+    public static void onPlayerClone(net.minecraftforge.event.entity.player.PlayerEvent.Clone event) {
         Capability<IFortuneValueSystem> capability = CapabilityLoader.fortuneValue;
         Capability.IStorage<IFortuneValueSystem> storage = capability.getStorage();
-
+        // TODO (3TUSK, SeraphJack): EntityPlayer doesn't implement ICapabilityProvider?! Pending research
+/*
         if (event.getOriginal().hasCapability(capability, null) && event.getEntityPlayer().hasCapability(capability, null)) {
-            NBTBase nbt = storage.writeNBT(capability, event.getOriginal().getCapability(capability, null), null);
+            INBTBase nbt = storage.writeNBT(capability, event.getOriginal().getCapability(capability, null), null);
             storage.readNBT(capability, event.getEntityPlayer().getCapability(capability, null), null, nbt);
-        }
+        }*/
     }
 }

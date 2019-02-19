@@ -11,48 +11,44 @@ package team.covertdragon.springfestival.module.firecracker.firework;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.module.firecracker.FirecrackerRegistry;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemFireworkBox extends ItemBlock {
-    public ItemFireworkBox(Block block) {
-        super(block);
-        setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
+    public ItemFireworkBox(Block block, Properties properties) {
+        super(block, properties);
     }
 
     @Override
-    public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState) {
-        if (super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState)) {
-            TileEntity te = world.getTileEntity(pos);
-            if (te instanceof TileFireworkBox && stack.hasTagCompound()) {
-                ((TileFireworkBox) te).setCount(stack.getTagCompound().getInteger("count"));
+    protected boolean placeBlock(BlockItemUseContext context, IBlockState state) {
+        if (super.placeBlock(context, state)) {
+            TileEntity te = context.getWorld().getTileEntity(context.getPos());
+            if (te instanceof TileFireworkBox && context.getItem().hasTag()) {
+                ((TileFireworkBox) te).setCount(context.getItem().getTag().getInt("count"));
             }
             return true;
         }
         return false;
     }
 
+    @OnlyIn(Dist.CLIENT)
     @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (stack.hasTagCompound()) {
-            tooltip.add(I18n.format("firework.tooltip.count", stack.getTagCompound().getInteger("count")));
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flag) {
+        if (stack.hasTag()) {
+            tooltip.add(new TextComponentTranslation("firework.tooltip.count", stack.getTag().getInt("count")));
         } else {
-            tooltip.add(I18n.format("firework.tooltip.count", 64));
+            tooltip.add(new TextComponentTranslation("firework.tooltip.count", 64));
         }
     }
 }

@@ -11,7 +11,7 @@ package team.covertdragon.springfestival.module.fortune.fortunevaluesystem;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.fortune.FortuneRegistry;
 import team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability.CapabilityLoader;
@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class FortuneValueManager implements Runnable {
     public boolean alive = false;
     private Queue<Runnable> TASKS = new ConcurrentLinkedQueue<>();
-    private MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+    private MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
 
     public void addTask(Runnable task) {
         TASKS.add(task);
@@ -54,7 +54,7 @@ public class FortuneValueManager implements Runnable {
     }
 
     private void updatePlayerFortuneValue(EntityPlayerMP player) {
-        IFortuneValueSystem system = player.getCapability(CapabilityLoader.fortuneValue, null);
+        IFortuneValueSystem system = player.getCapability(CapabilityLoader.fortuneValue, null).orElseThrow(NullPointerException::new);
         if (system != null) {
             //Fortune potion
             if (player.isPotionActive(FortuneRegistry.potionFortunate)) {
@@ -70,7 +70,7 @@ public class FortuneValueManager implements Runnable {
                 if (def.available()) {
                     AbstractTileFVMachine te = (AbstractTileFVMachine) def.getTE();
                     if (system.shrinkFortune(te.getRequiredFV())) {
-                        FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(te::onFVProvided);
+                        ServerLifecycleHooks.getCurrentServer().addScheduledTask(te::onFVProvided);
                     }
                 }
             }

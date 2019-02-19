@@ -11,6 +11,7 @@ package team.covertdragon.springfestival.module.fortune.machines;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
@@ -18,6 +19,10 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 public abstract class AbstractTileFVMachine extends TileEntity {
     private int id;
     private String owner;
+
+    public AbstractTileFVMachine(TileEntityType<?> tileEntityTypeIn) {
+        super(tileEntityTypeIn);
+    }
 
     public abstract int getRequiredFV();
 
@@ -42,18 +47,18 @@ public abstract class AbstractTileFVMachine extends TileEntity {
     @Override
     @OverridingMethodsMustInvokeSuper
     @Nonnull
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        super.writeToNBT(compound);
-        compound.setInteger("fvid", id);
-        compound.setString("owner", owner);
+    public NBTTagCompound write(NBTTagCompound compound) {
+        super.write(compound);
+        compound.putInt("fvid", id);
+        compound.putString("owner", owner);
         return compound;
     }
 
     @Override
     @OverridingMethodsMustInvokeSuper
-    public void readFromNBT(NBTTagCompound compound) {
-        super.readFromNBT(compound);
-        this.id = compound.getInteger("fvid");
+    public void read(NBTTagCompound compound) {
+        super.read(compound);
+        this.id = compound.getInt("fvid");
         this.owner = compound.getString("owner");
     }
 }

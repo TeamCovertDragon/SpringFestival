@@ -19,21 +19,20 @@ import team.covertdragon.springfestival.SpringFestivalModuleController;
 import team.covertdragon.springfestival.module.fortune.FortuneRegistry;
 
 public class ItemSpringFestivalFood extends ItemFood {
-    public final int itemUseDuration;
 
-    ItemSpringFestivalFood(int amount, float saturation) {
-        this(amount, saturation, 32);
+    private final int itemUseDuration;
+
+    ItemSpringFestivalFood(int amount, float saturation, Properties properties) {
+        this(amount, saturation, 32, properties);
     }
 
-    ItemSpringFestivalFood(int amount, float saturation, int itemUseDuration) {
-        super(amount, saturation, false);
-        setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
+    ItemSpringFestivalFood(int amount, float saturation, int itemUseDuration, Properties properties) {
+        super(amount, saturation, false, properties);
         this.itemUseDuration = itemUseDuration;
-        setAlwaysEdible();
     }
 
     @Override
-    public int getMaxItemUseDuration(ItemStack stack) {
+    public int getUseDuration(ItemStack stack) {
         return itemUseDuration;
     }
 

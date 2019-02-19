@@ -9,12 +9,14 @@
 
 package team.covertdragon.springfestival.module.fortune.fortunevaluesystem.capability;
 
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.INBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.LazyOptional;
 import team.covertdragon.springfestival.module.fortune.machines.AbstractTileFVMachine;
 import team.covertdragon.springfestival.module.fortune.utils.TEDefinition;
 
@@ -29,20 +31,20 @@ public class CapabilityFortuneValueSystem {
 
         @Nullable
         @Override
-        public NBTBase writeNBT(Capability<IFortuneValueSystem> capability, IFortuneValueSystem instance, EnumFacing side) {
+        public INBTBase writeNBT(Capability<IFortuneValueSystem> capability, IFortuneValueSystem instance, EnumFacing side) {
             NBTTagCompound tag = new NBTTagCompound();
-            tag.setInteger("fv", instance.getFortuneValue());
-            tag.setInteger("incp", instance.getIncreasingPoint());
-            tag.setInteger("id", instance.getCurrentlyNextMachineId());
-            tag.setTag("definitions", writeMachinesToNBT(instance));
+            tag.putInt("fv", instance.getFortuneValue());
+            tag.putInt("incp", instance.getIncreasingPoint());
+            tag.putInt("id", instance.getCurrentlyNextMachineId());
+            tag.put("definitions", writeMachinesToNBT(instance));
             return tag;
         }
 
         @Override
-        public void readNBT(Capability<IFortuneValueSystem> capability, IFortuneValueSystem instance, EnumFacing side, NBTBase nbt) {
-            instance.setFortuneValue(((NBTTagCompound) nbt).getInteger("fv"));
-            instance.setBufPoint(((NBTTagCompound) nbt).getInteger("incp"));
-            instance.setNextMachineId(((NBTTagCompound) nbt).getInteger("id"));
+        public void readNBT(Capability<IFortuneValueSystem> capability, IFortuneValueSystem instance, EnumFacing side, INBTBase nbt) {
+            instance.setFortuneValue(((NBTTagCompound) nbt).getInt("fv"));
+            instance.setBufPoint(((NBTTagCompound) nbt).getInt("incp"));
+            instance.setNextMachineId(((NBTTagCompound) nbt).getInt("id"));
             instance.setDefinitions(readMachinesFromNBT((NBTTagCompound) nbt));
         }
 
@@ -51,7 +53,7 @@ public class CapabilityFortuneValueSystem {
 
             for (TEDefinition definition : instance.getFVMachines()) {
                 if (!definition.shouldClean()) {
-                    tagList.appendTag(definition.serializeNBT());
+                    tagList.add(definition.serializeNBT());
                 }
             }
             return tagList;
@@ -59,9 +61,9 @@ public class CapabilityFortuneValueSystem {
 
         private List<TEDefinition> readMachinesFromNBT(NBTTagCompound nbt) {
             List<TEDefinition> ret = new LinkedList<>();
-            NBTTagList tagList = (NBTTagList) nbt.getTag("definitions");
+            NBTTagList tagList = nbt.getList("definitions", Constants.NBT.TAG_COMPOUND);
             if (tagList != null) {
-                for (NBTBase base : tagList) {
+                for (INBTBase base : tagList) {
                     ret.add(TEDefinition.fromNBT((NBTTagCompound) base));
                 }
             }
@@ -177,17 +179,12 @@ public class CapabilityFortuneValueSystem {
         private IFortuneValueSystem instance = new Implementation();
         private Capability.IStorage<IFortuneValueSystem> storage = new Storage();
 
-        @Override
-        public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-            return CapabilityLoader.fortuneValue.equals(capability);
-        }
-
         @Nullable
         @Override
         @SuppressWarnings("unchecked")
-        public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-            if (hasCapability(capability, facing)) {
-                return (T) instance;
+        public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+            if (CapabilityLoader.fortuneValue.equals(capability)) {
+                return LazyOptional.of(() -> (T) instance);
             }
             return null;
         }
@@ -195,13 +192,13 @@ public class CapabilityFortuneValueSystem {
         @Override
         public NBTTagCompound serializeNBT() {
             NBTTagCompound compound = new NBTTagCompound();
-            compound.setTag("fv_system", storage.writeNBT(CapabilityLoader.fortuneValue, instance, null));
+            compound.put("fv_system", storage.writeNBT(CapabilityLoader.fortuneValue, instance, null));
             return compound;
         }
 
         @Override
         public void deserializeNBT(NBTTagCompound nbt) {
-            storage.readNBT(CapabilityLoader.fortuneValue, instance, null, nbt.getTag("fv_system"));
+            storage.readNBT(CapabilityLoader.fortuneValue, instance, null, nbt.getCompound("fv_system"));
         }
     }
 }

@@ -18,8 +18,6 @@ import team.covertdragon.springfestival.SpringFestivalConstants;
 public class PotionFortunate extends Potion {
     public PotionFortunate() {
         super(false, 0x7F0000);
-        setRegistryName(SpringFestivalConstants.MOD_ID, "fortunate");
-        setPotionName("potion.fortunate");
     }
 
     @Override

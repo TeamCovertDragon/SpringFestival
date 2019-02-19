@@ -12,15 +12,16 @@ package team.covertdragon.springfestival.module.firecracker.entity;
 //import elucent.albedo.lighting.ILightProvider;
 //import elucent.albedo.lighting.Light;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.init.Particles;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import team.covertdragon.springfestival.internal.SpringFestivalUtil;
@@ -28,20 +29,25 @@ import team.covertdragon.springfestival.module.material.MaterialRegistry;
 
 public class EntityFirecracker extends EntityThrowable /*implements ILightProvider*/ {
     private static final DataParameter<Integer> FUSE = EntityDataManager.createKey(EntityFirecracker.class, DataSerializers.VARINT);
+
+    public static final EntityType<EntityFirecracker> FIRECRACKER_TYPE_TOKEN = EntityType.Builder
+            .create(EntityFirecracker.class, EntityFirecracker::new)
+            .tracker(80, 3, true)
+            .build("springfestival.firecracker");
+
     /** How long the fuse is */
     private int fuse;
     private EntityLivingBase igniter;
 
-    public EntityFirecracker(World world)
-    {
-        super(world);
+    public EntityFirecracker(World world) {
+        super(FIRECRACKER_TYPE_TOKEN, world);
         this.fuse = 40;
         this.preventEntitySpawning = true;
         this.isImmuneToFire = true;
     }
     
     public EntityFirecracker(World world, double x, double y, double z, EntityLivingBase igniter) {
-        this(world);
+        super(FIRECRACKER_TYPE_TOKEN, x, y, z, world);
         this.setPosition(x, y, z);
         double f = rand.nextGaussian() * (Math.PI * 2D);
         this.motionX = -Math.sin(f) * 0.02;
@@ -54,12 +60,12 @@ public class EntityFirecracker extends EntityThrowable /*implements ILightProvid
     }
 
     @Override
-    protected void entityInit() {
+    protected void registerData() {
         this.dataManager.register(FUSE, 40);
     }
     
     @Override
-    public void onUpdate() {
+    public void tick() {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
@@ -87,14 +93,14 @@ public class EntityFirecracker extends EntityThrowable /*implements ILightProvid
 //            elucent.albedo.lighting.LightManager.update(world);
 //        }
         if (this.fuse <= 0) {
-            this.setDead();
+            this.remove();
 
             if (!this.world.isRemote) {
                 this.explode();
             }
         } else {
             this.handleWaterMovement();
-            this.world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
+            this.world.addParticle(Particles.SMOKE, this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
         }
     }
     
@@ -106,13 +112,14 @@ public class EntityFirecracker extends EntityThrowable /*implements ILightProvid
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
-        this.dataManager.set(FUSE, (this.fuse = compound.getInteger("Fuse")));
+    public void read(NBTTagCompound compound) {
+        this.dataManager.set(FUSE, (this.fuse = compound.getInt("Fuse")));
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
-        compound.setInteger("Fuse", this.fuse);
+    public NBTTagCompound writeWithoutTypeId(NBTTagCompound compound) {
+        compound.putInt("Fuse", this.fuse);
+        return super.writeWithoutTypeId(compound);
     }
 
     @Override
@@ -130,7 +137,7 @@ public class EntityFirecracker extends EntityThrowable /*implements ILightProvid
 
     @Override
     protected void onImpact(RayTraceResult result) {
-        if (result.entityHit != null && this.fuse > 2) {
+        if (result.entity != null && this.fuse > 2) {
             this.fuse = 2;
         }
     }

@@ -23,7 +23,7 @@ public class SpringFestivalTimeProviderLocal implements SpringFestivalTimeProvid
     @Override
     public boolean isDuringSpringFestival() {
         final LocalDate date;
-        if (SpringFestivalConfig.enforceChinaStandardTime) {
+        if (SpringFestivalConfig.TIME_SETTING.enforceChinaStandardTime.get()) {
             date = LocalDate.now(ZoneId.of("Asia/Shanghai"));
         } else {
             date = LocalDate.now();

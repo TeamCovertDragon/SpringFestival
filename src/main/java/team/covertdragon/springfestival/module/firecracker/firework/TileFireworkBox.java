@@ -12,29 +12,35 @@ package team.covertdragon.springfestival.module.firecracker.firework;
 import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ITickable;
 import team.covertdragon.springfestival.module.firecracker.FirecrackerRegistry;
 
 import javax.annotation.Nonnull;
 
 public class TileFireworkBox extends TileEntity implements ITickable {
+
+    public static final TileEntityType<TileFireworkBox> TYPE_TOKEN = new TileEntityType<>(TileFireworkBox::new, null);
+
     private int count;
     private int tick;
     private boolean isActive;
 
     public TileFireworkBox() {
+        super(TYPE_TOKEN);
         count = 64;
         tick = 30;
         isActive = false;
     }
 
     @Override
-    public void update() {
+    public void tick() {
         if (world.isBlockPowered(pos) || world.getRedstonePowerFromNeighbors(pos) > 0) {
             setActive(true);
         }
@@ -54,17 +60,16 @@ public class TileFireworkBox extends TileEntity implements ITickable {
 
     @Override
     @Nonnull
-    public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound tag) {
-        super.writeToNBT(tag);
-        tag.setInteger("count", count);
-        tag.setBoolean("active", isActive);
-        return tag;
+    public NBTTagCompound write(@Nonnull NBTTagCompound tag) {
+        tag.putInt("count", count);
+        tag.putBoolean("active", isActive);
+        return super.write(tag);
     }
 
     @Override
-    public void readFromNBT(@Nonnull NBTTagCompound tag) {
-        super.readFromNBT(tag);
-        this.count = tag.getInteger("count");
+    public void read(@Nonnull NBTTagCompound tag) {
+        super.read(tag);
+        this.count = tag.getInt("count");
         this.isActive = tag.getBoolean("active");
     }
 
@@ -87,8 +92,8 @@ public class TileFireworkBox extends TileEntity implements ITickable {
     public void dropBlockAsItem() {
         ItemStack stack = new ItemStack(FirecrackerRegistry.FIREWORK_BOX, 1);
         NBTTagCompound tag = new NBTTagCompound();
-        tag.setInteger("count", count);
-        stack.setTagCompound(tag);
+        tag.putInt("count", count);
+        stack.setTag(tag);
 
         EntityItem entity = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
         entity.setDefaultPickupDelay();
@@ -108,18 +113,18 @@ public class TileFireworkBox extends TileEntity implements ITickable {
 
     private ItemStack makeFirework() {
         NBTTagCompound tag = new NBTTagCompound();
-        ItemStack stack = new ItemStack(Items.FIREWORKS);
+        ItemStack stack = new ItemStack(Items.FIREWORK_ROCKET);
         NBTTagList list = new NBTTagList();
 
         for (int i = 0; i < 5; i++) {
-            list.appendTag(makeFireworkCharge());
+            list.add(makeFireworkCharge());
         }
 
         NBTTagCompound fireworks = new NBTTagCompound();
-        fireworks.setByte("Flight", (byte) ((world.rand.nextInt(2)) + 3));
-        fireworks.setTag("Explosions", list);
-        tag.setTag("Fireworks", fireworks);
-        stack.setTagCompound(tag);
+        fireworks.putByte("Flight", (byte) ((world.rand.nextInt(2)) + 3));
+        fireworks.put("Explosions", list);
+        tag.put("Fireworks", fireworks);
+        stack.setTag(tag);
 
         return stack;
     }
@@ -128,11 +133,12 @@ public class TileFireworkBox extends TileEntity implements ITickable {
         NBTTagCompound compound = new NBTTagCompound();
         int[] colors = new int[7];
         for (int i = 0; i < colors.length; i++) {
-            colors[i] = ItemDye.DYE_COLORS[this.world.rand.nextInt(ItemDye.DYE_COLORS.length)];
+            // TODO (3TUSK): should we just assume upper bound to be 16?
+            colors[i] = EnumDyeColor.byId(this.world.rand.nextInt(EnumDyeColor.values().length)).getId();
         }
 
-        compound.setIntArray("Colors", colors);
-        compound.setByte("Type", (byte) world.rand.nextInt());
+        compound.putIntArray("Colors", colors);
+        compound.putByte("Type", (byte) world.rand.nextInt());
 
         return compound;
     }

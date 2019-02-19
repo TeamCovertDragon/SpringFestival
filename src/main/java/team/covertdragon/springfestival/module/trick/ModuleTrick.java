@@ -9,6 +9,8 @@
 
 package team.covertdragon.springfestival.module.trick;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import team.covertdragon.springfestival.SpringFestival;
 import team.covertdragon.springfestival.internal.time.SpringFestivalTimeChecker;
 import team.covertdragon.springfestival.module.AbstractSpringFestivalModule;
@@ -24,7 +26,7 @@ import team.covertdragon.springfestival.module.SpringFestivalModule;
 public class ModuleTrick extends AbstractSpringFestivalModule {
     @Override
     public void onPreInit() {
-        if (SpringFestival.proxy.isPhysicalClient() && SpringFestivalTimeChecker.INSTANCE.isDuringSpringFestivalSeason()) {
+        if (FMLEnvironment.dist == Dist.CLIENT && SpringFestivalTimeChecker.INSTANCE.isDuringSpringFestivalSeason()) {
             throw new PleaseSpendMoreTimeWithYourFamilyException();
         }
     }

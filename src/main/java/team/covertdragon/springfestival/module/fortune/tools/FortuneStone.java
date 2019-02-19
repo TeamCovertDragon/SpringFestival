@@ -9,7 +9,6 @@
 
 package team.covertdragon.springfestival.module.fortune.tools;
 
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -17,9 +16,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.internal.network.SpringFestivalNetworkHandler;
 import team.covertdragon.springfestival.module.fortune.FortuneClientHelper;
@@ -29,31 +30,29 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class FortuneStone extends Item {
-    public FortuneStone() {
-        setRegistryName(SpringFestivalConstants.MOD_ID, "fortune_stone");
-        setTranslationKey(SpringFestivalConstants.MOD_ID + ".fortune_stone");
-        setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
-        setMaxStackSize(1);
+
+    public FortuneStone(Properties properties) {
+        super(properties);
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+    @OnlyIn(Dist.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-        if (stack.getItemDamage() == 233) {
+        if (this.getDamage(stack) == 233) {
             SpringFestivalNetworkHandler.INSTANCE.sendToServer(new FortuneNetwork.PacketRequestFortuneValue());
-            tooltip.add(I18n.format("tooltip.springfestival.fv", FortuneClientHelper.fortune_value));
+            tooltip.add(new TextComponentTranslation("tooltip.springfestival.fv", FortuneClientHelper.fortune_value));
         } else {
-            tooltip.add(I18n.format("tooltip.springfestival.right_click_to_active"));
+            tooltip.add(new TextComponentTranslation("tooltip.springfestival.right_click_to_active"));
         }
     }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand handIn) {
         ItemStack stack = player.getHeldItem(handIn);
-        if (stack.getItemDamage() == 233)
+        if (this.getDamage(stack) == 233)
             return new ActionResult<>(EnumActionResult.FAIL, stack);
-        stack.setItemDamage(233);
+        this.setDamage(stack, 233);
         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
     }
 }

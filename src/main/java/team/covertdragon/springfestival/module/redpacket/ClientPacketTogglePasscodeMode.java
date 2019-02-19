@@ -35,12 +35,12 @@ public class ClientPacketTogglePasscodeMode implements AbstractSpringFestivalPac
         boolean newMode = buffer.readBoolean();
         ItemStack heldItem = player.getHeldItemMainhand();
         if (heldItem.getItem() == ModuleRedPacket.RED_PACKET) {
-            NBTTagCompound tag = heldItem.getTagCompound();
+            NBTTagCompound tag = heldItem.getTag();
             if (tag == null) {
                 tag = new NBTTagCompound();
-                heldItem.setTagCompound(tag);
+                heldItem.setTag(tag);
             }
-            tag.setBoolean("passcode", newMode);
+            tag.putBoolean("passcode", newMode);
         }
     }
 }

@@ -1,17 +1,7 @@
 package team.covertdragon.springfestival.internal.recipes;
 
-import com.google.gson.JsonObject;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.JsonUtils;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.crafting.CraftingHelper.ShapedPrimer;
-import net.minecraftforge.common.crafting.IRecipeFactory;
-import net.minecraftforge.common.crafting.JsonContext;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import team.covertdragon.springfestival.SpringFestivalConstants;
-import team.covertdragon.springfestival.internal.SpringFestivalUtil;
-
+// TODO (3TUSK/Yesterday17/SeraphJack): Write a proper IRecipeSerializer
+/*
 public class ShapedFlexibleDurationRecipeFactory implements IRecipeFactory{
     @Override
     public IRecipe parse(JsonContext context, JsonObject json) {
@@ -42,4 +32,4 @@ public class ShapedFlexibleDurationRecipeFactory implements IRecipeFactory{
             return this.output;
         }
     }
-}
+}*/

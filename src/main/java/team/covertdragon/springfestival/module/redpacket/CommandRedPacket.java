@@ -9,50 +9,51 @@
 
 package team.covertdragon.springfestival.module.redpacket;
 
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
+import com.mojang.brigadier.Command;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.util.FakePlayer;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
-import java.util.Arrays;
-import java.util.List;
+public class CommandRedPacket {
 
-public class CommandRedPacket extends CommandBase {
-
-    @Override
-    public String getName() {
-        return "redpacket";
+    public CommandRedPacket(CommandDispatcher<CommandSource> dispatcher) {
+        LiteralCommandNode<CommandSource> redPacketCommand = dispatcher.register(Commands.literal("redpacket")
+                .requires(CommandRedPacket::sanityCheckCommandSender)
+                .then(Commands.argument("password", StringArgumentType.greedyString()))
+                .executes(source -> execute(source.getSource().asPlayer(), source.getArgument("password", String.class))));
+        for (String alias : new String[] { "hongbao", "rp", "hb" }) {
+            dispatcher.register(Commands.literal(alias)
+                    .requires(CommandRedPacket::sanityCheckCommandSender)
+                    .redirect(redPacketCommand));
+        }
     }
 
-    @Override
-    public List<String> getAliases() {
-        return Arrays.asList("hongbao", "rp", "hb");
+    private static boolean sanityCheckCommandSender(CommandSource source) {
+        try {
+            return !(source.asPlayer() instanceof FakePlayer);
+        } catch (CommandSyntaxException e) {
+            SpringFestivalConstants.logger.warn("There is an non-human candidate attempting to grab red packet! Offender: {}", source);
+            return false;
+        }
     }
 
-    @Override
-    public String getUsage(ICommandSender sender) {
-        return "/redpacket <optional pass-code>";
-    }
-
-    @Override
-    public int getRequiredPermissionLevel() {
-        return 0;
-    }
-
-    @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
-        if (sender instanceof EntityPlayer && !(sender instanceof FakePlayer)) {
-            final String passcode = args.length > 0 ? args[1] : null;
-            if (ModuleRedPacket.RED_PACKET_CONTROLLER.enqueueOperation(new RedPacketOperation.Get(((EntityPlayer) sender).getUniqueID(), passcode))) {
-                sender.sendMessage(new TextComponentString("Successfully got this red packet!")); // TODO Internationalization
-            } else {
-                sender.sendMessage(new TextComponentString("Failed on getting this red packet!")); // TODO Internationalization
-            }
+    private int execute(EntityPlayerMP player, String password) {
+        if (ModuleRedPacket.RED_PACKET_CONTROLLER.enqueueOperation(new RedPacketOperation.Get(player.getUniqueID(), password))) {
+            player.sendMessage(new TextComponentString("Successfully got this red packet!")); // TODO Internationalization
+            return Command.SINGLE_SUCCESS;
         } else {
-            SpringFestivalConstants.logger.warn("There is an non-human candidate attempting to grab red packet! Offender: {}", sender);
+            player.sendMessage(new TextComponentString("Failed on getting this red packet!")); // TODO Internationalization
+            // TODO (3TUSK): What is the appropriate return value here?
+            //   Brigadier uses 1 for success which differs from Unix using 0.
+            //   For now we use -1 which is common in Unix programs.
+            return -1;
         }
     }
 }

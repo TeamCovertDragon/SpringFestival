@@ -13,6 +13,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.properties.DoorHingeSide;
+import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -38,19 +40,19 @@ public class FuUtil {
 
         BlockPos blockpos2 = pos.up();
         boolean flag2 = world.isBlockPowered(pos) || world.isBlockPowered(blockpos2);
-        IBlockState iblockstate = door.getDefaultState().withProperty(BlockDoor.FACING, facing).withProperty(BlockDoor.HINGE, isRightHinge ? BlockDoor.EnumHingePosition.RIGHT : BlockDoor.EnumHingePosition.LEFT).withProperty(BlockDoor.POWERED, flag2).withProperty(BlockDoor.OPEN, flag2);
-        world.setBlockState(pos, iblockstate.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.LOWER), 2);
-        world.setBlockState(blockpos2, iblockstate.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.UPPER), 2);
-        world.notifyNeighborsOfStateChange(pos, door, false);
-        world.notifyNeighborsOfStateChange(blockpos2, door, false);
+        IBlockState iblockstate = door.getDefaultState().with(BlockDoor.FACING, facing).with(BlockDoor.HINGE, isRightHinge ? DoorHingeSide.RIGHT : DoorHingeSide.LEFT).with(BlockDoor.POWERED, flag2).with(BlockDoor.OPEN, flag2);
+        world.setBlockState(pos, iblockstate.with(BlockDoor.HALF, DoubleBlockHalf.LOWER), 2);
+        world.setBlockState(blockpos2, iblockstate.with(BlockDoor.HALF, DoubleBlockHalf.UPPER), 2);
+        world.notifyNeighborsOfStateChange(pos, door);
+        world.notifyNeighborsOfStateChange(blockpos2, door);
 
         TileEntity te = world.getTileEntity(pos);
         if (te == null) {
             te = world.getTileEntity(pos.add(0, 1, 0));
         }
 
-        if (stack.hasTagCompound() & te != null && te instanceof TileFuDoor) {
-            te.deserializeNBT(stack.getTagCompound());
+        if (stack.hasTag() & te != null && te instanceof TileFuDoor) {
+            te.deserializeNBT(stack.getTag());
         }
     }
 }

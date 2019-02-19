@@ -9,7 +9,7 @@
 
 package team.covertdragon.springfestival.module.monster;
 
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelBase;
 
 /**
  * The entity model for EntityNian.

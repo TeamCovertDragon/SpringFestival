@@ -12,9 +12,10 @@ package team.covertdragon.springfestival.module.redpacket;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import team.covertdragon.springfestival.internal.network.AbstractSpringFestivalPacket;
+
+import java.nio.charset.StandardCharsets;
 
 public class ServerPacketPublishingRedPacket implements AbstractSpringFestivalPacket {
 
@@ -28,17 +29,18 @@ public class ServerPacketPublishingRedPacket implements AbstractSpringFestivalPa
 
     @Override
     public void writeDataTo(ByteBuf buffer) {
-        final String publisherName = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(data.getOwner()).getDisplayNameString();
-        ByteBufUtils.writeUTF8String(buffer, publisherName);
-        ByteBufUtils.writeUTF8String(buffer, data.getMessage());
+        final String publisherName = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayerByUUID(data.getOwner()).getDisplayName().getString();
+        buffer.writeCharSequence(publisherName, StandardCharsets.UTF_8);
+        buffer.writeCharSequence(data.getMessage(), StandardCharsets.UTF_8);
         buffer.writeBoolean(data.isHasPasscode());
     }
 
     @Override
     public void readDataFrom(ByteBuf buffer, EntityPlayer player) {
-        final String publisher = ByteBufUtils.readUTF8String(buffer);
-        final String message = ByteBufUtils.readUTF8String(buffer);
+        // TODO (3TUSK): FIX ME
+        final String publisher = /*ByteBufUtils.readUTF8String(buffer);*/"FIX ME";
+        final String message = /*ByteBufUtils.readUTF8String(buffer);*/"FIX ME";
         final boolean hasPasscode = buffer.readBoolean();
-        Minecraft.getMinecraft().getToastGui().add(new RedPacketToast(publisher, message, hasPasscode));
+        Minecraft.getInstance().getToastGui().add(new RedPacketToast(publisher, message, hasPasscode));
     }
 }

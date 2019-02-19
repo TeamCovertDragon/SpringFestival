@@ -48,7 +48,7 @@ final class SpringFestivalTimeProviderCached implements SpringFestivalTimeProvid
         if (status != QueryStatus.AVAILABLE) {
             return false;
         }
-        if (SpringFestivalConfig.enforceChinaStandardTime) {
+        if (SpringFestivalConfig.TIME_SETTING.enforceChinaStandardTime.get()) {
             return validDates.contains(LocalDate.now(ZoneId.of("Asia/Shanghai")));
         } else {
             return validDates.contains(LocalDate.now());

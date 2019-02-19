@@ -14,6 +14,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -35,8 +36,9 @@ public class ServerPacketFuDoorCreation implements AbstractSpringFestivalPacket 
         buffer.writeInt(pos.getX());
         buffer.writeInt(pos.getY());
         buffer.writeInt(pos.getZ());
-        ByteBufUtils.writeTag(buffer, NBTUtil.writeBlockState(new NBTTagCompound(), te.getOriginalBlockStateUpper()));
-        ByteBufUtils.writeTag(buffer, NBTUtil.writeBlockState(new NBTTagCompound(), te.getOriginalBlockStateLower()));
+        PacketBuffer wrapped = new PacketBuffer(buffer);
+        wrapped.writeCompoundTag(NBTUtil.writeBlockState(te.getOriginalBlockStateUpper()));
+        wrapped.writeCompoundTag(NBTUtil.writeBlockState(te.getOriginalBlockStateLower()));
     }
 
     @Override
@@ -45,8 +47,9 @@ public class ServerPacketFuDoorCreation implements AbstractSpringFestivalPacket 
         BlockPos pos = new BlockPos(x, y, z);
         TileEntity te = player.getEntityWorld().getTileEntity(pos);
         if (te instanceof TileFuDoor) {
-            IBlockState upper = NBTUtil.readBlockState(ByteBufUtils.readTag(buffer));
-            IBlockState lower = NBTUtil.readBlockState(ByteBufUtils.readTag(buffer));
+            PacketBuffer wrapped = new PacketBuffer(buffer);
+            IBlockState upper = NBTUtil.readBlockState(wrapped.readCompoundTag());
+            IBlockState lower = NBTUtil.readBlockState(wrapped.readCompoundTag());
             ((TileFuDoor) te).setOriginalBlockStateUpper(upper);
             ((TileFuDoor) te).setOriginalBlockStateLower(lower);
         }

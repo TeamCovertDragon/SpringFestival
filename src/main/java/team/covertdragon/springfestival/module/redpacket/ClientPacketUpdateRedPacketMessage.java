@@ -15,6 +15,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import team.covertdragon.springfestival.internal.network.AbstractSpringFestivalPacket;
 
+import java.nio.charset.StandardCharsets;
+
 public class ClientPacketUpdateRedPacketMessage implements AbstractSpringFestivalPacket {
 
     private String message = "";
@@ -27,15 +29,15 @@ public class ClientPacketUpdateRedPacketMessage implements AbstractSpringFestiva
 
     @Override
     public void writeDataTo(ByteBuf buffer) {
-        ByteBufUtils.writeUTF8String(buffer, message);
+        buffer.writeCharSequence(message, StandardCharsets.UTF_8);
     }
 
     @Override
     public void readDataFrom(ByteBuf buffer, EntityPlayer player) {
-        final String newMessage = ByteBufUtils.readUTF8String(buffer);
-        NBTTagCompound redPacketData = player.getHeldItemMainhand().getTagCompound();
+        final String newMessage = /*ByteBufUtils.readUTF8String(buffer)*/"FIX ME"; // TODO (3TUSK): FIX ME
+        NBTTagCompound redPacketData = player.getHeldItemMainhand().getTag();
         if (redPacketData != null) {
-            redPacketData.setString("message", newMessage);
+            redPacketData.putString("message", newMessage);
         }
     }
 }

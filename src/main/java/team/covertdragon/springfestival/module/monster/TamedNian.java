@@ -1,6 +1,7 @@
 package team.covertdragon.springfestival.module.monster;
 
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
 import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
@@ -11,8 +12,12 @@ import java.util.UUID;
 
 public class TamedNian extends EntityTameable {
 
+    static final EntityType<TamedNian> TAMED_NIAN_TYPE_TOKEN = EntityType.Builder.create(TamedNian.class, TamedNian::new)
+            .tracker(80, 5, true)
+            .build("springfestival.tamed_nian");
+
     public TamedNian(World world) {
-        super(world);
+        super(TAMED_NIAN_TYPE_TOKEN, world);
     }
 
     @Override

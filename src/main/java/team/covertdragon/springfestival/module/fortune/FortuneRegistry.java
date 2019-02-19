@@ -9,13 +9,13 @@
 
 package team.covertdragon.springfestival.module.fortune;
 
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.ObjectHolder;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 import team.covertdragon.springfestival.module.fortune.potion.PotionFortunate;
 import team.covertdragon.springfestival.module.fortune.tools.DebugTool;
 import team.covertdragon.springfestival.module.fortune.tools.FortuneStone;
 
-@GameRegistry.ObjectHolder(SpringFestivalConstants.MOD_ID)
+@ObjectHolder(SpringFestivalConstants.MOD_ID)
 public class FortuneRegistry {
     static {
         fortuneStone = null;
@@ -23,12 +23,12 @@ public class FortuneRegistry {
         debugTool = null;
     }
 
-    @GameRegistry.ObjectHolder("fortune_stone")
+    @ObjectHolder("fortune_stone")
     public static final FortuneStone fortuneStone;
 
-    @GameRegistry.ObjectHolder("debug_tool")
+    @ObjectHolder("debug_tool")
     public static final DebugTool debugTool;
 
-    @GameRegistry.ObjectHolder("fortunate")
+    @ObjectHolder("fortunate")
     public static final PotionFortunate potionFortunate;
 }

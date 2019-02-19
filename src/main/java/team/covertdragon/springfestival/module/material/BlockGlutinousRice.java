@@ -20,6 +20,10 @@ import javax.annotation.Nonnull;
  */
 public class BlockGlutinousRice extends BlockCrops {
 
+    BlockGlutinousRice(Properties builder) {
+        super(builder);
+    }
+
     @Nonnull
     protected Item getSeed() {
         return MaterialRegistry.GLUTINOUS_RICE_SEED;

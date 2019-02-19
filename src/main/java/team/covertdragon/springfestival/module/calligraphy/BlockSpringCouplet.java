@@ -9,23 +9,21 @@
 
 package team.covertdragon.springfestival.module.calligraphy;
 
-import java.util.Locale;
-
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
 import team.covertdragon.springfestival.module.material.MaterialRegistry;
+
+import java.util.Locale;
 
 /**
  * The block that represents "Chunlian" (a.k.a. "spring couplet")
@@ -42,45 +40,31 @@ public class BlockSpringCouplet extends Block {
         }
     }
 
-    public static final PropertyEnum<CoupletPart> PART = PropertyEnum.create("part", CoupletPart.class);
+    public static final EnumProperty<CoupletPart> PART = EnumProperty.create("part", CoupletPart.class);
 
-    public BlockSpringCouplet() {
-        super(Material.CARPET);
+    public BlockSpringCouplet(Properties properties) {
+        //super(Material.CARPET);
+        super(properties);
     }
 
     @Override
-    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+    public void getDrops(IBlockState state, NonNullList<ItemStack> drops, World world, BlockPos pos, int fortune) {
         drops.add(new ItemStack(MaterialRegistry.RED_PAPER_BROKEN));
     }
 
     @Override
-    public int damageDropped(IBlockState state) {
-        return 0;
-    }
-
-    @Override
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+    public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
     }
 
     @Override
-    public boolean isNormalCube(IBlockState state, IBlockAccess blockAccess, BlockPos pos) {
+    public boolean isNormalCube(IBlockState state, IBlockReader world, BlockPos pos) {
         return false;
     }
 
-    @Nonnull
     @Override
-    public BlockStateContainer getBlockState() {
-        return new BlockStateContainer(this, PART);
+    protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder) {
+        builder.add(PART);
     }
 
-    @Override
-    public IBlockState getStateFromMeta(int meta) {
-        return this.blockState.getBaseState().withProperty(PART, CoupletPart.values()[meta]); // OH I HATE THIS
-    }
-
-    @Override
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(PART).ordinal();
-    }
 }

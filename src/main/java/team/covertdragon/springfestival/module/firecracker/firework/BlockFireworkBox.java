@@ -10,29 +10,33 @@
 package team.covertdragon.springfestival.module.firecracker.firework;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import team.covertdragon.springfestival.SpringFestivalConstants;
+import net.minecraftforge.common.ToolType;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class BlockFireworkBox extends Block {
-    public BlockFireworkBox() {
-        super(Material.WOOD, MapColor.RED);
-        setSoundType(SoundType.WOOD);
-        setTranslationKey(SpringFestivalConstants.MOD_ID + ".firework_box");
-        setRegistryName(SpringFestivalConstants.MOD_ID, "firework_box");
-        setHarvestLevel("axe", 0);
-        setCreativeTab(SpringFestivalConstants.CREATIVE_TAB);
-        setHardness(0.5F);
+    public BlockFireworkBox(Properties properties) {
+        super(properties);
+    }
+
+    @Nullable
+    @Override
+    public ToolType getHarvestTool(IBlockState state) {
+        return ToolType.AXE;
+    }
+
+    @Override
+    public int getHarvestLevel(IBlockState state) {
+        return 0;
     }
 
     @Override
@@ -41,10 +45,10 @@ public class BlockFireworkBox extends Block {
     }
 
     @Override
-    public TileEntity createTileEntity(World world, IBlockState state) {
+    public TileEntity createTileEntity(IBlockState state, IBlockReader blockReader) {
         return new TileFireworkBox();
     }
-
+/* // TODO (3TUSK): Find the replacement
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
         TileEntity te = world.getTileEntity(pos);
@@ -52,10 +56,10 @@ public class BlockFireworkBox extends Block {
             ((TileFireworkBox) te).dropBlockAsItem();
         }
         super.breakBlock(world, pos, state);
-    }
+    }*/
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(IBlockState state, World world, BlockPos pos, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         TileEntity te = world.getTileEntity(pos);
         if (!(te instanceof TileFireworkBox)) {
             return false;
@@ -69,7 +73,8 @@ public class BlockFireworkBox extends Block {
     }
 
     @Override
-    public int quantityDropped(Random random) {
+    public int quantityDropped(IBlockState state, Random random) {
         return 0;
     }
+
 }

@@ -1,0 +1,13 @@
+modLoader="javafml"
+loaderVersion="[25,)"
+issueTrackerURL="https://github.com/TeamCovertDragon/SpringFestival/issues"
+
+[[mods]]
+    modId = "springfestival"
+    version = "${file.jarVersion}"
+    displayName = "Spring Festival"
+    displayURL = "https://covertdragon.team/"
+    logoFile = "logo.png"
+    credits = "You"
+    authors = "CovertDragon Team"
+    description = "A mod about Chinese Lunar New Year ~"

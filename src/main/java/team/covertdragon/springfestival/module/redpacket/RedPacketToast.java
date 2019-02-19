@@ -17,13 +17,13 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
 import javax.annotation.Nonnull;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class RedPacketToast implements IToast {
 
     private static final ResourceLocation TEXTURE_RED_PACKET_TOAST = new ResourceLocation(SpringFestivalConstants.MOD_ID, "textures/gui/toast/red_packet.png");
@@ -46,8 +46,8 @@ public class RedPacketToast implements IToast {
         if (delta < 10000) {
             Minecraft mc = toastGui.getMinecraft();
             mc.getTextureManager().bindTexture(TEXTURE_RED_PACKET_TOAST);
-            GlStateManager.color(1.0F, 1.0F, 1.0F);
-            mc.getRenderItem().renderItemIntoGUI(ICON, 8, 8);
+            GlStateManager.color3f(1.0F, 1.0F, 1.0F);
+            mc.getItemRenderer().renderItemIntoGUI(ICON, 8, 8);
             FontRenderer fontRenderer = mc.fontRenderer;
             final String title = I18n.format(passcodeMode ? "toast.redpacket.publish.passcode" : "toast.redpacket.publish.regular", publisherName);
             fontRenderer.drawString(title, 30, 7, 0xE2BC36); // wtf it is color?

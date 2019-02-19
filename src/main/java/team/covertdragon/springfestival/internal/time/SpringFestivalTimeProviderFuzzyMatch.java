@@ -28,7 +28,7 @@ public class SpringFestivalTimeProviderFuzzyMatch implements SpringFestivalTimeP
     @Override
     public boolean isDuringSpringFestival() {
         Month month;
-        if (SpringFestivalConfig.enforceChinaStandardTime) {
+        if (SpringFestivalConfig.TIME_SETTING.enforceChinaStandardTime.get()) {
             month = LocalDate.now(ZoneId.of("Asia/Shanghai")).getMonth();
         } else {
             month = LocalDate.now().getMonth();

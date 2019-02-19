@@ -14,22 +14,30 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class TileFuDoor extends TileEntity {
+
+    public static final TileEntityType<TileFuDoor> TYPE_TOKEN = new TileEntityType<TileFuDoor>(TileFuDoor::new, null);
+
     private IBlockState originalBlockStateUpper;
     private IBlockState originalBlockStateLower;
 
+    public TileFuDoor() {
+        super(TYPE_TOKEN);
+    }
+
     public ItemStack getOriginalDoor() {
-        if (originalBlockStateLower == null || originalBlockStateUpper == null)
+        /*if (originalBlockStateLower == null || originalBlockStateUpper == null)
             return ItemStack.EMPTY;
 
         ItemStack stack = new ItemStack(originalBlockStateLower.getBlock().getItemDropped(originalBlockStateLower, new Random(), 0));
         if (stack.isEmpty())
             return new ItemStack(originalBlockStateUpper.getBlock().getItemDropped(originalBlockStateUpper, new Random(), 0));
-        return stack;
+        return stack;*/
+        return ItemStack.EMPTY; // TODO (3TUSK): FIX ME
     }
 
     @Nullable
@@ -51,17 +59,17 @@ public class TileFuDoor extends TileEntity {
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        compound.setTag("upper", NBTUtil.writeBlockState(new NBTTagCompound(), originalBlockStateUpper));
-        compound.setTag("lower", NBTUtil.writeBlockState(new NBTTagCompound(), originalBlockStateLower));
-        return super.writeToNBT(compound);
+    public NBTTagCompound write(NBTTagCompound compound) {
+        compound.put("upper", NBTUtil.writeBlockState(originalBlockStateUpper));
+        compound.put("lower", NBTUtil.writeBlockState(originalBlockStateLower));
+        return super.write(compound);
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
-        super.readFromNBT(compound);
-        this.originalBlockStateUpper = NBTUtil.readBlockState(compound.getCompoundTag("upper"));
-        this.originalBlockStateLower = NBTUtil.readBlockState(compound.getCompoundTag("lower"));
+    public void read(NBTTagCompound compound) {
+        super.read(compound);
+        this.originalBlockStateUpper = NBTUtil.readBlockState(compound.getCompound("upper"));
+        this.originalBlockStateLower = NBTUtil.readBlockState(compound.getCompound("lower"));
     }
 
     @Override

@@ -10,6 +10,10 @@
 package team.covertdragon.springfestival.module.calligraphy;
 
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 
 public class TileEntityRedPaperWorkbench extends TileEntity {
+    public TileEntityRedPaperWorkbench(TileEntityType<?> tileEntityTypeIn) {
+        super(tileEntityTypeIn);
+    }
 }

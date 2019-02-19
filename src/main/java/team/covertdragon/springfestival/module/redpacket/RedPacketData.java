@@ -10,7 +10,7 @@
 package team.covertdragon.springfestival.module.redpacket;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.INBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTUtil;
@@ -37,10 +37,10 @@ public class RedPacketData implements INBTSerializable<NBTTagCompound> {
     // A crude factory method
     static RedPacketData fromItemStack(@Nonnull final ItemStack stack) {
         final RedPacketData data = new RedPacketData();
-        NBTTagCompound rawData = stack.getTagCompound();
+        NBTTagCompound rawData = stack.getTag();
         data.deserializeNBT(rawData);
         if (data.contents.isEmpty()) {
-            IItemHandler itemHandler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+            IItemHandler itemHandler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).orElseThrow(NullPointerException::new);
             if (itemHandler != null) {
                 final List<ItemStack> contents = new ArrayList<>();
                 for (int i = 0; i < itemHandler.getSlots(); i++) {
@@ -145,35 +145,35 @@ public class RedPacketData implements INBTSerializable<NBTTagCompound> {
     @Override
     public NBTTagCompound serializeNBT() {
         NBTTagCompound tag = new NBTTagCompound();
-        tag.setLong("timestamp", this.timestamp);
-        tag.setTag("owner", NBTUtil.createUUIDTag(this.owner));
-        tag.setTag("receiver", NBTUtil.createUUIDTag(this.receiver));
+        tag.putLong("timestamp", this.timestamp);
+        tag.put("owner", NBTUtil.writeUniqueId(this.owner));
+        tag.put("receiver", NBTUtil.writeUniqueId(this.receiver));
         NBTTagList list = new NBTTagList();
         for (ItemStack stack : contents) {
-            list.appendTag(stack.serializeNBT());
+            list.add(stack.serializeNBT());
         }
-        tag.setTag("contents", list);
-        tag.setString("message", this.message);
-        tag.setBoolean("passcode", this.hasPasscode);
+        tag.put("contents", list);
+        tag.putString("message", this.message);
+        tag.putBoolean("passcode", this.hasPasscode);
         return tag;
     }
 
     @Override
     public void deserializeNBT(NBTTagCompound nbt) {
-        if (nbt.hasKey("timestamp", Constants.NBT.TAG_LONG)) {
+        if (nbt.contains("timestamp", Constants.NBT.TAG_LONG)) {
             this.timestamp = nbt.getLong("timestamp");
         } else {
             this.timestamp = System.currentTimeMillis();
         }
-        this.owner = NBTUtil.getUUIDFromTag(nbt.getCompoundTag("owner"));
-        if (nbt.hasKey("receiver", Constants.NBT.TAG_COMPOUND)) {
-            this.receiver = NBTUtil.getUUIDFromTag(nbt.getCompoundTag("receiver"));
+        this.owner = NBTUtil.readUniqueId(nbt.getCompound("owner"));
+        if (nbt.contains("receiver", Constants.NBT.TAG_COMPOUND)) {
+            this.receiver = NBTUtil.readUniqueId(nbt.getCompound("receiver"));
         }
-        if (nbt.hasKey("contents", Constants.NBT.TAG_LIST)) {
-            NBTTagList list = nbt.getTagList("contents", nbt.getId());
+        if (nbt.contains("contents", Constants.NBT.TAG_LIST)) {
+            NBTTagList list = nbt.getList("contents", nbt.getId());
             ArrayList<ItemStack> contents = new ArrayList<>();
-            for (NBTBase tag : list) {
-                contents.add(new ItemStack((NBTTagCompound) tag));
+            for (INBTBase tag : list) {
+                contents.add(ItemStack.read((NBTTagCompound)tag));
             }
             this.contents = contents;
         }

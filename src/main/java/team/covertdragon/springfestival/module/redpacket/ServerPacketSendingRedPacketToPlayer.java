@@ -23,6 +23,6 @@ public class ServerPacketSendingRedPacketToPlayer implements AbstractSpringFesti
     @Override
     public void readDataFrom(ByteBuf buffer, EntityPlayer player) {
         // TODO Actually implements this packet
-        Minecraft.getMinecraft().getToastGui().add(new RedPacketToast("", "", false));
+        Minecraft.getInstance().getToastGui().add(new RedPacketToast("", "", false));
     }
 }

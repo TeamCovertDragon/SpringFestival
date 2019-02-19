@@ -40,87 +40,56 @@
 
 package team.covertdragon.springfestival.internal.network;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.NetHandlerPlayServer;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.FMLEventChannel;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
 import team.covertdragon.springfestival.SpringFestivalConstants;
 
 public final class SpringFestivalNetworkHandler {
 
     public static final SpringFestivalNetworkHandler INSTANCE = new SpringFestivalNetworkHandler();
 
-    private final FMLEventChannel springFestivalChannel;
+    private static final String PROTOCOL_VERSION = "0.1.0";
+
+    public static String getNetworkingProtocolVersion() {
+        return PROTOCOL_VERSION;
+    }
+
+    private final SimpleChannel springFestivalChannel;
 
     private final SpringFestivalPacketFactory packetFactory = new SpringFestivalPacketFactory();
 
     private SpringFestivalNetworkHandler() {
-        (springFestivalChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(SpringFestivalConstants.MOD_ID)).register(this);
+        this.springFestivalChannel = NetworkRegistry.ChannelBuilder
+                .named(new ResourceLocation(SpringFestivalConstants.MOD_ID, "spring_channel"))
+                .clientAcceptedVersions(PROTOCOL_VERSION::equals)
+                .serverAcceptedVersions(PROTOCOL_VERSION::equals)
+                .networkProtocolVersion(SpringFestivalNetworkHandler::getNetworkingProtocolVersion)
+                .simpleChannel();
     }
 
     public void registerPacket(Class<? extends AbstractSpringFestivalPacket> klass) {
         packetFactory.mapPacketToNextAvailableIndex(klass);
     }
 
-    @SubscribeEvent
-    public void serverPacket(FMLNetworkEvent.ServerCustomPacketEvent event) {
-        decodeData(event.getPacket().payload(), ((NetHandlerPlayServer)event.getHandler()).player);
-    }
-
-    @SubscribeEvent
-    public void clientPacket(FMLNetworkEvent.ClientCustomPacketEvent event) {
-        decodeData(event.getPacket().payload(), Minecraft.getMinecraft().player);
-    }
-
-    private void decodeData(ByteBuf buffer, EntityPlayer player) {
-        final int index = buffer.readInt();
-        AbstractSpringFestivalPacket packet = packetFactory.getByIndex(index);
-        FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() -> {
-            try {
-                packet.readDataFrom(buffer, player);
-            } catch (Exception e) {
-                SpringFestivalConstants.logger.catching(e);
-            }
-        });
-    }
-
-    private static ByteBuf fromPacket(AbstractSpringFestivalPacket packet) {
-        ByteBuf buffer = Unpooled.buffer();
-        buffer.writeInt(INSTANCE.packetFactory.getPacketIndex(packet.getClass()));
-        try {
-            packet.writeDataTo(buffer);
-        } catch (Exception e) {
-            SpringFestivalConstants.logger.catching(e);
-        }
-        return buffer;
-    }
-
     public void sendToAll(AbstractSpringFestivalPacket packet) {
-        springFestivalChannel.sendToAll(new FMLProxyPacket(new PacketBuffer(fromPacket(packet)), SpringFestivalConstants.MOD_ID));
+        //springFestivalChannel.send(new FMLProxyPacket(new PacketBuffer(fromPacket(packet)), SpringFestivalConstants.MOD_ID));
     }
 
     public void sendToAllAround(AbstractSpringFestivalPacket packet, int dim, double x, double y, double z, double range) {
-        springFestivalChannel.sendToAllAround(new FMLProxyPacket(new PacketBuffer(fromPacket(packet)), SpringFestivalConstants.MOD_ID), new NetworkRegistry.TargetPoint(dim, x, y, z, range));
+        //springFestivalChannel.(new FMLProxyPacket(new PacketBuffer(fromPacket(packet)), SpringFestivalConstants.MOD_ID), new NetworkRegistry.TargetPoint(dim, x, y, z, range));
     }
 
     public void sendToDimension(AbstractSpringFestivalPacket packet, int dim) {
-        springFestivalChannel.sendToDimension(new FMLProxyPacket(new PacketBuffer(fromPacket(packet)), SpringFestivalConstants.MOD_ID), dim);
+        //springFestivalChannel.sendToDimension(new FMLProxyPacket(new PacketBuffer(fromPacket(packet)), SpringFestivalConstants.MOD_ID), dim);
     }
 
     public void sendToPlayer(AbstractSpringFestivalPacket packet, EntityPlayerMP player) {
-        springFestivalChannel.sendTo(new FMLProxyPacket(new PacketBuffer(fromPacket(packet)), SpringFestivalConstants.MOD_ID), player);
+        //springFestivalChannel.sendTo(new FMLProxyPacket(new PacketBuffer(fromPacket(packet)), SpringFestivalConstants.MOD_ID), player);
     }
 
     public void sendToServer(AbstractSpringFestivalPacket packet) {
-        springFestivalChannel.sendToServer(new FMLProxyPacket(new PacketBuffer(fromPacket(packet)), SpringFestivalConstants.MOD_ID));
+        //springFestivalChannel.sendToServer(new FMLProxyPacket(new PacketBuffer(fromPacket(packet)), SpringFestivalConstants.MOD_ID));
     }
 }
